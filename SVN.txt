@@ -1,0 +1,7 @@
+URL 		: https://gkkd-jogja.googlecode.com/svn/trunk/ gkkd-jogja
+login 		: GraniaFn@gmail.com 
+password 	: Ky5Yd2gx5Tp8
+
+
+SVM check out
+http://gkkd-jogja.googlecode.com/svn/trunk/ gkkd-jogja-read-only
