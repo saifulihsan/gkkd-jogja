@@ -1,0 +1,752 @@
+2012/08/14 16:08:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/proposal".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/proposal')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/proposal
+HTTP_REFERER=http://localhost:81/extjs/index.php?DBGSESSID=-1
+---
+2012/08/14 16:08:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/proposalKe".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/proposalKe')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/proposalKe
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=giix/proposal
+---
+2012/08/14 16:08:43 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/klasifikasiDetail".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/klasifikas...')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/klasifikasiDetail
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=giix/proposalKe
+---
+2012/08/14 16:08:52 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix
+---
+2012/08/14 16:09:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix
+---
+2012/08/14 16:14:20 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix
+---
+2012/08/14 17:00:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "Contact".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('Contact')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=Contact
+---
+2012/08/15 04:03:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix
+---
+2012/08/16 05:00:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "user/view".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/view')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=user/view
+---
+2012/08/16 05:00:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "user/Admin".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/Admin')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=user/Admin
+---
+2012/08/16 05:03:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/manfaatAsuransi".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/manfaatAsu...')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/manfaatAsuransi
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=user/tblUser/index
+---
+2012/08/16 05:09:55 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "getName".' in E:\yii\framework\base\CComponent.php:266
+Stack trace:
+#0 E:\www\extjs\protected\extensions\giix-core\giixCrudjs\templates\default\layouts\form.js(72): CComponent->__call('getName', Array)
+#1 E:\www\extjs\protected\extensions\giix-core\giixCrudjs\templates\default\layouts\form.js(72): CWebApplication->getName()
+#2 E:\yii\framework\gii\CCodeModel.php(320): require('E:\www\extjs\pr...')
+#3 E:\www\extjs\protected\extensions\giix-core\giixCrudjs\GiixCrudjsCode.php(85): CCodeModel->render('E:\www\extjs\pr...')
+#4 E:\yii\framework\gii\CCodeGenerator.php(163): GiixCrudjsCode->prepare()
+#5 E:\yii\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#6 E:\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#7 E:\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#9 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 E:\yii\framework\web\CWebApplication.php(283): CController->run('')
+#11 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/giixCrudjs')
+#12 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#13 E:\www\extjs\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/extjs/index.php?r=gii/giixCrudjs
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=gii/giixCrudjs
+---
+2012/08/16 08:35:44 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in E:\yii\framework\web\CController.php:337
+Stack trace:
+#0 E:\yii\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#2 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 E:\yii\framework\web\CWebApplication.php(283): CController->run('view')
+#4 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/vi...')
+#5 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#6 E:\www\extjs\index.php(13): CApplication->run()
+#7 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/view
+---
+2012/08/16 08:37:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=json".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=json')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=json')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=json&_dc=1345098981246
+---
+2012/08/16 08:47:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=json".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=json')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=json')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=json&_dc=1345098981246
+---
+2012/08/16 08:49:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=json".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=json')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=json')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=json&_dc=1345098981246
+---
+2012/08/16 08:50:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "user/TblUser?output=jason".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser?ou...')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser?output=jason
+---
+2012/08/16 08:50:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=jason".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=jason')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=jason')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=jason
+---
+2012/08/16 09:24:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/otherInfo".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/otherInfo')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/otherInfo
+HTTP_REFERER=http://localhost:81/extjs/index.php/user/TblUser/index
+---
+2012/08/16 09:24:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "giix/proposal".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('giix/proposal')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php?r=giix/proposal
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=giix/otherInfo
+---
+2012/08/16 09:25:04 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in E:\yii\framework\web\CController.php:337
+Stack trace:
+#0 E:\yii\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#2 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 E:\yii\framework\web\CWebApplication.php(283): CController->run('view')
+#4 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/tblUser/vi...')
+#5 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#6 E:\www\extjs\index.php(13): CApplication->run()
+#7 {main}
+REQUEST_URI=/extjs/index.php?r=user/tblUser/view
+---
+2012/08/16 10:55:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to find the code you requested.' in E:\yii\framework\gii\CCodeGenerator.php:91
+Stack trace:
+#0 E:\yii\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionCode()
+#1 E:\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#2 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#3 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 E:\yii\framework\web\CWebApplication.php(283): CController->run('code')
+#5 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/giixCrudjs/...')
+#6 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#7 E:\www\extjs\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/extjs/index.php?r=gii/giixCrudjs/code&id=10
+HTTP_REFERER=http://localhost:81/extjs/index.php?r=gii/giixCrudjs
+---
+2012/08/16 11:12:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=jason".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=jason')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=jason')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=jason
+---
+2012/08/16 11:30:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=jason".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=jason')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=jason')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=jason
+---
+2012/08/16 11:32:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "?output=json".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('?output=json')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('?output=json')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/?o...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/?output=json
+---
+2012/08/16 11:32:13 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in E:\www\extjs\protected\modules\user\controllers\TblUserController.php:87
+Stack trace:
+#0 [internal function]: TblUserController->actionDelete('1')
+#1 E:\yii\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(TblUserController), Array)
+#2 E:\yii\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(TblUserController), Object(ReflectionMethod), Array)
+#3 E:\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#5 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 E:\yii\framework\web\CWebApplication.php(283): CController->run('delete')
+#7 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/de...')
+#8 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 E:\www\extjs\index.php(13): CApplication->run()
+#10 {main}
+REQUEST_URI=/extjs/index.php?r=user/TblUser/delete/id/1
+---
+2012/08/16 11:44:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/16 11:45:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/homepanel.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/image...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/images/headbg.gif
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:45:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:51:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/16 11:52:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/homepanel.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/image...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/images/headbg.gif
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:52:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "tree".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('tree')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('tree')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/tree/js/vi...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/tree/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/tree/
+---
+2012/08/16 11:53:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/ho...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/homepanel.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "images".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('images')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('images')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/images/hea...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/images/headbg.gif
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_form.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_grid.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 11:53:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('js')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('js')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/js/view/tb...')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/js/view/tblUser_store.js
+HTTP_REFERER=http://localhost:81/extjs/index.php/site/index
+---
+2012/08/16 12:09:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in E:\www\extjs\protected\extensions\giix-components\GxController.php:60
+Stack trace:
+#0 E:\www\extjs\protected\modules\user\controllers\TblUserController.php(46): GxController->loadModel('docs-jun.TblUse...', 'TblUser')
+#1 [internal function]: TblUserController->actionUpdate('docs-jun.TblUse...')
+#2 E:\yii\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(TblUserController), Array)
+#3 E:\yii\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(TblUserController), Object(ReflectionMethod), Array)
+#4 E:\yii\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 E:\yii\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#6 E:\yii\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 E:\yii\framework\web\CWebApplication.php(283): CController->run('update')
+#8 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('user/TblUser/up...')
+#9 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 E:\www\extjs\index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/extjs/index.php/user/TblUser/update/id/docs-jun.TblUserWin
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/17 01:06:44 [error] [exception.CException] exception 'CException' with message 'Event "CWebApplication.onbeginrequest" is attached with an invalid handler "handleBeginRequest".' in E:\yii\framework\base\CComponent.php:561
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(189): CComponent->raiseEvent('onBeginRequest', Object(CEvent))
+#1 E:\yii\framework\base\CApplication.php(161): CApplication->onBeginRequest(Object(CEvent))
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php/user/tblUser/?output=json
+---
+2012/08/17 01:07:35 [error] [php] Undefined index: r (E:\www\extjs\protected\components\RequireLogin.php:12)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#1 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php/user/tblUser/?output=json
+in E:\www\extjs\protected\components\RequireLogin.php (12)
+in E:\www\extjs\index.php (13)
+2012/08/17 03:41:16 [error] [php] strstr() [<a href='function.strstr'>function.strstr</a>]: Empty delimiter (E:\www\extjs\protected\components\RequireLogin.php:12)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(189): CWebApplication->raiseEvent()
+#1 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#2 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php/site/login
+in E:\www\extjs\protected\components\RequireLogin.php (12)
+in E:\www\extjs\index.php (13)
+2012/08/17 03:41:21 [error] [php] strstr() [<a href='function.strstr'>function.strstr</a>]: Empty delimiter (E:\www\extjs\protected\components\RequireLogin.php:12)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(189): CWebApplication->raiseEvent()
+#1 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#2 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php
+in E:\www\extjs\protected\components\RequireLogin.php (12)
+in E:\www\extjs\index.php (13)
+2012/08/17 04:32:23 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "authLogin".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('authLogin')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('authLogin')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/authLogin')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/authLogin/
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/17 04:32:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "authLogin".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('authLogin')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('authLogin')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/authLogin')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/authLogin/
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/17 04:46:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "authLogin".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('authLogin')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('authLogin')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/authLogin')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/authLogin
+---
+2012/08/17 04:47:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "authLogin".' in E:\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\yii\framework\web\CController.php(271): CController->missingAction('authLogin')
+#1 E:\yii\framework\web\CWebApplication.php(283): CController->run('authLogin')
+#2 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/authLogin')
+#3 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\www\extjs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/extjs/index.php/site/authLogin/
+HTTP_REFERER=http://localhost:81/extjs/index.php
+---
+2012/08/17 05:17:48 [error] [php] Undefined variable: login (E:\www\extjs\protected\components\RequireLogin.php:13)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#1 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php
+in E:\www\extjs\protected\components\RequireLogin.php (13)
+in E:\www\extjs\index.php (13)
+2012/08/17 05:18:07 [error] [php] Undefined variable: request (E:\www\extjs\protected\components\RequireLogin.php:18)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#1 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php
+in E:\www\extjs\protected\components\RequireLogin.php (18)
+in E:\www\extjs\index.php (13)
+2012/08/17 05:18:09 [error] [php] Undefined variable: request (E:\www\extjs\protected\components\RequireLogin.php:18)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#1 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php
+in E:\www\extjs\protected\components\RequireLogin.php (18)
+in E:\www\extjs\index.php (13)
+2012/08/17 05:21:48 [error] [exception.CException] exception 'CException' with message 'RequireLogin and its behaviors do not have a method or closure named "redirect".' in E:\yii\framework\base\CComponent.php:266
+Stack trace:
+#0 E:\www\extjs\protected\components\RequireLogin.php(27): CComponent->__call('redirect', Array)
+#1 E:\www\extjs\protected\components\RequireLogin.php(27): RequireLogin->redirect('/extjs/index.ph...')
+#2 E:\yii\framework\base\CComponent.php(559): RequireLogin->handleBeginRequest(Object(CEvent))
+#3 E:\yii\framework\base\CApplication.php(189): CComponent->raiseEvent('onBeginRequest', Object(CEvent))
+#4 E:\yii\framework\base\CApplication.php(161): CApplication->onBeginRequest(Object(CEvent))
+#5 E:\www\extjs\index.php(13): CApplication->run()
+#6 {main}
+REQUEST_URI=/extjs/index.php
+---
+2012/08/17 05:22:21 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "redirect".' in E:\yii\framework\base\CComponent.php:266
+Stack trace:
+#0 E:\www\extjs\protected\components\RequireLogin.php(27): CComponent->__call('redirect', Array)
+#1 E:\www\extjs\protected\components\RequireLogin.php(27): CWebApplication->redirect('/extjs/index.ph...')
+#2 E:\yii\framework\base\CComponent.php(559): RequireLogin->handleBeginRequest(Object(CEvent))
+#3 E:\yii\framework\base\CApplication.php(189): CComponent->raiseEvent('onBeginRequest', Object(CEvent))
+#4 E:\yii\framework\base\CApplication.php(161): CApplication->onBeginRequest(Object(CEvent))
+#5 E:\www\extjs\index.php(13): CApplication->run()
+#6 {main}
+REQUEST_URI=/extjs/index.php
+---
+2012/08/17 05:25:24 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "redirect".' in E:\yii\framework\base\CComponent.php:266
+Stack trace:
+#0 E:\www\extjs\protected\components\RequireLogin.php(27): CComponent->__call('redirect', Array)
+#1 E:\www\extjs\protected\components\RequireLogin.php(27): CWebApplication->redirect('/extjs/index.ph...')
+#2 E:\yii\framework\base\CComponent.php(559): RequireLogin->handleBeginRequest(Object(CEvent))
+#3 E:\yii\framework\base\CApplication.php(189): CComponent->raiseEvent('onBeginRequest', Object(CEvent))
+#4 E:\yii\framework\base\CApplication.php(161): CApplication->onBeginRequest(Object(CEvent))
+#5 E:\www\extjs\index.php(13): CApplication->run()
+#6 {main}
+REQUEST_URI=/extjs/index.php
+---
+2012/08/17 05:26:37 [error] [php] strpos() [<a href='function.strpos'>function.strpos</a>]: Empty delimiter (E:\www\extjs\protected\components\RequireLogin.php:18)
+Stack trace:
+#0 E:\yii\framework\base\CApplication.php(189): CWebApplication->raiseEvent()
+#1 E:\yii\framework\base\CApplication.php(161): CWebApplication->onBeginRequest()
+#2 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php?r=site/authLogin
+in E:\www\extjs\protected\components\RequireLogin.php (18)
+in E:\www\extjs\index.php (13)
+2012/08/17 05:33:49 [error] [php] Undefined index: r (E:\www\extjs\themes\extjs\views\layouts\main.php:101)
+Stack trace:
+#0 E:\yii\framework\web\widgets\CContentDecorator.php(77): SiteController->renderFile()
+#1 E:\yii\framework\web\widgets\CContentDecorator.php(55): CContentDecorator->decorate()
+#2 E:\yii\framework\web\widgets\COutputProcessor.php(45): CContentDecorator->processOutput()
+#3 E:\yii\framework\web\CBaseController.php(207): CContentDecorator->run()
+#4 E:\yii\framework\web\CBaseController.php(301): SiteController->endWidget()
+#5 E:\www\extjs\protected\views\layouts\column1.php(6): SiteController->endContent()
+#6 E:\yii\framework\web\CBaseController.php(127): require()
+#7 E:\yii\framework\web\CBaseController.php(96): SiteController->renderInternal()
+#8 E:\yii\framework\web\CController.php(785): SiteController->renderFile()
+#9 E:\www\extjs\protected\controllers\SiteController.php(32): SiteController->render()
+#10 E:\yii\framework\web\actions\CInlineAction.php(50): SiteController->actionIndex()
+#11 E:\yii\framework\web\CController.php(309): CInlineAction->runWithParams()
+#12 E:\yii\framework\web\CController.php(287): SiteController->runAction()
+#13 E:\yii\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#14 E:\yii\framework\web\CWebApplication.php(283): SiteController->run()
+#15 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#16 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#17 E:\www\extjs\index.php(13): CWebApplication->run()
+REQUEST_URI=/extjs/index.php
+in E:\www\extjs\themes\extjs\views\layouts\main.php (101)
+in E:\www\extjs\protected\views\layouts\column1.php (6)
+in E:\www\extjs\protected\controllers\SiteController.php (32)
+2012/08/17 05:38:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "login".' in E:\yii\framework\web\CWebApplication.php:287
+Stack trace:
+#0 E:\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('login')
+#1 E:\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 E:\www\extjs\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/extjs/index.php/login
+---
