@@ -1,0 +1,182 @@
+.x-tree-node-icon {
+    background: transparent none repeat scroll 0 0;
+    width: 0 !important;
+}
+
+#header h1 {
+    font-size: 24px;
+    font-weight: normal;
+    padding: 8px 10px;
+    float: left;
+    width: 600px !important;
+}
+
+#usrlogin {
+
+    float: right;
+    margin: 10px;
+}
+
+#loading-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000;
+    background-color: white;
+}
+
+#loading {
+    position: absolute;
+    left: 45%;
+    top: 40%;
+    padding: 2px;
+    z-index: 20001;
+    height: auto;
+}
+
+#loading a {
+    color: #225588;
+}
+
+#loading .loading-indicator {
+    background: white;
+    color: #444;
+    font: bold 13px tahoma, arial, helvetica;
+    padding: 10px;
+    margin: 0;
+    height: auto;
+}
+
+#loading-msg {
+    font: normal 10px arial, tahoma, sans-serif;
+}
+
+#usrlogin,
+#usrlogin a {
+
+    font-size: 14px;
+    padding: 0 0 10px 0;
+}
+
+#header h1 {
+
+    font-weight: bold;
+}
+
+x-form-field-wrap {
+    display: inline
+}
+
+.x-grid3 .x-window-ml {
+    padding-left: 0;
+}
+
+.x-grid3 .x-window-mr {
+    padding-right: 0;
+}
+
+.x-grid3 .x-window-tl {
+    padding-left: 0;
+}
+
+.x-grid3 .x-window-tr {
+    padding-right: 0;
+}
+
+.x-grid3 .x-window-tc .x-window-header {
+    height: 3px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.x-grid3 .x-window-mc {
+    border-width: 0;
+    background: #cdd9e8;
+}
+
+.x-grid3 .x-window-bl {
+    padding-left: 0;
+}
+
+.x-grid3 .x-window-br {
+    padding-right: 0;
+}
+
+.x-grid3 .x-panel-btns {
+    padding: 0;
+}
+
+.x-grid3 .x-panel-btns td.x-toolbar-cell {
+    padding: 3px 3px 0;
+}
+
+.x-box-inner {
+    zoom: 1;
+}
+
+.icon-user-add {
+    background-image: url(images/fam/user_add.gif) !important;
+}
+
+.icon-user-delete {
+    background-image: url(images/fam/user_delete.gif) !important;
+}
+
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+.x-form-spinner-proxy{
+    /*background-color:#ff00cc;*/
+}
+.x-form-field-wrap .x-form-spinner-trigger {
+    background:transparent url('images/spinner.gif') no-repeat 0 0;
+}
+
+.x-form-field-wrap .x-form-spinner-overup{
+    background-position:-17px 0;
+}
+.x-form-field-wrap .x-form-spinner-clickup{
+    background-position:-34px 0;
+}
+.x-form-field-wrap .x-form-spinner-overdown{
+    background-position:-51px 0;
+}
+.x-form-field-wrap .x-form-spinner-clickdown{
+    background-position:-68px 0;
+}
+
+
+.x-trigger-wrap-focus .x-form-spinner-trigger{
+    background-position:-85px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-overup{
+    background-position:-102px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-clickup{
+    background-position:-119px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-overdown{
+    background-position:-136px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-clickdown{
+    background-position:-153px 0;
+}
+.x-trigger-wrap-focus .x-form-trigger{
+    border-bottom: 1px solid #7eadd9;
+}
+
+.x-form-field-wrap .x-form-spinner-splitter {
+    line-height:1px;
+    font-size:1px;
+    background:transparent url('images/spinner-split.gif') no-repeat 0 0;
+    position:absolute;
+    cursor: n-resize;
+}
+.x-trigger-wrap-focus .x-form-spinner-splitter{
+    background-position:-14px 0;
+}
