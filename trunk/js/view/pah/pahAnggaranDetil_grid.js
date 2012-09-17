@@ -11,6 +11,7 @@ jun.PahAnggaranDetilGrid=Ext.extend(Ext.grid.GridPanel ,{
 			sortable:true,
 			resizable:true,                        
                         dataIndex:'id',
+                            hidden:true,
 			width:100
 		},
                                 {
