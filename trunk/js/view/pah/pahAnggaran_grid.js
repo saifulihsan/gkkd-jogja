@@ -10,7 +10,8 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
 			header:'id',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'id',
+            dataIndex:'id',
+            hidden:true,
 			width:100
 		},
                                 {
@@ -20,33 +21,33 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
             dataIndex:'doc_ref',
 		},
                                 {
-			header:'periode_bulan',
+			header:'Periode Bulan',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'periode_bulan',
+            dataIndex:'periode_bulan',
 			width:100
 		},
                                 {
-			header:'periode_tahun',
+			header:'Periode Tahun',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'periode_tahun',
+            dataIndex:'periode_tahun',
 			width:100
 		},
                                 {
-			header:'trans_date',
+			header:'Entry Date',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'trans_date',
+            dataIndex:'trans_date',
 			width:100
 		},
-                                {
-			header:'lock',
-			sortable:true,
-			resizable:true,                        
-                        dataIndex:'lock',
-			width:100
-		},
+//                                {
+//			header:'lock',
+//			sortable:true,
+//			resizable:true,
+//                        dataIndex:'lock',
+//			width:100
+//		},
                 		
 	],
 	initComponent: function(){
