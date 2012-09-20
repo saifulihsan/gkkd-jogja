@@ -10,6 +10,8 @@ class PahBankAccountsController extends GxController {
 	}
 
 	public function actionCreate() {
+    //TODO: pengecekan jika no rekening sudah dipake transaksi
+
 		$model = new PahBankAccounts;
 
 		

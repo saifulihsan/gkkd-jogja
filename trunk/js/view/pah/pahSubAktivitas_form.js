@@ -1,8 +1,8 @@
-jun.PahDonaturWin = Ext.extend(Ext.Window, {
-    title:'Donatur',
+jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
+    title:'Aktivitas',
     modez:1,
     width:400,
-    height:245,
+    height:250,
     layout:'form',
     modal:true,
     padding:5,
@@ -13,7 +13,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                 xtype:'form',
                 frame:false,
                 bodyStyle:'background-color: #DFE8F6; padding: 10px',
-                id:'form-PahDonatur',
+                id:'form-PahSubAktivitas',
                 labelWidth:100,
                 labelAlign:'left',
                 layout:'form',
@@ -21,41 +21,55 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                 border:false,
                 items:[
                     {
+                        xtype:'combo',
+                        typeAhead:true,
+                        triggerAction:'all',
+                        lazyRender:true,
+                        mode:'local',
+                        fieldLabel:'Kode Rekening',
+                        store:jun.rztPahChartMaster,
+                        hiddenName:'account_code',
+                        hiddenValue:'account_code',
+                        valueField:'account_code',
+                        matchFieldWidth:false,
+                        itemSelector: 'div.search-item',
+                        //hideTrigger:true,
+                        //pageSize:10,
+                        tpl:new Ext.XTemplate(
+                            '<tpl for="."><div class="search-item">',
+                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
+                            '</div></tpl>'
+                        ),
+                        //displayField: 'PahChartMaster::model()->representingColumn()',
+                        displayField:'account_code',
+                        editable : true,
+                        anchor:'100%'
+                    },
+                    {
                         xtype:'textfield',
-                        fieldLabel:'Nama Donatur',
+                        fieldLabel:'Nama',
                         hideLabel:false,
                         //hidden:true,
-                        name:'name',
-                        id:'nameid',
-                        ref:'../name',
+                        name:'nama',
+                        id:'namaid',
+                        ref:'../nama',
                         maxLength:50,
                         //allowBlank: 1,
                         anchor:'100%'
                     },
                     {
-                        xtype:'textfield',
-                        fieldLabel:'Telepon',
-                        hideLabel:false,
-                        //hidden:true,
-                        name:'phone',
-                        id:'phoneid',
-                        ref:'../phone',
-                        maxLength:30,
-                        //allowBlank: 1,
-                        anchor:'100%'
-                    },
-                    {
                         xtype:'textarea',
-                        fieldLabel:'Alamat',
+                        fieldLabel:'Keterangan',
                         hideLabel:false,
                         //hidden:true,
-                        name:'alamat',
-                        id:'alamatid',
-                        ref:'../alamat',
+                        name:'desc',
+                        id:'descid',
+                        ref:'../desc',
                         anchor:'100%',
-                        height: 100
+                        height:100,
                         //allowBlank: 1
                     },
+
 
                 ]
             }
@@ -81,7 +95,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
-        jun.PahDonaturWin.superclass.initComponent.call(this);
+        jun.PahSubAktivitasWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
@@ -100,14 +114,14 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
 
         if (this.modez == 1 || this.modez == 2) {
 
-            urlz = 'PondokHarapan/PahDonatur/update/id/' + this.id;
+            urlz = 'PondokHarapan/PahSubAktivitas/update/id/' + this.id;
 
         } else {
 
-            urlz = 'PondokHarapan/PahDonatur/create/';
+            urlz = 'PondokHarapan/PahSubAktivitas/create/';
         }
 
-        Ext.getCmp('form-PahDonatur').getForm().submit({
+        Ext.getCmp('form-PahSubAktivitas').getForm().submit({
             url:urlz,
             /*
              params:{
@@ -120,7 +134,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
             scope:this,
 
             success:function (f, a) {
-                jun.rztPahDonatur.reload();
+                jun.rztPahSubAktivitas.reload();
 
                 var response = Ext.decode(a.response.responseText);
 
@@ -133,7 +147,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         Ext.MessageBox.alert("Pelayanan", response.data.msg);
                     }
                     if (this.modez == 0) {
-                        Ext.getCmp('form-PahDonatur').getForm().reset();
+                        Ext.getCmp('form-PahSubAktivitas').getForm().reset();
                     }
                 }
 

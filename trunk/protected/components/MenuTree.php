@@ -51,7 +51,12 @@ class MenuTree
                         },
                         {
                             text: 'Pemasok',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahSuppliersGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Donatur',
+                            id: 'jun.PahDonaturGrid',
                             leaf: true
                         },
                         {
@@ -61,7 +66,7 @@ class MenuTree
                         },
                         {
                             text: 'Aktivitas',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahSubAktivitasGrid',
                             leaf: true
                         },]
                     },
@@ -90,7 +95,7 @@ class MenuTree
                         },
                         {
                             text: 'Mutasi antar Rekening Kas',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahTranferBankWin',
                             leaf: true
                         },]
                     },
@@ -99,7 +104,7 @@ class MenuTree
                     expanded: false,
                     children:[{
                             text: 'Mutasi Kas per Bank',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahBankTransGrid',
                             leaf: true
                         },
                         {

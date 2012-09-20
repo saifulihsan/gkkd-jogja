@@ -14,22 +14,29 @@ jun.PahAnggaranDetilGrid=Ext.extend(Ext.grid.GridPanel ,{
                             hidden:true,
 			width:100
 		},
+//                                {
+//			header:'pah_anggaran_id',
+//			sortable:true,
+//			resizable:true,
+//                        dataIndex:'pah_anggaran_id',
+//			width:100
+//		},
                                 {
-			header:'pah_anggaran_id',
-			sortable:true,
-			resizable:true,                        
-                        dataIndex:'pah_anggaran_id',
-			width:100
-		},
-                                {
-			header:'kode_rekening',
+			header:'Kode Rekening',
 			sortable:true,
 			resizable:true,                        
                         dataIndex:'kode_rekening',
 			width:100
 		},
+        {
+            header:'Nama Rekening',
+            sortable:true,
+            resizable:true,
+            dataIndex:'kode_rekening',
+            width:100
+        },
                                 {
-			header:'amount',
+			header:'Jumlah',
 			sortable:true,
 			resizable:true,                        
                         dataIndex:'amount',
@@ -54,17 +61,23 @@ jun.PahAnggaranDetilGrid=Ext.extend(Ext.grid.GridPanel ,{
                 items: [
                     {
                         xtype: 'button',
-                        text: 'Add',
+                        text: 'Tambah Alokasi',
                         ref: '../btnAdd'
                     },
                     {
-                        xtype: 'button',
-                        text: 'Edit',
-                        ref: '../btnEdit'
-                    },                    
+                        xtype:'tbseparator',
+                    },
                     {
                         xtype: 'button',
-                        text: 'Delete',
+                        text: 'Ubah Alokasi',
+                        ref: '../btnEdit'
+                    },
+                    {
+                        xtype:'tbseparator',
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Hapus Alokasi',
                         ref: '../btnDelete'
                     }
                 ]
@@ -106,7 +119,10 @@ jun.PahAnggaranDetilGrid=Ext.extend(Ext.grid.GridPanel ,{
             Ext.MessageBox.confirm('Pertanyaan','Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
         },
         
-        deleteRecYes : function(){
+        deleteRecYes : function(btn){
+            if (btn == 'no'){
+                return;
+            }
         
             var record = this.sm.getSelected();
 

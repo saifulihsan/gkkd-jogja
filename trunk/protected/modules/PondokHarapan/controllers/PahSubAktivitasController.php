@@ -1,47 +1,26 @@
 <?php
-/**
- * This is the template for generating a controller class file for CRUD feature.
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<?php echo "<?php\n"; ?>
 
-class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass; ?> {
+class PahSubAktivitasController extends GxController {
 
-<?php 
-	$authpath = 'ext.giix-core.giixCrud.templates.default.auth.';
-	Yii::app()->controller->renderPartial($authpath . $this->authtype);
-?>
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, '<?php echo $this->modelClass; ?>'),
+			'model' => $this->loadModel($id, 'PahSubAktivitas'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new <?php echo $this->modelClass; ?>;
+		$model = new PahSubAktivitas;
 
-<?php if ($this->enable_ajax_validation): ?>
-		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-<?php endif; ?>
 		
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
+                            $_POST['PahSubAktivitas'][$k] = $v;
                         }
-			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
+			$model->attributes = $_POST['PahSubAktivitas'];
 			
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			$relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
-<?php endif; ?>
 
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			if ($model->saveWithRelated($relatedData)) {
-<?php else: ?>
 			if ($model->save()) {
-<?php endif; ?>
                             $status = true;                            
                         } else {
                             $status = false;                            
@@ -51,12 +30,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
+                                'id'=>$model->id
                                 ));
                             Yii::app()->end();
                         } else
                         {
-                            $this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
+                            $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -64,26 +43,16 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, '<?php echo $this->modelClass; ?>');
+		$model = $this->loadModel($id, 'PahSubAktivitas');
 
-<?php if ($this->enable_ajax_validation): ?>
-		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-<?php endif; ?>
 
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
+                            $_POST['PahSubAktivitas'][$k] = $v;
                         }
-			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			$relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
-<?php endif; ?>
+			$model->attributes = $_POST['PahSubAktivitas'];
 
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			if ($model->saveWithRelated($relatedData)) {
-<?php else: ?>
 			if ($model->save()) {
-<?php endif; ?>
                         
                             $status = true;                            
                         } else {
@@ -94,12 +63,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
+                                'id'=>$model->id
                                 ));
                             Yii::app()->end();
                         } else
                         {
-				$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -110,7 +79,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function actionDelete($id) {
 		if (Yii::app()->request->isPostRequest) {
-			$this->loadModel($id, '<?php echo $this->modelClass; ?>')->delete();
+			$this->loadModel($id, 'PahSubAktivitas')->delete();
 
 			if (!Yii::app()->request->isAjaxRequest)
 				$this->redirect(array('admin'));
@@ -120,18 +89,18 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 /*
 	public function actionAdmin() {
-		$dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
+		$dataProvider = new CActiveDataProvider('PahSubAktivitas');
 		$this->render('index', array(
 			'dataProvider' => $dataProvider,
 		));
 	}*/
 
 	public function actionAdmin() {
-		$model = new <?php echo $this->modelClass; ?>('search');
+		$model = new PahSubAktivitas('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		if (isset($_GET['PahSubAktivitas']))
+			$model->attributes = $_GET['PahSubAktivitas'];
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -151,22 +120,22 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                 } else {
                     $start = 0;
                 }
-		//$model = new <?php echo $this->modelClass; ?>('search');
+		//$model = new PahSubAktivitas('search');
 		//$model->unsetAttributes();
 
                 $criteria = new CDbCriteria();
                 $criteria->limit = $limit;
                 $criteria->offset = $start;
-                $model = <?php echo $this->modelClass; ?>::model()->findAll($criteria);
-                $total = <?php echo $this->modelClass; ?>::model()->count($criteria);
+                $model = PahSubAktivitas::model()->findAll($criteria);
+                $total = PahSubAktivitas::model()->count($criteria);
                 
-		if (isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		if (isset($_GET['PahSubAktivitas']))
+			$model->attributes = $_GET['PahSubAktivitas'];
 
                 if (isset($_GET['output']) && $_GET['output']=='json') {
                     $this->renderJson($model, $total);
                 } else {
-                    $model = new <?php echo $this->modelClass; ?>('search');
+                    $model = new PahSubAktivitas('search');
                     $model->unsetAttributes();
                 
                     $this->render('admin', array(

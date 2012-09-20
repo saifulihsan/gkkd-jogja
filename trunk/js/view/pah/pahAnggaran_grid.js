@@ -119,7 +119,10 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
             Ext.MessageBox.confirm('Pertanyaan','Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
         },
         
-        deleteRecYes : function(){
+        deleteRecYes : function(btn){
+            if (btn == 'no'){
+                return;
+            }
         
             var record = this.sm.getSelected();
 

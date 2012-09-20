@@ -1,103 +1,146 @@
-jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{        
-	title:"Kas dan Bank",
-    id:'docs-jun.PahBankAccountsGrid',
+jun.PahSuppliersGrid=Ext.extend(Ext.grid.GridPanel ,{        
+	title:"Daftar Pemasok",
+        id:'docs-jun.PahSuppliersGrid',
+//	width:400,
+//	height:250,
     viewConfig:{
         forceFit:true,
     },
         sm: new Ext.grid.RowSelectionModel({singleSelect:true}),
 	columns:[
                         {
-			header:'id',
+			header:'supplier_id',
 			sortable:true,
 			resizable:true,                        
-            dataIndex:'id',
-            hidden:true
+            dataIndex:'supplier_id',
+            hidden:true,
+			width:100
 		},
                                 {
-			header:'Kode Rekening',
+			header:'Nama Pemasok',
 			sortable:true,
 			resizable:true,                        
-            dataIndex:'account_code',
+            dataIndex:'supp_name',
+			width:100
+		},
+                                {
+			header:'Ref. Pemasok',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'supp_ref',
+			width:100
+		},
+                                {
+			header:'Alamat',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'address',
+			width:100
 		},
 //                                {
-//			header:'account_type',
+//			header:'mail_address',
 //			sortable:true,
 //			resizable:true,
-//                        dataIndex:'account_type',
+//            dataIndex:'mail_address',
 //			width:100
 //		},
-                                {
-			header:'Kas/Bank',
+//                                {
+//			header:'gst_no',
+//			sortable:true,
+//			resizable:true,
+//            dataIndex:'gst_no',
+//			width:100
+//		},
+                		/*
+                {
+			header:'contact',
 			sortable:true,
 			resizable:true,                        
-            dataIndex:'bank_account_name',
-			//width:100
-		},
-                                {
-			header:'Nama Bank',
-			sortable:true,
-			resizable:true,                        
-            dataIndex:'bank_name',
-			//width:100
-		},
-        {
-            header:'Nomer Rekening Bank',
-            sortable:true,
-            resizable:true,
-            dataIndex:'bank_account_number',
-            //width:100
-        },
-        {
-            header:'Atas Nama',
-            sortable:true,
-            resizable:true,
-            dataIndex:'atas_nama',
-        },
-        {
-            header:'Telepon',
-            sortable:true,
-            resizable:true,
-            dataIndex:'bank_phone',
-        },
-        {
-			header:'Alamat Bank',
-			sortable:true,
-			resizable:true,                        
-            dataIndex:'bank_address',
-		},  /*
-                                {
-			header:'bank_curr_code',
-			sortable:true,
-			resizable:true,                        
-                        dataIndex:'bank_curr_code',
+            dataIndex:'contact',
 			width:100
 		},
                                 {
-			header:'dflt_curr_act',
+			header:'supp_account_no',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'dflt_curr_act',
+            dataIndex:'supp_account_no',
 			width:100
 		},
                                 {
-			header:'ending_reconcile_balance',
+			header:'website',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'ending_reconcile_balance',
+            dataIndex:'website',
+			width:100
+		},
+                                {
+			header:'bank_account',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'bank_account',
+			width:100
+		},
+                                {
+			header:'curr_code',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'curr_code',
+			width:100
+		},
+                                {
+			header:'payment_terms',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'payment_terms',
+			width:100
+		},
+                                {
+			header:'credit_limit',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'credit_limit',
+			width:100
+		},
+                                {
+			header:'purchase_account',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'purchase_account',
+			width:100
+		},
+                                {
+			header:'payable_account',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'payable_account',
+			width:100
+		},
+                                {
+			header:'payment_discount_account',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'payment_discount_account',
+			width:100
+		},
+                                {
+			header:'notes',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'notes',
 			width:100
 		},
                                 {
 			header:'inactive',
 			sortable:true,
 			resizable:true,                        
-                        dataIndex:'inactive',
+            dataIndex:'inactive',
 			width:100
 		},
                 		*/
 		
 	],
 	initComponent: function(){
-	this.store = jun.rztPahBankAccounts;
+	this.store = jun.rztPahSuppliers;
         this.bbar = {
             items: [
            {
@@ -113,7 +156,7 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
                 items: [
                     {
                         xtype: 'button',
-                        text: 'Tambah Kas/Bank',
+                        text: 'Tambah',
                         ref: '../btnAdd'
                     },
                     {
@@ -121,7 +164,7 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Ubah Kas/Bank',
+                        text: 'Ubah',
                         ref: '../btnEdit'
                     },
                     {
@@ -129,12 +172,12 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Hapus Kas/Bank',
+                        text: 'Hapus',
                         ref: '../btnDelete'
                     }
                 ]
             };
-		jun.PahBankAccountsGrid.superclass.initComponent.call(this);
+		jun.PahSuppliersGrid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);
                 this.btnDelete.on('Click', this.deleteRec, this);
@@ -148,7 +191,7 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
         },
         
         loadForm: function(){
-            var form = new jun.PahBankAccountsWin({modez:0});
+            var form = new jun.PahSuppliersWin({modez:0});
             form.show();
         },
         
@@ -161,8 +204,8 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
                  Ext.MessageBox.alert("Warning","Anda belum memilih Jenis Pelayanan");
                  return;
              }
-            var idz = selectedz.json.id;
-            var form = new jun.PahBankAccountsWin({modez:1, id:idz});
+            var idz = selectedz.json.supplier_id;
+            var form = new jun.PahSuppliersWin({modez:1, id:idz});
             form.show(this);
             form.formz.getForm().loadRecord(this.record);
         },
@@ -172,10 +215,11 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
         },
         
         deleteRecYes : function(btn){
-            if (btn == 'no'){
-                return;
+
+            if (btn == 'no') {
+            return;
             }
-        
+
             var record = this.sm.getSelected();
 
             // Check is list selected
@@ -186,12 +230,12 @@ jun.PahBankAccountsGrid=Ext.extend(Ext.grid.GridPanel ,{
 
             Ext.Ajax.request({
                 waitMsg: 'Please Wait',
-                url: 'PondokHarapan/PahBankAccounts/delete/id/' + record.json.id,
-                //url: 'index.php/api/PahBankAccounts/delete/' + record[0].json.nosjp,
+                url: 'PondokHarapan/PahSuppliers/delete/id/' + record.json.supplier_id,
+                //url: 'index.php/api/PahSuppliers/delete/' + record[0].json.nosjp,
                 method: 'POST',
                 
                 success: function(response){
-                  jun.rztPahBankAccounts.reload();
+                  jun.rztPahSuppliers.reload();
                   Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
 
                 },
