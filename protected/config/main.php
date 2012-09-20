@@ -20,7 +20,7 @@ return array(
         'ext.giix-components.*',
         'application.extensions.PasswordHash',
         'application.modules.user.models.*',
-        'application.modules.wanted.models.*',
+        'application.modules.PondokHarapan.models.*',
         'application.vendors.*'
     ),
 

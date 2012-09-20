@@ -1,47 +1,57 @@
 <?php
-/**
- * This is the template for generating a controller class file for CRUD feature.
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<?php echo "<?php\n"; ?>
 
-class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass; ?> {
+class PahBankTransController extends GxController {
 
-<?php 
-	$authpath = 'ext.giix-core.giixCrud.templates.default.auth.';
-	Yii::app()->controller->renderPartial($authpath . $this->authtype);
-?>
 
-	public function actionView($id) {
-		$this->render('view', array(
-			'model' => $this->loadModel($id, '<?php echo $this->modelClass; ?>'),
-		));
-	}
+//	public function actionView($id) {
+//		$this->render('view', array(
+//			'model' => $this->loadModel($id, 'PahBankTrans'),
+//		));
+//	}
+
+    public function actionView() {
+        require_once(Yii::app()->basePath. '/vendors/frontaccounting/ui.inc');
+        $bfw = BankTransHelper::get_balance_before_for_bank_account($_POST['bank_act'], $_POST['from_date']);
+        $arr['data'][] = array('type' => 'Saldo Awal - '.sql2date($_POST['from_date']),'ref' => '','tgl' => '',
+            'debit'=>$bfw>=0?number_format($bfw,2):'','kredit'=>$bfw<0?number_format($bfw,2):'','neraca'=>'','person'=>'');
+        $credit = $debit = 0;
+        $running_total = $bfw;
+        if ($bfw > 0 )
+            $debit += $bfw;
+        else
+            $credit += $bfw;
+        $result = BankTransHelper::get_bank_trans_for_bank_account($_POST['bank_act'], $_POST['from_date'], $_POST['to_date']);
+        foreach($result as $myrow)
+        {
+            $running_total += $myrow->amount;
+            $arr['data'][] = array('type' => $systypes_array[$myrow->type],'ref' => $myrow->ref,'tgl' => sql2date($myrow->trans_date),
+                'debit'=>$myrow->amount>=0?number_format($myrow->amount,2):'',
+                'kredit'=>$myrow->amount<0?number_format(-$myrow->amount,2):'',
+                'neraca'=>number_format($running_total,2),'person'=>'');
+            if ($myrow->amount > 0 )
+                $debit += $myrow->amount;
+            else
+                $credit += $myrow->amount;
+        }
+        $arr['data'][] = array('type' => 'Saldo Akhir - '.sql2date($_POST['to_date']),'ref' => '','tgl' => '',
+            'debit'=>number_format($debit,2),'kredit'=>number_format(-$credit,2),'neraca'=>number_format($debit+$credit,2),
+            'person'=>'');
+        echo CJSON::encode($arr);
+        Yii::app()->end();
+    }
 
 	public function actionCreate() {
-		$model = new <?php echo $this->modelClass; ?>;
+		$model = new PahBankTrans;
 
-<?php if ($this->enable_ajax_validation): ?>
-		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-<?php endif; ?>
 		
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
+                            $_POST['PahBankTrans'][$k] = $v;
                         }
-			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
+			$model->attributes = $_POST['PahBankTrans'];
 			
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			$relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
-<?php endif; ?>
 
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			if ($model->saveWithRelated($relatedData)) {
-<?php else: ?>
 			if ($model->save()) {
-<?php endif; ?>
                             $status = true;                            
                         } else {
                             $status = false;                            
@@ -51,12 +61,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
+                                'id'=>$model->id
                                 ));
                             Yii::app()->end();
                         } else
                         {
-                            $this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
+                            $this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -64,26 +74,16 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, '<?php echo $this->modelClass; ?>');
+		$model = $this->loadModel($id, 'PahBankTrans');
 
-<?php if ($this->enable_ajax_validation): ?>
-		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-<?php endif; ?>
 
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
+                            $_POST['PahBankTrans'][$k] = $v;
                         }
-			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			$relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
-<?php endif; ?>
+			$model->attributes = $_POST['PahBankTrans'];
 
-<?php if ($this->hasManyManyRelation($this->modelClass)): ?>
-			if ($model->saveWithRelated($relatedData)) {
-<?php else: ?>
 			if ($model->save()) {
-<?php endif; ?>
                         
                             $status = true;                            
                         } else {
@@ -94,12 +94,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
+                                'id'=>$model->id
                                 ));
                             Yii::app()->end();
                         } else
                         {
-				$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
@@ -110,7 +110,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function actionDelete($id) {
 		if (Yii::app()->request->isPostRequest) {
-			$this->loadModel($id, '<?php echo $this->modelClass; ?>')->delete();
+			$this->loadModel($id, 'PahBankTrans')->delete();
 
 			if (!Yii::app()->request->isAjaxRequest)
 				$this->redirect(array('admin'));
@@ -120,18 +120,18 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 /*
 	public function actionAdmin() {
-		$dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
+		$dataProvider = new CActiveDataProvider('PahBankTrans');
 		$this->render('index', array(
 			'dataProvider' => $dataProvider,
 		));
 	}*/
 
 	public function actionAdmin() {
-		$model = new <?php echo $this->modelClass; ?>('search');
+		$model = new PahBankTrans('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		if (isset($_GET['PahBankTrans']))
+			$model->attributes = $_GET['PahBankTrans'];
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -151,22 +151,22 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                 } else {
                     $start = 0;
                 }
-		//$model = new <?php echo $this->modelClass; ?>('search');
+		//$model = new PahBankTrans('search');
 		//$model->unsetAttributes();
 
                 $criteria = new CDbCriteria();
                 $criteria->limit = $limit;
                 $criteria->offset = $start;
-                $model = <?php echo $this->modelClass; ?>::model()->findAll($criteria);
-                $total = <?php echo $this->modelClass; ?>::model()->count($criteria);
+                $model = PahBankTrans::model()->findAll($criteria);
+                $total = PahBankTrans::model()->count($criteria);
                 
-		if (isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		if (isset($_GET['PahBankTrans']))
+			$model->attributes = $_GET['PahBankTrans'];
 
                 if (isset($_GET['output']) && $_GET['output']=='json') {
                     $this->renderJson($model, $total);
                 } else {
-                    $model = new <?php echo $this->modelClass; ?>('search');
+                    $model = new PahBankTrans('search');
                     $model->unsetAttributes();
                 
                     $this->render('admin', array(
