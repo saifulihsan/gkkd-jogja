@@ -19,14 +19,14 @@
 		<?php echo $form->error($model,'pah_anggaran_id'); ?>
 		</div><!-- row -->
 		<div class="span-8 last">
-		<?php echo $form->labelEx($model,'kode_rekening'); ?>
-		<?php echo $form->textField($model, 'kode_rekening', array('maxlength' => 15)); ?>
-		<?php echo $form->error($model,'kode_rekening'); ?>
-		</div><!-- row -->
-		<div class="span-8 last">
 		<?php echo $form->labelEx($model,'amount'); ?>
 		<?php echo $form->textField($model, 'amount'); ?>
 		<?php echo $form->error($model,'amount'); ?>
+		</div><!-- row -->
+		<div class="span-8 last">
+		<?php echo $form->labelEx($model,'pah_chart_master_account_code'); ?>
+		<?php echo $form->dropDownList($model, 'pah_chart_master_account_code', GxHtml::listDataEx(PahChartMaster::model()->findAllAttributes(null, true))); ?>
+		<?php echo $form->error($model,'pah_chart_master_account_code'); ?>
 		</div><!-- row -->
 <!-- june -->
 <div class="row"></div>

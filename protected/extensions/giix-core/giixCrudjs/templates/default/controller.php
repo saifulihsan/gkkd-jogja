@@ -51,8 +51,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
-                                ));
+                                'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
                             Yii::app()->end();
                         } else
                         {

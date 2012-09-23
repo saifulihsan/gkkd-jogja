@@ -50,8 +50,12 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 				'value'=>'GxHtml::valueEx($data->pahAnggaran)',
 				'filter'=>GxHtml::listDataEx(PahAnggaran::model()->findAllAttributes(null, true)),
 				),
-		'kode_rekening',
 		'amount',
+		array(
+				'name'=>'pah_chart_master_account_code',
+				'value'=>'GxHtml::valueEx($data->pahChartMasterAccountCode)',
+				'filter'=>GxHtml::listDataEx(PahChartMaster::model()->findAllAttributes(null, true)),
+				),
 		array(
 			'class' => 'CButtonColumn',
 		),

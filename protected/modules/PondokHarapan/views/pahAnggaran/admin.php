@@ -54,6 +54,13 @@ You may optionally enter a comparison operator (&lt;, &lt;=, &gt;, &gt;=, &lt;&g
 					'value' => '($data->lock === 0) ? Yii::t(\'app\', \'No\') : Yii::t(\'app\', \'Yes\')',
 					'filter' => array('0' => Yii::t('app', 'No'), '1' => Yii::t('app', 'Yes')),
 					),
+		/*
+		array(
+				'name'=>'users_id',
+				'value'=>'GxHtml::valueEx($data->users)',
+				'filter'=>GxHtml::listDataEx(Users::model()->findAllAttributes(null, true)),
+				),
+		*/
 		array(
 			'class' => 'CButtonColumn',
 		),

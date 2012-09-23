@@ -9,10 +9,41 @@ class PahAnggaranController extends GxController {
 		));
 	}
 
-	public function actionCreate() {
-		$model = new PahAnggaran;
+    public function actionIsPeriodeExist(){
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
 
-		
+        if (isset($_POST) && !empty($_POST)){
+            $bulan = $_POST['bulan'];
+            $tahun = $_POST['tahun'];
+            if($bulan === '' || $tahun === '')
+            {
+                echo CJSON::encode(array(
+                    'success'=>false,
+                    'msg'=>'Bulan atau Tahun periode tidak boleh kosong.'));
+                Yii::app()->end();
+            }
+
+            if(PahAnggaranCom::is_periode_anggaran_exist($bulan,$tahun)){
+                echo CJSON::encode(array(
+                    'success'=>false,
+                    'msg'=>'Anggaran dengan periode yang anda pilih sudah ada, silahkan gunakan menu ubah.'));
+                Yii::app()->end();
+            }else{
+                echo CJSON::encode(array(
+                    'success'=>true,
+                    'msg'=>'sukses'));
+                Yii::app()->end();
+            }
+
+        }
+    }
+
+	public function actionCreate() {
+        require_once(Yii::app()->basePath. '/vendors/frontaccounting/ui.inc');
+
+        return;
+		$model = new PahAnggaran;
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
                             $_POST['PahAnggaran'][$k] = $v;
@@ -30,8 +61,7 @@ class PahAnggaranController extends GxController {
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model->id
-                                ));
+                                'id'=>$model->id));
                             Yii::app()->end();
                         } else
                         {
@@ -63,8 +93,7 @@ class PahAnggaranController extends GxController {
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model->id
-                                ));
+                                'id'=>$model->id                                ));
                             Yii::app()->end();
                         } else
                         {

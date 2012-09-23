@@ -16,11 +16,11 @@ return array(
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
+        'application.modules.general.models.*',
+        'application.modules.PondokHarapan.models.*',
         'application.components.*',
         'ext.giix-components.*',
         'application.extensions.PasswordHash',
-        'application.modules.user.models.*',
-        'application.modules.PondokHarapan.models.*',
         'application.vendors.*'
     ),
 
@@ -36,7 +36,7 @@ return array(
             'generatorPaths' => array('ext.giix-core', // giix generators
             ),
         ),
-        'user',
+        'general',
         'PondokHarapan',
     ),
 

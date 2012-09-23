@@ -30,8 +30,7 @@ class PahAnggaranDetilController extends GxController {
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model->id
-                                ));
+                                'id'=>$model->id));
                             Yii::app()->end();
                         } else
                         {
@@ -63,8 +62,7 @@ class PahAnggaranDetilController extends GxController {
                         {                            
                             echo CJSON::encode(array(
                                 'success'=>$status,
-                                'id'=>$model->id
-                                ));
+                                'id'=>$model->id                                ));
                             Yii::app()->end();
                         } else
                         {

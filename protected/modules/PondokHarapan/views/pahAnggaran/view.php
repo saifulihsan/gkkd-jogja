@@ -24,6 +24,11 @@ $this->menu=array(
 'periode_tahun',
 'trans_date',
 'lock',
+array(
+			'label' => 'Users',
+			'type' => 'raw',
+			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->users)), array('users/view', 'id' => GxActiveRecord::extractPkValue($model->users, true))),
+			),
 	),
         'itemTemplate' => "<tr class=\"{class}\"><td style=\"width: 120px\"><b>{label}</b></td><td>{value}</td></tr>\n",
         'htmlOptions' => array(

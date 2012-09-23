@@ -42,6 +42,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         ),
                         //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
+                        listWidth:300,
                         editable : true,
                         anchor:'100%'
                     },

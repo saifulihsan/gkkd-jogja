@@ -1,5 +1,5 @@
 jun.PahSubAktivitasGrid=Ext.extend(Ext.grid.GridPanel ,{        
-	title:"Daftar Aktivitas",
+	title:"Daftar Sub Aktivitas",
         id:'docs-jun.PahSubAktivitasGrid',
     viewConfig:{
         forceFit:true,
@@ -56,7 +56,7 @@ jun.PahSubAktivitasGrid=Ext.extend(Ext.grid.GridPanel ,{
                 items: [
                     {
                         xtype: 'button',
-                        text: 'Tambah Aktivitas',
+                        text: 'Tambah Sub Aktivitas',
                         ref: '../btnAdd'
                     },
                     {
@@ -64,7 +64,7 @@ jun.PahSubAktivitasGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Ubah Aktivitas',
+                        text: 'Ubah Sub Aktivitas',
                         ref: '../btnEdit'
                     },
                     {
@@ -72,7 +72,7 @@ jun.PahSubAktivitasGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Hapus Aktivitas',
+                        text: 'Hapus Sub Aktivitas',
                         ref: '../btnDelete'
                     }
                 ]

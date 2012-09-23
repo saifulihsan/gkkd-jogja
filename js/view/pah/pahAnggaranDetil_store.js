@@ -9,8 +9,8 @@ jun.PahAnggaranDetilstore = Ext.extend(Ext.data.JsonStore, {
             fields: [                
                 {name:'id'},
 {name:'pah_anggaran_id'},
-{name:'kode_rekening'},
 {name:'amount'},
+{name:'pah_chart_master_account_code'},
                 
             ]
         }, cfg));

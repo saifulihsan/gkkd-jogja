@@ -19,48 +19,47 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 border:false,
                 anchor:'100% 100%',
                 items:[
-//                    {
-//                    xtype:'label',
-//                    text:'Referensi:',
-//                    x:5,
-//                    y:5
-//                    },
-//                    {
-//                        xtype:'textfield',
-//                        //fieldLabel:'Doc. Ref',
-//                        x:65,
-//                        y:2,
-//                        height:20,
-//                        width:100,
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'doc_ref',
-//                        id:'doc_refid',
-//                        ref:'../doc_ref',
-//                        maxLength:15,
-//                        //allowBlank: 1,
-//                        //anchor:'100%',
-//                        readOnly:true,
-//                    },
                     {
                         xtype:'label',
-                        text:'Periode Bulan:',
+                        text:'Ref. Dokumen:',
                         x:5,
                         y:5
                     },
-                    new jun.comboBulan({
+                    {
+                        xtype:'textfield',
+                        //fieldLabel:'Doc. Ref',
                         x:85,
+                        y:2,
+                        height:20,
+                        width:100,
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'doc_ref',
+                        id:'doc_refid',
+                        ref:'../doc_ref',
+                        maxLength:15,
+                        //allowBlank: 1,
+                        //anchor:'100%',
+                        readOnly:true,
+                    },
+                    {
+                        xtype:'label',
+                        text:'Periode Bulan:',
+                        x:195,
+                        y:5
+                    },
+                    new jun.comboBulan({
+                        x:275,
                         y:2,
                         width:100,
                         height:20,
-                        //fieldLabel:'Periode Bulan',
-                        //hideLabel:false,
-                        //anchor:'100%'
+                        ref:'../cmbBulan',
+                        id:'periode_bulanid',
                     }),
                     {
                         xtype:'label',
                         text:'Periode Tahun:',
-                        x:195,
+                        x:385,
                         y:5
                     },
                     {
@@ -75,31 +74,31 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         minValue: 2000,
                         maxValue: 3000,
                         defaultValue: 2012,
-                        x:275,
+                        x:465,
                         y:2,
                         width:100
                         //incrementValue: 1,
                         //anchor:'100%'
                     },
-                    {
-                        xtype:'label',
-                        text:'Tanggal Entry:',
-                        x:385,
-                        y:5
-                    },
-                    {
-                        xtype:'datefield',
-                        ref:'../trans_date',
-                        fieldLabel:'trans_date',
-                        name:'trans_date',
-                        id:'trans_dateid',
-                        format:'d M Y',
-                        x:465,
-                        y:2,
-                      //  width:100
-                        //allowBlank: 1,
-                        anchor:'100%'
-                    },
+//                    {
+//                        xtype:'label',
+//                        text:'Tanggal Entry:',
+//                        x:385,
+//                        y:5
+//                    },
+//                    {
+//                        xtype:'datefield',
+//                        ref:'../trans_date',
+//                        fieldLabel:'trans_date',
+//                        name:'trans_date',
+//                        id:'trans_dateid',
+//                        format:'d M Y',
+//                        x:465,
+//                        y:2,
+//                      //  width:100
+//                        //allowBlank: 1,
+//                        anchor:'100%'
+//                    },
                     {
                         xtype:'label',
                         text:'Saldo Kas Awal Bulan (Sisa anggaran bulan lalu):',
@@ -221,13 +220,49 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbBulan.on('select',this.oncmbBulanchange,this);
+        this.periode_tahun.on('spin',this.onperiodetahunchange,this);
+    },
 
+    checkPeriodeAnggaran:function(){
+        //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
+        Ext.Ajax.request({
+            waitMsg: 'Sedang Proses',
+            url: 'PondokHarapan/PahAnggaran/IsPeriodeExist/',
+            params:{
+                bulan:this.cmbBulan.value,
+                tahun:this.periode_tahun.defaultValue,
+            },
+            method: 'POST',
+
+            success: function(f, a){
+
+            },
+            failure: function(f, a){
+                var response = Ext.decode(f.responseText);
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons: Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.ERROR
+                });
+            }
+        });
+    },
+
+    onperiodetahunchange:function (){
+        this.checkPeriodeAnggaran();
+    },
+
+    oncmbBulanchange:function (){
+        this.checkPeriodeAnggaran();
     },
 
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
+        var dt = new Date();
+        this.periode_tahun.setValue(dt.format('Y'));
+        this.cmbBulan.setValue(dt.format('n'));
     },
 
     saveForm:function () {
@@ -238,7 +273,29 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             urlz = 'PondokHarapan/PahAnggaran/update/id/' + this.id;
 
         } else {
+            Ext.Ajax.request({
+                waitMsg: 'Sedang Proses',
+                url: 'PondokHarapan/PahAnggaran/IsPeriodeExist/',
+                params:{
+                    bulan:this.cmbBulan.value,
+                    tahun:this.periode_tahun.defaultValue,
+                },
+                method: 'POST',
 
+                success: function(f, a){
+
+                },
+                failure: function(f, a){
+                    var response = Ext.decode(f.responseText);
+                    Ext.MessageBox.show({
+                        title:'Warning',
+                        msg:response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                    return;
+                }
+            });
             urlz = 'PondokHarapan/PahAnggaran/create/';
         }
 

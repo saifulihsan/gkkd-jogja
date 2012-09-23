@@ -180,6 +180,7 @@ class GiixCrudjsCode extends CrudCode {
                         $zink = new $relatedModelClass;
                         //$displayField = $relatedModelClass::model()->representingColumn;
                         //print_r($zink);
+                        $valueField = $zink->tableSchema->primaryKey;
                         $displayField = $zink->representingColumn();
                         //$displayField = $zink->sequenceName;
                         
@@ -193,7 +194,7 @@ class GiixCrudjsCode extends CrudCode {
                             store: jun.rzt{$relatedModelClass},
                             hiddenName:'{$column->name}',
                             hiddenValue:'{$column->name}',
-                            valueField: 'id',
+                            valueField: '{$valueField}',
                             //displayField: '{$relatedModelClass}::model()->representingColumn()',
                             displayField: '{$displayField}',
                             //allowBlank:false,

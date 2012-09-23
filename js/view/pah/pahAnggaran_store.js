@@ -13,6 +13,7 @@ jun.PahAnggaranstore = Ext.extend(Ext.data.JsonStore, {
 {name:'periode_tahun'},
 {name:'trans_date'},
 {name:'lock'},
+{name:'users_id'},
                 
             ]
         }, cfg));
