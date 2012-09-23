@@ -1,18 +1,8 @@
 <?php
-/**********************************************************************
-    Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
-	of the License, or (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
-***********************************************************************/
-//--------------------------------------------------------------------------------------------------
 
 function get_reference($type, $id)
 {
+
 	$sql = "SELECT * FROM ".TB_PREF."refs WHERE type=".db_escape($type)." AND id=".db_escape($id);
 
 	$result = db_query($sql, "could not query reference table");
@@ -76,11 +66,5 @@ function get_next_reference($type)
     return $row[0];
 }
 
-function get_new_reference($type)
-{
-    $result = db_query("SELECT gen_id('NOTA')","The next transaction number for $type could not be retrieved");
-    $myrow = db_fetch_row($result);
-    return $myrow[0];
-}
 
 ?>

@@ -19,5 +19,8 @@
 	<?php echo GxHtml::encode($data->getAttributeLabel('lock')); ?>:
 	<?php echo GxHtml::encode($data->lock); ?>
 	<br />
+	<?php echo GxHtml::encode($data->getAttributeLabel('users_id')); ?>:
+		<?php echo GxHtml::encode(GxHtml::valueEx($data->users)); ?>
+	<br />
 
 </div>

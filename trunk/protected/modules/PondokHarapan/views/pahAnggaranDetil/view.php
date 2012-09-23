@@ -24,8 +24,12 @@ array(
 			'type' => 'raw',
 			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->pahAnggaran)), array('pahAnggaran/view', 'id' => GxActiveRecord::extractPkValue($model->pahAnggaran, true))),
 			),
-'kode_rekening',
 'amount',
+array(
+			'label' => 'PahChartMaster',
+			'type' => 'raw',
+			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->pahChartMasterAccountCode)), array('pahChartMaster/view', 'id' => GxActiveRecord::extractPkValue($model->pahChartMasterAccountCode, true))),
+			),
 	),
         'itemTemplate' => "<tr class=\"{class}\"><td style=\"width: 120px\"><b>{label}</b></td><td>{value}</td></tr>\n",
         'htmlOptions' => array(

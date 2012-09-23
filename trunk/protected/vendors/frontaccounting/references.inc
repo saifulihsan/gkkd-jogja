@@ -1,26 +1,7 @@
 <?php
-/**********************************************************************
-    Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
-	of the License, or (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
-***********************************************************************/
-include_once($path_to_root . "/includes/db/references_db.inc");
-//---------------------------------------------------------------------------------------------
-//
-// For now (2.3) the references system has somewhat inconsistent design scheme.
-// Most transactions store references in respective table, but this is not the case
-// for journal entries. All references regardless of type are stored also in refs table. 
-// Reference uniquness now can be checked with is_new_reference() for all transactions. 
-// In near future this should be fixed either with removing reference fields 
-// in transaction tables, or adding ref in bank transaction/journal and removing refs table.
-//
+require_once(Yii::app()->basePath. '/vendors/frontaccounting/db/references_db.inc');
 
-class references 
+class references
 {
 	//
 	//	Get reference from refs table for given transaction.

@@ -11,10 +11,11 @@
  *
  * @property integer $id
  * @property integer $pah_anggaran_id
- * @property string $kode_rekening
  * @property double $amount
+ * @property string $pah_chart_master_account_code
  *
  * @property PahAnggaran $pahAnggaran
+ * @property PahChartMaster $pahChartMasterAccountCode
  */
 abstract class BasePahAnggaranDetil extends GxActiveRecord {
 
@@ -27,23 +28,24 @@ abstract class BasePahAnggaranDetil extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'kode_rekening';
+		return 'pah_chart_master_account_code';
 	}
 
 	public function rules() {
 		return array(
-			array('pah_anggaran_id', 'required'),
+			array('pah_anggaran_id, pah_chart_master_account_code', 'required'),
 			array('pah_anggaran_id', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
-			array('kode_rekening', 'length', 'max'=>15),
-			array('kode_rekening, amount', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, pah_anggaran_id, kode_rekening, amount', 'safe', 'on'=>'search'),
+			array('pah_chart_master_account_code', 'length', 'max'=>15),
+			array('amount', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, pah_anggaran_id, amount, pah_chart_master_account_code', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
 			'pahAnggaran' => array(self::BELONGS_TO, 'PahAnggaran', 'pah_anggaran_id'),
+			'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
 		);
 	}
 
@@ -56,8 +58,8 @@ abstract class BasePahAnggaranDetil extends GxActiveRecord {
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'pah_anggaran_id' => Yii::t('app', 'Pah Anggaran'),
-			'kode_rekening' => Yii::t('app', 'Kode Rekening'),
 			'amount' => Yii::t('app', 'Amount'),
+			'pah_chart_master_account_code' => Yii::t('app', 'Pah Chart Master Account Code'),
 		);
 	}
 
@@ -66,8 +68,8 @@ abstract class BasePahAnggaranDetil extends GxActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('pah_anggaran_id', $this->pah_anggaran_id);
-		$criteria->compare('kode_rekening', $this->kode_rekening, true);
 		$criteria->compare('amount', $this->amount);
+		$criteria->compare('pah_chart_master_account_code', $this->pah_chart_master_account_code);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

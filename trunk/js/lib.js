@@ -309,15 +309,40 @@ jun.bulan = new Ext.data.ArrayStore({
 
 jun.comboBulan = Ext.extend(Ext.form.ComboBox,{
     displayField:'namaBulan',
+    valueField:'noBulan',
     typeAhead: true,
     mode: 'local',
     forceSelection: true,
     triggerAction: 'all',
+    hiddenName:'_month',
+    hiddenValue:'_month',
     emptyText:'Pilih bulan...',
     selectOnFocus:true,
     initComponent: function(){
         this.store = jun.bulan;
         jun.comboBulan.superclass.initComponent.call(this);
+    }
+});
+
+jun.methodPay = new Ext.data.ArrayStore({
+    fields: ['payVal', 'payName'],
+    data : [['Tunai','Tunai'],['Debet','Debet'],['Transfer','Transfer']]
+});
+
+jun.comboPayment = Ext.extend(Ext.form.ComboBox,{
+    displayField:'payName',
+    valueField:'payVal',
+    typeAhead: true,
+    mode: 'local',
+    forceSelection: true,
+    hiddenName:'trans_via',
+    hiddenValue:'trans_via',
+    triggerAction: 'all',
+    emptyText:'Pilih cara bayar...',
+    selectOnFocus:true,
+    initComponent: function(){
+        this.store = jun.methodPay;
+        jun.comboPayment.superclass.initComponent.call(this);
     }
 });
 
@@ -746,6 +771,7 @@ Ext.ux.Spinner = Ext.extend(Ext.util.Observable, {
         v = (isNaN(v)) ? this.defaultValue : v;
         v = this.fixBoundries(v);
         this.field.setRawValue(v);
+
     },
 
     fixBoundries: function(value){

@@ -48,6 +48,11 @@
 		<?php echo $form->checkBox($model, 'lock'); ?>
 		<?php echo $form->error($model,'lock'); ?>
 		</div><!-- row -->
+		<div class="span-8 last">
+		<?php echo $form->labelEx($model,'users_id'); ?>
+		<?php echo $form->dropDownList($model, 'users_id', GxHtml::listDataEx(Users::model()->findAllAttributes(null, true))); ?>
+		<?php echo $form->error($model,'users_id'); ?>
+		</div><!-- row -->
 <!-- june -->
 <div class="row"></div>
 <!-- june -->

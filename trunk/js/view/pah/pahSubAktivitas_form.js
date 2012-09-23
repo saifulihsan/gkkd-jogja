@@ -1,5 +1,5 @@
 jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
-    title:'Aktivitas',
+    title:'Sub Aktivitas',
     modez:1,
     width:400,
     height:250,
@@ -40,6 +40,7 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                             '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
                             '</div></tpl>'
                         ),
+                        listWidth:300,
                         //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
                         editable : true,

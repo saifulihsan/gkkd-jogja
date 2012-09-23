@@ -121,22 +121,22 @@ jun.PahSuppliersGrid=Ext.extend(Ext.grid.GridPanel ,{
 			resizable:true,                        
             dataIndex:'payment_discount_account',
 			width:100
-		},
+		},                */
                                 {
-			header:'notes',
+			header:'Notes',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'notes',
 			width:100
 		},
-                                {
-			header:'inactive',
-			sortable:true,
-			resizable:true,                        
-            dataIndex:'inactive',
-			width:100
-		},
-                		*/
+//                                {
+//			header:'inactive',
+//			sortable:true,
+//			resizable:true,
+//            dataIndex:'inactive',
+//			width:100
+//		},
+
 		
 	],
 	initComponent: function(){
@@ -156,7 +156,7 @@ jun.PahSuppliersGrid=Ext.extend(Ext.grid.GridPanel ,{
                 items: [
                     {
                         xtype: 'button',
-                        text: 'Tambah',
+                        text: 'Tambah Pemasok',
                         ref: '../btnAdd'
                     },
                     {
@@ -164,7 +164,7 @@ jun.PahSuppliersGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Ubah',
+                        text: 'Ubah Pemasok',
                         ref: '../btnEdit'
                     },
                     {
@@ -172,7 +172,7 @@ jun.PahSuppliersGrid=Ext.extend(Ext.grid.GridPanel ,{
                     },
                     {
                         xtype: 'button',
-                        text: 'Hapus',
+                        text: 'Hapus Pemasok',
                         ref: '../btnDelete'
                     }
                 ]

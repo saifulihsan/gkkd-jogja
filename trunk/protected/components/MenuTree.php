@@ -9,6 +9,14 @@
 class MenuTree
 {
     var $security_role_id;
+    var $menu_data_jemaat = "{text: 'Data Jemaat',
+                                id: 'jun.JemaatGrid',
+                                leaf: true
+                                },";
+    var $menu_users= "{text: 'User',
+                                id: 'jun.UsersGrid',
+                                leaf: true
+                                },";
 
     function __construct($id){
         $this->security_role_id = $id;
@@ -46,7 +54,7 @@ class MenuTree
                         },
                         {
                             text: 'Anak',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahMemberGrid',
                             leaf: true
                         },
                         {
@@ -65,7 +73,7 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Aktivitas',
+                            text: 'Sub Aktivitas',
                             id: 'jun.PahSubAktivitasGrid',
                             leaf: true
                         },]
@@ -75,7 +83,7 @@ class MenuTree
                     expanded: false,
                     children:[{
                             text: 'Kas Masuk',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahKasMasukGrid',
                             leaf: true
                         },
                         {
@@ -85,12 +93,12 @@ class MenuTree
                         },
                         {
                             text: 'Pengeluaran Kas Umum',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahKasKeluarGrid',
                             leaf: true
                         },
                         {
                             text: 'Aktivitas Anak',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahAktivitasGrid',
                             leaf: true
                         },
                         {
@@ -132,7 +140,8 @@ class MenuTree
                             id: 'jun.NotaGrid',
                             leaf: true
                         }]
-                    },]
+                    },
+                    ]
                   }";
         return $menu;
     }
@@ -149,8 +158,13 @@ class MenuTree
         return $menu;
     }
 
+    function get_menu_general(){
+        $menu = $this->menu_data_jemaat.$this->menu_users;
+        return $menu;
+    }
+
     public function get_menu(){
-        $data = "[".$this->get_menu_pondok_harapan().','.$this->get_menu_pondok_efata()
+        $data = "[".$this->get_menu_pondok_harapan().','.$this->get_menu_pondok_efata().','.$this->get_menu_general()
             ."]";
         return $data;
     }

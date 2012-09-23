@@ -16,13 +16,13 @@
 	</div>
 
 	<div class="span-8 last">
-		<?php echo $form->label($model, 'kode_rekening'); ?>
-		<?php echo $form->textField($model, 'kode_rekening', array('maxlength' => 15)); ?>
+		<?php echo $form->label($model, 'amount'); ?>
+		<?php echo $form->textField($model, 'amount'); ?>
 	</div>
 
 	<div class="span-8 last">
-		<?php echo $form->label($model, 'amount'); ?>
-		<?php echo $form->textField($model, 'amount'); ?>
+		<?php echo $form->label($model, 'pah_chart_master_account_code'); ?>
+		<?php echo $form->dropDownList($model, 'pah_chart_master_account_code', GxHtml::listDataEx(PahChartMaster::model()->findAllAttributes(null, true)), array('prompt' => Yii::t('app', 'All'))); ?>
 	</div>
 
 	<div class="row buttons">

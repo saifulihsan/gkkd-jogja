@@ -15,7 +15,7 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
 			width:100
 		},
                                 {
-			header:'doc_ref',
+			header:'Ref. Dokumen',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'doc_ref',
@@ -35,7 +35,7 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
 			width:100
 		},
                                 {
-			header:'Entry Date',
+			header:'Tanggal Input',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'trans_date',
@@ -67,17 +67,23 @@ jun.PahAnggaranGrid=Ext.extend(Ext.grid.GridPanel ,{
                 items: [
                     {
                         xtype: 'button',
-                        text: 'Add',
+                        text: 'Buat Anggaran',
                         ref: '../btnAdd'
                     },
                     {
-                        xtype: 'button',
-                        text: 'Edit',
-                        ref: '../btnEdit'
-                    },                    
+                        xtype:'tbseparator',
+                    },
                     {
                         xtype: 'button',
-                        text: 'Delete',
+                        text: 'Ubah Anggaran',
+                        ref: '../btnEdit'
+                    },
+                    {
+                        xtype:'tbseparator',
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Hapus Anggaran',
                         ref: '../btnDelete'
                     }
                 ]
