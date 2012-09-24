@@ -16,11 +16,6 @@
 	</div>
 
 	<div class="span-8 last">
-		<?php echo $form->label($model, 'role_id'); ?>
-		<?php echo $form->textField($model, 'role_id'); ?>
-	</div>
-
-	<div class="span-8 last">
 		<?php echo $form->label($model, 'last_visit_date'); ?>
 		<?php $form->widget('zii.widgets.jui.CJuiDatePicker', array(
 			'model' => $model,
@@ -43,6 +38,11 @@
 	<div class="span-8 last">
 		<?php echo $form->label($model, 'nij'); ?>
 		<?php echo $form->dropDownList($model, 'nij', GxHtml::listDataEx(Jemaat::model()->findAllAttributes(null, true)), array('prompt' => Yii::t('app', 'All'))); ?>
+	</div>
+
+	<div class="span-8 last">
+		<?php echo $form->label($model, 'security_roles_id'); ?>
+		<?php echo $form->dropDownList($model, 'security_roles_id', GxHtml::listDataEx(SecurityRoles::model()->findAllAttributes(null, true)), array('prompt' => Yii::t('app', 'All'))); ?>
 	</div>
 
 	<div class="row buttons">

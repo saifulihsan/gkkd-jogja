@@ -346,6 +346,37 @@ jun.comboPayment = Ext.extend(Ext.form.ComboBox,{
     }
 });
 
+/*status aktif*/
+jun.active = new Ext.data.ArrayStore({
+    fields: ['activeVal', 'activeName'],
+    data : [['1','Aktif'],['2','Non Aktif']]
+});
+
+jun.comboActive = Ext.extend(Ext.form.ComboBox,{
+    displayField:'activeName',
+    valueField:'activeVal',
+    typeAhead: true,
+    mode: 'local',
+    forceSelection: true,
+    hiddenName:'_active',
+    hiddenValue:'_active',
+    triggerAction: 'all',
+    emptyText:'Pilih status...',
+    selectOnFocus:true,
+    initComponent: function(){
+        this.store = jun.active;
+        jun.comboActive.superclass.initComponent.call(this);
+    }
+});
+
+/*active*/
+
+jun.renderActive = function(val, meta, record) {
+
+    return val==1? 'Non Aktif':'Aktif' ;
+}
+
+
 Ext.onReady(jun.example.init, jun.example);
 
 // old school cookie functions

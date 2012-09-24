@@ -1,23 +1,23 @@
 <?php
 
-class PahMemberController extends GxController {
+class SecurityRolesController extends GxController {
 
 
 	public function actionView($id) {
 		$this->render('view', array(
-			'model' => $this->loadModel($id, 'PahMember'),
+			'model' => $this->loadModel($id, 'SecurityRoles'),
 		));
 	}
 
 	public function actionCreate() {
-		$model = new PahMember;
+		$model = new SecurityRoles;
 
 		
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['PahMember'][$k] = $v;
+                            $_POST['SecurityRoles'][$k] = $v;
                         }
-			$model->attributes = $_POST['PahMember'];
+			$model->attributes = $_POST['SecurityRoles'];
 			
 
 			if ($model->save()) {
@@ -42,14 +42,14 @@ class PahMemberController extends GxController {
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'PahMember');
+		$model = $this->loadModel($id, 'SecurityRoles');
 
 
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['PahMember'][$k] = $v;
+                            $_POST['SecurityRoles'][$k] = $v;
                         }
-			$model->attributes = $_POST['PahMember'];
+			$model->attributes = $_POST['SecurityRoles'];
 
 			if ($model->save()) {
                         
@@ -77,7 +77,7 @@ class PahMemberController extends GxController {
 
 	public function actionDelete($id) {
 		if (Yii::app()->request->isPostRequest) {
-			$this->loadModel($id, 'PahMember')->delete();
+			$this->loadModel($id, 'SecurityRoles')->delete();
 
 			if (!Yii::app()->request->isAjaxRequest)
 				$this->redirect(array('admin'));
@@ -87,18 +87,18 @@ class PahMemberController extends GxController {
 	}
 /*
 	public function actionAdmin() {
-		$dataProvider = new CActiveDataProvider('PahMember');
+		$dataProvider = new CActiveDataProvider('SecurityRoles');
 		$this->render('index', array(
 			'dataProvider' => $dataProvider,
 		));
 	}*/
 
 	public function actionAdmin() {
-		$model = new PahMember('search');
+		$model = new SecurityRoles('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['PahMember']))
-			$model->attributes = $_GET['PahMember'];
+		if (isset($_GET['SecurityRoles']))
+			$model->attributes = $_GET['SecurityRoles'];
 
 		$this->render('admin', array(
 			'model' => $model,
@@ -118,22 +118,22 @@ class PahMemberController extends GxController {
                 } else {
                     $start = 0;
                 }
-		//$model = new PahMember('search');
+		//$model = new SecurityRoles('search');
 		//$model->unsetAttributes();
 
                 $criteria = new CDbCriteria();
                 $criteria->limit = $limit;
                 $criteria->offset = $start;
-                $model = PahMember::model()->findAll($criteria);
-                $total = PahMember::model()->count($criteria);
+                $model = SecurityRoles::model()->findAll($criteria);
+                $total = SecurityRoles::model()->count($criteria);
                 
-		if (isset($_GET['PahMember']))
-			$model->attributes = $_GET['PahMember'];
+		if (isset($_GET['SecurityRoles']))
+			$model->attributes = $_GET['SecurityRoles'];
 
                 if (isset($_GET['output']) && $_GET['output']=='json') {
                     $this->renderJson($model, $total);
                 } else {
-                    $model = new PahMember('search');
+                    $model = new SecurityRoles('search');
                     $model->unsetAttributes();
                 
                     $this->render('admin', array(
@@ -141,56 +141,5 @@ class PahMemberController extends GxController {
                     ));
                 }
 	}
-
-    public function actionIndexbyName() {
-        if(isset($_POST['limit'])) {
-            $limit = $_POST['limit'];
-        } else {
-            $limit = 20;
-        }
-
-        if(isset($_POST['start'])){
-            $start = $_POST['start'];
-
-        } else {
-            $start = 0;
-        }
-        //$model = new PahMember('search');
-        //$model->unsetAttributes();
-
-//        $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
-//        $model = PahMember::model()->findAll($criteria);
-//        $total = PahMember::model()->count($criteria);
-
-        $sql = "SELECT b.id, b.jemaat_nij, a.real_name
-                FROM jemaat a
-                inner join pah_member b ON a.nij = b.jemaat_nij
-                ORDER BY a.real_name asc";
-        $rows = Yii::app()->db->createCommand($sql)->queryAll();
-        $result = array('total'=>count($rows),
-            'results'=>$rows);
-
-        //$this->renderJson($rows,1);
-        echo CJSON::encode($result);
-        Yii::app()->end();
-
-
-        if (isset($_GET['PahMember']))
-            $model->attributes = $_GET['PahMember'];
-
-        if (isset($_GET['output']) && $_GET['output']=='json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahMember('search');
-            $model->unsetAttributes();
-
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
-    }
-
 
 }

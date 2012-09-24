@@ -20,9 +20,21 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                 ref:'formz',
                 border:false,
                 items: [
+                                {
+                                    xtype: 'textfield',
+                                    fieldLabel: 'Nomor Induk',
+                                    hideLabel:false,
+                                    //hidden:true,
+                                    name:'nij',
+                                    id:'nijid',
+                                    ref:'../nij',
+                                    maxLength: 100,
+                                    //allowBlank: ,
+                                    anchor: '100%'
+                                },
                                                                                      {
                                     xtype: 'textfield',
-                                    fieldLabel: 'real_name',
+                                    fieldLabel: 'Nama lengkap',
                                     hideLabel:false,
                                     //hidden:true,
                                     name:'real_name',
@@ -34,7 +46,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                                 }, 
                                                                      {
                                     xtype: 'textfield',
-                                    fieldLabel: 'phone',
+                                    fieldLabel: 'Telepon/HP',
                                     hideLabel:false,
                                     //hidden:true,
                                     name:'phone',
@@ -46,7 +58,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                                 }, 
                                                                      {
                                     xtype: 'textfield',
-                                    fieldLabel: 'email',
+                                    fieldLabel: 'Email',
                                     hideLabel:false,
                                     //hidden:true,
                                     name:'email',
@@ -56,9 +68,9 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                                     //allowBlank: 1,
                                     anchor: '100%'
                                 }, 
-                                                                     {
+                                                                   /*  {
                             xtype: 'textfield',
-                            fieldLabel: 'inactive',
+                            fieldLabel: 'Status',
                             hideLabel:false,
                             //hidden:true,
                             name:'inactive',
@@ -66,8 +78,18 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                             ref:'../inactive',
                             //allowBlank: ,
                             anchor: '100%'
-                        }, 
-                                                   
+                        },*/
+
+                    new jun.comboActive({
+                        fieldLabel: 'Status',
+                        hideLabel:false,
+                        width:100,
+                        height:20,
+                        ref:'../cmbActive',
+                        id:'statusid',
+                        value: 1,
+                    }),
+
                   ]
             }];
         this.fbar = {

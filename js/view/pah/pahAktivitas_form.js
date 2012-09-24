@@ -42,6 +42,8 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
+
+
                     {
                         xtype:'textfield',
                         fieldLabel:'No. Bukti',
@@ -55,29 +57,20 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
 
-//                    {
-//                        xtype:'datefield',
-//                        ref:'../entry_time',
-//                        fieldLabel:'entry_time',
-//                        name:'entry_time',
-//                        id:'entry_timeid',
-//                        format:'d M Y',
-//                        //allowBlank: 1,
-//                        anchor:'100%'
-//                    },
+                    {
+                        xtype:'xdatefield',
+                        ref:'../entry_time',
+                        fieldLabel:'entry_time',
+                        name:'entry_time',
+                        id:'entry_timeid',
+                        hidden:true,
+                        value: new Date(),
+                        //format:'d M Y',
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },
 
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'trans_via',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'trans_via',
-//                        id:'trans_viaid',
-//                        ref:'../trans_via',
-//                        maxLength:45,
-//                        //allowBlank: 1,
-//                        anchor:'100%'
-//                    },
+
                     {
                         xtype:'combo',
                         typeAhead:true,
@@ -134,6 +127,23 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank:false,
                         anchor:'100%'
                     },
+                    /* {
+                        xtype:'textfield',
+                        fieldLabel:'trans_via',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'Cara Pembayaran',
+                        id:'trans_viaid',
+                        ref:'../trans_via',
+                        maxLength:45,
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },*/
+                    new jun.comboPayment ({
+                        fieldLabel:'Cara Bayar',
+                        value:'Tunai',
+                        anchor:'100%'
+                    }),
                     {
                         xtype:'combo',
                         typeAhead:true,
@@ -141,12 +151,12 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         lazyRender:true,
                         mode:'local',
                         fieldLabel:'Anak',
-                        store:jun.rztPahMember,
+                        store:jun.rztPahMemberbyName,
                         hiddenName:'pah_member_id',
                         hiddenValue:'pah_member_id',
                         valueField:'id',
                         //displayField: 'PahMember::model()->representingColumn()',
-                        displayField:'jemaat_nij',
+                        displayField:'real_name',
                         //allowBlank:false,
                         anchor:'100%'
                     },
@@ -230,6 +240,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
     onActivate:function () {
 
         this.btnSave.hidden = false;
+        jun.rztPahMemberbyName.reload();
 
     },
 

@@ -1,14 +1,6 @@
-jun.renderRealName = function(val, meta, record) {
-    var store = jun.rztJemaat;
-    var index = store.find('nij',val);
-    var record = store.getAt(index);
-    return record.data.real_name;
-}
-
-
-jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
-	title:"Daftar Anak",
-        id:'docs-jun.PahMemberGrid',
+jun.SecurityRolesGrid=Ext.extend(Ext.grid.GridPanel ,{        
+	title:"SecurityRoles",
+        id:'docs-jun.SecurityRolesGrid',
 //	width:400,
 //	height:250,
     viewConfig:{
@@ -21,22 +13,47 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
 			sortable:true,
 			resizable:true,                        
             dataIndex:'id',
-            hidden:true,
 			width:100
 		},
-
                                 {
-			header:'Nama Anak',
+			header:'role',
 			sortable:true,
 			resizable:true,                        
-            dataIndex:'jemaat_nij',
-            renderer:jun.renderRealName,
+            dataIndex:'role',
+			width:100
+		},
+                                {
+			header:'description',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'description',
+			width:100
+		},
+                                {
+			header:'sections',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'sections',
+			width:100
+		},
+                                {
+			header:'areas',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'areas',
+			width:100
+		},
+                                {
+			header:'inactive',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'inactive',
 			width:100
 		},
                 		
 	],
 	initComponent: function(){
-	this.store = jun.rztPahMember;
+	this.store = jun.rztSecurityRoles;
         this.bbar = {
             items: [
            {
@@ -73,7 +90,7 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
                     }
                 ]
             };
-		jun.PahMemberGrid.superclass.initComponent.call(this);
+		jun.SecurityRolesGrid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);
                 this.btnDelete.on('Click', this.deleteRec, this);
@@ -87,7 +104,7 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
         },
         
         loadForm: function(){
-            var form = new jun.PahMemberWin({modez:0});
+            var form = new jun.SecurityRolesWin({modez:0});
             form.show();
         },
         
@@ -101,7 +118,7 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
                  return;
              }
             var idz = selectedz.json.id;
-            var form = new jun.PahMemberWin({modez:1, id:idz});
+            var form = new jun.SecurityRolesWin({modez:1, id:idz});
             form.show(this);
             form.formz.getForm().loadRecord(this.record);
         },
@@ -126,12 +143,12 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
 
             Ext.Ajax.request({
                 waitMsg: 'Please Wait',
-                url: 'PondokHarapan/PahMember/delete/id/' + record.json.id,
-                //url: 'index.php/api/PahMember/delete/' + record[0].json.nosjp,
+                url: 'general/SecurityRoles/delete/id/' + record.json.id,
+                //url: 'index.php/api/SecurityRoles/delete/' + record[0].json.nosjp,
                 method: 'POST',
                 
                 success: function(response){
-                  jun.rztPahMember.reload();
+                  jun.rztSecurityRoles.reload();
                   Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
 
                 },

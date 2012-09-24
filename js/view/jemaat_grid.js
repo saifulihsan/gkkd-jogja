@@ -9,7 +9,7 @@ jun.JemaatGrid=Ext.extend(Ext.grid.GridPanel ,{
         sm: new Ext.grid.RowSelectionModel({singleSelect:true}),
 	columns:[
                         {
-			header:'NIJ',
+			header:'Nomor Induk Jemaat',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'nij',
@@ -23,7 +23,7 @@ jun.JemaatGrid=Ext.extend(Ext.grid.GridPanel ,{
 			width:100
 		},
                                 {
-			header:'Telephone',
+			header:'Telepon/HP',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'phone',
@@ -36,13 +36,14 @@ jun.JemaatGrid=Ext.extend(Ext.grid.GridPanel ,{
             dataIndex:'email',
 			width:100
 		},
-//                                {
-//			header:'inactive',
-//			sortable:true,
-//			resizable:true,
-//            dataIndex:'inactive',
-//			width:100
-//		},
+        {
+			header:'Status',
+			sortable:true,
+			resizable:true,
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+			width:100
+	},
                 		
 	],
 	initComponent: function(){

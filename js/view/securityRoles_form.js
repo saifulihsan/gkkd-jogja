@@ -1,5 +1,5 @@
-jun.UsersWin = Ext.extend(Ext.Window, {
-    title: 'Users',
+jun.SecurityRolesWin = Ext.extend(Ext.Window, {
+    title: 'SecurityRoles',
     modez:1,
     width: 400,
     height: 300,
@@ -13,103 +13,68 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                 xtype: 'form',
                 frame: false,
                 bodyStyle: 'background-color: #DFE8F6; padding: 10px',
-                id:'form-Users',
+                id:'form-SecurityRoles',
                 labelWidth: 100,
                 labelAlign: 'left',
                 layout: 'form',
                 ref:'formz',
                 border:false,
                 items: [
-                    {
-                        xtype: 'combo',
-                        typeAhead: true,
-                        triggerAction: 'all',
-                        lazyRender:true,
-                        mode: 'local',
-                        fieldLabel: 'Nama Jemaat',
-                        store: jun.rztJemaat,
-                        hiddenName:'nij',
-                        hiddenValue:'nij',
-                        valueField: 'nij',
-                        //displayField: 'Jemaat::model()->representingColumn()',
-                        displayField: 'real_name',
-                        //allowBlank:false,
-                        anchor: '100%'
-                    },
-
-                    {
+                                                                                     {
                                     xtype: 'textfield',
-                                    fieldLabel: 'User Id',
+                                    fieldLabel: 'role',
                                     hideLabel:false,
                                     //hidden:true,
-                                    name:'user_id',
-                                    id:'user_idid',
-                                    ref:'../user_id',
-                                    maxLength: 60,
+                                    name:'role',
+                                    id:'roleid',
+                                    ref:'../role',
+                                    maxLength: 30,
                                     //allowBlank: ,
                                     anchor: '100%'
                                 }, 
                                                                      {
                                     xtype: 'textfield',
-                                    fieldLabel: 'Password',
+                                    fieldLabel: 'description',
                                     hideLabel:false,
                                     //hidden:true,
-                                    name:'password',
-                                    id:'passwordid',
-                                    ref:'../password',
-                                    maxLength: 100,
-                                    //allowBlank: ,
+                                    name:'description',
+                                    id:'descriptionid',
+                                    ref:'../description',
+                                    maxLength: 50,
+                                    //allowBlank: 1,
                                     anchor: '100%'
-                                },
-
-                    {
-                        xtype: 'xdatefield',
-                        ref:'../last_visit_date',
-                        fieldLabel: 'last_visit_date',
-                        name:'last_visit_date',
-                        id:'last_visit_dateid',
-                      //  format: 'Y-mm-dd',
-                        hidden:true,
-                        value: new Date(),
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                           /*
+                                }, 
                                                                      {
                             xtype: 'textfield',
-                            fieldLabel: 'Status',
+                            fieldLabel: 'sections',
+                            hideLabel:false,
+                            //hidden:true,
+                            name:'sections',
+                            id:'sectionsid',
+                            ref:'../sections',
+                            anchor: '100%'
+                            //allowBlank: 1
+                        }, 
+                                                                     {
+                            xtype: 'textfield',
+                            fieldLabel: 'areas',
+                            hideLabel:false,
+                            //hidden:true,
+                            name:'areas',
+                            id:'areasid',
+                            ref:'../areas',
+                            anchor: '100%'
+                            //allowBlank: 1
+                        }, 
+                                                                     {
+                            xtype: 'textfield',
+                            fieldLabel: 'inactive',
                             hideLabel:false,
                             //hidden:true,
                             name:'inactive',
                             id:'inactiveid',
                             ref:'../inactive',
                             //allowBlank: ,
-                            anchor: '100%'
-                        }, */
-                    new jun.comboActive({
-                        fieldLabel: 'Status',
-                        hideLabel:false,
-                        width:100,
-                        height:20,
-                        ref:'../cmbActive',
-                        id:'statusid',
-                        value: 1,
-                    }),
-
-                                                                     {
-                            xtype: 'combo',
-                            typeAhead: true,
-                            triggerAction: 'all',
-                            lazyRender:true,
-                            mode: 'local',                            
-                            fieldLabel: 'Rule',
-                            store: jun.rztSecurityRoles,
-                            hiddenName:'security_roles_id',
-                            hiddenValue:'security_roles_id',
-                            valueField: 'id',
-                            //displayField: 'SecurityRoles::model()->representingColumn()',
-                            displayField: 'role',
-                            //allowBlank:false,
                             anchor: '100%'
                         }, 
                                                    
@@ -136,7 +101,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
-        jun.UsersWin.superclass.initComponent.call(this);
+        jun.SecurityRolesWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
@@ -156,14 +121,14 @@ jun.UsersWin = Ext.extend(Ext.Window, {
      
             if(this.modez == 1 || this.modez== 2) {
                     
-                    urlz= 'general/Users/update/id/' + this.id;
+                    urlz= 'general/SecurityRoles/update/id/' + this.id;
                     
                 } else {
                     
-                    urlz= 'general/Users/create/';
+                    urlz= 'general/SecurityRoles/create/';
                 }
              
-            Ext.getCmp('form-Users').getForm().submit({
+            Ext.getCmp('form-SecurityRoles').getForm().submit({
                 url:urlz,                
                 /*
                 params:{                                  
@@ -176,7 +141,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                 scope: this,
 
                 success: function(f,a){
-                    jun.rztUsers.reload();
+                    jun.rztSecurityRoles.reload();
                     
                     var response = Ext.decode(a.response.responseText);
          
@@ -189,7 +154,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                             Ext.MessageBox.alert("Pelayanan",response.data.msg);
                         }
                         if(this.modez == 0){
-                            Ext.getCmp('form-Users').getForm().reset();
+                            Ext.getCmp('form-SecurityRoles').getForm().reset();
                         }
                     }
                     
