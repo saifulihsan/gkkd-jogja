@@ -19,9 +19,10 @@ global $systypes_array, $bank_account_types, $bank_transfer_types,
 	$quick_actions, $quick_entry_types, $stock_types, $tag_types;
 
 $systypes_array = array (
-	ST_JOURNAL => _("Journal Entry"),
-	ST_BANKPAYMENT => _("Bank Payment"),
-	ST_BANKDEPOSIT => _("Bank Deposit"),
+    KAS_MASUK => "Kas Masuk",
+	KAS_KELUAR => "Kas Keluar",
+	ANGGARAN => "Anggaran",
+
 	ST_BANKTRANSFER => _("Funds Transfer"),
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
@@ -55,9 +56,9 @@ $systypes_array = array (
 	);
 
 $type_shortcuts = array(
-	ST_JOURNAL => _("GJ"), // general journal
-	ST_BANKPAYMENT => _("BP"),
-	ST_BANKDEPOSIT => _("BD"),
+	KAS_MASUK => "KM", // general journal
+	KAS_KELUAR => "KK",
+	ANGGARAN => "AG",
 	ST_BANKTRANSFER => _("BT"),
 	ST_SALESINVOICE => _("SI"),
 	ST_CUSTCREDIT => _("CN"),

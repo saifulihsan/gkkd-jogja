@@ -20,24 +20,9 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                 ref:'formz',
                 border:false,
                 items:[
-//                                                                                     {
-//                            xtype: 'combo',
-//                            typeAhead: true,
-//                            triggerAction: 'all',
-//                            lazyRender:true,
-//                            mode: 'local',
-//                            fieldLabel: 'pah_anggaran_id',
-//                            store: jun.rztPahAnggaran,
-//                            hiddenName:'pah_anggaran_id',
-//                            hiddenValue:'pah_anggaran_id',
-//                            valueField: 'id',
-//                            //displayField: 'PahAnggaran::model()->representingColumn()',
-//                            displayField: 'doc_ref',
-//                            //allowBlank:false,
-//                            anchor: '100%'
-//                        },
                     {
                         xtype:'combo',
+                        ref:'../cmbCodeRek',
                         typeAhead:true,
                         triggerAction:'all',
                         lazyRender:true,
@@ -49,18 +34,13 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                         valueField:'account_code',
                         matchFieldWidth:false,
                         itemSelector: 'div.search-item',
-                        //hideTrigger:true,
-                        //pageSize:10,
                         tpl:new Ext.XTemplate(
                             '<tpl for="."><div class="search-item">',
                             '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
                             '</div></tpl>'
                         ),
-                        //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
                         listWidth:300,
-
-                        //allowBlank:false,
                         anchor:'100%'
                     },
                     {
@@ -72,7 +52,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                         id:'amountid',
                         ref:'../amount',
                         maxLength:30,
-                        //allowBlank: 1,
+                        value:0,
                         anchor:'100%'
                     },
 
@@ -115,54 +95,69 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
     },
 
     saveForm:function () {
-        var urlz;
-
-        if (this.modez == 1 || this.modez == 2) {
-
-            urlz = 'PondokHarapan/PahAnggaranDetil/update/id/' + this.id;
-
-        } else {
-
-            urlz = 'PondokHarapan/PahAnggaranDetil/create/';
+        if(jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbCodeRek.value) > -1){
+            Ext.MessageBox.show({
+                title:'Error',
+                msg:'Kode rekening sudah di dipakai!',
+                buttons: Ext.MessageBox.OK,
+                icon:Ext.MessageBox.ERROR
+            });
+            return;
         }
-
-        Ext.getCmp('form-PahAnggaranDetil').getForm().submit({
-            url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
-            timeOut:1000,
-            waitMsg:'Sedang Proses',
-            scope:this,
-
-            success:function (f, a) {
-                jun.rztPahAnggaranDetil.reload();
-
-                var response = Ext.decode(a.response.responseText);
-
-                if (this.closeForm) {
-
-                    this.close();
-
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-PahAnggaranDetil').getForm().reset();
-                    }
-                }
-
-            },
-
-            failure:function (f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-            }
-
+        var detil = jun.rztPahAnggaranDetil.recordType;
+        var e = new detil({
+            pah_chart_master_account_code:this.cmbCodeRek.value,
+            amount:parseFloat(this.amount.value)
         });
+
+        jun.rztPahAnggaranDetil.insert(0, e);
+        jun.rztPahAnggaranDetil.refreshData();
+        this.close();
+
+
+//        var urlz;
+//
+//        if (this.modez == 1 || this.modez == 2) {
+//
+//            urlz = 'PondokHarapan/PahAnggaranDetil/update/id/' + this.id;
+//
+//        } else {
+//
+//            urlz = 'PondokHarapan/PahAnggaranDetil/create/';
+//        }
+
+//        Ext.getCmp('form-PahAnggaranDetil').getForm().submit({
+//            url:urlz,
+//
+//            timeOut:1000,
+//            waitMsg:'Sedang Proses',
+//            scope:this,
+//
+//            success:function (f, a) {
+//                jun.rztPahAnggaranDetil.reload();
+//
+//                var response = Ext.decode(a.response.responseText);
+//
+//                if (this.closeForm) {
+//
+//                    this.close();
+//
+//                } else {
+//                    if (response.data != undefined) {
+//                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
+//                    }
+//                    if (this.modez == 0) {
+//                        Ext.getCmp('form-PahAnggaranDetil').getForm().reset();
+//                    }
+//                }
+//
+//            },
+//
+//            failure:function (f, a) {
+//                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+//            }
+//
+//        });
 
     },
 

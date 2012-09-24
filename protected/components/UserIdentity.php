@@ -41,7 +41,7 @@ class UserIdentity extends CUserIdentity
         else
         {
                 $this->_id = $user->id;
-                //$this->_id = 0;
+                $this->_model = $user;
                 $this->username = $user->user_id;
                 //$this->username = 'admin';
                 $this->errorCode = self::ERROR_NONE;
