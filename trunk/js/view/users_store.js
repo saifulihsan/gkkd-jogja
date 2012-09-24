@@ -10,10 +10,10 @@ jun.Usersstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'id'},
 {name:'user_id'},
 {name:'password'},
-{name:'role_id'},
 {name:'last_visit_date'},
 {name:'inactive'},
 {name:'nij'},
+{name:'security_roles_id'},
                 
             ]
         }, cfg));

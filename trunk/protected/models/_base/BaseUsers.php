@@ -12,16 +12,11 @@
  * @property integer $id
  * @property string $user_id
  * @property string $password
+ * @property integer $role_id
  * @property string $last_visit_date
  * @property integer $inactive
  * @property string $nij
- * @property integer $security_roles_id
  *
- * @property PahAktivitas[] $pahAktivitases
- * @property PahAnggaran[] $pahAnggarans
- * @property PahKasKeluar[] $pahKasKeluars
- * @property PahKasMasuk[] $pahKasMasuks
- * @property SecurityRoles $securityRoles
  * @property Jemaat $nij0
  */
 abstract class BaseUsers extends GxActiveRecord {
@@ -40,24 +35,19 @@ abstract class BaseUsers extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('nij, security_roles_id', 'required'),
-			array('inactive, security_roles_id', 'numerical', 'integerOnly'=>true),
+			array('nij', 'required'),
+			array('role_id, inactive', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>60),
 			array('password', 'length', 'max'=>100),
 			array('nij', 'length', 'max'=>20),
 			array('last_visit_date', 'safe'),
-			array('user_id, password, last_visit_date, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, user_id, password, last_visit_date, inactive, nij, security_roles_id', 'safe', 'on'=>'search'),
+			array('user_id, password, role_id, last_visit_date, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, user_id, password, role_id, last_visit_date, inactive, nij', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
-			'pahAktivitases' => array(self::HAS_MANY, 'PahAktivitas', 'users_id'),
-			'pahAnggarans' => array(self::HAS_MANY, 'PahAnggaran', 'users_id'),
-			'pahKasKeluars' => array(self::HAS_MANY, 'PahKasKeluar', 'users_id'),
-			'pahKasMasuks' => array(self::HAS_MANY, 'PahKasMasuk', 'users_id'),
-			'securityRoles' => array(self::BELONGS_TO, 'SecurityRoles', 'security_roles_id'),
 			'nij0' => array(self::BELONGS_TO, 'Jemaat', 'nij'),
 		);
 	}
@@ -72,10 +62,10 @@ abstract class BaseUsers extends GxActiveRecord {
 			'id' => Yii::t('app', 'ID'),
 			'user_id' => Yii::t('app', 'User'),
 			'password' => Yii::t('app', 'Password'),
+			'role_id' => Yii::t('app', 'Role'),
 			'last_visit_date' => Yii::t('app', 'Last Visit Date'),
 			'inactive' => Yii::t('app', 'Inactive'),
 			'nij' => Yii::t('app', 'Nij'),
-			'security_roles_id' => Yii::t('app', 'Security Roles'),
 		);
 	}
 
@@ -85,10 +75,10 @@ abstract class BaseUsers extends GxActiveRecord {
 		$criteria->compare('id', $this->id);
 		$criteria->compare('user_id', $this->user_id, true);
 		$criteria->compare('password', $this->password, true);
+		$criteria->compare('role_id', $this->role_id);
 		$criteria->compare('last_visit_date', $this->last_visit_date, true);
 		$criteria->compare('inactive', $this->inactive);
 		$criteria->compare('nij', $this->nij);
-		$criteria->compare('security_roles_id', $this->security_roles_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

@@ -24,11 +24,6 @@
 		<?php echo $form->error($model,'password'); ?>
 		</div><!-- row -->
 		<div class="span-8 last">
-		<?php echo $form->labelEx($model,'role_id'); ?>
-		<?php echo $form->textField($model, 'role_id'); ?>
-		<?php echo $form->error($model,'role_id'); ?>
-		</div><!-- row -->
-		<div class="span-8 last">
 		<?php echo $form->labelEx($model,'last_visit_date'); ?>
 		<?php $form->widget('zii.widgets.jui.CJuiDatePicker', array(
 			'model' => $model,
@@ -52,6 +47,11 @@
 		<?php echo $form->labelEx($model,'nij'); ?>
 		<?php echo $form->dropDownList($model, 'nij', GxHtml::listDataEx(Jemaat::model()->findAllAttributes(null, true))); ?>
 		<?php echo $form->error($model,'nij'); ?>
+		</div><!-- row -->
+		<div class="span-8 last">
+		<?php echo $form->labelEx($model,'security_roles_id'); ?>
+		<?php echo $form->dropDownList($model, 'security_roles_id', GxHtml::listDataEx(SecurityRoles::model()->findAllAttributes(null, true))); ?>
+		<?php echo $form->error($model,'security_roles_id'); ?>
 		</div><!-- row -->
 <!-- june -->
 <div class="row"></div>

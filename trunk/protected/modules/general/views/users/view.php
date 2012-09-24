@@ -21,13 +21,17 @@ $this->menu=array(
 'id',
 'user_id',
 'password',
-'role_id',
 'last_visit_date',
 'inactive',
 array(
 			'label' => 'Jemaat',
 			'type' => 'raw',
 			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->nij0)), array('jemaat/view', 'id' => GxActiveRecord::extractPkValue($model->nij0, true))),
+			),
+array(
+			'label' => 'SecurityRoles',
+			'type' => 'raw',
+			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->securityRoles)), array('securityRoles/view', 'id' => GxActiveRecord::extractPkValue($model->securityRoles, true))),
 			),
 	),
         'itemTemplate' => "<tr class=\"{class}\"><td style=\"width: 120px\"><b>{label}</b></td><td>{value}</td></tr>\n",

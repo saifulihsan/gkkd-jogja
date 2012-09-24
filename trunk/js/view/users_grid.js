@@ -30,13 +30,6 @@ jun.UsersGrid=Ext.extend(Ext.grid.GridPanel ,{
 			width:100
 		},
                                 {
-			header:'role_id',
-			sortable:true,
-			resizable:true,                        
-            dataIndex:'role_id',
-			width:100
-		},
-                                {
 			header:'last_visit_date',
 			sortable:true,
 			resizable:true,                        
@@ -50,12 +43,19 @@ jun.UsersGrid=Ext.extend(Ext.grid.GridPanel ,{
             dataIndex:'inactive',
 			width:100
 		},
-                		/*
-                {
+                                {
 			header:'nij',
 			sortable:true,
 			resizable:true,                        
             dataIndex:'nij',
+			width:100
+		},
+                		/*
+                {
+			header:'security_roles_id',
+			sortable:true,
+			resizable:true,                        
+            dataIndex:'security_roles_id',
 			width:100
 		},
                 		*/

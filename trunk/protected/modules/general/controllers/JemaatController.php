@@ -14,11 +14,15 @@ class JemaatController extends GxController {
 
 		
 		if (isset($_POST) && !empty($_POST)) {
-                        foreach($_POST as $k=>$v){
-                            $_POST['Jemaat'][$k] = $v;
-                        }
+           foreach($_POST as $k=>$v){
+               if ($k=='real_name')
+               {
+                   $v=ucwords($v);
+               }
+                $_POST['Jemaat'][$k] = $v;
+            }
 			$model->attributes = $_POST['Jemaat'];
-			
+
 
 			if ($model->save()) {
                             $status = true;                            
@@ -47,6 +51,10 @@ class JemaatController extends GxController {
 
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
+                            if ($k=='real_name')
+                            {
+                                $v=ucwords($v);
+                            }
                             $_POST['Jemaat'][$k] = $v;
                         }
 			$model->attributes = $_POST['Jemaat'];

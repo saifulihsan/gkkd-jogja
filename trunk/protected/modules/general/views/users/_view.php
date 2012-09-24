@@ -10,9 +10,6 @@
 	<?php echo GxHtml::encode($data->getAttributeLabel('password')); ?>:
 	<?php echo GxHtml::encode($data->password); ?>
 	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('role_id')); ?>:
-	<?php echo GxHtml::encode($data->role_id); ?>
-	<br />
 	<?php echo GxHtml::encode($data->getAttributeLabel('last_visit_date')); ?>:
 	<?php echo GxHtml::encode($data->last_visit_date); ?>
 	<br />
@@ -21,6 +18,9 @@
 	<br />
 	<?php echo GxHtml::encode($data->getAttributeLabel('nij')); ?>:
 		<?php echo GxHtml::encode(GxHtml::valueEx($data->nij0)); ?>
+	<br />
+	<?php echo GxHtml::encode($data->getAttributeLabel('security_roles_id')); ?>:
+		<?php echo GxHtml::encode(GxHtml::valueEx($data->securityRoles)); ?>
 	<br />
 
 </div>
