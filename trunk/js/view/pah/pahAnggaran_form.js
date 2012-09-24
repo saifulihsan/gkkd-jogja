@@ -222,6 +222,11 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBulan.on('select',this.oncmbBulanchange,this);
         this.periode_tahun.on('spin',this.onperiodetahunchange,this);
+        if (this.modez == 1 || this.modez == 2){
+
+        }else{
+            jun.rztPahAnggaranDetil.removeAll();
+        }
     },
 
     checkPeriodeAnggaran:function(){
@@ -301,38 +306,47 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
 
         Ext.getCmp('form-PahAnggaran').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
+            params:{
+                bulanStr:this.cmbBulan.getRawValue(),
+                detil: Ext.encode(Ext.pluck(jun.rztPahAnggaranDetil.data.items, 'data')),
+            },
             timeOut:1000,
             waitMsg:'Sedang Proses',
             scope:this,
 
             success:function (f, a) {
-                jun.rztPahAnggaran.reload();
+
 
                 var response = Ext.decode(a.response.responseText);
 
-                if (this.closeForm) {
 
-                    this.close();
-
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-PahAnggaran').getForm().reset();
-                    }
+                if (this.modez == 0) {
+                    Ext.MessageBox.show({
+                        title:'Anggaran',
+                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
+                            " berhasil disimpan.<br /> Ref. Dokumen : " + response.id,
+                        buttons: Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-PahAnggaran').getForm().reset();
                 }
-
+                jun.rztPahAnggaran.reload();
+                this.close();
             },
 
             failure:function (f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                var response = Ext.decode(a.response.responseText);
+                if (response != undefined) {
+                    Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                }else{
+                    Ext.MessageBox.show({
+                        title:'Anggaran',
+                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
+                            " gagal disimpan.<br /> Alasan : " + response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                }
             }
 
         });

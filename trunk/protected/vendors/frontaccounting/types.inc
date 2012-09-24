@@ -12,10 +12,11 @@
 //----------------------------------------------------------------------------------
 //	FrontAccounting system transaction types
 //
-define('ST_JOURNAL', 0);
+define('KAS_MASUK', 0);
 
-define('ST_BANKPAYMENT', 1);
-define('ST_BANKDEPOSIT', 2);
+define('KAS_KELUAR', 1);
+define('ANGGARAN', 2);
+
 define('ST_BANKTRANSFER', 4);
 
 define('ST_SALESINVOICE', 10);

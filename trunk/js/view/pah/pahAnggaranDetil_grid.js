@@ -1,3 +1,10 @@
+var renderChartMaster = function (val, meta, record) {
+    var store = jun.rztPahChartMaster;
+    var index = store.find('account_code', val);
+    var record = store.getAt(index);
+    return record.data.account_name;
+}
+
 jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"PahAnggaranDetil",
     id:'docs-jun.PahAnggaranDetilGrid',
@@ -25,36 +32,29 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
             header:'Kode Rekening',
             sortable:true,
             resizable:true,
-            dataIndex:'kode_rekening',
+            dataIndex:'pah_chart_master_account_code',
             width:50
         },
         {
             header:'Nama Rekening',
             sortable:true,
             resizable:true,
-            dataIndex:'kode_rekening',
-            //width:100
+            dataIndex:'pah_chart_master_account_code',
+            renderer:renderChartMaster,
         },
         {
             header:'Jumlah',
             sortable:true,
             resizable:true,
             dataIndex:'amount',
+            align:'right',
+            renderer: Ext.util.Format.numberRenderer('0,0'),
             width:100
         },
 
     ],
     initComponent:function () {
         this.store = jun.rztPahAnggaranDetil;
-//        this.bbar = {
-//            items: [
-//           {
-//            xtype: 'paging',
-//            store: this.store,
-//            displayInfo: true,
-//            pageSize: 10
-//           }]
-//        };
 
         this.tbar = {
             xtype:'toolbar',
@@ -109,14 +109,14 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
             Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
             return;
         }
-        var idz = selectedz.json.id;
+        var idz = selectedz.data.pah_chart_master_account_code;
         var form = new jun.PahAnggaranDetilWin({modez:1, id:idz});
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
     },
 
     deleteRec:function () {
-        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
+        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus alokasi ini?', this.deleteRecYes, this);
     },
 
     deleteRecYes:function (btn) {
@@ -128,25 +128,13 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
 
         // Check is list selected
         if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih alokasi");
             return;
         }
 
-        Ext.Ajax.request({
-            waitMsg:'Please Wait',
-            url:'PondokHarapan/PahAnggaranDetil/delete/id/' + record.json.id,
-            //url: 'index.php/api/PahAnggaranDetil/delete/' + record[0].json.nosjp,
-            method:'POST',
-
-            success:function (response) {
-                jun.rztPahAnggaranDetil.reload();
-                Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
-
-            },
-            failure:function (response) {
-                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
-            }
-        });
+        var index = this.store.find('pah_chart_master_account_code', record.data.pah_chart_master_account_code);
+        this.store.removeAt(index);
+        this.store.refreshData();
 
     }
 })
