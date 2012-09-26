@@ -85,7 +85,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
+        jun.rztPahChartMaster.reload();
     },
 
     onActivate:function () {

@@ -19,4 +19,4 @@ jun.PahChartMasterstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahChartMaster = new jun.PahChartMasterstore();
-jun.rztPahChartMaster.load();
+

@@ -24,4 +24,4 @@ jun.PahKasMasukstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahKasMasuk = new jun.PahKasMasukstore();
-jun.rztPahKasMasuk.load();
+

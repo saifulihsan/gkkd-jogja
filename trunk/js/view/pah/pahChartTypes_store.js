@@ -18,4 +18,4 @@ jun.PahChartTypesstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahChartTypes = new jun.PahChartTypesstore();
-jun.rztPahChartTypes.load();
+

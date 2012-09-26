@@ -17,4 +17,3 @@ jun.PahSubAktivitasstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahSubAktivitas = new jun.PahSubAktivitasstore();
-jun.rztPahSubAktivitas.load();

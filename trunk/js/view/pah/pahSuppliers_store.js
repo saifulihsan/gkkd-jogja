@@ -31,4 +31,4 @@ jun.PahSuppliersstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahSuppliers = new jun.PahSuppliersstore();
-jun.rztPahSuppliers.load();
+

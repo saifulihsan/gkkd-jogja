@@ -26,4 +26,4 @@ jun.PahBankAccountsstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahBankAccounts = new jun.PahBankAccountsstore();
-jun.rztPahBankAccounts.load();
+

@@ -1,3 +1,34 @@
+checkPeriodeAnggaran = function (){
+    //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
+    Ext.Ajax.request({
+        waitMsg:'Sedang Proses',
+        url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
+        params:{
+            bulan:Ext.getCmp('periode_bulanid').getValue(),
+            tahun:Ext.get('periode_tahunid').getValue(),
+        },
+        method:'POST',
+
+        success:function (f, a) {
+            var response = Ext.decode(f.responseText);
+            if (response.success == false) {
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                });
+            }
+        },
+        failure:function (f, a) {
+            Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+
+        }
+    });
+}
+
+//var proxy = new Ext.data.HttpProxy({ url: "search-ajax.aspx" });
+
 jun.PahAnggaranWin = Ext.extend(Ext.Window, {
     title:'Anggaran',
     modez:1,
@@ -55,6 +86,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         height:20,
                         ref:'../cmbBulan',
                         id:'periode_bulanid',
+
                     }),
                     {
                         xtype:'label',
@@ -71,12 +103,13 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         id:'periode_tahunid',
                         ref:'../periode_tahun',
                         maxLength:4,
-                        minValue: 2000,
-                        maxValue: 3000,
-                        defaultValue: 2012,
+                        minValue:2000,
+                        maxValue:3000,
+                        defaultValue:2012,
                         x:465,
                         y:2,
-                        width:100
+                        width:100,
+                        onBlur:checkPeriodeAnggaran,
                         //incrementValue: 1,
                         //anchor:'100%'
                     },
@@ -187,7 +220,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                     new jun.PahAnggaranDetilGrid({
                         x:5,
                         y:122,
-                        height: 200,
+                        height:200,
                         frameHeader:false,
                         header:false,
                     })
@@ -220,54 +253,31 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        this.cmbBulan.on('select',this.oncmbBulanchange,this);
-        this.periode_tahun.on('spin',this.onperiodetahunchange,this);
-        if (this.modez == 1 || this.modez == 2){
-
-        }else{
-            jun.rztPahAnggaranDetil.removeAll();
+        this.cmbBulan.on('select', this.oncmbBulanchange, this);
+        this.periode_tahun.on('spin', this.onperiodetahunchange, this);
+        jun.rztPahAnggaranDetil.removeAll();
+        jun.rztPahChartMaster.reload();
+        if (this.modez == 1 || this.modez == 2) {
+            jun.rztPahAnggaranDetil.proxy = new Ext.data.HttpProxy({ url: 'PondokHarapan/PahAnggaranDetil/index/id/' +this.id+ '/?output=json' });
+            jun.rztPahAnggaranDetil.load();
         }
+        var dt = new Date();
+        this.periode_tahun.setValue(dt.format('Y'));
+        this.cmbBulan.setValue(dt.format('n'));
     },
 
-    checkPeriodeAnggaran:function(){
-        //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
-        Ext.Ajax.request({
-            waitMsg: 'Sedang Proses',
-            url: 'PondokHarapan/PahAnggaran/IsPeriodeExist/',
-            params:{
-                bulan:this.cmbBulan.value,
-                tahun:this.periode_tahun.defaultValue,
-            },
-            method: 'POST',
 
-            success: function(f, a){
 
-            },
-            failure: function(f, a){
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title:'Warning',
-                    msg:response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon:Ext.MessageBox.ERROR
-                });
-            }
-        });
+    onperiodetahunchange:function () {
+        this.periode_tahun.focus();
     },
 
-    onperiodetahunchange:function (){
-        this.checkPeriodeAnggaran();
-    },
-
-    oncmbBulanchange:function (){
-        this.checkPeriodeAnggaran();
+    oncmbBulanchange:function () {
+        checkPeriodeAnggaran();
     },
 
     onActivate:function () {
         this.btnSave.hidden = false;
-        var dt = new Date();
-        this.periode_tahun.setValue(dt.format('Y'));
-        this.cmbBulan.setValue(dt.format('n'));
     },
 
     saveForm:function () {
@@ -279,26 +289,30 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
 
         } else {
             Ext.Ajax.request({
-                waitMsg: 'Sedang Proses',
-                url: 'PondokHarapan/PahAnggaran/IsPeriodeExist/',
+                waitMsg:'Sedang Proses',
+                url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
                 params:{
                     bulan:this.cmbBulan.value,
                     tahun:this.periode_tahun.defaultValue,
                 },
-                method: 'POST',
+                method:'POST',
 
-                success: function(f, a){
+                success:function (f, a) {
+                    var response = Ext.decode(f.responseText);
+
+                    if (response.success == false) {
+                        Ext.MessageBox.show({
+                            title:'Warning',
+                            msg:response.msg,
+                            buttons:Ext.MessageBox.OK,
+                            icon:Ext.MessageBox.WARNING
+                        });
+                        return;
+                    }
 
                 },
-                failure: function(f, a){
-                    var response = Ext.decode(f.responseText);
-                    Ext.MessageBox.show({
-                        title:'Warning',
-                        msg:response.msg,
-                        buttons: Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.ERROR
-                    });
-                    return;
+                failure:function (f, a) {
+                    Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
                 }
             });
             urlz = 'PondokHarapan/PahAnggaran/create/';
@@ -308,7 +322,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             url:urlz,
             params:{
                 bulanStr:this.cmbBulan.getRawValue(),
-                detil: Ext.encode(Ext.pluck(jun.rztPahAnggaranDetil.data.items, 'data')),
+                detil:Ext.encode(Ext.pluck(jun.rztPahAnggaranDetil.data.items, 'data')),
             },
             timeOut:1000,
             waitMsg:'Sedang Proses',
@@ -325,7 +339,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         title:'Anggaran',
                         msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
                             " berhasil disimpan.<br /> Ref. Dokumen : " + response.id,
-                        buttons: Ext.MessageBox.OK,
+                        buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.INFO
                     });
                     Ext.getCmp('form-PahAnggaran').getForm().reset();
@@ -338,12 +352,12 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 var response = Ext.decode(a.response.responseText);
                 if (response != undefined) {
                     Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-                }else{
+                } else {
                     Ext.MessageBox.show({
                         title:'Anggaran',
                         msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
                             " gagal disimpan.<br /> Alasan : " + response.msg,
-                        buttons: Ext.MessageBox.OK,
+                        buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
                 }
