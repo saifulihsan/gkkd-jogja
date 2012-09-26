@@ -6,7 +6,7 @@
  * Time: 7:16 PM
  * To change this template use File | Settings | File Templates.
  */
-class GlTransHelper
+class PahGlTransCom
 {
     static function get_sql_for_journal_inquiry($from,$to){
         $rows = Yii::app()->db->createCommand()

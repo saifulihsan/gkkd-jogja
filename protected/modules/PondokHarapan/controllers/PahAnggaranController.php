@@ -9,6 +9,25 @@ class PahAnggaranController extends GxController {
 		));
 	}
 
+    public function actionsGetSaldo(){
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)){
+            $bulan = $_POST['bulan'];
+            $tahun = $_POST['tahun'];
+            if($bulan === '' || $tahun === '')
+            {
+                echo CJSON::encode(array(
+                    'success'=>false,
+                    'msg'=>'Bulan atau Tahun periode tidak boleh kosong.'));
+                Yii::app()->end();
+            }
+            $bank_act = PahSysTypesCom::defaultBankOnHand();
+
+
+        }
+    }
+
     public function actionIsPeriodeExist(){
         if (!Yii::app()->request->isAjaxRequest)
             return;

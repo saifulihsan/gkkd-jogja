@@ -4,7 +4,7 @@
  * Date: 9/6/12
  * Time: 7:33 PM
  */
-class BankTransHelper
+class PahBankTransCom
 {
     static function get_balance_before_for_bank_account($bank_account, $from)
     {

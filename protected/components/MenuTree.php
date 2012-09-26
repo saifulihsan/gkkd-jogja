@@ -141,6 +141,11 @@ class MenuTree
                             leaf: true
                         }]
                     },
+                    {
+                            text: 'Setting',
+                            id: 'jun.PahSysGrid',
+                            leaf: true
+                        },
                     ]
                   }";
         return $menu;
