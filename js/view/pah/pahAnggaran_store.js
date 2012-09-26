@@ -20,4 +20,4 @@ jun.PahAnggaranstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahAnggaran = new jun.PahAnggaranstore();
-jun.rztPahAnggaran.load();
+

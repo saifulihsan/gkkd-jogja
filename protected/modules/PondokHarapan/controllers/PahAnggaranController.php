@@ -79,6 +79,7 @@ class PahAnggaranController extends GxController {
                 }
 
                 //$anggaran->pahAnggaranDetils = $ag_detil;
+                $ref->save(ANGGARAN,$anggaran->id,$docref);
                 $transaction->commit();
                 $status = true;
             }
@@ -168,12 +169,15 @@ class PahAnggaranController extends GxController {
 				));
 	}
 
-	public function actionDelete($id) {
-		if (Yii::app()->request->isPostRequest) {
-			$this->loadModel($id, 'PahAnggaran')->delete();
+	public function actionDelete() {
 
-			if (!Yii::app()->request->isAjaxRequest)
-				$this->redirect(array('admin'));
+         if (Yii::app()->request->isPostRequest) {
+             if (isset($_POST) && !empty($_POST)){
+                $id = $_POST['id_anggaran'];
+			    $this->loadModel($id, 'PahAnggaran')->delete();
+//			if (!Yii::app()->request->isAjaxRequest)
+//				$this->redirect(array('admin'));
+             }
 		} else
 			throw new CHttpException(400,
 					Yii::t('app', 'Invalid request. Please do not repeat this request again.'));

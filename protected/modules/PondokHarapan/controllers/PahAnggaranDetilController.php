@@ -105,7 +105,7 @@ class PahAnggaranDetilController extends GxController {
 		));
 	}
 
-	public function actionIndex() {
+	public function actionIndex($id) {
                 if(isset($_POST['limit'])) {
                         $limit = $_POST['limit'];
                 } else {
@@ -124,6 +124,7 @@ class PahAnggaranDetilController extends GxController {
                 $criteria = new CDbCriteria();
                 $criteria->limit = $limit;
                 $criteria->offset = $start;
+                $criteria->addCondition("pah_anggaran_id =".$id);
                 $model = PahAnggaranDetil::model()->findAll($criteria);
                 $total = PahAnggaranDetil::model()->count($criteria);
                 

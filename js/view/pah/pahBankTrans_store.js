@@ -23,4 +23,4 @@ jun.PahBankTransstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahBankTrans = new jun.PahBankTransstore();
-jun.rztPahBankTrans.load();
+

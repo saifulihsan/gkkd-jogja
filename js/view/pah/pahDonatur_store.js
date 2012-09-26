@@ -17,4 +17,4 @@ jun.PahDonaturstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztPahDonatur = new jun.PahDonaturstore();
-jun.rztPahDonatur.load();
+

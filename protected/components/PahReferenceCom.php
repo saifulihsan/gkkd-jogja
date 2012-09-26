@@ -28,6 +28,7 @@ class PahReferenceCom
         $criteria->addCondition("type_id =".$type);
         $model = PahSysTypes::model()->find($criteria);
         $model->next_reference = trim($reference);
+        $model->save();
 //        $sql = "UPDATE ".TB_PREF."sys_types SET next_reference=" . db_escape(trim($reference))
 //            . " WHERE type_id = ".db_escape($type);
 //
@@ -56,9 +57,9 @@ class PahReferenceCom
 
     function save($type, $id, $reference)
     {
-        update_reference($type, $id, $reference); // store in refs table
+        $this->update_reference($type, $id, $reference); // store in refs table
         $next = $this->_increment($reference);	// increment default
-        save_next_reference($type, $next);
+        $this->save_next_reference($type, $next);
 
 //        if ($reference == $this->get_next($type)) { // if reference was not changed from default
 //            $next = $this->_increment($reference);	// increment default

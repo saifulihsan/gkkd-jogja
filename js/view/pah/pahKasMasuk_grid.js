@@ -136,6 +136,7 @@ jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
 //                this.btnEdit.on('Click', this.loadEditForm, this);
 //                this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+        jun.rztPahKasMasuk.load();
     },
 
     getrow:function (sm, idx, r) {
