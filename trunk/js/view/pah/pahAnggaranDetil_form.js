@@ -33,7 +33,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                         hiddenValue:'pah_chart_master_account_code',
                         valueField:'account_code',
                         matchFieldWidth:false,
-                        itemSelector: 'div.search-item',
+                        itemSelector:'div.search-item',
                         tpl:new Ext.XTemplate(
                             '<tpl for="."><div class="search-item">',
                             '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
@@ -95,24 +95,38 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
     },
 
     saveForm:function () {
-        if(jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbCodeRek.value) > -1){
+        var index_kode = jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbCodeRek.value);
+        if (index_kode > -1 && this.modez == 0) {
             Ext.MessageBox.show({
                 title:'Error',
                 msg:'Kode rekening sudah di dipakai!',
-                buttons: Ext.MessageBox.OK,
+                buttons:Ext.MessageBox.OK,
                 icon:Ext.MessageBox.ERROR
             });
             return;
         }
+
+        if (Ext.getCmp('totalangblmid').getValue() < this.amount.value) {
+            Ext.MessageBox.show({
+                title:'Error',
+                msg:'Alokasi melebihi anggaran!',
+                buttons:Ext.MessageBox.OK,
+                icon:Ext.MessageBox.ERROR
+            });
+            return;
+        }
+
+        if(this.modez > 0)
+            jun.rztPahAnggaranDetil.removeAt(index_kode);
         var detil = jun.rztPahAnggaranDetil.recordType;
         var e = new detil({
             pah_chart_master_account_code:this.cmbCodeRek.value,
             amount:parseFloat(this.amount.value)
         });
-
         jun.rztPahAnggaranDetil.insert(0, e);
         jun.rztPahAnggaranDetil.refreshData();
-        this.close();
+        if (this.closeForm)
+            this.close();
 
 
 //        var urlz;

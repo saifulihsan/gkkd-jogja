@@ -6,8 +6,5 @@
  */
 class PahSysTypesCom
 {
-    static function defaultBankOnHand(){
-        $model = PahSysTypes::model()->findByPk('default_onhand_act');
-        return $model->value;
-    }
+
 }

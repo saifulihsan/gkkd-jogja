@@ -11,7 +11,7 @@ class PahBankTransCom
         $db = PahBankTrans::model()->getDbConnection();
         $total = $db->createCommand("SELECT SUM(amount)
         FROM pah_bank_trans where bank_act=$bank_account AND trans_date < '$from'")->queryScalar();
-        return $total;
+        return $total == null ? 0 : $total;
     }
 
     static function get_bank_trans_for_bank_account($bank_account, $from, $to)

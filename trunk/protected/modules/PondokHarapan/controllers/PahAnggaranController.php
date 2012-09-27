@@ -9,7 +9,7 @@ class PahAnggaranController extends GxController {
 		));
 	}
 
-    public function actionsGetSaldo(){
+    public function actionGetSaldo(){
         if (!Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)){
@@ -22,9 +22,19 @@ class PahAnggaranController extends GxController {
                     'msg'=>'Bulan atau Tahun periode tidak boleh kosong.'));
                 Yii::app()->end();
             }
-            $bank_act = PahSysTypesCom::defaultBankOnHand();
+            $pref = new PahSysCom();
+            $bank_act = $pref->defaultBankOnHand();
+            $sisa_anggaran = PahBankTransCom::get_balance_before_for_bank_account($bank_act,$tahun."-".$bulan."-1");
+            $total_saldo = PahBankTransCom::get_balance_before_for_bank_account($bank_act,$tahun."-".($bulan+1)."-1");
+            $saldo_skrg = $total_saldo - $sisa_anggaran;
+            echo CJSON::encode(array(
+                'success'=>true,
+                'sisa'=>$sisa_anggaran,
+                'current' => $saldo_skrg,
+                'total' => $total_saldo
+                ));
 
-
+            Yii::app()->end();
         }
     }
 
@@ -66,7 +76,7 @@ class PahAnggaranController extends GxController {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
             $bulanStr = $_POST['bulanStr'];
-            $bulan = $_POST['_month'];
+            $bulan = $_POST['periode_bulan'];
             $tahun = $_POST['periode_tahun'];
             $detils = CJSON::decode($_POST['detil']);
             require_once(Yii::app()->basePath. '/vendors/frontaccounting/ui.inc');
@@ -121,41 +131,68 @@ class PahAnggaranController extends GxController {
             Yii::app()->end();
 
         }
-
-
-//        return;
-//		$model = new PahAnggaran;
-//		if (isset($_POST) && !empty($_POST)) {
-//                        foreach($_POST as $k=>$v){
-//                            $_POST['PahAnggaran'][$k] = $v;
-//                        }
-//			$model->attributes = $_POST['PahAnggaran'];
-//
-//
-//			if ($model->save()) {
-//                            $status = true;
-//                        } else {
-//                            $status = false;
-//                        }
-//
-//                        if (Yii::app()->request->isAjaxRequest)
-//                        {
-//                            echo CJSON::encode(array(
-//                                'success'=>$status,
-//                                'id'=>$model->id));
-//                            Yii::app()->end();
-//
-//                        } else
-//                        {
-//                            $this->redirect(array('view', 'id' => $model->id));
-//			}
-//		}
-//
-//		$this->render('create', array( 'model' => $model));
 	}
 
-	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'PahAnggaran');
+	public function actionUpdate() {
+
+
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)){
+            $status = false;
+            $msg = 'Anggaran berhasil disimpan.';
+            $bulanStr = $_POST['bulanStr'];
+            $bulan = $_POST['periode_bulan'];
+            $tahun = $_POST['periode_tahun'];
+            $detils = CJSON::decode($_POST['detil']);
+            $id = $_POST['id'];
+            require_once(Yii::app()->basePath. '/vendors/frontaccounting/ui.inc');
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $anggaran = PahAnggaran::model()->findByPk($id);
+                PahAnggaranDetil::model()->deleteAll('pah_anggaran_id = ?',array($id));
+
+                $docref = $anggaran->doc_ref;
+                $anggaran->trans_date = Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
+                $anggaran->users_id = Yii::app()->user->getId();
+
+                $result = $anggaran->save();
+                $err = $anggaran->getErrors();
+
+                foreach($detils as $detil){
+                    $anggaran_detil = new PahAnggaranDetil;
+                    $_POST['PahAnggaranDetil']['pah_chart_master_account_code'] = $detil['pah_chart_master_account_code'];
+                    $_POST['PahAnggaranDetil']['amount'] = $detil['amount'];
+                    $_POST['PahAnggaranDetil']['pah_anggaran_id'] = $anggaran->id;
+                    $anggaran_detil->attributes = $_POST['PahAnggaranDetil'];
+                    $anggaran_detil->save();
+                    $err_ang = $anggaran_detil->getErrors();
+                }
+
+                $transaction->commit();
+                $status = true;
+            }
+            catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
+
+
+//            $anggaran->withRelated->save(true,array('pahAnggaranDetils'));
+
+            echo CJSON::encode(array(
+                'success'=>$status,
+                'bulan'=>$bulanStr,
+                'tahun'=>$tahun,
+                'id'=>$docref,
+                'msg'=>$msg));
+
+            Yii::app()->end();
+        }
+
+
+            $model = $this->loadModel($id, 'PahAnggaran');
 
 
 		if (isset($_POST) && !empty($_POST)) {
@@ -234,9 +271,6 @@ class PahAnggaranController extends GxController {
                 } else {
                     $start = 0;
                 }
-		//$model = new PahAnggaran('search');
-		//$model->unsetAttributes();
-
                 $criteria = new CDbCriteria();
                 $criteria->limit = $limit;
                 $criteria->offset = $start;
