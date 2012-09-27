@@ -2,7 +2,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
     title:'Aktivitas',
     modez:1,
     width:400,
-    height:300,
+    height:350,
     layout:'form',
     modal:true,
     padding:5,
@@ -33,7 +33,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
 //                                    anchor: '100%'
 //                                },
                     {
-                        xtype:'datefield',
+                        xtype:'xdatefield',
                         ref:'../trans_date',
                         fieldLabel:'Tanggal Transaksi',
                         name:'trans_date',
@@ -57,18 +57,18 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
 
-                    {
-                        xtype:'xdatefield',
-                        ref:'../entry_time',
-                        fieldLabel:'entry_time',
-                        name:'entry_time',
-                        id:'entry_timeid',
-                        hidden:true,
-                        value: new Date(),
-                        //format:'d M Y',
-                        //allowBlank: 1,
-                        anchor:'100%'
-                    },
+//                    {
+//                        xtype:'xdatefield',
+//                        ref:'../entry_time',
+//                        fieldLabel:'entry_time',
+//                        name:'entry_time',
+//                        id:'entry_timeid',
+//                        hidden:true,
+//                        value: new Date(),
+//                        //format:'d M Y',
+//                        //allowBlank: 1,
+//                        anchor:'100%'
+//                    },
 
 
                     {
@@ -81,7 +81,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         store:jun.rztPahSuppliers,
                         hiddenName:'pah_suppliers_supplier_id',
                         hiddenValue:'pah_suppliers_supplier_id',
-                        valueField:'id',
+                        valueField:'supplier_id',
                         //displayField: 'PahSuppliers::model()->representingColumn()',
                         displayField:'supp_name',
                         //allowBlank:false,
@@ -234,7 +234,11 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
+        jun.rztPahBankAccounts.reload();
+        jun.rztPahSuppliers.reload();
+        jun.rztPahMemberbyName.reload();
+        jun.rztPahSubAktivitas.reload();
+        jun.rztPahChartMaster.reload();
     },
 
     onActivate:function () {

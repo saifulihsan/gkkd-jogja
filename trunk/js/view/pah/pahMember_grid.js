@@ -36,7 +36,7 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
                 		
 	],
 	initComponent: function(){
-	this.store = jun.rztPahMember;
+	this.store = jun.rztPahMemberbyName;
         this.bbar = {
             items: [
            {
@@ -78,7 +78,9 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
                 this.btnEdit.on('Click', this.loadEditForm, this);
                 this.btnDelete.on('Click', this.deleteRec, this);
                 this.getSelectionModel().on('rowselect', this.getrow, this);
-        jun.rztPahMemberbyName.load();
+                jun.rztPahMemberbyName.load();
+
+
 	},
         
         getrow: function(sm, idx, r){
