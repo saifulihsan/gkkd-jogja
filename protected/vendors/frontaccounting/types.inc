@@ -13,11 +13,10 @@
 //	FrontAccounting system transaction types
 //
 define('KAS_MASUK', 0);
-
 define('KAS_KELUAR', 1);
 define('ANGGARAN', 2);
-
-define('ST_BANKTRANSFER', 4);
+define('AKTIVITAS',3);
+define('BANKTRANSFER', 4);
 
 define('ST_SALESINVOICE', 10);
 define('ST_CUSTCREDIT', 11);

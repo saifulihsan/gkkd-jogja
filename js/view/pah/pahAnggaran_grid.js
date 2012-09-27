@@ -121,6 +121,7 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.PahAnggaranWin({modez:1, id:idz});
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
+        form.onloadrecordupdate();
     },
 
     deleteRec:function () {

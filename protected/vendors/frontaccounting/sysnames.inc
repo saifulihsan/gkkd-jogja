@@ -22,8 +22,9 @@ $systypes_array = array (
     KAS_MASUK => "Kas Masuk",
 	KAS_KELUAR => "Kas Keluar",
 	ANGGARAN => "Anggaran",
+    AKTIVITAS => "Aktivitas",
+	BANKTRANSFER => "Transfer Antar Kas/Bank",
 
-	ST_BANKTRANSFER => _("Funds Transfer"),
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
 	ST_CUSTPAYMENT => _("Customer Payment"),
