@@ -15,10 +15,16 @@ class PahAktivitasController extends GxController {
 		
 		if (isset($_POST) && !empty($_POST)) {
                         foreach($_POST as $k=>$v){
-                            $_POST['PahAktivitas'][$k] = $v;
+
+                        $_POST['PahAktivitas'][$k] = $v;
+
                         }
+
+           $_POST['PahAktivitas']['entry_time']=Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
+           $_POST['PahAktivitas']['users_id']=Yii::app()->user->getId();
+           $_POST['PahAktivitas']['doc_ref']='';
 			$model->attributes = $_POST['PahAktivitas'];
-			
+
 
 			if ($model->save()) {
                             $status = true;                            
@@ -40,6 +46,53 @@ class PahAktivitasController extends GxController {
 
 		$this->render('create', array( 'model' => $model));
 	}
+
+    /*public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)){
+            $status = false;
+            $msg = 'Aktifitas berhasil disimpan.';
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $model = new PahAktivitas;
+                $ref = new PahReferenceCom();
+                $docref = $ref->get_next_reference(ANGGARAN);
+                $_POST['PahAktivitas']['doc_ref'] = $docref;
+                $_POST['PahAktivitas']['periode_bulan'] = $bulan;
+                $_POST['PahAktivitas']['periode_tahun'] = $tahun;
+                $_POST['PahAktivitas']['lock'] = 0;
+                $_POST['PahAktivitas']['trans_date'] = '2012-09-24';
+                $_POST['PahAktivitas']['users_id'] = Yii::app()->user->getId();
+                $model->attributes = $_POST['PahAktivitas'];
+                $result = $model->save();
+                $err = $model->getErrors();
+                $transaction->commit();
+                $status = true;
+            }
+            catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
+
+
+
+
+            echo CJSON::encode(array(
+                'success'=>$status,
+                'bulan'=>$bulanStr,
+                'tahun'=>$tahun,
+                'id'=>$docref,
+                'msg'=>$msg));
+
+            Yii::app()->end();
+
+        }
+
+    }*/
+
+
 
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id, 'PahAktivitas');
