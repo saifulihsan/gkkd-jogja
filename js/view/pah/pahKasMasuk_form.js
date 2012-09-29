@@ -33,7 +33,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
 //                        anchor:'100%'
 //                    },
                     {
-                        xtype:'datefield',
+                        xtype:'xdatefield',
                         ref:'../trans_date',
                         fieldLabel:'Tanggal Transaksi',
                         name:'trans_date',
@@ -60,7 +60,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         triggerAction:'all',
                         lazyRender:true,
                         mode:'local',
-                        fieldLabel:'Diterima dari',
+                        fieldLabel:'Donatur',
                         store:jun.rztPahDonatur,
                         hiddenName:'pah_donatur_id',
                         hiddenValue:'pah_donatur_id',
@@ -85,7 +85,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%'
-                    },new jun.comboPayment ({
+                    },  new jun.comboPayment ({
                         fieldLabel:'Cara Bayar',
                         value:'Tunai',
                         anchor:'100%'
@@ -115,8 +115,9 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         ref:'../cmbkode'
                     },
+
                     {
-                        xtype:'numericfield',
+                        xtype:'textfield',
                         fieldLabel:'Jumlah',
                         hideLabel:false,
                         //hidden:true,
@@ -127,6 +128,18 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
+                   /* {
+                        xtype:'numericfield',
+                        fieldLabel:'Jumlah',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'amount',
+                        id:'amountid',
+                        ref:'../amount',
+                        maxLength:30,
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },*/
 //                    {
 //                        xtype:'datefield',
 //                        ref:'../entry_time',
@@ -196,7 +209,9 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
+        jun.rztPahDonatur.reload();
+        jun.rztPahBankAccounts.reload();
+        jun.rztPahChartMaster.reload();
     },
 
     onActivate:function () {
