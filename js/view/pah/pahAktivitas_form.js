@@ -177,7 +177,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
                     {
-                        xtype:'textfield',
+                        xtype:'numericfield',
                         fieldLabel:'Jumlah',
                         hideLabel:false,
                         //hidden:true,

@@ -19,4 +19,4 @@ jun.SecurityRolesstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztSecurityRoles = new jun.SecurityRolesstore();
-jun.rztSecurityRoles.load();
+//jun.rztSecurityRoles.load();

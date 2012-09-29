@@ -1,23 +1,4 @@
 <?php
-/**********************************************************************
-    Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
-	of the License, or (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
-***********************************************************************/
-//
-// FrontAccounting extension modules integration.
-// This file is included in session.inc even before session is started,
-// and includes hooks.php connector files from all installed extensions.
-// To make hooks active install_hooks() have to be called after interface
-// language is set.
-//
-// To find how various hooks are processed look into respective hook_* functions below.
-//
 class hooks {
 	var $module_name; // extension module name.
 

@@ -279,10 +279,10 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         if (this.modez == 1 || this.modez == 2) {
             jun.rztPahAnggaranDetil.proxy = new Ext.data.HttpProxy({ url:'PondokHarapan/PahAnggaranDetil/index/id/' + this.id + '/?output=json' });
             jun.rztPahAnggaranDetil.on({
-                'load':{fn: function(store, records, options){
+                'load':{fn:function (store, records, options) {
                     jun.rztPahAnggaranDetil.refreshData();
-                    }}
-                });
+                }}
+            });
             jun.rztPahAnggaranDetil.load();
             this.cmbBulan.readOnly = true;
             this.periode_tahun.readOnly = true;
@@ -365,11 +365,17 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             scope:this,
 
             success:function (f, a) {
-
-
                 var response = Ext.decode(a.response.responseText);
-
-
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title:'Anggaran',
+                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
+                            " gagal disimpan.<br /> Alasan : " + response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                    return;
+                }
                 if (this.modez == 0) {
                     Ext.MessageBox.show({
                         title:'Anggaran',
@@ -385,25 +391,14 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             },
 
             failure:function (f, a) {
-                var response = Ext.decode(a.response.responseText);
-                if (response != undefined) {
-                    Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-                } else {
-                    Ext.MessageBox.show({
-                        title:'Anggaran',
-                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
-                            " gagal disimpan.<br /> Alasan : " + response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.ERROR
-                    });
-                }
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
 
     },
 
-    onloadrecordupdate:function(){
+    onloadrecordupdate:function () {
         getsaldo();
     },
 

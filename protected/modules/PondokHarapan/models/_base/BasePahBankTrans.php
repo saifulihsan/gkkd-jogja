@@ -16,9 +16,8 @@
  * @property string $ref
  * @property string $trans_date
  * @property double $amount
- * @property integer $person_type_id
- * @property string $person_id
  * @property string $reconciled
+ * @property integer $users_id
  *
  * @property PahBankAccounts $bankAct
  */
@@ -38,12 +37,13 @@ abstract class BasePahBankTrans extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('type, trans_no, bank_act, person_type_id', 'numerical', 'integerOnly'=>true),
+			array('users_id', 'required'),
+			array('type, trans_no, bank_act, users_id', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('ref', 'length', 'max'=>40),
-			array('trans_date, person_id, reconciled', 'safe'),
-			array('type, trans_no, bank_act, ref, trans_date, amount, person_type_id, person_id, reconciled', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, type, trans_no, bank_act, ref, trans_date, amount, person_type_id, person_id, reconciled', 'safe', 'on'=>'search'),
+			array('trans_date, reconciled', 'safe'),
+			array('type, trans_no, bank_act, ref, trans_date, amount, reconciled', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, type, trans_no, bank_act, ref, trans_date, amount, reconciled, users_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,9 +67,8 @@ abstract class BasePahBankTrans extends GxActiveRecord {
 			'ref' => Yii::t('app', 'Ref'),
 			'trans_date' => Yii::t('app', 'Trans Date'),
 			'amount' => Yii::t('app', 'Amount'),
-			'person_type_id' => Yii::t('app', 'Person Type'),
-			'person_id' => Yii::t('app', 'Person'),
 			'reconciled' => Yii::t('app', 'Reconciled'),
+			'users_id' => Yii::t('app', 'Users'),
 		);
 	}
 
@@ -83,9 +82,8 @@ abstract class BasePahBankTrans extends GxActiveRecord {
 		$criteria->compare('ref', $this->ref, true);
 		$criteria->compare('trans_date', $this->trans_date, true);
 		$criteria->compare('amount', $this->amount);
-		$criteria->compare('person_type_id', $this->person_type_id);
-		$criteria->compare('person_id', $this->person_id, true);
 		$criteria->compare('reconciled', $this->reconciled, true);
+		$criteria->compare('users_id', $this->users_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

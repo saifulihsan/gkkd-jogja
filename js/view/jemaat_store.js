@@ -18,4 +18,4 @@ jun.Jemaatstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztJemaat = new jun.Jemaatstore();
-jun.rztJemaat.load();
+//jun.rztJemaat.load();

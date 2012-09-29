@@ -1,19 +1,4 @@
 <?php
-/**********************************************************************
-    Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
-	of the License, or (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
-***********************************************************************/
-//----------------------------------------------------------------------------------
-//	FrontAccounting global system names. They have to be stored separate from
-//	sys types defines to enable inclusion after every language change
-//	(which happens for multilanguage bulk reports)
-//
 global $systypes_array, $bank_account_types, $bank_transfer_types, 
 	$payment_person_types, $wo_types_array, $wo_cost_types, $class_types,
 	$quick_actions, $quick_entry_types, $stock_types, $tag_types;
@@ -23,7 +8,7 @@ $systypes_array = array (
 	KAS_KELUAR => "Kas Keluar",
 	ANGGARAN => "Anggaran",
     AKTIVITAS => "Aktivitas",
-	BANKTRANSFER => "Transfer Antar Kas/Bank",
+	BANKTRANSFER => "Mutasi Antar Kas/Bank",
 
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
@@ -60,7 +45,8 @@ $type_shortcuts = array(
 	KAS_MASUK => "KM", // general journal
 	KAS_KELUAR => "KK",
 	ANGGARAN => "AG",
-	ST_BANKTRANSFER => _("BT"),
+    AKTIVITAS => "AK",
+	BANKTRANSFER => "BT",
 	ST_SALESINVOICE => _("SI"),
 	ST_CUSTCREDIT => _("CN"),
 	ST_CUSTPAYMENT => _("CP"),

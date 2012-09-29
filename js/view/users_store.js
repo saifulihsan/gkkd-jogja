@@ -20,4 +20,4 @@ jun.Usersstore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rztUsers = new jun.Usersstore();
-jun.rztUsers.load();
+//jun.rztUsers.load();

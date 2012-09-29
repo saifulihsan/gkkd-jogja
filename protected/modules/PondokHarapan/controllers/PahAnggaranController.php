@@ -24,8 +24,8 @@ class PahAnggaranController extends GxController {
             }
             $pref = new PahSysCom();
             $bank_act = $pref->defaultBankOnHand();
-            $sisa_anggaran = PahBankTransCom::get_balance_before_for_bank_account($bank_act,$tahun."-".$bulan."-1");
-            $total_saldo = PahBankTransCom::get_balance_before_for_bank_account($bank_act,$tahun."-".($bulan+1)."-1");
+            $sisa_anggaran = Pah::get_balance_before_for_bank_account($bank_act,$tahun."-".$bulan."-1");
+            $total_saldo = Pah::get_balance_before_for_bank_account($bank_act,$tahun."-".($bulan+1)."-1");
             $saldo_skrg = $total_saldo - $sisa_anggaran;
             echo CJSON::encode(array(
                 'success'=>true,
@@ -53,7 +53,7 @@ class PahAnggaranController extends GxController {
                 Yii::app()->end();
             }
 
-            if(PahAnggaranCom::is_periode_anggaran_exist($bulan,$tahun)){
+            if(Pah::is_periode_anggaran_exist($bulan,$tahun)){
                 echo CJSON::encode(array(
                     'success'=>false,
                     'msg'=>'Anggaran dengan periode yang anda pilih sudah ada, silahkan gunakan menu ubah.'));
@@ -89,13 +89,11 @@ class PahAnggaranController extends GxController {
                 $_POST['PahAnggaran']['periode_bulan'] = $bulan;
                 $_POST['PahAnggaran']['periode_tahun'] = $tahun;
                 $_POST['PahAnggaran']['lock'] = 0;
-                $_POST['PahAnggaran']['trans_date'] = '2012-09-24';
+                $_POST['PahAnggaran']['trans_date'] = Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
                 $_POST['PahAnggaran']['users_id'] = Yii::app()->user->getId();
                 $anggaran->attributes = $_POST['PahAnggaran'];
                 $result = $anggaran->save();
                 $err = $anggaran->getErrors();
-                //$users = Users::model()->findByPk(Yii::app()->user->getId());
-//                $ag_detil = array();
                 foreach($detils as $detil){
                     $anggaran_detil = new PahAnggaranDetil;
                     $_POST['PahAnggaranDetil']['pah_chart_master_account_code'] = $detil['pah_chart_master_account_code'];

@@ -1,16 +1,6 @@
 <?php
 set_time_limit(0);
-/*---------------------------------------------------+
-| mysqldump.php
-+----------------------------------------------------+
-| Copyright 2006 Huang Kai
-| hkai@atutility.com
-| http://atutility.com/
-+----------------------------------------------------+
-| Released under the terms & conditions of v2 of the
-| GNU General Public License. For details refer to
-| the included gpl.txt file or visit http://gnu.org
-+----------------------------------------------------*/
+
 /*
 change log:
 2006-10-16 Huang Kai

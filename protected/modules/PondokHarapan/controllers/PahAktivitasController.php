@@ -1,51 +1,66 @@
 <?php
 
-class PahAktivitasController extends GxController {
+class PahAktivitasController extends GxController
+{
 
 
-	public function actionView($id) {
-		$this->render('view', array(
-			'model' => $this->loadModel($id, 'PahAktivitas'),
-		));
-	}
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id, 'PahAktivitas'),
+        ));
+    }
 
-	public function actionCreate() {
-		$model = new PahAktivitas;
+    public function actionCreate()
+    {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $status = false;
+            $msg = 'Anggaran berhasil disimpan.';
+            $date = Pah::get_date_today();
+            $user = Yii::app()->user->getId();
+            $id = -1;
+            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $ref = new PahReferenceCom();
+                $docref = $ref->get_next_reference(AKTIVITAS);
+                $aktivitas = new PahAktivitas;
+                foreach ($_POST as $k => $v) {
+                    if($k == 'amount')
+                        $v = Pah::get_number($v);
+                    $_POST['PahAktivitas'][$k] = $v;
+                }
+                $_POST['PahAktivitas']['entry_time'] = $date;
+                $_POST['PahAktivitas']['users_id'] = $user;
+                $_POST['PahAktivitas']['doc_ref'] = $docref;
+                $aktivitas->attributes = $_POST['PahAktivitas'];
+                $aktivitas->save();
+                $id = $aktivitas->aktivitas_id;
+                $ref->save(AKTIVITAS,$aktivitas->aktivitas_id,$docref);
+                $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
+                //debet kode beban - kredit kas bank
+                Pah::add_gl(AKTIVITAS,$aktivitas->aktivitas_id,$date,$docref,$aktivitas->pah_chart_master_account_code,
+                    '-',$aktivitas->amount,$user);
+                Pah::add_gl(AKTIVITAS,$aktivitas->aktivitas_id,$date,$docref,$bank_account,'-',-$aktivitas->amount,
+                    $user);
+                $transaction->commit();
+                $status = true;
+            } catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
 
-		
-		if (isset($_POST) && !empty($_POST)) {
-                        foreach($_POST as $k=>$v){
-
-                        $_POST['PahAktivitas'][$k] = $v;
-
-                        }
-
-           $_POST['PahAktivitas']['entry_time']=Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
-           $_POST['PahAktivitas']['users_id']=Yii::app()->user->getId();
-           $_POST['PahAktivitas']['doc_ref']='';
-			$model->attributes = $_POST['PahAktivitas'];
-
-
-			if ($model->save()) {
-                            $status = true;                            
-                        } else {
-                            $status = false;                            
-                        }
-                        
-                        if (Yii::app()->request->isAjaxRequest)
-                        {                            
-                            echo CJSON::encode(array(
-                                'success'=>$status,
-                                'id'=>$model->aktivitas_id));
-                            Yii::app()->end();
-                        } else
-                        {
-                            $this->redirect(array('view', 'id' => $model->aktivitas_id));
-			}
-		}
-
-		$this->render('create', array( 'model' => $model));
-	}
+            echo CJSON::encode(array(
+                'success' => $status,
+                'id' => $id,
+                'msg' => $msg
+            ));
+            Yii::app()->end();
+        }
+    }
 
     /*public function actionCreate() {
         if (!Yii::app()->request->isAjaxRequest)
@@ -93,106 +108,108 @@ class PahAktivitasController extends GxController {
     }*/
 
 
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id, 'PahAktivitas');
 
-	public function actionUpdate($id) {
-		$model = $this->loadModel($id, 'PahAktivitas');
 
+        if (isset($_POST) && !empty($_POST)) {
+            foreach ($_POST as $k => $v) {
+                $_POST['PahAktivitas'][$k] = $v;
+            }
+            $model->attributes = $_POST['PahAktivitas'];
 
-		if (isset($_POST) && !empty($_POST)) {
-                        foreach($_POST as $k=>$v){
-                            $_POST['PahAktivitas'][$k] = $v;
-                        }
-			$model->attributes = $_POST['PahAktivitas'];
+            if ($model->save()) {
 
-			if ($model->save()) {
-                        
-                            $status = true;                            
-                        } else {
-                            $status = false;                            
-                        }
-                        
-                        if (Yii::app()->request->isAjaxRequest)
-                        {                            
-                            echo CJSON::encode(array(
-                                'success'=>$status,
-                                'id'=>$model->aktivitas_id                                ));
-                            Yii::app()->end();
-                        } else
-                        {
-				$this->redirect(array('view', 'id' => $model->aktivitas_id));
-			}
-		}
+                $status = true;
+            } else {
+                $status = false;
+            }
 
-		$this->render('update', array(
-				'model' => $model,
-				));
-	}
+            if (Yii::app()->request->isAjaxRequest) {
+                echo CJSON::encode(array(
+                    'success' => $status,
+                    'id' => $model->aktivitas_id));
+                Yii::app()->end();
+            } else {
+                $this->redirect(array('view', 'id' => $model->aktivitas_id));
+            }
+        }
 
-	public function actionDelete($id) {
-		if (Yii::app()->request->isPostRequest) {
-			$this->loadModel($id, 'PahAktivitas')->delete();
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
 
-			if (!Yii::app()->request->isAjaxRequest)
-				$this->redirect(array('admin'));
-		} else
-			throw new CHttpException(400,
-					Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
-	}
-/*
-	public function actionAdmin() {
-		$dataProvider = new CActiveDataProvider('PahAktivitas');
-		$this->render('index', array(
-			'dataProvider' => $dataProvider,
-		));
-	}*/
+    public function actionDelete($id)
+    {
+        if (Yii::app()->request->isPostRequest) {
+            $this->loadModel($id, 'PahAktivitas')->delete();
 
-	public function actionAdmin() {
-		$model = new PahAktivitas('search');
-		$model->unsetAttributes();
+            if (!Yii::app()->request->isAjaxRequest)
+                $this->redirect(array('admin'));
+        } else
+            throw new CHttpException(400,
+                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+    }
 
-		if (isset($_GET['PahAktivitas']))
-			$model->attributes = $_GET['PahAktivitas'];
+    /*
+     public function actionAdmin() {
+         $dataProvider = new CActiveDataProvider('PahAktivitas');
+         $this->render('index', array(
+             'dataProvider' => $dataProvider,
+         ));
+     }*/
 
-		$this->render('admin', array(
-			'model' => $model,
-		));
-	}
+    public function actionAdmin()
+    {
+        $model = new PahAktivitas('search');
+        $model->unsetAttributes();
 
-	public function actionIndex() {
-                if(isset($_POST['limit'])) {
-                        $limit = $_POST['limit'];
-                } else {
-                    $limit = 20;
-                }
+        if (isset($_GET['PahAktivitas']))
+            $model->attributes = $_GET['PahAktivitas'];
 
-                if(isset($_POST['start'])){
-                    $start = $_POST['start'];
+        $this->render('admin', array(
+            'model' => $model,
+        ));
+    }
 
-                } else {
-                    $start = 0;
-                }
-		//$model = new PahAktivitas('search');
-		//$model->unsetAttributes();
+    public function actionIndex()
+    {
+        if (isset($_POST['limit'])) {
+            $limit = $_POST['limit'];
+        } else {
+            $limit = 20;
+        }
 
-                $criteria = new CDbCriteria();
-                $criteria->limit = $limit;
-                $criteria->offset = $start;
-                $model = PahAktivitas::model()->findAll($criteria);
-                $total = PahAktivitas::model()->count($criteria);
-                
-		if (isset($_GET['PahAktivitas']))
-			$model->attributes = $_GET['PahAktivitas'];
+        if (isset($_POST['start'])) {
+            $start = $_POST['start'];
 
-                if (isset($_GET['output']) && $_GET['output']=='json') {
-                    $this->renderJson($model, $total);
-                } else {
-                    $model = new PahAktivitas('search');
-                    $model->unsetAttributes();
-                
-                    $this->render('admin', array(
-                            'model' => $model,
-                    ));
-                }
-	}
+        } else {
+            $start = 0;
+        }
+        //$model = new PahAktivitas('search');
+        //$model->unsetAttributes();
+
+        $criteria = new CDbCriteria();
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $model = PahAktivitas::model()->findAll($criteria);
+        $total = PahAktivitas::model()->count($criteria);
+
+        if (isset($_GET['PahAktivitas']))
+            $model->attributes = $_GET['PahAktivitas'];
+
+        if (isset($_GET['output']) && $_GET['output'] == 'json') {
+            $this->renderJson($model, $total);
+        } else {
+            $model = new PahAktivitas('search');
+            $model->unsetAttributes();
+
+            $this->render('admin', array(
+                'model' => $model,
+            ));
+        }
+    }
 
 }
