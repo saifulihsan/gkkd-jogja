@@ -13,13 +13,6 @@ class PahReferenceCom
         $criteria->addCondition("type_id =".$type);
         $model = PahSysTypes::model()->find($criteria);
         return $model->next_reference;
-
-//        $sql = "SELECT next_reference FROM ".TB_PREF."sys_types WHERE type_id = ".db_escape($type);
-//
-//        $result = db_query($sql,"The last transaction ref for $type could not be retreived");
-//
-//        $row = db_fetch_row($result);
-//        return $row[0];
     }
 
     function save_next_reference($type, $reference)
@@ -29,10 +22,6 @@ class PahReferenceCom
         $model = PahSysTypes::model()->find($criteria);
         $model->next_reference = trim($reference);
         $model->save();
-//        $sql = "UPDATE ".TB_PREF."sys_types SET next_reference=" . db_escape(trim($reference))
-//            . " WHERE type_id = ".db_escape($type);
-//
-//        db_query($sql, "The next transaction ref for $type could not be updated");
     }
 
     function update_reference($type, $id, $reference)
@@ -48,11 +37,6 @@ class PahReferenceCom
         }
         $model->reference = $reference;
         $model->save();
-//
-//
-//        $sql = "REPLACE ".TB_PREF."refs SET reference=".db_escape($reference)
-//            .", type=".db_escape($type).", id=".db_escape($id);
-//        db_query($sql, "could not update reference entry");
     }
 
     function save($type, $id, $reference)
@@ -60,11 +44,6 @@ class PahReferenceCom
         $this->update_reference($type, $id, $reference); // store in refs table
         $next = $this->_increment($reference);	// increment default
         $this->save_next_reference($type, $next);
-
-//        if ($reference == $this->get_next($type)) { // if reference was not changed from default
-//            $next = $this->_increment($reference);	// increment default
-//            save_next_reference($type, $next);
-//        }
     }
 
     function _increment($reference, $back=false)

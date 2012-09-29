@@ -3,7 +3,6 @@
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../../yii/framework/YiiBase.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
-//$define=dirname(__FILE__).'/protected/vendors/frontaccounting/define.php';
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);

@@ -58,6 +58,10 @@ return array(
             ),
         ),
 
+        'excel'=>array(
+            'class'=>'application.extensions.PHPExcel',
+            ),
+
 //        'db' => array('connectionString' => 'sqlite:' . dirname(__file__) .
 //            '/../data/testdrive.db',),
 
@@ -67,7 +71,7 @@ return array(
             'connectionString' => 'mysql:host=localhost;dbname=gkkd',
             'emulatePrepare' => true,
             'username' => 'root',
-            'password' => '',
+            'password' => 'root',
             'charset' => 'utf8',
         ),
 
