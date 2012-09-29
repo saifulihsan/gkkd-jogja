@@ -17,6 +17,9 @@ class PahKasKeluarController extends GxController {
                         foreach($_POST as $k=>$v){
                             $_POST['PahKasKeluar'][$k] = $v;
                         }
+            $_POST['PahKasKeluar']['entry_time']=Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
+            $_POST['PahKasKeluar']['users_id']=Yii::app()->user->getId();
+            $_POST['PahKasKeluar']['doc_ref']='';
 			$model->attributes = $_POST['PahKasKeluar'];
 			
 
@@ -25,7 +28,7 @@ class PahKasKeluarController extends GxController {
                         } else {
                             $status = false;                            
                         }
-                        
+            $err=$model->getErrors();
                         if (Yii::app()->request->isAjaxRequest)
                         {                            
                             echo CJSON::encode(array(
@@ -49,6 +52,9 @@ class PahKasKeluarController extends GxController {
                         foreach($_POST as $k=>$v){
                             $_POST['PahKasKeluar'][$k] = $v;
                         }
+            $_POST['PahKasKeluar']['entry_time']=Yii::app()->dateFormatter->format('yyyy-MM-dd',time());
+            $_POST['PahKasKeluar']['users_id']=Yii::app()->user->getId();
+            $_POST['PahKasKeluar']['doc_ref']='';
 			$model->attributes = $_POST['PahKasKeluar'];
 
 			if ($model->save()) {
