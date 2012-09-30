@@ -88,7 +88,8 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                     },  new jun.comboPayment ({
                         fieldLabel:'Cara Bayar',
                         value:'Tunai',
-                        anchor:'100%'
+                        anchor:'100%',
+                        name:'trans_via'
                     }),
                     {
                         xtype:'combo',
@@ -117,7 +118,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                     },
 
                     {
-                        xtype:'textfield',
+                        xtype:'numericfield',
                         fieldLabel:'Jumlah',
                         hideLabel:false,
                         //hidden:true,
@@ -204,14 +205,14 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahDonatur.reload();
+        jun.rztPahBankAccounts.reload();
+        jun.rztPahChartMaster.reload();
         jun.PahKasMasukWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        jun.rztPahDonatur.reload();
-        jun.rztPahBankAccounts.reload();
-        jun.rztPahChartMaster.reload();
     },
 
     onActivate:function () {
@@ -246,23 +247,26 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
             scope:this,
 
             success:function (f, a) {
-                jun.rztPahKasMasuk.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
-                if (this.closeForm) {
-
-                    this.close();
-
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-PahKasMasuk').getForm().reset();
-                    }
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title:'Kas Masuk',
+                        msg:response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                    return;
+                }else{
+                    Ext.MessageBox.show({
+                        title:'Kas Masuk',
+                        msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-PahKasMasuk').getForm().reset();
                 }
-
+                jun.rztPahKasMasuk.reload();
+                this.close();
             },
 
             failure:function (f, a) {

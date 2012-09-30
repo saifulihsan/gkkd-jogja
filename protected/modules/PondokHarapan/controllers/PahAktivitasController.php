@@ -37,7 +37,7 @@ class PahAktivitasController extends GxController
                 $_POST['PahAktivitas']['doc_ref'] = $docref;
                 $aktivitas->attributes = $_POST['PahAktivitas'];
                 $aktivitas->save();
-                $id = $aktivitas->aktivitas_id;
+                $id = $docref;
                 $ref->save(AKTIVITAS,$aktivitas->aktivitas_id,$docref);
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
                 //debet kode beban - kredit kas bank

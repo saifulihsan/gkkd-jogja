@@ -21,10 +21,10 @@
  * @property integer $pah_bank_accounts_id
  * @property integer $users_id
  *
- * @property PahSuppliers $pahSuppliersSupplier
- * @property PahChartMaster $pahChartMasterAccountCode
- * @property Users $users
  * @property PahBankAccounts $pahBankAccounts
+ * @property PahChartMaster $pahChartMasterAccountCode
+ * @property PahSuppliers $pahSuppliersSupplier
+ * @property Users $users
  */
 abstract class BasePahKasKeluar extends GxActiveRecord {
 
@@ -42,8 +42,8 @@ abstract class BasePahKasKeluar extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('kas_keluar_id, pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, users_id', 'required'),
-			array('kas_keluar_id, pah_suppliers_supplier_id, pah_bank_accounts_id, users_id', 'numerical', 'integerOnly'=>true),
+			array('pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, users_id', 'required'),
+			array('pah_suppliers_supplier_id, pah_bank_accounts_id, users_id', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('doc_ref, pah_chart_master_account_code', 'length', 'max'=>15),
 			array('no_bukti, trans_via', 'length', 'max'=>45),
@@ -55,10 +55,10 @@ abstract class BasePahKasKeluar extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'pahSuppliersSupplier' => array(self::BELONGS_TO, 'PahSuppliers', 'pah_suppliers_supplier_id'),
-			'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
-			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
 			'pahBankAccounts' => array(self::BELONGS_TO, 'PahBankAccounts', 'pah_bank_accounts_id'),
+			'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
+			'pahSuppliersSupplier' => array(self::BELONGS_TO, 'PahSuppliers', 'pah_suppliers_supplier_id'),
+			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
 		);
 	}
 

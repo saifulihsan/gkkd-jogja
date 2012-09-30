@@ -21,6 +21,7 @@ return array(
         'application.components.*',
         'ext.giix-components.*',
         'application.extensions.PasswordHash',
+        'application.extensions.PHPExcel',
         'application.vendors.*'
     ),
 
