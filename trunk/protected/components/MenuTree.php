@@ -110,9 +110,15 @@ class MenuTree
                     {
                     text: 'Report',
                     expanded: false,
-                    children:[{
-                            text: 'Mutasi Kas per Bank',
+                    children:[
+                        {
+                            text: 'Bank Statement',
                             id: 'jun.PahBankTransGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Mutasi Kas per Bank',
+                            id: 'jun.PahReportMutasiWin',
                             leaf: true
                         },
                         {

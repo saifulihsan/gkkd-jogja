@@ -20,18 +20,6 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                 ref:'formz',
                 border:false,
                 items:[
-//                                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'doc_ref',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'doc_ref',
-//                                    id:'doc_refid',
-//                                    ref:'../doc_ref',
-//                                    maxLength: 15,
-//                                    //allowBlank: 1,
-//                                    anchor: '100%'
-//                                },
                     {
                         xtype:'xdatefield',
                         ref:'../trans_date',
@@ -85,7 +73,8 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%'
-                    },new jun.comboPayment ({
+                    },
+                    new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
                         value:'Tunai',
                         anchor:'100%',
@@ -111,24 +100,12 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                             '</div></tpl>'
                         ),
                         matchFieldWidth:false,
-                        itemSelector: 'div.search-item',
-                        editable : true,
+                        itemSelector:'div.search-item',
+                        editable:true,
                         listWidth:300,
                         anchor:'100%'
                     },
                     {
-                        xtype:'textfield',
-                        fieldLabel:'Jumlah',
-                        hideLabel:false,
-                        //hidden:true,
-                        name:'amount',
-                        id:'amountid',
-                        ref:'../amount',
-                        maxLength:30,
-                        //allowBlank: 1,
-                        anchor:'100%'
-                    },
-                 /*   {
                         xtype:'numericfield',
                         fieldLabel:'Jumlah',
                         hideLabel:false,
@@ -139,47 +116,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         maxLength:30,
                         //allowBlank: 1,
                         anchor:'100%'
-                    },*/
-//                                                                     {
-//                            xtype: 'datefield',
-//                            ref:'../entry_time',
-//                            fieldLabel: 'entry_time',
-//                            name:'entry_time',
-//                            id:'entry_timeid',
-//                            format: 'd M Y',
-//                            //allowBlank: 1,
-//                            anchor: '100%'
-//                        },
-
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'trans_via',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'trans_via',
-//                        id:'trans_viaid',
-//                        ref:'../trans_via',
-//                        maxLength:45,
-//                        //allowBlank: 1,
-//                        anchor:'100%'
-//                    },
-//                    {
-//                        xtype:'combo',
-//                        typeAhead:true,
-//                        triggerAction:'all',
-//                        lazyRender:true,
-//                        mode:'local',
-//                        fieldLabel:'users_id',
-//                        store:jun.rztUsers,
-//                        hiddenName:'users_id',
-//                        hiddenValue:'users_id',
-//                        valueField:'id',
-//                        //displayField: 'Users::model()->representingColumn()',
-//                        displayField:'user_id',
-//                        //allowBlank:false,
-//                        anchor:'100%'
-//                    },
-
+                    }
                 ]
             }
         ];
@@ -204,14 +141,14 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahBankAccounts.reload();
+        jun.rztPahSuppliers.reload();
+        jun.rztPahChartMaster.reload();
         jun.PahKasKeluarWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        jun.rztPahBankAccounts.reload();
-        jun.rztPahSuppliers.reload();
-        jun.rztPahChartMaster.reload();
     },
 
     onActivate:function () {
@@ -222,46 +159,34 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
 
     saveForm:function () {
         var urlz;
-
-        if (this.modez == 1 || this.modez == 2) {
-
-            urlz = 'PondokHarapan/PahKasKeluar/update/id/' + this.id;
-
-        } else {
-
-            urlz = 'PondokHarapan/PahKasKeluar/create/';
-        }
-
+        urlz = 'PondokHarapan/PahKasKeluar/create/';
         Ext.getCmp('form-PahKasKeluar').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             waitMsg:'Sedang Proses',
             scope:this,
 
             success:function (f, a) {
-                jun.rztPahKasKeluar.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
-                if (this.closeForm) {
-
-                    this.close();
-
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-PahKasKeluar').getForm().reset();
-                    }
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title:'Kas Keluar',
+                        msg:response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                    return;
+                }else{
+                    Ext.MessageBox.show({
+                        title:'Kas Keluar',
+                        msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-PahKasKeluar').getForm().reset();
                 }
-
+                jun.rztPahKasKeluar.reload();
+                this.close();
             },
 
             failure:function (f, a) {

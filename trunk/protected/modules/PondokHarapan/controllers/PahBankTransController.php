@@ -34,12 +34,13 @@ class PahBankTransController extends GxController
         Yii::app()->end();
     }
 
-    public function actionGetBalance(){
+    public function actionGetBalance()
+    {
         if (!Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
             //$id = $_POST['id'];
-            $amt = Pah::get_balance_before_for_bank_account($_POST['id'],Pah::get_date_tomorrow());
+            $amt = Pah::get_balance_before_for_bank_account($_POST['id'], Pah::get_date_tomorrow());
             echo CJSON::encode(array(
                 'success' => true,
                 'id' => $amt,
@@ -62,7 +63,7 @@ class PahBankTransController extends GxController
             $trans_date = $_POST['trans_date'];
             $memo = $_POST['memo'];
             $amount = Pah::get_number($_POST['amount']);
-            if($bank_asal == $bank_tujuan){
+            if ($bank_asal == $bank_tujuan) {
                 echo CJSON::encode(array(
                     'success' => false,
                     'id' => -1,
@@ -70,7 +71,7 @@ class PahBankTransController extends GxController
                 ));
                 Yii::app()->end();
             }
-            if($amount <= 0){
+            if ($amount <= 0) {
                 echo CJSON::encode(array(
                     'success' => false,
                     'id' => -1,
@@ -87,15 +88,15 @@ class PahBankTransController extends GxController
                 $trans_no = Pah::get_next_trans_no_bank_trans();
                 $user = Yii::app()->user->getId();
                 //debet kode bank tujuan - kredit kode bank asal
-                Pah::add_gl(BANKTRANSFER,$trans_no,$trans_date,$docref,$bank_account_tujuan,
-                    $memo,$amount,$user);
-                Pah::add_gl(BANKTRANSFER,$trans_no,$trans_date,$docref,$bank_account_asal,$memo,-$amount,
+                Pah::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_tujuan,
+                    $memo, $amount, $user);
+                Pah::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_asal, $memo, -$amount,
                     $user);
-                $ref->save(BANKTRANSFER,$trans_no,$docref);
+                $ref->save(BANKTRANSFER, $trans_no, $docref);
                 $id = $docref;
                 $transaction->commit();
                 $status = true;
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $transaction->rollback();
                 $status = false;
                 $msg = $ex;
@@ -108,6 +109,43 @@ class PahBankTransController extends GxController
             ));
             Yii::app()->end();
         }
+    }
+
+    public function actionPrint()
+    {
+//        if (!Yii::app()->request->isAjaxRequest)
+//            return;
+//        if (isset($_POST) && !empty($_POST)) {
+        $type = Yii::app()->request->isAjaxRequest;
+            $objPHPExcel = new PHPExcel();
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Hello')
+                ->setCellValue('B2', 'world!')
+                ->setCellValue('C1', 'Hello')
+                ->setCellValue('D2', 'world!');
+
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A4', 'Miscellaneous glyphs')
+                ->setCellValue('A5', 'eaeuaeioueiuyaouc');
+
+            $objPHPExcel->getActiveSheet()->setTitle('Mutasi Kas');
+
+            ob_end_clean();
+            ob_start();
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="test.xls"');
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            //die();
+//            echo CJSON::encode(array(
+//                'success' => true,
+//                'id' => 0,
+//            ));
+            Yii::app()->end();
+//            $this->render('view');
+//        }
     }
 
     public function actionUpdate($id)
