@@ -73,12 +73,14 @@ jun.PahMemberGrid=Ext.extend(Ext.grid.GridPanel ,{
                     }
                 ]
             };
+        jun.rztJemaat.reload();
+        jun.rztPahMemberbyName.load();
 		jun.PahMemberGrid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);
                 this.btnDelete.on('Click', this.deleteRec, this);
                 this.getSelectionModel().on('rowselect', this.getrow, this);
-                jun.rztPahMemberbyName.load();
+
 
 
 	},

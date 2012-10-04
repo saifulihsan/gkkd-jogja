@@ -84,6 +84,7 @@ jun.JemaatGrid=Ext.extend(Ext.grid.GridPanel ,{
                     }
                 ]
             };
+        jun.rztJemaat.reload();
 		jun.JemaatGrid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);

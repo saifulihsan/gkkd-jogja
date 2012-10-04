@@ -143,6 +143,11 @@ jun.PahAktivitasGrid=Ext.extend(Ext.grid.GridPanel ,{
                     }
                 ]
             };
+        jun.rztPahBankAccounts.reload();
+        jun.rztPahSuppliers.reload();
+        jun.rztPahMemberbyName.reload();
+        jun.rztPahSubAktivitas.reload();
+        jun.rztPahChartMaster.reload();
 		jun.PahAktivitasGrid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);

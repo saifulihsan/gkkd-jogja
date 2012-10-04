@@ -117,8 +117,8 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
-        this.btnCancel.on('click', this.onbtnCancelclick, this);       
-        
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+
     },
     
     onActivate: function(){
