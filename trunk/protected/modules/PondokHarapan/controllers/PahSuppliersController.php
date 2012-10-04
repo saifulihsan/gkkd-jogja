@@ -17,6 +17,7 @@ class PahSuppliersController extends GxController {
                         foreach($_POST as $k=>$v){
                             $_POST['PahSuppliers'][$k] = $v;
                         }
+
 			$model->attributes = $_POST['PahSuppliers'];
 			
 

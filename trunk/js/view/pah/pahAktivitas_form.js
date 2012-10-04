@@ -229,16 +229,17 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
-        jun.PahAktivitasWin.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
-        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
-        this.btnSave.on('click', this.onbtnSaveclick, this);
-        this.btnCancel.on('click', this.onbtnCancelclick, this);
         jun.rztPahBankAccounts.reload();
         jun.rztPahSuppliers.reload();
         jun.rztPahMemberbyName.reload();
         jun.rztPahSubAktivitas.reload();
         jun.rztPahChartMaster.reload();
+        jun.PahAktivitasWin.superclass.initComponent.call(this);
+        this.on('activate', this.onActivate, this);
+        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
+        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+
     },
 
     onActivate:function () {
