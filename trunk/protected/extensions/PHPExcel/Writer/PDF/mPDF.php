@@ -106,7 +106,8 @@ class PHPExcel_Writer_PDF_mPDF extends PHPExcel_Writer_PDF_Core implements PHPEx
 
 		// Create PDF
 		$pdf = new mpdf();
-		$pdf->_setPageSize(strtoupper($paperSize), strtolower($orientation));
+//		$pdf->_setPageSize(strtoupper($paperSize), strtolower($orientation));
+		$pdf->_setPageSize(strtoupper($paperSize), $orientation);
 
 		// Document info
 		$pdf->SetTitle($this->_phpExcel->getProperties()->getTitle());

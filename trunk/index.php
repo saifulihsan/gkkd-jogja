@@ -1,5 +1,6 @@
 <?php
-
+//date_default_timezone_set('Asia/Jakarta');
+//setlocale(LC_TIME,'INDONESIA');
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../../yii/framework/YiiBase.php';
 $config=dirname(__FILE__).'/protected/config/main.php';

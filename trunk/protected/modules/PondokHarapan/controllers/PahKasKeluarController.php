@@ -18,7 +18,7 @@ class PahKasKeluarController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas keluar berhasil disimpan.';
-            $date = Pah::get_date_today();
+            $date = Site::get_date_today();
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -29,7 +29,7 @@ class PahKasKeluarController extends GxController
                 $kas_keluar = new PahKasKeluar;
                 foreach ($_POST as $k => $v) {
                     if ($k == 'amount')
-                        $v = Pah::get_number($v);
+                        $v = Site::get_number($v);
                     $_POST['PahKasKeluar'][$k] = $v;
                 }
                 $_POST['PahKasKeluar']['entry_time'] = $date;

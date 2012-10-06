@@ -18,7 +18,7 @@ class PahAktivitasController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
-            $date = Pah::get_date_today();
+            $date = Site::get_date_today();
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -29,7 +29,7 @@ class PahAktivitasController extends GxController
                 $aktivitas = new PahAktivitas;
                 foreach ($_POST as $k => $v) {
                     if($k == 'amount')
-                        $v = Pah::get_number($v);
+                        $v = Site::get_number($v);
                     $_POST['PahAktivitas'][$k] = $v;
                 }
                 $_POST['PahAktivitas']['entry_time'] = $date;

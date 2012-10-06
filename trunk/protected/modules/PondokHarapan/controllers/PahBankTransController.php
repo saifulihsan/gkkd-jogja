@@ -6,7 +6,7 @@ class PahBankTransController extends GxController
     public function actionView()
     {
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-        $bfw = Pah::get_balance_before_for_bank_account($_POST['bank_act'], $_POST['from_date']);
+        $bfw = Pah::get_balance_before_for_bank_account($_POST['from_date'], $_POST['bank_act']);
         $arr['data'][] = array('type' => 'Saldo Awal - ' . sql2date($_POST['from_date']), 'ref' => '', 'tgl' => '',
             'debit' => $bfw >= 0 ? number_format($bfw, 2) : '', 'kredit' => $bfw < 0 ? number_format($bfw, 2) : '', 'neraca' => '', 'person' => '');
         $credit = $debit = 0;
@@ -40,7 +40,7 @@ class PahBankTransController extends GxController
             return;
         if (isset($_POST) && !empty($_POST)) {
             //$id = $_POST['id'];
-            $amt = Pah::get_balance_before_for_bank_account($_POST['id'], Pah::get_date_tomorrow());
+            $amt = Pah::get_balance_before_for_bank_account(Site::get_date_tomorrow(),$_POST['id']);
             echo CJSON::encode(array(
                 'success' => true,
                 'id' => $amt,
@@ -62,7 +62,7 @@ class PahBankTransController extends GxController
             $bank_tujuan = $_POST['bank_act_tujuan'];
             $trans_date = $_POST['trans_date'];
             $memo = $_POST['memo'];
-            $amount = Pah::get_number($_POST['amount']);
+            $amount = Site::get_number($_POST['amount']);
             if ($bank_asal == $bank_tujuan) {
                 echo CJSON::encode(array(
                     'success' => false,
@@ -111,42 +111,14 @@ class PahBankTransController extends GxController
         }
     }
 
-    public function actionPrint()
-    {
-//        if (!Yii::app()->request->isAjaxRequest)
-//            return;
-//        if (isset($_POST) && !empty($_POST)) {
-        $type = Yii::app()->request->isAjaxRequest;
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A1', 'Hello')
-                ->setCellValue('B2', 'world!')
-                ->setCellValue('C1', 'Hello')
-                ->setCellValue('D2', 'world!');
+//    public function actionPrint(){
+//        echo "<html><head></head>
+//        <body onLoad='alert();'>
+//        Teeeeeeeeeeesstttt
+//        </body></html>";
+//    }
 
-            $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A4', 'Miscellaneous glyphs')
-                ->setCellValue('A5', 'eaeuaeioueiuyaouc');
 
-            $objPHPExcel->getActiveSheet()->setTitle('Mutasi Kas');
-
-            ob_end_clean();
-            ob_start();
-
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="test.xls"');
-            header('Cache-Control: max-age=0');
-            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-            $objWriter->save('php://output');
-            //die();
-//            echo CJSON::encode(array(
-//                'success' => true,
-//                'id' => 0,
-//            ));
-            Yii::app()->end();
-//            $this->render('view');
-//        }
-    }
 
     public function actionUpdate($id)
     {
