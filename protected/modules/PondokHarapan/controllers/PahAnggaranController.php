@@ -22,10 +22,10 @@ class PahAnggaranController extends GxController {
                     'msg'=>'Bulan atau Tahun periode tidak boleh kosong.'));
                 Yii::app()->end();
             }
-            $pref = new PahSysCom();
-            $bank_act = $pref->defaultBankOnHand();
-            $sisa_anggaran = Pah::get_balance_before_for_bank_account($bank_act,$tahun."-".$bulan."-1");
-            $total_saldo = Pah::get_balance_before_for_bank_account($bank_act,$tahun."-".($bulan+1)."-1");
+
+            $bank_act = PahPrefs::BankOnHand();
+            $sisa_anggaran = Pah::get_balance_before_for_bank_account($tahun."-".$bulan."-1",$bank_act);
+            $total_saldo = Pah::get_balance_before_for_bank_account($tahun."-".($bulan+1)."-1",$bank_act);
             $saldo_skrg = $total_saldo - $sisa_anggaran;
             echo CJSON::encode(array(
                 'success'=>true,

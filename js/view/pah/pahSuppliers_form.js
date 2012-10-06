@@ -56,7 +56,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         height: 100
                         //allowBlank:
                     },
-                                                                    {
+                                                                     {
                             xtype: 'textfield',
                             fieldLabel: 'mail_address',
                             hideLabel:false,

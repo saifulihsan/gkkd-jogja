@@ -148,7 +148,6 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         y:2,
                         width:100,
                         onBlur:checkPeriodeAnggaran,
-
                     },
                     {
                         xtype:'label',

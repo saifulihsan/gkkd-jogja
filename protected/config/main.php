@@ -72,7 +72,7 @@ return array(
             'connectionString' => 'mysql:host=localhost;dbname=gkkd',
             'emulatePrepare' => true,
             'username' => 'root',
-            'password' => '',
+            'password' => 'root',
             'charset' => 'utf8',
         ),
 

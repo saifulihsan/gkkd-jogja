@@ -123,35 +123,35 @@ class MenuTree
                         },
                         {
                             text: 'Laporan Pertanggungjawaban',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahReportTanggungJawabWin',
                             leaf: true
                         },
                         {
                             text: 'Anggaran versus Realisasi',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahReportAnggaranRealisasiWin',
                             leaf: true
                         },
                         {
+                            text: 'Laporan Pendapatan',
+                            id: 'jun.PahReportPendapatanWin',
+                            leaf:true
+                        },
+                        {
                             text: 'Pengeluaran per Kode Rekening',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahReportPengeluaranWin',
                             leaf: true
                         },
                         {
                             text: 'Beban Aktivitas per Bulan',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahReportBebanAktivitasWin',
                             leaf: true
                         },
                         {
                             text: 'Beban Aktivitas per Anak',
-                            id: 'jun.NotaGrid',
+                            id: 'jun.PahReportBebanAktivitasAnakWin ',
                             leaf: true
                         }]
                     },
-                    {
-                            text: 'Setting',
-                            id: 'jun.PahSysGrid',
-                            leaf: true
-                        },
                     ]
                   }";
         return $menu;

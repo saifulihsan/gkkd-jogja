@@ -313,9 +313,10 @@ jun.comboBulan = Ext.extend(Ext.form.ComboBox, {
     typeAhead:true,
     mode:'local',
     forceSelection:true,
-    triggerAction:'all',
+    //triggerAction:'all',
     emptyText:'Pilih bulan...',
     selectOnFocus:true,
+    lastQuery: '',
     initComponent:function () {
         this.store = jun.bulan;
         jun.comboBulan.superclass.initComponent.call(this);
@@ -339,9 +340,10 @@ jun.comboPayment = Ext.extend(Ext.form.ComboBox, {
     forceSelection:true,
     //hiddenName:'trans_via',
     //hiddenValue:'payVal',
-    triggerAction:'all',
+    //triggerAction:'all',
     emptyText:'Pilih cara bayar...',
     selectOnFocus:true,
+    lastQuery: '',
     initComponent:function () {
         this.store = jun.methodPay;
         jun.comboPayment.superclass.initComponent.call(this);

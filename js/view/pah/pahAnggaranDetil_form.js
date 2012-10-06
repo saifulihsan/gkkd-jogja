@@ -55,7 +55,6 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                         value:0,
                         anchor:'100%'
                     },
-
                 ]
             }
         ];
@@ -87,13 +86,9 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         jun.rztPahChartMaster.reload();
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var index_kode = jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbCodeRek.value);
         if (index_kode > -1 && this.modez == 0) {
@@ -105,7 +100,6 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
             });
             return;
         }
-
         if (Ext.getCmp('totalangblmid').getValue() < this.amount.value) {
             Ext.MessageBox.show({
                 title:'Error',
@@ -115,9 +109,11 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
             });
             return;
         }
-
-        if(this.modez > 0)
-            jun.rztPahAnggaranDetil.removeAt(index_kode);
+        if (this.modez > 0) {
+            var index = jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.id);
+            if (index > -1)
+                jun.rztPahAnggaranDetil.removeAt(index);
+        }
         var detil = jun.rztPahAnggaranDetil.recordType;
         var e = new detil({
             pah_chart_master_account_code:this.cmbCodeRek.value,
@@ -127,59 +123,11 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         jun.rztPahAnggaranDetil.refreshData();
         if (this.closeForm)
             this.close();
-
-
-//        var urlz;
-//
-//        if (this.modez == 1 || this.modez == 2) {
-//
-//            urlz = 'PondokHarapan/PahAnggaranDetil/update/id/' + this.id;
-//
-//        } else {
-//
-//            urlz = 'PondokHarapan/PahAnggaranDetil/create/';
-//        }
-
-//        Ext.getCmp('form-PahAnggaranDetil').getForm().submit({
-//            url:urlz,
-//
-//            timeOut:1000,
-//            waitMsg:'Sedang Proses',
-//            scope:this,
-//
-//            success:function (f, a) {
-//                jun.rztPahAnggaranDetil.reload();
-//
-//                var response = Ext.decode(a.response.responseText);
-//
-//                if (this.closeForm) {
-//
-//                    this.close();
-//
-//                } else {
-//                    if (response.data != undefined) {
-//                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-//                    }
-//                    if (this.modez == 0) {
-//                        Ext.getCmp('form-PahAnggaranDetil').getForm().reset();
-//                    }
-//                }
-//
-//            },
-//
-//            failure:function (f, a) {
-//                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-//            }
-//
-//        });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);
