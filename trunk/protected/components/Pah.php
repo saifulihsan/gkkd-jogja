@@ -6,10 +6,17 @@
  */
 class Pah
 {
-
+//------------------------------------------------ Void ----------------------------------------------------------------
+    static function get_voided($type){
+        $void = Yii::app()->db->createCommand()
+            ->select('id')
+            ->from('pah_voided')
+            ->where('type=:type', array(':type'=>$type))
+            ->queryColumn();
+        return $void;
+    }
 
 //---------------------------------------------- Anggaran --------------------------------------------------------------
-
     static function is_periode_anggaran_exist($bulan, $tahun)
     {
         $criteria = new CDbCriteria();
@@ -20,7 +27,6 @@ class Pah
     }
 
 //--------------------------------------------- Bank Trans -------------------------------------------------------------
-
     static function get_next_trans_no_bank_trans()
     {
         $db = PahBankTrans::model()->getDbConnection();
@@ -83,7 +89,6 @@ class Pah
     }
 
 //--------------------------------------------- Gl Trans ---------------------------------------------------------------
-
     static function get_sql_for_journal_inquiry($from, $to)
     {
         $rows = Yii::app()->db->createCommand()
@@ -100,16 +105,13 @@ class Pah
         return $rows;
     }
 
-
     static function add_gl($type, $trans_id, $date_, $ref, $account, $memo_, $amount, $person_id)
     {
         $is_bank_to = Pah::is_bank_account($account);
-
         Pah::add_gl_trans($type, $trans_id, $date_, $account, $memo_, $amount, $person_id);
         if ($is_bank_to) {
             Pah::add_bank_trans($type, $trans_id, $is_bank_to, $ref, $date_, $amount, $person_id);
         }
-
         Pah::add_comments($type, $trans_id, $date_, $memo_);
 //        return $trans_id;
     }
@@ -129,7 +131,6 @@ class Pah
     }
 
 //--------------------------------------------- Comments ---------------------------------------------------------------
-
     static function get_comments($type, $type_no)
     {
         $criteria = new CDbCriteria();
@@ -176,7 +177,6 @@ class Pah
     }
 
 //---------------------------------------------- Report ----------------------------------------------------------------
-
     static function get_mutasi_kas_ditangan($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
@@ -206,7 +206,7 @@ class Pah
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-                array(':type',PahPrefs::TypeCostAct()))
+            array(':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -246,7 +246,7 @@ class Pah
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-                array(':type',PahPrefs::TypePendapatanAct()))
+            array(':type' => PahPrefs::TypePendapatanAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -260,13 +260,14 @@ class Pah
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-                array(':type',PahPrefs::TypePendapatanAct()))
+            array(':type' => PahPrefs::TypePendapatanAct()))
             ->order("b.account_code")
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_realisasi_by_code($start_date, $end_date, $code){
+    static function get_realisasi_by_code($start_date, $end_date, $code)
+    {
         $rows = Yii::app()->db->createCommand()
             ->select("sum(a.amount) as total_realisasi")
             ->from("pah_gl_trans a")
@@ -276,23 +277,23 @@ class Pah
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_anggaran_by_code($month, $year, $code){
+    static function get_anggaran_by_code($month, $year, $code)
+    {
         $rows = Yii::app()->db->createCommand()
             ->select("pah_anggaran_detil.amount AS anggaran")
             ->from("pah_anggaran_detil")
             ->join("pah_anggaran", "pah_anggaran.id = pah_anggaran_detil.pah_anggaran_id")
             ->where("pah_anggaran.periode_bulan = :month AND pah_anggaran.periode_tahun = :year AND
                 pah_anggaran_detil.pah_chart_master_account_code = :code",
-            array(':month'=>$month,':year'=>$year,':code'=>$code))
+            array(':month' => $month, ':year' => $year, ':code' => $code))
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_chart_master_beban(){
-
+    static function get_chart_master_beban()
+    {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("account_type = ".PahPrefs::TypeCostAct());
+        $criteria->addCondition("account_type = " . PahPrefs::TypeCostAct());
         return PahChartMaster::model()->findAll($criteria);
     }
-
 }

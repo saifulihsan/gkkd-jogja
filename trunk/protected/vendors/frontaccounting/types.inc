@@ -6,6 +6,8 @@ define('ANGGARAN', 2);
 define('AKTIVITAS',3);
 define('BANKTRANSFER', 4);
 
+define('VOID', 5);
+
 define('ST_SALESINVOICE', 10);
 define('ST_CUSTCREDIT', 11);
 define('ST_CUSTPAYMENT', 12);

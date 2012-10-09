@@ -315,3 +315,328 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
     }
 
 });
+
+jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
+    title:'Aktivitas Anak',
+    modez:1,
+    width:500,
+    height:250,
+    layout:'form',
+    modal:true,
+    padding:5,
+    closeForm:false,
+    initComponent:function () {
+        this.items = [
+            {
+                xtype:'form',
+                frame:false,
+                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                id:'form-PahAktivitasShow',
+                layout:'absolute',
+                ref:'formz',
+                border:false,
+                anchor:'100% 100%',
+                items:[
+                    {
+                        xtype:'label',
+                        text:'Ref. Dokumen : ',
+                        x:5,
+                        y:5,
+                        width:100
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../txtRef',
+                        id:'refid',
+                        x:100,
+                        y:5
+                    },
+                    {
+                        xtype:'label',
+                        text:'Tanggal Entry : ',
+                        x:240,
+                        y:5,
+                        width:100,
+                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../trans_entry',
+                        x:355,
+                        y:5
+                    },
+                    {
+                        xtype:'label',
+                        text:'No. Bukti : ',
+                        x:5,
+                        y:25,
+                        width:100,
+//                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../no_bukti',
+                        x:100,
+                        y:25
+                    },
+                    {
+                        xtype:'label',
+                        text:'Tanggal Transaksi : ',
+                        x:240,
+                        y:25,
+                        width:100,
+                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../trans_date',
+                        x:355,
+                        y:25
+                    },
+                    {
+                        xtype:'label',
+                        text:'Kas / Bank : ',
+                        x:240,
+                        y:45,
+                        width:100,
+                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../kas',
+                        x:355,
+                        y:45
+                    },
+                    {
+                        xtype:'label',
+                        text:'Diterima Oleh : ',
+                        x:5,
+                        y:45,
+                        width:100,
+//                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../donatur',
+                        x:100,
+                        y:45
+                    },
+                    {
+                        xtype:'label',
+                        text:'Jumlah : ',
+                        x:5,
+                        y:65,
+                        width:100,
+//                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../amount',
+                        x:100,
+                        y:65
+                    },
+                    {
+                        xtype:'label',
+                        text:'Cara Bayar : ',
+                        x:240,
+                        y:65,
+                        width:100,
+                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../trans_via',
+                        x:355,
+                        y:65
+                    },
+                    {
+                        xtype:'label',
+                        text:'Nama Anak : ',
+                        x:5,
+                        y:85,
+                        width:100,
+//                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../anak',
+                        x:100,
+                        y:85
+                    },
+                    {
+                        xtype:'label',
+                        text:'Sub Aktivitas : ',
+                        x:240,
+                        y:85,
+                        width:100,
+                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../sub_aktivitas',
+                        x:355,
+                        y:85
+                    },
+                    {
+                        xtype:'label',
+                        text:'Kode Rekening : ',
+                        x:5,
+                        y:105,
+                        width:100,
+//                        style:'text-align:right;'
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../codeRek',
+                        x:100,
+                        y:105
+                    },
+                    {
+                        xtype:'label',
+                        text:'',
+                        ref:'../codeDesc',
+                        x:150,
+                        y:105,
+                        anchor:'100% 100%',
+                        style:'white-space: normal;'
+                    },
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype:'toolbar',
+            items:[
+                {
+                    xtype:'button',
+                    text:'Tutup',
+                    ref:'../btnCancel'
+                }
+            ]
+        };
+        jun.PahAktivitasShowWin.superclass.initComponent.call(this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    onbtnCancelclick:function () {
+        this.close();
+    }
+
+});
+jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
+    title:'Void Aktivitas',
+    modez:1,
+    width:300,
+    height:150,
+    layout:'form',
+    modal:true,
+    padding:5,
+    closeForm:false,
+    initComponent:function () {
+        this.items = [
+            {
+                xtype:'form',
+                frame:false,
+                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                id:'form-PahAktivitasVoid',
+                layout:'absolute',
+                ref:'formz',
+                border:false,
+                anchor:'100% 100%',
+                items:[
+                    {
+                        xtype:'label',
+                        text:'Alasan Void : ',
+                        x:5,
+                        y:5,
+                        width:100
+                    },
+                    {
+                        xtype:'textarea',
+                        fieldLabel: 'memo',
+                        ref:'../memo',
+//                        hideLabel:false,
+                        id:'memo_id',
+                        name:'memo_',
+                        x:5,
+                        y:25,
+                        anchor:'100% 100%',
+                    },
+
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype:'toolbar',
+            items:[
+                {
+                    xtype:'button',
+                    text:'Proses',
+                    ref:'../btnProses'
+                },
+                {
+                    xtype:'button',
+                    text:'Batal',
+                    ref:'../btnCancel'
+                }
+            ]
+
+        };
+        jun.PahAktivitasVoidWin.superclass.initComponent.call(this);
+        this.btnProses.on('click', this.onbtnProsesclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+
+    onbtnProsesclick:function () {
+        var form = Ext.getCmp('form-PahAktivitasVoid').getForm();
+        Ext.getCmp('form-PahAktivitasVoid').getForm().submit({
+            url:'PondokHarapan/PahAktivitas/delete/',
+            params:{
+                id:this.id,
+            },
+            method:'POST',
+            scope: this,
+            timeOut: 1000,
+            success:function (f, a){
+                var response = Ext.decode(a.response.responseText);
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title:'Aktivitas',
+                        msg:response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
+                    return;
+                } else {
+                    Ext.MessageBox.show({
+                        title:'Aktivitas',
+                        msg:response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-PahAktivitasVoid').getForm().reset();
+                }
+                jun.rztPahAktivitas.reload();
+                this.close();
+            },
+            failure:function (f, a){
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
+
+    },
+
+    onbtnCancelclick:function () {
+        this.close();
+    }
+
+});

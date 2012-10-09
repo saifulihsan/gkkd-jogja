@@ -143,7 +143,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                   modez: this.modez
                 },*/
                 timeOut: 1000,
-                waitMsg: 'Sedang Proses',
+//                waitMsg: 'Sedang Proses',
                 scope: this,
 
                 success: function(f,a){
