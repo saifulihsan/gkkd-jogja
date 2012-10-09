@@ -10,6 +10,8 @@ $systypes_array = array (
     AKTIVITAS => "Aktivitas",
 	BANKTRANSFER => "Mutasi Antar Kas/Bank",
 
+    VOID => "Void Dokumen",
+
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
 	ST_CUSTPAYMENT => _("Customer Payment"),

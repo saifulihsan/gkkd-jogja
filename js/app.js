@@ -46,7 +46,12 @@ Ext.onReady(function() {
 
     hideMask.defer(250);
     Ext.QuickTips.init();
-
+    loadText = 'Sedang proses... silahkan tunggu';
+    Ext.Ajax.on('beforerequest', function () {
+        Ext.getBody().mask(loadText, 'x-mask-loading', true)
+    }, Ext.getBody());
+    Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
+    Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
     var myViewport = new jun.ViewportUi({
         //renderTo: Ext.getBody()
     });

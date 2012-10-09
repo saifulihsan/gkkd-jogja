@@ -8,7 +8,6 @@ checkPeriodeAnggaran = function () {
             tahun:Ext.getCmp('periode_tahunid').getValue(),
         },
         method:'POST',
-
         success:function (f, a) {
             var response = Ext.decode(f.responseText);
             if (response.success == false) {
@@ -23,13 +22,9 @@ checkPeriodeAnggaran = function () {
         },
         failure:function (f, a) {
             Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-
         }
     });
-
-
 }
-
 getsaldo = function () {
     Ext.Ajax.request({
         waitMsg:'Sedang Proses',
@@ -64,7 +59,6 @@ getsaldo = function () {
         }
     });
 }
-
 jun.PahAnggaranWin = Ext.extend(Ext.Window, {
     title:'Anggaran',
     modez:1,
@@ -286,21 +280,13 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             this.cmbBulan.readOnly = true;
             this.periode_tahun.readOnly = true;
         }
-//        var dt = new Date();
-//        this.periode_tahun.setValue(dt.format('Y'));
-//        this.cmbBulan.setValue(dt.format('n'));
-//        getsaldo();
-
     },
-
-
     onperiodetahunchange:function () {
         if (Ext.getCmp('periode_tahunid').getValue() == "" || this.cmbBulan.value == undefined)
             return;
         this.periode_tahun.focus();
         //getsaldo();
     },
-
     oncmbBulanchange:function () {
         var value = Ext.getCmp('periode_tahunid').getValue();
         if (Ext.getCmp('periode_tahunid').getValue() == "" || this.cmbBulan.value == undefined)
@@ -308,32 +294,24 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         checkPeriodeAnggaran();
         //getsaldo();
     },
-
     onActivate:function () {
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahAnggaran/update/';
-
         } else {
             Ext.Ajax.request({
-                waitMsg:'Sedang Proses',
+//                waitMsg:'Sedang Proses',
                 url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
                 params:{
                     bulan:this.cmbBulan.value,
                     tahun:this.periode_tahun.defaultValue,
                 },
                 method:'POST',
-
                 success:function (f, a) {
                     var response = Ext.decode(f.responseText);
-
                     if (response.success == false) {
                         Ext.MessageBox.show({
                             title:'Warning',
@@ -343,7 +321,6 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         });
                         return;
                     }
-
                 },
                 failure:function (f, a) {
                     Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
@@ -351,7 +328,6 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             });
             urlz = 'PondokHarapan/PahAnggaran/create/';
         }
-
         Ext.getCmp('form-PahAnggaran').getForm().submit({
             url:urlz,
             params:{
@@ -360,9 +336,8 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 id:this.id,
             },
             timeOut:1000,
-            waitMsg:'Sedang Proses',
+            //waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
                 if (response.success == false) {
@@ -388,24 +363,19 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 jun.rztPahAnggaran.reload();
                 this.close();
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onloadrecordupdate:function () {
         getsaldo();
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

@@ -3,10 +3,43 @@
 class PahAnggaranController extends GxController {
 
 
-	public function actionView($id) {
-		$this->render('view', array(
-			'model' => $this->loadModel($id, 'PahAnggaran'),
-		));
+	public function actionView() {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $id = $_POST['id'];
+            $rows = Yii::app()->db->createCommand()
+                ->select("pah_aktivitas.doc_ref,
+                    pah_aktivitas.no_bukti,
+                    pah_aktivitas.amount,
+                    pah_aktivitas.entry_time,
+                    pah_aktivitas.trans_date,
+                    pah_aktivitas.trans_via,
+                    pah_suppliers.supp_name,
+                    pah_chart_master.account_code,
+                    pah_chart_master.description,
+                    pah_bank_accounts.bank_account_name,
+                    jemaat.real_name,
+                    pah_sub_aktivitas.nama")
+                ->from("pah_aktivitas")
+                ->join("pah_suppliers", "pah_aktivitas.pah_suppliers_supplier_id = pah_suppliers.supplier_id")
+                ->join("pah_chart_master", "pah_aktivitas.pah_chart_master_account_code = pah_chart_master.account_code")
+                ->join("pah_bank_accounts", "pah_aktivitas.pah_bank_accounts_id = pah_bank_accounts.id")
+                ->join("pah_member", "pah_aktivitas.pah_member_id = pah_member.id")
+                ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
+                ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
+                ->where("pah_aktivitas.aktivitas_id = :id",array(':id'=>$id))
+                ->query();
+
+            echo CJSON::encode(array(
+                'success' => true,
+                'data' => $rows
+            ));
+            Yii::app()->end();
+        }
+//		$this->render('view', array(
+//			'model' => $this->loadModel($id, 'PahAnggaran'),
+//		));
 	}
 
     public function actionGetSaldo(){

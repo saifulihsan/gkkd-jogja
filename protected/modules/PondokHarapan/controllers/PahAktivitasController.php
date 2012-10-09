@@ -141,16 +141,58 @@ class PahAktivitasController extends GxController
         ));
     }
 
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        if (Yii::app()->request->isPostRequest) {
-            $this->loadModel($id, 'PahAktivitas')->delete();
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $id = $_POST['id'];
+            $memo_ = $_POST['memo_'];
+            $status = false;
+            $msg = 'Aktivitas berhasil divoid.';
+            $user = Yii::app()->user->getId();
+            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $aktivitas = PahAktivitas::model()->findByPk($id);
+                $date = $aktivitas->trans_date;
+                $docref = $aktivitas->doc_ref;
+//                $bank_account = $kas_masuk->pah_bank_accounts_id;
+                $void = new PahVoided;
+                $void->type = AKTIVITAS;
+                $void->id = $id;
+                $void->date_ = $date;
+                $void->memo_ = $memo_;
+                $void->save();
+                $bank = PahBankAccounts::model()->findByPk($aktivitas->pah_bank_accounts_id);
+                //void gl
+                Pah::add_gl(VOID, $void->id, $date, $docref,
+                    $aktivitas->pah_chart_master_account_code,
+                    "VOID Aktivitas $docref", $aktivitas->amount, $user);
+                Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
+                    -$aktivitas->amount, $user);
+                $transaction->commit();
+                $status = true;
+            }catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
 
-            if (!Yii::app()->request->isAjaxRequest)
-                $this->redirect(array('admin'));
-        } else
-            throw new CHttpException(400,
-                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+        }
+        echo CJSON::encode(array(
+            'success' => $status,
+            'msg' => $msg
+        ));
+        Yii::app()->end();
+//        if (Yii::app()->request->isPostRequest) {
+//            $this->loadModel($id, 'PahAktivitas')->delete();
+//
+//            if (!Yii::app()->request->isAjaxRequest)
+//                $this->redirect(array('admin'));
+//        } else
+//            throw new CHttpException(400,
+//                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
 
     /*
@@ -190,10 +232,13 @@ class PahAktivitasController extends GxController
         }
         //$model = new PahAktivitas('search');
         //$model->unsetAttributes();
+        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        $void = Pah::get_voided(AKTIVITAS);
 
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;
+        $criteria->addNotInCondition('aktivitas_id',$void);
         $model = PahAktivitas::model()->findAll($criteria);
         $total = PahAktivitas::model()->count($criteria);
 
