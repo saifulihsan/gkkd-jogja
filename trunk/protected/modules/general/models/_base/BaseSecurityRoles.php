@@ -18,66 +18,71 @@
  *
  * @property Users[] $users
  */
-abstract class BaseSecurityRoles extends GxActiveRecord {
+abstract class BaseSecurityRoles extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'security_roles';
+    }
 
-	public function tableName() {
-		return 'security_roles';
-	}
+    public static function representingColumn()
+    {
+        return 'role';
+    }
 
-	public static function representingColumn() {
-		return 'role';
-	}
+    public function rules()
+    {
+        return array(
+            array('role', 'required'),
+            array('inactive', 'numerical', 'integerOnly' => true),
+            array('role', 'length', 'max' => 30),
+            array('description', 'length', 'max' => 50),
+            array('sections, areas', 'safe'),
+            array('description, sections, areas, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, role, description, sections, areas, inactive', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('role', 'required'),
-			array('inactive', 'numerical', 'integerOnly'=>true),
-			array('role', 'length', 'max'=>30),
-			array('description', 'length', 'max'=>50),
-			array('sections, areas', 'safe'),
-			array('description, sections, areas, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, role, description, sections, areas, inactive', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'users' => array(self::HAS_MANY, 'Users', 'security_roles_id'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'users' => array(self::HAS_MANY, 'Users', 'security_roles_id'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'role' => Yii::t('app', 'Role'),
+            'description' => Yii::t('app', 'Description'),
+            'sections' => Yii::t('app', 'Sections'),
+            'areas' => Yii::t('app', 'Areas'),
+            'inactive' => Yii::t('app', 'Inactive'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'role' => Yii::t('app', 'Role'),
-			'description' => Yii::t('app', 'Description'),
-			'sections' => Yii::t('app', 'Sections'),
-			'areas' => Yii::t('app', 'Areas'),
-			'inactive' => Yii::t('app', 'Inactive'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('role', $this->role, true);
-		$criteria->compare('description', $this->description, true);
-		$criteria->compare('sections', $this->sections, true);
-		$criteria->compare('areas', $this->areas, true);
-		$criteria->compare('inactive', $this->inactive);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('role', $this->role, true);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('sections', $this->sections, true);
+        $criteria->compare('areas', $this->areas, true);
+        $criteria->compare('inactive', $this->inactive);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

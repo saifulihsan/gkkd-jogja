@@ -29,94 +29,98 @@
  * @property integer $inactive
  *
  */
-abstract class BasePahSuppliers extends GxActiveRecord {
+abstract class BasePahSuppliers extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_suppliers';
+    }
 
-	public function tableName() {
-		return 'pah_suppliers';
-	}
+    public static function representingColumn()
+    {
+        return 'supp_name';
+    }
 
-	public static function representingColumn() {
-		return 'supp_name';
-	}
+    public function rules()
+    {
+        return array(
+            array('address, mail_address, notes', 'required'),
+            array('payment_terms, inactive', 'numerical', 'integerOnly' => true),
+            array('credit_limit', 'numerical'),
+            array('supp_name, contact, bank_account', 'length', 'max' => 60),
+            array('supp_ref', 'length', 'max' => 30),
+            array('gst_no', 'length', 'max' => 25),
+            array('supp_account_no', 'length', 'max' => 40),
+            array('website', 'length', 'max' => 100),
+            array('curr_code', 'length', 'max' => 3),
+            array('purchase_account, payable_account, payment_discount_account', 'length', 'max' => 15),
+            array('supp_name, supp_ref, gst_no, contact, supp_account_no, website, bank_account, curr_code, payment_terms, credit_limit, purchase_account, payable_account, payment_discount_account, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('supplier_id, supp_name, supp_ref, address, mail_address, gst_no, contact, supp_account_no, website, bank_account, curr_code, payment_terms, credit_limit, purchase_account, payable_account, payment_discount_account, notes, inactive', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('address, mail_address, notes', 'required'),
-			array('payment_terms, inactive', 'numerical', 'integerOnly'=>true),
-			array('credit_limit', 'numerical'),
-			array('supp_name, contact, bank_account', 'length', 'max'=>60),
-			array('supp_ref', 'length', 'max'=>30),
-			array('gst_no', 'length', 'max'=>25),
-			array('supp_account_no', 'length', 'max'=>40),
-			array('website', 'length', 'max'=>100),
-			array('curr_code', 'length', 'max'=>3),
-			array('purchase_account, payable_account, payment_discount_account', 'length', 'max'=>15),
-			array('supp_name, supp_ref, gst_no, contact, supp_account_no, website, bank_account, curr_code, payment_terms, credit_limit, purchase_account, payable_account, payment_discount_account, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('supplier_id, supp_name, supp_ref, address, mail_address, gst_no, contact, supp_account_no, website, bank_account, curr_code, payment_terms, credit_limit, purchase_account, payable_account, payment_discount_account, notes, inactive', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array();
+    }
 
-	public function relations() {
-		return array(
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'supplier_id' => Yii::t('app', 'Supplier'),
+            'supp_name' => Yii::t('app', 'Supp Name'),
+            'supp_ref' => Yii::t('app', 'Supp Ref'),
+            'address' => Yii::t('app', 'Address'),
+            'mail_address' => Yii::t('app', 'Mail Address'),
+            'gst_no' => Yii::t('app', 'Gst No'),
+            'contact' => Yii::t('app', 'Contact'),
+            'supp_account_no' => Yii::t('app', 'Supp Account No'),
+            'website' => Yii::t('app', 'Website'),
+            'bank_account' => Yii::t('app', 'Bank Account'),
+            'curr_code' => Yii::t('app', 'Curr Code'),
+            'payment_terms' => Yii::t('app', 'Payment Terms'),
+            'credit_limit' => Yii::t('app', 'Credit Limit'),
+            'purchase_account' => Yii::t('app', 'Purchase Account'),
+            'payable_account' => Yii::t('app', 'Payable Account'),
+            'payment_discount_account' => Yii::t('app', 'Payment Discount Account'),
+            'notes' => Yii::t('app', 'Notes'),
+            'inactive' => Yii::t('app', 'Inactive'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'supplier_id' => Yii::t('app', 'Supplier'),
-			'supp_name' => Yii::t('app', 'Supp Name'),
-			'supp_ref' => Yii::t('app', 'Supp Ref'),
-			'address' => Yii::t('app', 'Address'),
-			'mail_address' => Yii::t('app', 'Mail Address'),
-			'gst_no' => Yii::t('app', 'Gst No'),
-			'contact' => Yii::t('app', 'Contact'),
-			'supp_account_no' => Yii::t('app', 'Supp Account No'),
-			'website' => Yii::t('app', 'Website'),
-			'bank_account' => Yii::t('app', 'Bank Account'),
-			'curr_code' => Yii::t('app', 'Curr Code'),
-			'payment_terms' => Yii::t('app', 'Payment Terms'),
-			'credit_limit' => Yii::t('app', 'Credit Limit'),
-			'purchase_account' => Yii::t('app', 'Purchase Account'),
-			'payable_account' => Yii::t('app', 'Payable Account'),
-			'payment_discount_account' => Yii::t('app', 'Payment Discount Account'),
-			'notes' => Yii::t('app', 'Notes'),
-			'inactive' => Yii::t('app', 'Inactive'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('supplier_id', $this->supplier_id);
-		$criteria->compare('supp_name', $this->supp_name, true);
-		$criteria->compare('supp_ref', $this->supp_ref, true);
-		$criteria->compare('address', $this->address, true);
-		$criteria->compare('mail_address', $this->mail_address, true);
-		$criteria->compare('gst_no', $this->gst_no, true);
-		$criteria->compare('contact', $this->contact, true);
-		$criteria->compare('supp_account_no', $this->supp_account_no, true);
-		$criteria->compare('website', $this->website, true);
-		$criteria->compare('bank_account', $this->bank_account, true);
-		$criteria->compare('curr_code', $this->curr_code, true);
-		$criteria->compare('payment_terms', $this->payment_terms);
-		$criteria->compare('credit_limit', $this->credit_limit);
-		$criteria->compare('purchase_account', $this->purchase_account, true);
-		$criteria->compare('payable_account', $this->payable_account, true);
-		$criteria->compare('payment_discount_account', $this->payment_discount_account, true);
-		$criteria->compare('notes', $this->notes, true);
-		$criteria->compare('inactive', $this->inactive);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('supplier_id', $this->supplier_id);
+        $criteria->compare('supp_name', $this->supp_name, true);
+        $criteria->compare('supp_ref', $this->supp_ref, true);
+        $criteria->compare('address', $this->address, true);
+        $criteria->compare('mail_address', $this->mail_address, true);
+        $criteria->compare('gst_no', $this->gst_no, true);
+        $criteria->compare('contact', $this->contact, true);
+        $criteria->compare('supp_account_no', $this->supp_account_no, true);
+        $criteria->compare('website', $this->website, true);
+        $criteria->compare('bank_account', $this->bank_account, true);
+        $criteria->compare('curr_code', $this->curr_code, true);
+        $criteria->compare('payment_terms', $this->payment_terms);
+        $criteria->compare('credit_limit', $this->credit_limit);
+        $criteria->compare('purchase_account', $this->purchase_account, true);
+        $criteria->compare('payable_account', $this->payable_account, true);
+        $criteria->compare('payment_discount_account', $this->payment_discount_account, true);
+        $criteria->compare('notes', $this->notes, true);
+        $criteria->compare('inactive', $this->inactive);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

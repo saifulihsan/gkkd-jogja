@@ -30,86 +30,91 @@
  * @property PahMember $pahMember
  * @property PahSuppliers $pahSuppliersSupplier
  */
-abstract class BasePahAktivitas extends GxActiveRecord {
+abstract class BasePahAktivitas extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_aktivitas';
+    }
 
-	public function tableName() {
-		return 'pah_aktivitas';
-	}
+    public static function representingColumn()
+    {
+        return 'doc_ref';
+    }
 
-	public static function representingColumn() {
-		return 'doc_ref';
-	}
+    public function rules()
+    {
+        return array(
+            array('pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'required'),
+            array('pah_suppliers_supplier_id, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'numerical', 'integerOnly' => true),
+            array('amount', 'numerical'),
+            array('doc_ref, pah_chart_master_account_code', 'length', 'max' => 15),
+            array('no_bukti, trans_via', 'length', 'max' => 45),
+            array('entry_time, trans_date', 'safe'),
+            array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('aktivitas_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'required'),
-			array('pah_suppliers_supplier_id, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'numerical', 'integerOnly'=>true),
-			array('amount', 'numerical'),
-			array('doc_ref, pah_chart_master_account_code', 'length', 'max'=>15),
-			array('no_bukti, trans_via', 'length', 'max'=>45),
-			array('entry_time, trans_date', 'safe'),
-			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('aktivitas_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_suppliers_supplier_id, pah_chart_master_account_code, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'pahSubAktivitas' => array(self::BELONGS_TO, 'PahSubAktivitas', 'pah_sub_aktivitas_id'),
+            'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
+            'pahBankAccounts' => array(self::BELONGS_TO, 'PahBankAccounts', 'pah_bank_accounts_id'),
+            'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
+            'pahMember' => array(self::BELONGS_TO, 'PahMember', 'pah_member_id'),
+            'pahSuppliersSupplier' => array(self::BELONGS_TO, 'PahSuppliers', 'pah_suppliers_supplier_id'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'pahSubAktivitas' => array(self::BELONGS_TO, 'PahSubAktivitas', 'pah_sub_aktivitas_id'),
-			'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
-			'pahBankAccounts' => array(self::BELONGS_TO, 'PahBankAccounts', 'pah_bank_accounts_id'),
-			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
-			'pahMember' => array(self::BELONGS_TO, 'PahMember', 'pah_member_id'),
-			'pahSuppliersSupplier' => array(self::BELONGS_TO, 'PahSuppliers', 'pah_suppliers_supplier_id'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'aktivitas_id' => Yii::t('app', 'Aktivitas'),
+            'doc_ref' => Yii::t('app', 'Doc Ref'),
+            'no_bukti' => Yii::t('app', 'No Bukti'),
+            'amount' => Yii::t('app', 'Amount'),
+            'entry_time' => Yii::t('app', 'Entry Time'),
+            'trans_date' => Yii::t('app', 'Trans Date'),
+            'trans_via' => Yii::t('app', 'Trans Via'),
+            'pah_suppliers_supplier_id' => Yii::t('app', 'Pah Suppliers Supplier'),
+            'pah_chart_master_account_code' => Yii::t('app', 'Pah Chart Master Account Code'),
+            'pah_bank_accounts_id' => Yii::t('app', 'Pah Bank Accounts'),
+            'pah_member_id' => Yii::t('app', 'Pah Member'),
+            'pah_sub_aktivitas_id' => Yii::t('app', 'Pah Sub Aktivitas'),
+            'users_id' => Yii::t('app', 'Users'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'aktivitas_id' => Yii::t('app', 'Aktivitas'),
-			'doc_ref' => Yii::t('app', 'Doc Ref'),
-			'no_bukti' => Yii::t('app', 'No Bukti'),
-			'amount' => Yii::t('app', 'Amount'),
-			'entry_time' => Yii::t('app', 'Entry Time'),
-			'trans_date' => Yii::t('app', 'Trans Date'),
-			'trans_via' => Yii::t('app', 'Trans Via'),
-			'pah_suppliers_supplier_id' => Yii::t('app', 'Pah Suppliers Supplier'),
-			'pah_chart_master_account_code' => Yii::t('app', 'Pah Chart Master Account Code'),
-			'pah_bank_accounts_id' => Yii::t('app', 'Pah Bank Accounts'),
-			'pah_member_id' => Yii::t('app', 'Pah Member'),
-			'pah_sub_aktivitas_id' => Yii::t('app', 'Pah Sub Aktivitas'),
-			'users_id' => Yii::t('app', 'Users'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('aktivitas_id', $this->aktivitas_id);
-		$criteria->compare('doc_ref', $this->doc_ref, true);
-		$criteria->compare('no_bukti', $this->no_bukti, true);
-		$criteria->compare('amount', $this->amount);
-		$criteria->compare('entry_time', $this->entry_time, true);
-		$criteria->compare('trans_date', $this->trans_date, true);
-		$criteria->compare('trans_via', $this->trans_via, true);
-		$criteria->compare('pah_suppliers_supplier_id', $this->pah_suppliers_supplier_id);
-		$criteria->compare('pah_chart_master_account_code', $this->pah_chart_master_account_code);
-		$criteria->compare('pah_bank_accounts_id', $this->pah_bank_accounts_id);
-		$criteria->compare('pah_member_id', $this->pah_member_id);
-		$criteria->compare('pah_sub_aktivitas_id', $this->pah_sub_aktivitas_id);
-		$criteria->compare('users_id', $this->users_id);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('aktivitas_id', $this->aktivitas_id);
+        $criteria->compare('doc_ref', $this->doc_ref, true);
+        $criteria->compare('no_bukti', $this->no_bukti, true);
+        $criteria->compare('amount', $this->amount);
+        $criteria->compare('entry_time', $this->entry_time, true);
+        $criteria->compare('trans_date', $this->trans_date, true);
+        $criteria->compare('trans_via', $this->trans_via, true);
+        $criteria->compare('pah_suppliers_supplier_id', $this->pah_suppliers_supplier_id);
+        $criteria->compare('pah_chart_master_account_code', $this->pah_chart_master_account_code);
+        $criteria->compare('pah_bank_accounts_id', $this->pah_bank_accounts_id);
+        $criteria->compare('pah_member_id', $this->pah_member_id);
+        $criteria->compare('pah_sub_aktivitas_id', $this->pah_sub_aktivitas_id);
+        $criteria->compare('users_id', $this->users_id);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

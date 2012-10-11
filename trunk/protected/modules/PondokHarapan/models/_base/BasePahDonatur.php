@@ -15,59 +15,63 @@
  * @property string $alamat
  *
  */
-abstract class BasePahDonatur extends GxActiveRecord {
+abstract class BasePahDonatur extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_donatur';
+    }
 
-	public function tableName() {
-		return 'pah_donatur';
-	}
+    public static function representingColumn()
+    {
+        return 'name';
+    }
 
-	public static function representingColumn() {
-		return 'name';
-	}
+    public function rules()
+    {
+        return array(
+            array('name', 'length', 'max' => 50),
+            array('phone', 'length', 'max' => 30),
+            array('alamat', 'safe'),
+            array('name, phone, alamat', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, name, phone, alamat', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('name', 'length', 'max'=>50),
-			array('phone', 'length', 'max'=>30),
-			array('alamat', 'safe'),
-			array('name, phone, alamat', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, phone, alamat', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array();
+    }
 
-	public function relations() {
-		return array(
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'phone' => Yii::t('app', 'Phone'),
+            'alamat' => Yii::t('app', 'Alamat'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'name' => Yii::t('app', 'Name'),
-			'phone' => Yii::t('app', 'Phone'),
-			'alamat' => Yii::t('app', 'Alamat'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('name', $this->name, true);
-		$criteria->compare('phone', $this->phone, true);
-		$criteria->compare('alamat', $this->alamat, true);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('phone', $this->phone, true);
+        $criteria->compare('alamat', $this->alamat, true);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

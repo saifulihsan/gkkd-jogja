@@ -23,13 +23,13 @@ class UserIdentity extends CUserIdentity
             // username => password
             'demo' => 'demo',
             'admin' => 'admin',
-            );
+        );
         $user = Users::model()->findByAttributes(array('user_id' => $this->username));
         if ($user === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         //if(!isset($users[$this->username]))
         //			$this->errorCode=self::ERROR_USERNAME_INVALID;
-        else if (!bCrypt::verify($this->password, $user->password)){
+        else if (!bCrypt::verify($this->password, $user->password)) {
 //            $pass = $user->password;
 //            $pass2 = $this->password;
 //            $very = $this->encrypt($this->password);
@@ -37,15 +37,13 @@ class UserIdentity extends CUserIdentity
 //            $enc = NEW bCrypt();
 //            $veryvied = $enc->verify($this->password, $user->password);
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        } else {
+            $this->_id = $user->id;
+            $this->username = $user->user_id;
+            //$this->username = 'admin';
+            $this->errorCode = self::ERROR_NONE;
         }
-        else
-        {
-                $this->_id = $user->id;
-                $this->username = $user->user_id;
-                //$this->username = 'admin';
-                $this->errorCode = self::ERROR_NONE;
-        }
-            return !$this->errorCode;
+        return !$this->errorCode;
     }
 
     public function getId()
@@ -58,5 +56,4 @@ class UserIdentity extends CUserIdentity
         $enc = NEW bCrypt();
         return $enc->hash($value);
     }
-
 }

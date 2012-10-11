@@ -2,8 +2,6 @@
 
 class PahKasKeluarController extends GxController
 {
-
-
     public function actionView()
     {
         if (!Yii::app()->request->isAjaxRequest)
@@ -25,9 +23,8 @@ class PahKasKeluarController extends GxController
                 ->join("pah_suppliers", "pah_kas_keluar.pah_suppliers_supplier_id = pah_suppliers.supplier_id")
                 ->join("pah_bank_accounts", "pah_kas_keluar.pah_bank_accounts_id = pah_bank_accounts.id")
                 ->join("pah_chart_master", "pah_kas_keluar.pah_chart_master_account_code = pah_chart_master.account_code")
-                ->where("pah_kas_keluar.kas_keluar_id = :id",array(':id'=>$id))
+                ->where("pah_kas_keluar.kas_keluar_id = :id", array(':id' => $id))
                 ->query();
-
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
@@ -66,13 +63,13 @@ class PahKasKeluarController extends GxController
                 $kas_keluar->attributes = $_POST['PahKasKeluar'];
                 $kas_keluar->save();
                 $id = $docref;
-                $ref->save(KAS_KELUAR,$kas_keluar->kas_keluar_id,$docref);
+                $ref->save(KAS_KELUAR, $kas_keluar->kas_keluar_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($kas_keluar->pah_bank_accounts_id);
                 //debet kode beban - kredit kas/bank
-                Pah::add_gl(KAS_KELUAR,$kas_keluar->kas_keluar_id,$date,$docref,
-                    $kas_keluar->pah_chart_master_account_code,'-',$kas_keluar->amount,$user);
-                Pah::add_gl(KAS_KELUAR,$kas_keluar->kas_keluar_id,$date,$docref,$bank_account,
-                    '-',-$kas_keluar->amount,$user);
+                Pah::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref,
+                    $kas_keluar->pah_chart_master_account_code, '-', $kas_keluar->amount, $user);
+                Pah::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref, $bank_account,
+                    '-', -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -81,7 +78,6 @@ class PahKasKeluarController extends GxController
                 $msg = $ex;
             }
         }
-
         echo CJSON::encode(array(
             'success' => $status,
             'id' => $id,
@@ -93,8 +89,6 @@ class PahKasKeluarController extends GxController
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'PahKasKeluar');
-
-
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PahKasKeluar'][$k] = $v;
@@ -103,14 +97,11 @@ class PahKasKeluarController extends GxController
             $_POST['PahKasKeluar']['users_id'] = Yii::app()->user->getId();
             $_POST['PahKasKeluar']['doc_ref'] = '';
             $model->attributes = $_POST['PahKasKeluar'];
-
             if ($model->save()) {
-
                 $status = true;
             } else {
                 $status = false;
             }
-
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
@@ -120,7 +111,6 @@ class PahKasKeluarController extends GxController
                 $this->redirect(array('view', 'id' => $model->kas_keluar_id));
             }
         }
-
         $this->render('update', array(
             'model' => $model,
         ));
@@ -158,12 +148,11 @@ class PahKasKeluarController extends GxController
                     -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $transaction->rollback();
                 $status = false;
                 $msg = $ex;
             }
-
         }
         echo CJSON::encode(array(
             'success' => $status,
@@ -187,15 +176,12 @@ class PahKasKeluarController extends GxController
              'dataProvider' => $dataProvider,
          ));
      }*/
-
     public function actionAdmin()
     {
         $model = new PahKasKeluar('search');
         $model->unsetAttributes();
-
         if (isset($_GET['PahKasKeluar']))
             $model->attributes = $_GET['PahKasKeluar'];
-
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -208,10 +194,8 @@ class PahKasKeluarController extends GxController
         } else {
             $limit = 20;
         }
-
         if (isset($_POST['start'])) {
             $start = $_POST['start'];
-
         } else {
             $start = 0;
         }
@@ -219,27 +203,22 @@ class PahKasKeluarController extends GxController
         //$model->unsetAttributes();
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(KAS_KELUAR);
-
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;
-        $criteria->addNotInCondition('kas_keluar_id',$void);
+        $criteria->addNotInCondition('kas_keluar_id', $void);
         $model = PahKasKeluar::model()->findAll($criteria);
         $total = PahKasKeluar::model()->count($criteria);
-
         if (isset($_GET['PahKasKeluar']))
             $model->attributes = $_GET['PahKasKeluar'];
-
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
         } else {
             $model = new PahKasKeluar('search');
             $model->unsetAttributes();
-
             $this->render('admin', array(
                 'model' => $model,
             ));
         }
     }
-
 }

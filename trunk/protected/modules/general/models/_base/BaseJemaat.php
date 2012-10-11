@@ -18,65 +18,70 @@
  * @property PahMember[] $pahMembers
  * @property Users[] $users
  */
-abstract class BaseJemaat extends GxActiveRecord {
+abstract class BaseJemaat extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'jemaat';
+    }
 
-	public function tableName() {
-		return 'jemaat';
-	}
+    public static function representingColumn()
+    {
+        return 'real_name';
+    }
 
-	public static function representingColumn() {
-		return 'real_name';
-	}
+    public function rules()
+    {
+        return array(
+            array('nij', 'required'),
+            array('inactive', 'numerical', 'integerOnly' => true),
+            array('nij', 'length', 'max' => 20),
+            array('real_name, email', 'length', 'max' => 100),
+            array('phone', 'length', 'max' => 30),
+            array('real_name, phone, email, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('nij, real_name, phone, email, inactive', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('nij', 'required'),
-			array('inactive', 'numerical', 'integerOnly'=>true),
-			array('nij', 'length', 'max'=>20),
-			array('real_name, email', 'length', 'max'=>100),
-			array('phone', 'length', 'max'=>30),
-			array('real_name, phone, email, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('nij, real_name, phone, email, inactive', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'pahMembers' => array(self::HAS_MANY, 'PahMember', 'jemaat_nij'),
+            'users' => array(self::HAS_MANY, 'Users', 'nij'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'pahMembers' => array(self::HAS_MANY, 'PahMember', 'jemaat_nij'),
-			'users' => array(self::HAS_MANY, 'Users', 'nij'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'nij' => Yii::t('app', 'Nij'),
+            'real_name' => Yii::t('app', 'Real Name'),
+            'phone' => Yii::t('app', 'Phone'),
+            'email' => Yii::t('app', 'Email'),
+            'inactive' => Yii::t('app', 'Inactive'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'nij' => Yii::t('app', 'Nij'),
-			'real_name' => Yii::t('app', 'Real Name'),
-			'phone' => Yii::t('app', 'Phone'),
-			'email' => Yii::t('app', 'Email'),
-			'inactive' => Yii::t('app', 'Inactive'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('nij', $this->nij, true);
-		$criteria->compare('real_name', $this->real_name, true);
-		$criteria->compare('phone', $this->phone, true);
-		$criteria->compare('email', $this->email, true);
-		$criteria->compare('inactive', $this->inactive);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('nij', $this->nij, true);
+        $criteria->compare('real_name', $this->real_name, true);
+        $criteria->compare('phone', $this->phone, true);
+        $criteria->compare('email', $this->email, true);
+        $criteria->compare('inactive', $this->inactive);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

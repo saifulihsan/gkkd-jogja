@@ -1,137 +1,134 @@
 jun.UsersWin = Ext.extend(Ext.Window, {
-    title: 'Users',
+    title:'Users',
     modez:1,
-    width: 400,
-    height: 300,
-    layout: 'form',
-    modal: true,
-    padding: 5,
-    closeForm: false,    
-    initComponent: function() {
+    width:400,
+    height:300,
+    layout:'form',
+    modal:true,
+    padding:5,
+    closeForm:false,
+    initComponent:function () {
         this.items = [
             {
-                xtype: 'form',
-                frame: false,
-                bodyStyle: 'background-color: #DFE8F6; padding: 10px',
+                xtype:'form',
+                frame:false,
+                bodyStyle:'background-color: #DFE8F6; padding: 10px',
                 id:'form-Users',
-                labelWidth: 100,
-                labelAlign: 'left',
-                layout: 'form',
+                labelWidth:100,
+                labelAlign:'left',
+                layout:'form',
                 ref:'formz',
                 border:false,
-                items: [
+                items:[
                     {
-                        xtype: 'combo',
-                        typeAhead: true,
-                        triggerAction: 'all',
+                        xtype:'combo',
+                        typeAhead:true,
+                        triggerAction:'all',
                         lazyRender:true,
-                        mode: 'local',
-                        fieldLabel: 'Nama Jemaat',
-                        store: jun.rztJemaat,
+                        mode:'local',
+                        fieldLabel:'Nama Jemaat',
+                        store:jun.rztJemaat,
                         hiddenName:'nij',
                         hiddenValue:'nij',
-                        valueField: 'nij',
+                        valueField:'nij',
                         //displayField: 'Jemaat::model()->representingColumn()',
-                        displayField: 'real_name',
+                        displayField:'real_name',
                         //allowBlank:false,
-                        anchor: '100%'
+                        anchor:'100%'
                     },
-
                     {
-                                    xtype: 'textfield',
-                                    fieldLabel: 'User Id',
-                                    hideLabel:false,
-                                    //hidden:true,
-                                    name:'user_id',
-                                    id:'user_idid',
-                                    ref:'../user_id',
-                                    maxLength: 60,
-                                    //allowBlank: ,
-                                    anchor: '100%'
-                                }, 
-                                                                     {
-                                    xtype: 'textfield',
-                                    fieldLabel: 'Password',
-                                    hideLabel:false,
-                                    //hidden:true,
-                                    name:'password',
-                                    id:'passwordid',
-                                    ref:'../password',
-                                    maxLength: 100,
-                                    //allowBlank: ,
-                                    anchor: '100%'
-                                },
-
+                        xtype:'textfield',
+                        fieldLabel:'User Id',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'user_id',
+                        id:'user_idid',
+                        ref:'../user_id',
+                        maxLength:60,
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
                     {
-                        xtype: 'xdatefield',
+                        xtype:'textfield',
+                        fieldLabel:'Password',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'password',
+                        id:'passwordid',
+                        ref:'../password',
+                        maxLength:100,
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
+                    {
+                        xtype:'xdatefield',
                         ref:'../last_visit_date',
-                        fieldLabel: 'last_visit_date',
+                        fieldLabel:'last_visit_date',
                         name:'last_visit_date',
                         id:'last_visit_dateid',
-                      //  format: 'Y-mm-dd',
+                        //  format: 'Y-mm-dd',
                         hidden:true,
-                        value: new Date(),
+                        value:new Date(),
                         //allowBlank: 1,
-                        anchor: '100%'
+                        anchor:'100%'
                     },
-                           /*
-                                                                     {
-                            xtype: 'textfield',
-                            fieldLabel: 'Status',
-                            hideLabel:false,
-                            //hidden:true,
-                            name:'inactive',
-                            id:'inactiveid',
-                            ref:'../inactive',
-                            //allowBlank: ,
-                            anchor: '100%'
-                        }, */
+                    /*
+                     {
+                     xtype: 'textfield',
+                     fieldLabel: 'Status',
+                     hideLabel:false,
+                     //hidden:true,
+                     name:'inactive',
+                     id:'inactiveid',
+                     ref:'../inactive',
+                     //allowBlank: ,
+                     anchor: '100%'
+                     }, */
                     new jun.comboActive({
-                        fieldLabel: 'Status',
+                        fieldLabel:'Status',
                         hideLabel:false,
                         width:100,
                         height:20,
                         ref:'../cmbActive',
                         id:'statusid',
-                        value: 1,
+                        value:1,
                     }),
-
-                                                                     {
-                            xtype: 'combo',
-                            typeAhead: true,
-                            triggerAction: 'all',
-                            lazyRender:true,
-                            mode: 'local',                            
-                            fieldLabel: 'Rule',
-                            store: jun.rztSecurityRoles,
-                            hiddenName:'security_roles_id',
-                            hiddenValue:'security_roles_id',
-                            valueField: 'id',
-                            //displayField: 'SecurityRoles::model()->representingColumn()',
-                            displayField: 'role',
-                            //allowBlank:false,
-                            anchor: '100%'
-                        }, 
-                                                   
-                  ]
-            }];
+                    {
+                        xtype:'combo',
+                        typeAhead:true,
+                        triggerAction:'all',
+                        lazyRender:true,
+                        mode:'local',
+                        fieldLabel:'Rule',
+                        store:jun.rztSecurityRoles,
+                        hiddenName:'security_roles_id',
+                        hiddenValue:'security_roles_id',
+                        valueField:'id',
+                        //displayField: 'SecurityRoles::model()->representingColumn()',
+                        displayField:'role',
+                        //allowBlank:false,
+                        anchor:'100%'
+                    },
+                ]
+            }
+        ];
         this.fbar = {
-            xtype: 'toolbar',
-            items: [
+            xtype:'toolbar',
+            items:[
                 {
-                    xtype: 'button',
-                    text: 'Simpan',
-                    hidden: false,
+                    xtype:'button',
+                    text:'Simpan',
+                    hidden:false,
                     ref:'../btnSave'
                 },
                 {
-                    xtype: 'button',
-                    text: 'Simpan & Tutup',
-                    ref: '../btnSaveClose'
+                    xtype:'button',
+                    text:'Simpan & Tutup',
+                    ref:'../btnSaveClose'
                 },
                 {
-                    xtype: 'button',
-                    text: 'Batal',
+                    xtype:'button',
+                    text:'Batal',
                     ref:'../btnCancel'
                 }
             ]
@@ -140,82 +137,59 @@ jun.UsersWin = Ext.extend(Ext.Window, {
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
-        this.btnCancel.on('click', this.onbtnCancelclick, this);       
-        
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
-    
-    onActivate: function(){
-              
+    onActivate:function () {
         this.btnSave.hidden = false;
-        
     },
-            
-    saveForm : function()
-    {       
-            var urlz;
-     
-            if(this.modez == 1 || this.modez== 2) {
-                    
-                    urlz= 'general/Users/update/id/' + this.id;
-                    
+    saveForm:function () {
+        var urlz;
+        if (this.modez == 1 || this.modez == 2) {
+            urlz = 'general/Users/update/id/' + this.id;
+        } else {
+            urlz = 'general/Users/create/';
+        }
+        Ext.getCmp('form-Users').getForm().submit({
+            url:urlz,
+            /*
+             params:{
+             tglpeljlo: this.tglpeljlo,
+             jenpeljlo: this.jenpeljlo,
+             modez: this.modez
+             },*/
+            timeOut:1000,
+            waitMsg:'Sedang Proses',
+            scope:this,
+            success:function (f, a) {
+                jun.rztUsers.reload();
+                var response = Ext.decode(a.response.responseText);
+                if (this.closeForm) {
+                    this.close();
                 } else {
-                    
-                    urlz= 'general/Users/create/';
-                }
-             
-            Ext.getCmp('form-Users').getForm().submit({
-                url:urlz,                
-                /*
-                params:{                                  
-                  tglpeljlo: this.tglpeljlo,
-                  jenpeljlo: this.jenpeljlo,
-                  modez: this.modez
-                },*/
-                timeOut: 1000,
-                waitMsg: 'Sedang Proses',
-                scope: this,
-
-                success: function(f,a){
-                    jun.rztUsers.reload();
-                    
-                    var response = Ext.decode(a.response.responseText);
-         
-                    if(this.closeForm){
-                    
-                        this.close();
-                    
-                    }else{
-                        if(response.data != undefined){
-                            Ext.MessageBox.alert("Pelayanan",response.data.msg);
-                        }
-                        if(this.modez == 0){
-                            Ext.getCmp('form-Users').getForm().reset();
-                        }
+                    if (response.data != undefined) {
+                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
                     }
-                    
-                },
-
-                failure: function(f,a){
-                    Ext.MessageBox.alert("Error","Can't Communicate With The Server");
+                    if (this.modez == 0) {
+                        Ext.getCmp('form-Users').getForm().reset();
+                    }
                 }
+            },
+            failure:function (f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+            }
 
-            });
-
+        });
     },
-    
-    onbtnSaveCloseClick: function()
-    {
+    onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-    
-    onbtnSaveclick: function()
-    {
+    onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);
     },
-    onbtnCancelclick: function(){
+    onbtnCancelclick:function () {
         this.close();
     }
-   
+
 });

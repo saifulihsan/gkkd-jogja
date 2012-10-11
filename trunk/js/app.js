@@ -1,31 +1,40 @@
 jun.sidebar = new jun.TreeUi({
     dataUrl:'site/tree/'
 });
-
-jun.sidebar.on('click', function(node, e){
-     if(node.isLeaf()){
+jun.sidebar.on('click', function (node, e) {
+    if (node.isLeaf()) {
         e.stopEvent();
+        if(node.id == 'logout'){
+            Ext.MessageBox.confirm('Pertanyaan','Apakah anda yakin ingin logout?', function(btn){
+                if (btn == 'no')
+                    return;
+                window.location.href = 'site/logout';
+            }, this);
+        }
         jun.mainPanel.loadClass(node.id);
-     }
+    }
 });
-
+var clock = new Ext.Toolbar.TextItem('Jam');
 jun.mainPanel = new jun.TabsUi();
-
 jun.ViewportUi = Ext.extend(Ext.Viewport, {
-    layout: 'border',
-    initComponent: function() {
+    layout:'border',
+    initComponent:function () {
+//        bbar: new Ext.ux.StatusBar({
+//            id: 'word-status',
+//            items: [clock, ' ']
+//        }),
         this.items = [
-        {
-            xtype: 'box',            
-            region: 'north',
-            //html: '<div id="header"><h1>RS ol</h1><span id=usrlogin></span></div>',
-            applyTo:'header',
-            height: 50
-        },
-        jun.sidebar,
-        jun.mainPanel,
+            {
+                xtype:'box',
+                region:'north',
+                id:'app-header',
+                html:"Sistem Informasi Gereja Kristen Kemah Daud Yogyakarta",
+                height:50
+            },
+            jun.sidebar,
+            jun.mainPanel,
 //        {
-//            xtype: 'container',
+//            xtype: 'panel',
 //            autoEl: 'div',
 //            region: 'south',
 //            height: 20
@@ -34,8 +43,7 @@ jun.ViewportUi = Ext.extend(Ext.Viewport, {
         jun.ViewportUi.superclass.initComponent.call(this);
     }
 });
-
-Ext.onReady(function() {
+Ext.onReady(function () {
     var hideMask = function () {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').fadeOut({
@@ -43,7 +51,6 @@ Ext.onReady(function() {
             //callback : firebugWarning
         });
     }
-
     hideMask.defer(250);
     Ext.QuickTips.init();
     loadText = 'Sedang proses... silahkan tunggu';
@@ -55,14 +62,11 @@ Ext.onReady(function() {
     var myViewport = new jun.ViewportUi({
         //renderTo: Ext.getBody()
     });
+//    myViewport.Hpanel.reload();
     //var logz = Ext.get('usrlogin')
     //logz.highlight();
-   
-            //jun.rztUser.load();
-            
-            //jun.rztSjp.load();
-            //jun.rztRrawat.load();
-            //jun.rztKlsrawat.load();
-
-    
+    //jun.rztUser.load();
+    //jun.rztSjp.load();
+    //jun.rztRrawat.load();
+    //jun.rztKlsrawat.load();
 });

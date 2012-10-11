@@ -83,7 +83,6 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 //hidden:true,
                                 name:'trans_date',
                                 id:'refid',
-
                                 maxLength:40,
                                 //allowBlank: 1,
                                 anchor:'100%'
@@ -95,7 +94,6 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 //hidden:true,
                                 name:'amount',
                                 id:'amountid',
-
                                 maxLength:20,
                                 //allowBlank: 1,
                                 anchor:'100%'
@@ -130,7 +128,6 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                             }
                         ]
                     }
-
                 ]
             }
         ];
@@ -162,15 +159,10 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     oncmbBankAsalChange:function (cmb, newVal, oldVal) {
         Ext.Ajax.request({
             waitMsg:'Please Wait',
@@ -178,19 +170,15 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
             params:{
                 id:this.cmbBankAsal.getValue(),
             },
-
             success:function (response) {
                 var response = Ext.decode(response.responseText);
-
                 Ext.getCmp('bank_bal_id').setValue(response.id);
             },
             failure:function (response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     },
-
     saveForm:function () {
         var urlz;
 //
@@ -212,9 +200,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
                 if (response.success == false) {
@@ -225,7 +211,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                         icon:Ext.MessageBox.ERROR
                     });
                     return;
-                }else{
+                } else {
                     Ext.MessageBox.show({
                         title:'Transfer',
                         msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
@@ -237,20 +223,16 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                 jun.rztPahBankTrans.reload();
                 this.close();
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

@@ -1,38 +1,37 @@
 <?php
 $this->breadcrumbs = array(
-	'Pah Chart Masters' => array('index'),
-	GxHtml::valueEx($model),
+    'Pah Chart Masters' => array('index'),
+    GxHtml::valueEx($model),
 );
-
-$this->menu=array(
-	array('label'=>Yii::t('app', 'List') . ' PahChartMaster', 'url'=>array('index')),
-	array('label'=>Yii::t('app', 'Create') . ' PahChartMaster', 'url'=>array('create')),
-	array('label'=>Yii::t('app', 'Update') . ' PahChartMaster', 'url'=>array('update', 'id' => $model->account_code)),
-	array('label'=>Yii::t('app', 'Delete') . ' PahChartMaster', 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->account_code), 'confirm'=>'Are you sure you want to delete this item?')),
-	//array('label'=>Yii::t('app', 'Manage') . ' PahChartMaster', 'url'=>array('admin')),
+$this->menu = array(
+    array('label' => Yii::t('app', 'List') . ' PahChartMaster', 'url' => array('index')),
+    array('label' => Yii::t('app', 'Create') . ' PahChartMaster', 'url' => array('create')),
+    array('label' => Yii::t('app', 'Update') . ' PahChartMaster', 'url' => array('update', 'id' => $model->account_code)),
+    array('label' => Yii::t('app', 'Delete') . ' PahChartMaster', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->account_code), 'confirm' => 'Are you sure you want to delete this item?')),
+    //array('label'=>Yii::t('app', 'Manage') . ' PahChartMaster', 'url'=>array('admin')),
 );
 ?>
 
 <h1><?php echo Yii::t('app', 'View'); ?> PahChartMaster #<?php echo GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data' => $model,
-	'attributes' => array(
-'account_code',
-'account_code2',
-'account_name',
-array(
-			'label' => 'PahChartTypes',
-			'type' => 'raw',
-			'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->accountType)), array('pahChartTypes/view', 'id' => GxActiveRecord::extractPkValue($model->accountType, true))),
-			),
-'inactive',
-'description',
-	),
-        'itemTemplate' => "<tr class=\"{class}\"><td style=\"width: 120px\"><b>{label}</b></td><td>{value}</td></tr>\n",
-        'htmlOptions' => array(
-            'class' => 'table',
+    'data' => $model,
+    'attributes' => array(
+        'account_code',
+        'account_code2',
+        'account_name',
+        array(
+            'label' => 'PahChartTypes',
+            'type' => 'raw',
+            'value' => GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->accountType)), array('pahChartTypes/view', 'id' => GxActiveRecord::extractPkValue($model->accountType, true))),
         ),
+        'inactive',
+        'description',
+    ),
+    'itemTemplate' => "<tr class=\"{class}\"><td style=\"width: 120px\"><b>{label}</b></td><td>{value}</td></tr>\n",
+    'htmlOptions' => array(
+        'class' => 'table',
+    ),
 )); ?>
 
 <!--h2>Pah Bank Accounts</h2-->

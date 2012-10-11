@@ -1,12 +1,11 @@
 <?php
 $this->breadcrumbs = array(
-	'Jemaats' => array('index'),
-	Yii::t('app', 'Create'),
+    'Jemaats' => array('index'),
+    Yii::t('app', 'Create'),
 );
-
 $this->menu = array(
-	array('label'=>Yii::t('app', 'List') . ' Jemaat', 'url' => array('index')),
-	array('label'=>Yii::t('app', 'Manage') . ' Jemaat', 'url' => array('admin')),
+    array('label' => Yii::t('app', 'List') . ' Jemaat', 'url' => array('index')),
+    array('label' => Yii::t('app', 'Manage') . ' Jemaat', 'url' => array('admin')),
 );
 ?>
 
@@ -14,6 +13,6 @@ $this->menu = array(
 
 <?php
 $this->renderPartial('_form', array(
-		'model' => $model,
-		'buttons' => 'create'));
+    'model' => $model,
+    'buttons' => 'create'));
 ?>

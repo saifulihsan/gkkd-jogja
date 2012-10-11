@@ -15,58 +15,62 @@
  * @property string $reference
  *
  */
-abstract class BasePahRefs extends GxActiveRecord {
+abstract class BasePahRefs extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_refs';
+    }
 
-	public function tableName() {
-		return 'pah_refs';
-	}
+    public static function representingColumn()
+    {
+        return 'reference';
+    }
 
-	public static function representingColumn() {
-		return 'reference';
-	}
+    public function rules()
+    {
+        return array(
+            array('type_no, type', 'numerical', 'integerOnly' => true),
+            array('reference', 'length', 'max' => 100),
+            array('type_no, type, reference', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, type_no, type, reference', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('type_no, type', 'numerical', 'integerOnly'=>true),
-			array('reference', 'length', 'max'=>100),
-			array('type_no, type, reference', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, type_no, type, reference', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array();
+    }
 
-	public function relations() {
-		return array(
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'type_no' => Yii::t('app', 'Type No'),
+            'type' => Yii::t('app', 'Type'),
+            'reference' => Yii::t('app', 'Reference'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'type_no' => Yii::t('app', 'Type No'),
-			'type' => Yii::t('app', 'Type'),
-			'reference' => Yii::t('app', 'Reference'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('type_no', $this->type_no);
-		$criteria->compare('type', $this->type);
-		$criteria->compare('reference', $this->reference, true);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('type_no', $this->type_no);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('reference', $this->reference, true);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

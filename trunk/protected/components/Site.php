@@ -6,65 +6,74 @@
  */
 class Site
 {
-    static function get_jemaat_from_user($nij){
+    static function get_jemaat_from_user($nij)
+    {
         return Jemaat::model()->findByPk($nij);
     }
 
-    static function get_jemaat_from_user_id($id){
+    static function get_jemaat_from_user_id($id)
+    {
         $user = Users::model()->findByPk($id);
-        if($user == null)
+        if ($user == null)
             return false;
-        else{
+        else {
             return Site::get_jemaat_from_user($user->nij);
         }
     }
 
 //---------------------------------------------  Format  ---------------------------------------------------------------
-    static function get_number($number){
+    static function get_number($number)
+    {
         return str_replace(",", "", $number);
     }
 
-    static function sql2date($date){
-        $timestamp=CDateTimeParser::parse($date,'yyyy-MM-dd');
+    static function sql2date($date)
+    {
+        $timestamp = CDateTimeParser::parse($date, 'yyyy-MM-dd');
         return Yii::app()->dateFormatter->format('dd/MM/yyyy', $timestamp);
     }
 
-    static function date2sql($date){
-        $timestamp=CDateTimeParser::parse($date,'dd/MM/yyyy');
+    static function date2sql($date)
+    {
+        $timestamp = CDateTimeParser::parse($date, 'dd/MM/yyyy');
         return Yii::app()->dateFormatter->format('yyyy-MM-dd', $timestamp);
     }
 
-    static function sql2long_date($date){
-        $timestamp=CDateTimeParser::parse($date,'yyyy-MM-dd');
+    static function sql2long_date($date)
+    {
+        $timestamp = CDateTimeParser::parse($date, 'yyyy-MM-dd');
         $formater = new CDateFormatter('id_ID');
         return $formater->formatDateTime($timestamp, 'long', false);
     }
-//---------------------------------------------- DateTime --------------------------------------------------------------
 
-    static function get_date_tomorrow(){
-        return Yii::app()->dateFormatter->format('yyyy-MM-dd', time()+ (1 * 24 * 60 * 60));
+//---------------------------------------------- DateTime --------------------------------------------------------------
+    static function get_date_tomorrow()
+    {
+        return Yii::app()->dateFormatter->format('yyyy-MM-dd', time() + (1 * 24 * 60 * 60));
     }
 
-    static function get_time_now(){
+    static function get_time_now()
+    {
         return Yii::app()->dateFormatter->format('HH:mm:ss', time());
     }
 
-    static function get_date_today($format = 'yyyy-MM-dd'){
+    static function get_date_today($format = 'yyyy-MM-dd')
+    {
         return Yii::app()->dateFormatter->format($format, time());
     }
 
-    static function period2date($month,$year){
+    static function period2date($month, $year)
+    {
         $timestamp = DateTime::createFromFormat('d/m/Y', "01/$month/$year");
         $start = $timestamp->format('Y-m-d');
         $end = $timestamp->format('Y-m-t');
-        return array('start'=>$start,'end'=>$end);
+        return array('start' => $start, 'end' => $end);
     }
 
-    static function date2longperiode($date,$format){
-        $timestamp=CDateTimeParser::parse($date,'yyyy-MM-dd');
+    static function date2longperiode($date, $format)
+    {
+        $timestamp = CDateTimeParser::parse($date, 'yyyy-MM-dd');
         $formater = new CDateFormatter('id_ID');
-        return $formater->format($format,$timestamp);
+        return $formater->format($format, $timestamp);
     }
-
-
 }

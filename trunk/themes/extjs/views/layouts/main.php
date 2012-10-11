@@ -24,9 +24,9 @@
 </div>
 <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>
 <script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/adapter/ext/ext-base-debug.js"></script>
+        src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/adapter/ext/ext-base.js"></script>
 <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all-debug.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all.js"></script>
 <script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Initializing...';</script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/sidebar.js"></script>
 <? if (Yii::app()->user->isGuest && !strstr($_SERVER['REQUEST_URI'], "site/login")) { ?>
@@ -58,10 +58,10 @@
         }
     }
     ?>
-<div id="header"><h1><strong><?php echo CHtml::encode(Yii::app()->name); ?></strong></h1>
-    <span id="usrlogin">Welcome :  <?php echo CHtml::encode(Yii::app()->user->name); ?>  | <a href="site/logout"
-                                                                                              class="lout">Logout</a></span>
-</div>
+<!--<div id="header"><h1><strong>--><?php //echo CHtml::encode(Yii::app()->name); ?><!--</strong></h1>-->
+<!--    <span id="usrlogin">Welcome :  --><?php //echo CHtml::encode(Yii::app()->user->name); ?><!--  | <a href="site/logout"-->
+<!--                                                                                              class="lout">Logout</a></span>-->
+<!--</div>-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/mainpanel.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/app.js"></script>
     <? }?>

@@ -1,28 +1,27 @@
 <div class="view">
+    <?php echo GxHtml::encode($data->getAttributeLabel('supplier_id')); ?>:
+    <?php echo GxHtml::link(GxHtml::encode($data->supplier_id), array('view', 'id' => $data->supplier_id)); ?>
+    <br/>
 
-	<?php echo GxHtml::encode($data->getAttributeLabel('supplier_id')); ?>:
-	<?php echo GxHtml::link(GxHtml::encode($data->supplier_id), array('view', 'id' => $data->supplier_id)); ?>
-	<br />
-
-	<?php echo GxHtml::encode($data->getAttributeLabel('supp_name')); ?>:
-	<?php echo GxHtml::encode($data->supp_name); ?>
-	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('supp_ref')); ?>:
-	<?php echo GxHtml::encode($data->supp_ref); ?>
-	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('address')); ?>:
-	<?php echo GxHtml::encode($data->address); ?>
-	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('mail_address')); ?>:
-	<?php echo GxHtml::encode($data->mail_address); ?>
-	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('gst_no')); ?>:
-	<?php echo GxHtml::encode($data->gst_no); ?>
-	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('contact')); ?>:
-	<?php echo GxHtml::encode($data->contact); ?>
-	<br />
-	<?php /*
+    <?php echo GxHtml::encode($data->getAttributeLabel('supp_name')); ?>:
+    <?php echo GxHtml::encode($data->supp_name); ?>
+    <br/>
+    <?php echo GxHtml::encode($data->getAttributeLabel('supp_ref')); ?>:
+    <?php echo GxHtml::encode($data->supp_ref); ?>
+    <br/>
+    <?php echo GxHtml::encode($data->getAttributeLabel('address')); ?>:
+    <?php echo GxHtml::encode($data->address); ?>
+    <br/>
+    <?php echo GxHtml::encode($data->getAttributeLabel('mail_address')); ?>:
+    <?php echo GxHtml::encode($data->mail_address); ?>
+    <br/>
+    <?php echo GxHtml::encode($data->getAttributeLabel('gst_no')); ?>:
+    <?php echo GxHtml::encode($data->gst_no); ?>
+    <br/>
+    <?php echo GxHtml::encode($data->getAttributeLabel('contact')); ?>:
+    <?php echo GxHtml::encode($data->contact); ?>
+    <br/>
+    <?php /*
 	<?php echo GxHtml::encode($data->getAttributeLabel('supp_account_no')); ?>:
 	<?php echo GxHtml::encode($data->supp_account_no); ?>
 	<br />
@@ -57,5 +56,4 @@
 	<?php echo GxHtml::encode($data->inactive); ?>
 	<br />
 	*/ ?>
-
 </div>

@@ -148,19 +148,17 @@ class PahKasMasukController extends GxController
                     -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $transaction->rollback();
                 $status = false;
                 $msg = $ex;
             }
-
         }
         echo CJSON::encode(array(
             'success' => $status,
             'msg' => $msg
         ));
         Yii::app()->end();
-
 //        if (Yii::app()->request->isPostRequest) {
 //            $this->loadModel($id, 'PahKasMasuk')->delete();
 //            if (!Yii::app()->request->isAjaxRequest)
@@ -208,7 +206,7 @@ class PahKasMasukController extends GxController
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;
-        $criteria->addNotInCondition('kas_masuk_id',$void);
+        $criteria->addNotInCondition('kas_masuk_id', $void);
         $model = PahKasMasuk::model()->findAll($criteria);
         $total = PahKasMasuk::model()->count($criteria);
         if (isset($_GET['PahKasMasuk']))

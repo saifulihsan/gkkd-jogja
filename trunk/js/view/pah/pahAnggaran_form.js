@@ -1,7 +1,7 @@
 checkPeriodeAnggaran = function () {
     //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
     Ext.Ajax.request({
-        waitMsg:'Sedang Proses',
+
         url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
         params:{
             bulan:Ext.getCmp('periode_bulanid').getValue(),
@@ -27,7 +27,7 @@ checkPeriodeAnggaran = function () {
 }
 getsaldo = function () {
     Ext.Ajax.request({
-        waitMsg:'Sedang Proses',
+
         url:'PondokHarapan/PahAnggaran/getSaldo/',
         params:{
             bulan:Ext.getCmp('periode_bulanid').getValue(),
@@ -303,7 +303,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             urlz = 'PondokHarapan/PahAnggaran/update/';
         } else {
             Ext.Ajax.request({
-//                waitMsg:'Sedang Proses',
+//
                 url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
                 params:{
                     bulan:this.cmbBulan.value,
@@ -336,7 +336,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 id:this.id,
             },
             timeOut:1000,
-            //waitMsg:'Sedang Proses',
+            //
             scope:this,
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);

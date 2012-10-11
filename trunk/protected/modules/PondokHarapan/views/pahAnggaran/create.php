@@ -1,12 +1,11 @@
 <?php
 $this->breadcrumbs = array(
-	'Pah Anggarans' => array('index'),
-	Yii::t('app', 'Create'),
+    'Pah Anggarans' => array('index'),
+    Yii::t('app', 'Create'),
 );
-
 $this->menu = array(
-	array('label'=>Yii::t('app', 'List') . ' PahAnggaran', 'url' => array('index')),
-	array('label'=>Yii::t('app', 'Manage') . ' PahAnggaran', 'url' => array('admin')),
+    array('label' => Yii::t('app', 'List') . ' PahAnggaran', 'url' => array('index')),
+    array('label' => Yii::t('app', 'Manage') . ' PahAnggaran', 'url' => array('admin')),
 );
 ?>
 
@@ -14,6 +13,6 @@ $this->menu = array(
 
 <?php
 $this->renderPartial('_form', array(
-		'model' => $model,
-		'buttons' => 'create'));
+    'model' => $model,
+    'buttons' => 'create'));
 ?>

@@ -20,70 +20,75 @@
  *
  * @property PahChartMaster $account0
  */
-abstract class BasePahGlTrans extends GxActiveRecord {
+abstract class BasePahGlTrans extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_gl_trans';
+    }
 
-	public function tableName() {
-		return 'pah_gl_trans';
-	}
+    public static function representingColumn()
+    {
+        return 'memo_';
+    }
 
-	public static function representingColumn() {
-		return 'memo_';
-	}
+    public function rules()
+    {
+        return array(
+            array('type_no, memo_, users_id', 'required'),
+            array('type, type_no, users_id', 'numerical', 'integerOnly' => true),
+            array('amount', 'numerical'),
+            array('account', 'length', 'max' => 15),
+            array('tran_date', 'safe'),
+            array('type, tran_date, account, amount', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('counter, type, type_no, tran_date, account, memo_, amount, users_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('type_no, memo_, users_id', 'required'),
-			array('type, type_no, users_id', 'numerical', 'integerOnly'=>true),
-			array('amount', 'numerical'),
-			array('account', 'length', 'max'=>15),
-			array('tran_date', 'safe'),
-			array('type, tran_date, account, amount', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('counter, type, type_no, tran_date, account, memo_, amount, users_id', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'account0' => array(self::BELONGS_TO, 'PahChartMaster', 'account'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'account0' => array(self::BELONGS_TO, 'PahChartMaster', 'account'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'counter' => Yii::t('app', 'Counter'),
+            'type' => Yii::t('app', 'Type'),
+            'type_no' => Yii::t('app', 'Type No'),
+            'tran_date' => Yii::t('app', 'Tran Date'),
+            'account' => Yii::t('app', 'Account'),
+            'memo_' => Yii::t('app', 'Memo'),
+            'amount' => Yii::t('app', 'Amount'),
+            'users_id' => Yii::t('app', 'Users'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'counter' => Yii::t('app', 'Counter'),
-			'type' => Yii::t('app', 'Type'),
-			'type_no' => Yii::t('app', 'Type No'),
-			'tran_date' => Yii::t('app', 'Tran Date'),
-			'account' => Yii::t('app', 'Account'),
-			'memo_' => Yii::t('app', 'Memo'),
-			'amount' => Yii::t('app', 'Amount'),
-			'users_id' => Yii::t('app', 'Users'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('counter', $this->counter);
-		$criteria->compare('type', $this->type);
-		$criteria->compare('type_no', $this->type_no);
-		$criteria->compare('tran_date', $this->tran_date, true);
-		$criteria->compare('account', $this->account);
-		$criteria->compare('memo_', $this->memo_, true);
-		$criteria->compare('amount', $this->amount);
-		$criteria->compare('users_id', $this->users_id);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('counter', $this->counter);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('type_no', $this->type_no);
+        $criteria->compare('tran_date', $this->tran_date, true);
+        $criteria->compare('account', $this->account);
+        $criteria->compare('memo_', $this->memo_, true);
+        $criteria->compare('amount', $this->amount);
+        $criteria->compare('users_id', $this->users_id);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

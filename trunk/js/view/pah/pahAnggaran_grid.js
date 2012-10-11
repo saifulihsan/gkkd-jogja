@@ -48,7 +48,6 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
 //                        dataIndex:'lock',
 //			width:100
 //		},
-
     ],
     initComponent:function () {
         this.store = jun.rztPahAnggaran;
@@ -62,7 +61,6 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
-
         this.tbar = {
             xtype:'toolbar',
             items:[
@@ -96,22 +94,16 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
         this.getSelectionModel().on('rowselect', this.getrow, this);
         jun.rztPahAnggaran.load();
     },
-
     getrow:function (sm, idx, r) {
         this.record = r;
-
         var selectedz = this.sm.getSelections();
     },
-
     loadForm:function () {
         var form = new jun.PahAnggaranWin({modez:0});
         form.show();
     },
-
     loadEditForm:function () {
-
         var selectedz = this.sm.getSelected();
-
         //var dodol = this.store.getAt(0);
         if (selectedz == undefined) {
             Ext.MessageBox.alert("Warning", "Anda belum memilih Anggaran untuk di ubah.");
@@ -123,24 +115,19 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
         form.formz.getForm().loadRecord(this.record);
         form.onloadrecordupdate();
     },
-
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
     },
-
     deleteRecYes:function (btn) {
         if (btn == 'no') {
             return;
         }
-
         var record = this.sm.getSelected();
-
         // Check is list selected
         if (record == "") {
             Ext.MessageBox.alert("Warning", "Anda Belum Memilih Anggaran");
             return;
         }
-
         Ext.Ajax.request({
             waitMsg:'Please Wait',
             url:'PondokHarapan/PahAnggaran/delete',
@@ -148,17 +135,15 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
             //url: 'index.php/api/PahAnggaran/delete/' + record[0].json.nosjp,
             method:'POST',
             params:{
-                id_anggaran: record.json.id,
+                id_anggaran:record.json.id,
             },
             success:function (response) {
                 jun.rztPahAnggaran.reload();
                 Ext.Msg.alert('Anggaran', 'Anggaran berhasil dihapus.');
-
             },
             failure:function (response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     }
 })

@@ -32,7 +32,7 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenValue:'account_code',
                         valueField:'account_code',
                         matchFieldWidth:false,
-                        itemSelector: 'div.search-item',
+                        itemSelector:'div.search-item',
                         //hideTrigger:true,
                         //pageSize:10,
                         tpl:new Ext.XTemplate(
@@ -43,7 +43,7 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         listWidth:300,
                         //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
-                        editable : true,
+                        editable:true,
                         anchor:'100%'
                     },
                     {
@@ -70,8 +70,6 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         height:100,
                         //allowBlank: 1
                     },
-
-
                 ]
             }
         ];
@@ -101,27 +99,17 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahSubAktivitas/update/id/' + this.id;
-
         } else {
-
             urlz = 'PondokHarapan/PahSubAktivitas/create/';
         }
-
         Ext.getCmp('form-PahSubAktivitas').getForm().submit({
             url:urlz,
             /*
@@ -131,18 +119,12 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 jun.rztPahSubAktivitas.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
                 if (this.closeForm) {
-
                     this.close();
-
                 } else {
                     if (response.data != undefined) {
                         Ext.MessageBox.alert("Pelayanan", response.data.msg);
@@ -151,22 +133,17 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahSubAktivitas').getForm().reset();
                     }
                 }
-
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

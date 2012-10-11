@@ -42,8 +42,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-
-
                     {
                         xtype:'textfield',
                         fieldLabel:'No. Bukti',
@@ -56,7 +54,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-
 //                    {
 //                        xtype:'xdatefield',
 //                        ref:'../entry_time',
@@ -104,8 +101,8 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                             '</div></tpl>'
                         ),
                         matchFieldWidth:false,
-                        itemSelector: 'div.search-item',
-                        editable : true,
+                        itemSelector:'div.search-item',
+                        editable:true,
                         listWidth:300,
                         displayField:'account_code',
                         //allowBlank:false,
@@ -128,18 +125,18 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
                     /* {
-                        xtype:'textfield',
-                        fieldLabel:'trans_via',
-                        hideLabel:false,
-                        //hidden:true,
-                        name:'Cara Pembayaran',
-                        id:'trans_viaid',
-                        ref:'../trans_via',
-                        maxLength:45,
-                        //allowBlank: 1,
-                        anchor:'100%'
-                    },*/
-                    new jun.comboPayment ({
+                     xtype:'textfield',
+                     fieldLabel:'trans_via',
+                     hideLabel:false,
+                     //hidden:true,
+                     name:'Cara Pembayaran',
+                     id:'trans_viaid',
+                     ref:'../trans_via',
+                     maxLength:45,
+                     //allowBlank: 1,
+                     anchor:'100%'
+                     },*/
+                    new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
                         value:'Tunai',
                         anchor:'100%'
@@ -204,7 +201,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
 //                        //allowBlank:false,
 //                        anchor:'100%'
 //                    },
-
                 ]
             }
         ];
@@ -239,28 +235,18 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
         jun.rztPahMemberbyName.reload();
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahAktivitas/update/id/' + this.id;
-
         } else {
-
             urlz = 'PondokHarapan/PahAktivitas/create/';
         }
-
         Ext.getCmp('form-PahAktivitas').getForm().submit({
             url:urlz,
             /*
@@ -270,18 +256,12 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 jun.rztPahAktivitas.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
                 if (this.closeForm) {
-
                     this.close();
-
                 } else {
                     if (response.data != undefined) {
                         Ext.MessageBox.alert("Pelayanan", response.data.msg);
@@ -290,22 +270,17 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahAktivitas').getForm().reset();
                     }
                 }
-
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);
@@ -315,7 +290,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
     }
 
 });
-
 jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
     title:'Aktivitas Anak',
     modez:1,
@@ -562,7 +536,7 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'textarea',
-                        fieldLabel: 'memo',
+                        fieldLabel:'memo',
                         ref:'../memo',
 //                        hideLabel:false,
                         id:'memo_id',
@@ -571,7 +545,6 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                         y:25,
                         anchor:'100% 100%',
                     },
-
                 ]
             }
         ];
@@ -595,7 +568,6 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
-
     onbtnProsesclick:function () {
         var form = Ext.getCmp('form-PahAktivitasVoid').getForm();
         Ext.getCmp('form-PahAktivitasVoid').getForm().submit({
@@ -604,9 +576,9 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                 id:this.id,
             },
             method:'POST',
-            scope: this,
-            timeOut: 1000,
-            success:function (f, a){
+            scope:this,
+            timeOut:1000,
+            success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
                 if (response.success == false) {
                     Ext.MessageBox.show({
@@ -628,13 +600,11 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                 jun.rztPahAktivitas.reload();
                 this.close();
             },
-            failure:function (f, a){
+            failure:function (f, a) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     },
-
     onbtnCancelclick:function () {
         this.close();
     }

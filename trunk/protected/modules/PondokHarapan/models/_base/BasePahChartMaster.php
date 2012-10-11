@@ -21,69 +21,74 @@
  * @property PahGlTrans[] $pahGlTrans
  * @property PahSubAktivitas[] $pahSubAktivitases
  */
-abstract class BasePahChartMaster extends GxActiveRecord {
+abstract class BasePahChartMaster extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_chart_master';
+    }
 
-	public function tableName() {
-		return 'pah_chart_master';
-	}
+    public static function representingColumn()
+    {
+        return 'account_code2';
+    }
 
-	public static function representingColumn() {
-		return 'account_code2';
-	}
+    public function rules()
+    {
+        return array(
+            array('inactive', 'numerical', 'integerOnly' => true),
+            array('account_code, account_code2', 'length', 'max' => 15),
+            array('account_name', 'length', 'max' => 60),
+            array('account_type', 'length', 'max' => 10),
+            array('description', 'safe'),
+            array('account_code, account_code2, account_name, account_type, inactive, description', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('account_code, account_code2, account_name, account_type, inactive, description', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('inactive', 'numerical', 'integerOnly'=>true),
-			array('account_code, account_code2', 'length', 'max'=>15),
-			array('account_name', 'length', 'max'=>60),
-			array('account_type', 'length', 'max'=>10),
-			array('description', 'safe'),
-			array('account_code, account_code2, account_name, account_type, inactive, description', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('account_code, account_code2, account_name, account_type, inactive, description', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'pahBankAccounts' => array(self::HAS_MANY, 'PahBankAccounts', 'account_code'),
+            'accountType' => array(self::BELONGS_TO, 'PahChartTypes', 'account_type'),
+            'pahGlTrans' => array(self::HAS_MANY, 'PahGlTrans', 'account'),
+            'pahSubAktivitases' => array(self::HAS_MANY, 'PahSubAktivitas', 'account_code'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'pahBankAccounts' => array(self::HAS_MANY, 'PahBankAccounts', 'account_code'),
-			'accountType' => array(self::BELONGS_TO, 'PahChartTypes', 'account_type'),
-			'pahGlTrans' => array(self::HAS_MANY, 'PahGlTrans', 'account'),
-			'pahSubAktivitases' => array(self::HAS_MANY, 'PahSubAktivitas', 'account_code'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'account_code' => Yii::t('app', 'Account Code'),
+            'account_code2' => Yii::t('app', 'Account Code2'),
+            'account_name' => Yii::t('app', 'Account Name'),
+            'account_type' => Yii::t('app', 'Account Type'),
+            'inactive' => Yii::t('app', 'Inactive'),
+            'description' => Yii::t('app', 'Description'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'account_code' => Yii::t('app', 'Account Code'),
-			'account_code2' => Yii::t('app', 'Account Code2'),
-			'account_name' => Yii::t('app', 'Account Name'),
-			'account_type' => Yii::t('app', 'Account Type'),
-			'inactive' => Yii::t('app', 'Inactive'),
-			'description' => Yii::t('app', 'Description'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('account_code', $this->account_code, true);
-		$criteria->compare('account_code2', $this->account_code2, true);
-		$criteria->compare('account_name', $this->account_name, true);
-		$criteria->compare('account_type', $this->account_type);
-		$criteria->compare('inactive', $this->inactive);
-		$criteria->compare('description', $this->description, true);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('account_code', $this->account_code, true);
+        $criteria->compare('account_code2', $this->account_code2, true);
+        $criteria->compare('account_name', $this->account_name, true);
+        $criteria->compare('account_type', $this->account_type);
+        $criteria->compare('inactive', $this->inactive);
+        $criteria->compare('description', $this->description, true);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }
