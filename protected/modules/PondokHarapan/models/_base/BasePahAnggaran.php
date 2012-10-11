@@ -20,68 +20,73 @@
  * @property Users $users
  * @property PahAnggaranDetil[] $pahAnggaranDetils
  */
-abstract class BasePahAnggaran extends GxActiveRecord {
+abstract class BasePahAnggaran extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_anggaran';
+    }
 
-	public function tableName() {
-		return 'pah_anggaran';
-	}
+    public static function representingColumn()
+    {
+        return 'doc_ref';
+    }
 
-	public static function representingColumn() {
-		return 'doc_ref';
-	}
+    public function rules()
+    {
+        return array(
+            array('users_id', 'required'),
+            array('periode_bulan, periode_tahun, lock, users_id', 'numerical', 'integerOnly' => true),
+            array('doc_ref', 'length', 'max' => 15),
+            array('trans_date', 'safe'),
+            array('doc_ref, periode_bulan, periode_tahun, trans_date, lock', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, doc_ref, periode_bulan, periode_tahun, trans_date, lock, users_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('users_id', 'required'),
-			array('periode_bulan, periode_tahun, lock, users_id', 'numerical', 'integerOnly'=>true),
-			array('doc_ref', 'length', 'max'=>15),
-			array('trans_date', 'safe'),
-			array('doc_ref, periode_bulan, periode_tahun, trans_date, lock', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, doc_ref, periode_bulan, periode_tahun, trans_date, lock, users_id', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
+            'pahAnggaranDetils' => array(self::HAS_MANY, 'PahAnggaranDetil', 'pah_anggaran_id'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
-			'pahAnggaranDetils' => array(self::HAS_MANY, 'PahAnggaranDetil', 'pah_anggaran_id'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'doc_ref' => Yii::t('app', 'Doc Ref'),
+            'periode_bulan' => Yii::t('app', 'Periode Bulan'),
+            'periode_tahun' => Yii::t('app', 'Periode Tahun'),
+            'trans_date' => Yii::t('app', 'Trans Date'),
+            'lock' => Yii::t('app', 'Lock'),
+            'users_id' => Yii::t('app', 'Users'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'doc_ref' => Yii::t('app', 'Doc Ref'),
-			'periode_bulan' => Yii::t('app', 'Periode Bulan'),
-			'periode_tahun' => Yii::t('app', 'Periode Tahun'),
-			'trans_date' => Yii::t('app', 'Trans Date'),
-			'lock' => Yii::t('app', 'Lock'),
-			'users_id' => Yii::t('app', 'Users'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('doc_ref', $this->doc_ref, true);
-		$criteria->compare('periode_bulan', $this->periode_bulan);
-		$criteria->compare('periode_tahun', $this->periode_tahun);
-		$criteria->compare('trans_date', $this->trans_date, true);
-		$criteria->compare('lock', $this->lock);
-		$criteria->compare('users_id', $this->users_id);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('doc_ref', $this->doc_ref, true);
+        $criteria->compare('periode_bulan', $this->periode_bulan);
+        $criteria->compare('periode_tahun', $this->periode_tahun);
+        $criteria->compare('trans_date', $this->trans_date, true);
+        $criteria->compare('lock', $this->lock);
+        $criteria->compare('users_id', $this->users_id);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

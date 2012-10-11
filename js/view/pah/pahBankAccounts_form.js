@@ -32,7 +32,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         hiddenValue:'account_code',
                         valueField:'account_code',
                         matchFieldWidth:false,
-                        itemSelector: 'div.search-item',
+                        itemSelector:'div.search-item',
                         //hideTrigger:true,
                         //pageSize:10,
                         tpl:new Ext.XTemplate(
@@ -43,7 +43,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
                         listWidth:300,
-                        editable : true,
+                        editable:true,
                         anchor:'100%'
                     },
 //                    {
@@ -175,10 +175,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         ref:'../inactive',
                         //allowBlank: ,
                         anchor:'100%'
-                    },
-
-
-
+                    }
                 ]
             }
         ];
@@ -203,77 +200,75 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahChartMaster.reload();
         jun.PahBankAccountsWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahBankAccounts/update/id/' + this.id;
-
         } else {
-
             urlz = 'PondokHarapan/PahBankAccounts/create/';
         }
-
         Ext.getCmp('form-PahBankAccounts').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
-                jun.rztPahBankAccounts.reload();
-
+//                jun.rztPahBankAccounts.reload();
                 var response = Ext.decode(a.response.responseText);
-
-                if (this.closeForm) {
-
-                    this.close();
-
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-PahBankAccounts').getForm().reset();
-                    }
+                Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
+                if (this.modez == 0) {
+                    Ext.getCmp('form-PahBankAccounts').getForm().reset();
                 }
-
+                jun.rztPahBankAccounts.reload();
+                if (this.closeForm) {
+                    this.close();
+                }
+//                if (this.closeForm) {
+//                    this.close();
+//                } else {
+//                    if (response.data != undefined) {
+//                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
+//                    }
+//                    if (this.modez == 0) {
+//                        Ext.getCmp('form-PahBankAccounts').getForm().reset();
+//                    }
+//                }
             },
-
             failure:function (f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                var response = Ext.decode(a.response.responseText);
+//                if (response.status != '200') {
+//                    Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+//                    return;
+//                }
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                });
+//                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

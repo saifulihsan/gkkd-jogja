@@ -53,20 +53,20 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         id:'addressid',
                         ref:'../address',
                         anchor:'100%',
-                        height: 100
+                        height:100
                         //allowBlank:
                     },
-                                                                     {
-                            xtype: 'textfield',
-                            fieldLabel: 'mail_address',
-                            hideLabel:false,
-                            //hidden:true,
-                            name:'mail_address',
-                            id:'mail_addressid',
-                            ref:'../mail_address',
-                            anchor: '100%'
-                            //allowBlank:
-                        },
+                    {
+                        xtype:'textfield',
+                        fieldLabel:'mail_address',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'mail_address',
+                        id:'mail_addressid',
+                        ref:'../mail_address',
+                        anchor:'100%'
+                        //allowBlank:
+                    },
 //                                                                     {
 //                                    xtype: 'textfield',
 //                                    fieldLabel: 'gst_no',
@@ -208,7 +208,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         id:'notesid',
                         ref:'../notes',
                         anchor:'100%',
-                        height: 100
+                        height:100
                         //allowBlank:
                     },
 //                                                                     {
@@ -222,7 +222,6 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
 //                            //allowBlank: ,
 //                            anchor: '100%'
 //                        },
-
                 ]
             }
         ];
@@ -252,27 +251,17 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahSuppliers/update/id/' + this.id;
-
         } else {
-
             urlz = 'PondokHarapan/PahSuppliers/create/';
         }
-
         Ext.getCmp('form-PahSuppliers').getForm().submit({
             url:urlz,
             /*
@@ -282,18 +271,12 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 jun.rztPahSuppliers.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
                 if (this.closeForm) {
-
                     this.close();
-
                 } else {
                     if (response.data != undefined) {
                         Ext.MessageBox.alert("Pelayanan", response.data.msg);
@@ -302,22 +285,17 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahSuppliers').getForm().reset();
                     }
                 }
-
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

@@ -45,7 +45,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "No")
@@ -60,7 +59,6 @@ class PahReportController extends GxController
             $rows = Pah::get_mutasi_kas_ditangan($start_date, $end_date);
             $nomer = 1;
             $saldo = 0;
-
             foreach ($rows as $row) {
                 $saldo += $row['saldo'];
                 $kas_masuk = $row['kas_masuk'] == 0 ? '' : ($format == 'excel' ? $row['kas_masuk'] : number_format($row['kas_masuk']));
@@ -84,7 +82,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:G$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -97,7 +94,6 @@ class PahReportController extends GxController
                     ->getStyle("E$start_body:G$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
@@ -105,7 +101,6 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("E")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("F")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("G")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -115,10 +110,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -157,7 +150,6 @@ class PahReportController extends GxController
 //
 //                $objWriter = new PHPExcel_Writer_PDF($objPHPExcel);
 //                $objWriter->save('php://output');
-
             }
             Yii::app()->end();
         }
@@ -202,7 +194,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "Nama Rekening")
@@ -225,7 +216,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:B$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -238,10 +228,8 @@ class PahReportController extends GxController
                     ->getStyle("B$start_body:B$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -251,10 +239,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -321,7 +307,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "Nama Rekening")
@@ -344,7 +329,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:B$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -357,10 +341,8 @@ class PahReportController extends GxController
                     ->getStyle("B$start_body:B$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -370,10 +352,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -440,7 +420,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "Sub Aktivitas")
@@ -463,7 +442,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:B$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -476,10 +454,8 @@ class PahReportController extends GxController
                     ->getStyle("B$start_body:B$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -489,10 +465,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -539,7 +513,6 @@ class PahReportController extends GxController
                 ->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
             $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setLeft(0.1 / 2.54);
             $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setRight(0.1 / 2.54);
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "LAPORAN BEBAN AKTIVITAS PER ANAK")
@@ -561,7 +534,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "Nama Anak")
@@ -584,7 +556,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:B$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -597,10 +568,8 @@ class PahReportController extends GxController
                     ->getStyle("B$start_body:B$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -610,10 +579,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -652,7 +619,6 @@ class PahReportController extends GxController
             $periode = Site::period2date($bulan, $tahun);
             $start_date = $periode['start'];
             $end_date = $periode['end'];
-
             $start = 1;
             $file_name = 'Pertanggungjawaban';
             $worksheet_name = 'Pertanggungjawaban';
@@ -727,8 +693,8 @@ class PahReportController extends GxController
                 ->getStyle("B$start:D$start")->getFont()->setBold(true);
             $index_total_pengeluaran = $start;
             $start++;
-            $saldo_akhir_kas = $format == 'excel' ? Pah::get_balance_before_for_bank_account("$tahun-".($bulan + 1)."-01") :
-                number_format(Pah::get_balance_before_for_bank_account("$tahun-".($bulan + 1)."-01"));
+            $saldo_akhir_kas = $format == 'excel' ? Pah::get_balance_before_for_bank_account("$tahun-" . ($bulan + 1) . "-01") :
+                number_format(Pah::get_balance_before_for_bank_account("$tahun-" . ($bulan + 1) . "-01"));
             $index_kas_akhir = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")
@@ -743,11 +709,9 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:D$end_body")->applyFromArray($styleArray);
             $start_row = $start_pengeluaran + 1;
-
             if ($format == 'excel') {
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->getStyle("D$index_kas_masuk")->getNumberFormat()
@@ -781,12 +745,10 @@ class PahReportController extends GxController
                     ->getStyle("D$index_kas_akhir")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setWidth(5);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -796,10 +758,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -848,7 +808,6 @@ class PahReportController extends GxController
                 ->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
             $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setLeft(0.1 / 2.54);
             $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setRight(0.1 / 2.54);
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "LAPORAN ANGGARAN VERSUS REALISASI")
@@ -869,7 +828,6 @@ class PahReportController extends GxController
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
             $start++;
             $start++;
-
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "Nama Rekening")
@@ -880,9 +838,9 @@ class PahReportController extends GxController
             $start++;
             $rows = Pah::get_chart_master_beban();
             foreach ($rows as $row) {
-                $anggaran = Pah::get_anggaran_by_code($bulan,$tahun,$row['account_code']);
-                $realisasi = Pah::get_realisasi_by_code($start_date,$end_date,$row['account_code']);
-                if($anggaran == 0 && $realisasi == 0)
+                $anggaran = Pah::get_anggaran_by_code($bulan, $tahun, $row['account_code']);
+                $realisasi = Pah::get_realisasi_by_code($start_date, $end_date, $row['account_code']);
+                if ($anggaran == 0 && $realisasi == 0)
                     continue;
                 $selisih = $anggaran - $realisasi;
                 $anggaran_format = $format == 'excel' ? $anggaran : number_format($anggaran);
@@ -903,7 +861,6 @@ class PahReportController extends GxController
                     )
                 )
             );
-
             $objPHPExcel->setActiveSheetIndex(0)
                 ->getStyle("A$start_body:D$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
@@ -916,12 +873,10 @@ class PahReportController extends GxController
                     ->getStyle("B$start_body:D$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
-
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
-
             $start++;
             $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
@@ -931,10 +886,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
-
             ob_end_clean();
             ob_start();
-
             if ($format == 'excel') {
                 header('Content-Type: application/vnd.ms-excel');
                 header("Content-Disposition: attachment;filename=$file_name.xls");
@@ -961,6 +914,5 @@ class PahReportController extends GxController
             Yii::app()->end();
         }
     }
-
 }
 

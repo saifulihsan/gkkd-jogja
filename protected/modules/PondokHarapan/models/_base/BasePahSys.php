@@ -13,54 +13,58 @@
  * @property string $value
  *
  */
-abstract class BasePahSys extends GxActiveRecord {
+abstract class BasePahSys extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_sys_prefs';
+    }
 
-	public function tableName() {
-		return 'pah_sys_prefs';
-	}
+    public static function representingColumn()
+    {
+        return 'name';
+    }
 
-	public static function representingColumn() {
-		return 'name';
-	}
+    public function rules()
+    {
+        return array(
+            array('name', 'length', 'max' => 35),
+            array('value', 'safe'),
+            array('name, value', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('name, value', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('name', 'length', 'max'=>35),
-			array('value', 'safe'),
-			array('name, value', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('name, value', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array();
+    }
 
-	public function relations() {
-		return array(
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'name' => Yii::t('app', 'Name'),
+            'value' => Yii::t('app', 'Value'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'name' => Yii::t('app', 'Name'),
-			'value' => Yii::t('app', 'Value'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('name', $this->name, true);
-		$criteria->compare('value', $this->value, true);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('value', $this->value, true);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

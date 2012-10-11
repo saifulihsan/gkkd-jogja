@@ -153,9 +153,8 @@ jun.PahKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.kas_keluar_id;
-
         Ext.Ajax.request({
-//            waitMsg:'Sedang Proses',
+//
             url:'PondokHarapan/PahKasKeluar/view/',
             params:{
                 id:idz,
@@ -180,7 +179,7 @@ jun.PahKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
                 form.trans_date.text = data.trans_date;
                 form.kas.text = data.bank_account_name;
                 form.donatur.text = data.supp_name;
-                form.amount.text = Ext.util.Format.number(data.amount,'0,0');
+                form.amount.text = Ext.util.Format.number(data.amount, '0,0');
                 form.trans_via.text = data.trans_via;
                 form.codeRek.text = data.account_name;
                 form.codeDesc.text = data.description;
@@ -200,5 +199,4 @@ jun.PahKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.PahKasKeluarVoidWin({id:record.json.kas_keluar_id});
         form.show(this);
     },
-
 })

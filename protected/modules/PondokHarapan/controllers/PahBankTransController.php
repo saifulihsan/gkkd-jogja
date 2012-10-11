@@ -2,7 +2,6 @@
 
 class PahBankTransController extends GxController
 {
-
     public function actionView()
     {
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -40,7 +39,7 @@ class PahBankTransController extends GxController
             return;
         if (isset($_POST) && !empty($_POST)) {
             //$id = $_POST['id'];
-            $amt = Pah::get_balance_before_for_bank_account(Site::get_date_tomorrow(),$_POST['id']);
+            $amt = Pah::get_balance_before_for_bank_account(Site::get_date_tomorrow(), $_POST['id']);
             echo CJSON::encode(array(
                 'success' => true,
                 'id' => $amt,
@@ -101,7 +100,6 @@ class PahBankTransController extends GxController
                 $status = false;
                 $msg = $ex;
             }
-
             echo CJSON::encode(array(
                 'success' => $status,
                 'id' => $id,
@@ -117,27 +115,19 @@ class PahBankTransController extends GxController
 //        Teeeeeeeeeeesstttt
 //        </body></html>";
 //    }
-
-
-
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'PahBankTrans');
-
-
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PahBankTrans'][$k] = $v;
             }
             $model->attributes = $_POST['PahBankTrans'];
-
             if ($model->save()) {
-
                 $status = true;
             } else {
                 $status = false;
             }
-
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
@@ -148,7 +138,6 @@ class PahBankTransController extends GxController
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
-
         $this->render('update', array(
             'model' => $model,
         ));
@@ -158,7 +147,6 @@ class PahBankTransController extends GxController
     {
         if (Yii::app()->request->isPostRequest) {
             $this->loadModel($id, 'PahBankTrans')->delete();
-
             if (!Yii::app()->request->isAjaxRequest)
                 $this->redirect(array('admin'));
         } else
@@ -173,15 +161,12 @@ class PahBankTransController extends GxController
              'dataProvider' => $dataProvider,
          ));
      }*/
-
     public function actionAdmin()
     {
         $model = new PahBankTrans('search');
         $model->unsetAttributes();
-
         if (isset($_GET['PahBankTrans']))
             $model->attributes = $_GET['PahBankTrans'];
-
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -194,35 +179,28 @@ class PahBankTransController extends GxController
         } else {
             $limit = 20;
         }
-
         if (isset($_POST['start'])) {
             $start = $_POST['start'];
-
         } else {
             $start = 0;
         }
         //$model = new PahBankTrans('search');
         //$model->unsetAttributes();
-
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;
         $model = PahBankTrans::model()->findAll($criteria);
         $total = PahBankTrans::model()->count($criteria);
-
         if (isset($_GET['PahBankTrans']))
             $model->attributes = $_GET['PahBankTrans'];
-
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
         } else {
             $model = new PahBankTrans('search');
             $model->unsetAttributes();
-
             $this->render('admin', array(
                 'model' => $model,
             ));
         }
     }
-
 }

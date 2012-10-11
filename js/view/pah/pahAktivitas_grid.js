@@ -197,7 +197,7 @@ jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
                 form.trans_date.text = data.trans_date;
                 form.kas.text = data.bank_account_name;
                 form.donatur.text = data.supp_name;
-                form.amount.text = Ext.util.Format.number(data.amount,'0,0');
+                form.amount.text = Ext.util.Format.number(data.amount, '0,0');
                 form.trans_via.text = data.trans_via;
                 form.codeRek.text = data.account_code;
                 form.codeDesc.text = data.description;
@@ -209,7 +209,6 @@ jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
         });
-
     },
     deleteRec:function () {
         var record = this.sm.getSelected();
@@ -220,5 +219,4 @@ jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.PahAktivitasVoidWin({id:record.json.aktivitas_id});
         form.show(this);
     },
-
 })

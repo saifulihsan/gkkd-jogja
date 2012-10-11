@@ -7,11 +7,12 @@
 class Pah
 {
 //------------------------------------------------ Void ----------------------------------------------------------------
-    static function get_voided($type){
+    static function get_voided($type)
+    {
         $void = Yii::app()->db->createCommand()
             ->select('id')
             ->from('pah_voided')
-            ->where('type=:type', array(':type'=>$type))
+            ->where('type=:type', array(':type' => $type))
             ->queryColumn();
         return $void;
     }
@@ -295,5 +296,21 @@ class Pah
         $criteria = new CDbCriteria();
         $criteria->addCondition("account_type = " . PahPrefs::TypeCostAct());
         return PahChartMaster::model()->findAll($criteria);
+    }
+
+    static function account_in_gl_trans($account)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("account = '$account'");
+        $count = PahGlTrans::model()->count($criteria);
+        return $count > 0;
+    }
+
+    static function account_used_bank($account)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("account_code = '$account'");
+        $count = PahBankAccounts::model()->count($criteria);
+        return $count > 0;
     }
 }

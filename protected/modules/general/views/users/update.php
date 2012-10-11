@@ -1,15 +1,14 @@
 <?php
 $this->breadcrumbs = array(
-	'Users' => array('index'),
-	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
-	Yii::t('app', 'Update'),
+    'Users' => array('index'),
+    GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
+    Yii::t('app', 'Update'),
 );
-
 $this->menu = array(
-	array('label' => Yii::t('app', 'List') . ' Users', 'url'=>array('index')),
-	array('label' => Yii::t('app', 'Create') . ' Users', 'url'=>array('create')),
-	array('label' => Yii::t('app', 'View') . ' Users', 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
-	//array('label' => Yii::t('app', 'Manage') . ' Users', 'url'=>array('admin')),
+    array('label' => Yii::t('app', 'List') . ' Users', 'url' => array('index')),
+    array('label' => Yii::t('app', 'Create') . ' Users', 'url' => array('create')),
+    array('label' => Yii::t('app', 'View') . ' Users', 'url' => array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
+    //array('label' => Yii::t('app', 'Manage') . ' Users', 'url'=>array('admin')),
 );
 ?>
 
@@ -17,5 +16,5 @@ $this->menu = array(
 
 <?php
 $this->renderPartial('_form', array(
-		'model' => $model));
+    'model' => $model));
 ?>

@@ -16,61 +16,66 @@
  *
  * @property PahChartMaster $accountCode
  */
-abstract class BasePahSubAktivitas extends GxActiveRecord {
+abstract class BasePahSubAktivitas extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_sub_aktivitas';
+    }
 
-	public function tableName() {
-		return 'pah_sub_aktivitas';
-	}
+    public static function representingColumn()
+    {
+        return 'nama';
+    }
 
-	public static function representingColumn() {
-		return 'nama';
-	}
+    public function rules()
+    {
+        return array(
+            array('account_code', 'required'),
+            array('nama', 'length', 'max' => 50),
+            array('account_code', 'length', 'max' => 15),
+            array('desc', 'safe'),
+            array('nama, desc', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id, nama, desc, account_code', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('account_code', 'required'),
-			array('nama', 'length', 'max'=>50),
-			array('account_code', 'length', 'max'=>15),
-			array('desc', 'safe'),
-			array('nama, desc', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, nama, desc, account_code', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'accountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'account_code'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'accountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'account_code'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'nama' => Yii::t('app', 'Nama'),
+            'desc' => Yii::t('app', 'Desc'),
+            'account_code' => Yii::t('app', 'Account Code'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'nama' => Yii::t('app', 'Nama'),
-			'desc' => Yii::t('app', 'Desc'),
-			'account_code' => Yii::t('app', 'Account Code'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('nama', $this->nama, true);
-		$criteria->compare('desc', $this->desc, true);
-		$criteria->compare('account_code', $this->account_code);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('nama', $this->nama, true);
+        $criteria->compare('desc', $this->desc, true);
+        $criteria->compare('account_code', $this->account_code);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

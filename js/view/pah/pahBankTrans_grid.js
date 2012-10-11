@@ -77,7 +77,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
          width:100
          },
          */
-
     ],
     initComponent:function () {
         this.store = jun.rztPahBankTrans;
@@ -91,7 +90,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
-
         this.tbar = {
             xtype:'toolbar',
             items:[
@@ -119,22 +117,16 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         this.getSelectionModel().on('rowselect', this.getrow, this);
         jun.rztPahBankTrans.load();
     },
-
     getrow:function (sm, idx, r) {
         this.record = r;
-
         var selectedz = this.sm.getSelections();
     },
-
     loadForm:function () {
         var form = new jun.PahBankTransWin({modez:0});
         form.show();
     },
-
     loadEditForm:function () {
-
         var selectedz = this.sm.getSelected();
-
         //var dodol = this.store.getAt(0);
         if (selectedz == "") {
             Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
@@ -145,43 +137,34 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
     },
-
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
     },
-
     deleteRecYes:function (btn) {
         if (btn == 'no') {
             return;
         }
-
         var record = this.sm.getSelected();
-
         // Check is list selected
         if (record == "") {
             Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
             return;
         }
-
         Ext.Ajax.request({
             waitMsg:'Please Wait',
             url:'PondokHarapan/PahBankTrans/delete/id/' + record.json.id,
             //url: 'index.php/api/PahBankTrans/delete/' + record[0].json.nosjp,
             method:'POST',
-
             success:function (response) {
                 jun.rztPahBankTrans.reload();
                 Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
-
             },
             failure:function (response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     }
 })
-
 jun.pahbankTransStore = new Ext.data.JsonStore({
     //autoDestroy:true,
     root:'data',
@@ -201,9 +184,7 @@ jun.pahbankTransStore = new Ext.data.JsonStore({
     //data:[],
     autoLoad:false,
     autoSave:false,
-
 });
-
 jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Mutasi Kas per Bank",
     id:'docs-jun.BankTransGrid',
@@ -267,7 +248,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             resizable:true,
             dataIndex:'person',
         }
-
     ],
     initComponent:function () {
         this.store = jun.pahbankTransStore;
@@ -295,7 +275,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 to_date:(new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d'),
             };
         });
-
         this.tbar = {
             xtype:'toolbar',
             buttonAlign:'center',
@@ -328,7 +307,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 {
                     xtype:'tbseparator',
                     //hidden: true,
-
                 }, ' Sampai : ',
                 {
                     xtype:'datefield',
@@ -340,7 +318,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 {
                     xtype:'tbseparator',
                     //hidden: true,
-
                 },
                 {
                     xtype:'button',
@@ -350,7 +327,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 {
                     xtype:'tbseparator',
                     //hidden: true,
-
                 },
                 {
                     xtype:'button',
@@ -359,13 +335,11 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
-
         jun.PahBankTransGrid.superclass.initComponent.call(this);
         this.btnRefresh.on('click', this.onbtnRefreshClick, this);
         this.btnPrint.on('click', this.onbtnPrintClick, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
-
     onbtnPrintClick:function () {
         Ext.getCmp('form-PahChartTypes').getForm().submit({
             url:'PondokHarapan/PahBankTrans/print/',
@@ -375,32 +349,25 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
              jenpeljlo: this.jenpeljlo,
              modez: this.modez
              },*/
-            timeOut: 1000,
-            waitMsg: 'Sedang Proses',
-            scope: this,
-
-            success: function(f,a){
+            timeOut:1000,
+            waitMsg:'Sedang Proses',
+            scope:this,
+            success:function (f, a) {
                 jun.rztPahChartTypes.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
-                if(this.closeForm){
-
+                if (this.closeForm) {
                     this.close();
-
-                }else{
-                    if(response.data != undefined){
-                        Ext.MessageBox.alert("Pelayanan",response.data.msg);
+                } else {
+                    if (response.data != undefined) {
+                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
                     }
-                    if(this.modez == 0){
+                    if (this.modez == 0) {
                         Ext.getCmp('form-PahChartTypes').getForm().reset();
                     }
                 }
-
             },
-
-            failure: function(f,a){
-                Ext.MessageBox.alert("Error","Can't Communicate With The Server");
+            failure:function (f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
@@ -413,38 +380,28 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                 from_date:(new Date(Ext.getCmp('from_date_banktrans').getValue())).dateFormat('Y-m-d'),
                 to_date:(new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d'),
             },
-
             success:function (response) {
-
-
             },
             failure:function (response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
     },
-
     getrow:function (sm, idx, r) {
         this.record = r;
-
         var selectedz = this.sm.getSelections();
     },
-
     onbtnRefreshClick:function () {
         this.store.load();
 //        var row = this.getView().getRow(1);
 //        row.style.fontWeight = "Bold";
     },
-
     loadForm:function () {
         var form = new jun.BankTransWin({modez:0});
         form.show();
     },
-
     loadEditForm:function () {
-
         var selectedz = this.sm.getSelected();
-
         //var dodol = this.store.getAt(0);
         if (selectedz == "") {
             Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
@@ -455,39 +412,31 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
     },
-
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
     },
-
     deleteRecYes:function (btn) {
         if (btn == 'no') {
             return;
         }
-
         var record = this.sm.getSelected();
-
         // Check is list selected
         if (record == "") {
             Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
             return;
         }
-
         Ext.Ajax.request({
             waitMsg:'Please Wait',
             url:'Wanted/BankTrans/delete/id/' + record.json.id,
             //url: 'index.php/api/BankTrans/delete/' + record[0].json.nosjp,
             method:'POST',
-
             success:function (response) {
                 jun.rztBankTrans.reload();
                 Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
-
             },
             failure:function (response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     }
 })

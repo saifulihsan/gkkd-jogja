@@ -15,55 +15,60 @@
  * @property PahAktivitas[] $pahAktivitases
  * @property Jemaat $jemaatNij
  */
-abstract class BasePahMember extends GxActiveRecord {
+abstract class BasePahMember extends GxActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function tableName()
+    {
+        return 'pah_member';
+    }
 
-	public function tableName() {
-		return 'pah_member';
-	}
+    public static function representingColumn()
+    {
+        return 'jemaat_nij';
+    }
 
-	public static function representingColumn() {
-		return 'jemaat_nij';
-	}
+    public function rules()
+    {
+        return array(
+            array('jemaat_nij', 'required'),
+            array('jemaat_nij', 'length', 'max' => 20),
+            array('id, jemaat_nij', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function rules() {
-		return array(
-			array('jemaat_nij', 'required'),
-			array('jemaat_nij', 'length', 'max'=>20),
-			array('id, jemaat_nij', 'safe', 'on'=>'search'),
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'pahAktivitases' => array(self::HAS_MANY, 'PahAktivitas', 'pah_member_id'),
+            'jemaatNij' => array(self::BELONGS_TO, 'Jemaat', 'jemaat_nij'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'pahAktivitases' => array(self::HAS_MANY, 'PahAktivitas', 'pah_member_id'),
-			'jemaatNij' => array(self::BELONGS_TO, 'Jemaat', 'jemaat_nij'),
-		);
-	}
+    public function pivotModels()
+    {
+        return array();
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'jemaat_nij' => Yii::t('app', 'Jemaat Nij'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'jemaat_nij' => Yii::t('app', 'Jemaat Nij'),
-		);
-	}
-
-	public function search() {
-		$criteria = new CDbCriteria;
-
-		$criteria->compare('id', $this->id);
-		$criteria->compare('jemaat_nij', $this->jemaat_nij);
-
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria' => $criteria,
-		));
-	}
+    public function search()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('jemaat_nij', $this->jemaat_nij);
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 }

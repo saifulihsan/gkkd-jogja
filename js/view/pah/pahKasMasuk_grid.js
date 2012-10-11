@@ -159,7 +159,7 @@ jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
 //        Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
 //        Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
         Ext.Ajax.request({
-//            waitMsg:'Sedang Proses',
+//
             url:'PondokHarapan/PahKasMasuk/view/',
             params:{
                 id:idz,

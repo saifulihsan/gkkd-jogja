@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: axioo
- * Date: 9/12/12
- * Time: 11:15 AM
- * To change this template use File | Settings | File Templates.
- */
+
 class MenuTree
 {
     var $security_role_id;
@@ -13,16 +7,18 @@ class MenuTree
                                 id: 'jun.JemaatGrid',
                                 leaf: true
                                 },";
-    var $menu_users= "{text: 'User',
+    var $menu_users = "{text: 'Manajemen User',
                                 id: 'jun.UsersGrid',
                                 leaf: true
                                 },";
 
-    function __construct($id){
+    function __construct($id)
+    {
         $this->security_role_id = $id;
     }
 
-    function get_menu_pondok_harapan(){
+    function get_menu_pondok_harapan()
+    {
         $menu = "{text: 'Pondok Asuh Harapan',
                   expanded: false,
                   children:[{
@@ -157,7 +153,8 @@ class MenuTree
         return $menu;
     }
 
-    function get_menu_pondok_efata(){
+    function get_menu_pondok_efata()
+    {
         $menu = "{text: 'Pondok Asuh Efata',
                   expanded: false,
                   children:[{
@@ -169,14 +166,21 @@ class MenuTree
         return $menu;
     }
 
-    function get_menu_general(){
-        $menu = $this->menu_data_jemaat.$this->menu_users;
+    function get_menu_general()
+    {
+        $menu = $this->menu_data_jemaat . $this->menu_users;
         return $menu;
     }
 
-    public function get_menu(){
-        $data = "[".$this->get_menu_pondok_harapan().','.$this->get_menu_pondok_efata().','.$this->get_menu_general()
-            ."]";
+    public function get_menu()
+    {
+        $username = Yii::app()->user->name;
+        $data = "[" . $this->get_menu_pondok_harapan() . ',' . $this->get_menu_pondok_efata() . ',' . $this->get_menu_general()
+            . "{
+                text: 'Logout ($username)',
+                id: 'logout',
+                leaf: true
+              }]";
         return $data;
     }
 }

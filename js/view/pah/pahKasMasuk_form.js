@@ -169,7 +169,6 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
@@ -398,7 +397,6 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
     }
 
 });
-
 jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
     title:'Void Kas Masuk',
     modez:1,
@@ -429,16 +427,15 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'textarea',
-                        fieldLabel: 'memo',
+                        fieldLabel:'memo',
                         ref:'../memo',
 //                        hideLabel:false,
                         id:'memo_id',
                         name:'memo_',
                         x:5,
                         y:25,
-                       anchor:'100% 100%',
+                        anchor:'100% 100%',
                     },
-
                 ]
             }
         ];
@@ -462,7 +459,6 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
-
     onbtnProsesclick:function () {
         var form = Ext.getCmp('form-PahKasMasukVoid').getForm();
         Ext.getCmp('form-PahKasMasukVoid').getForm().submit({
@@ -471,9 +467,9 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
                 id:this.id,
             },
             method:'POST',
-            scope: this,
-            timeOut: 1000,
-            success:function (f, a){
+            scope:this,
+            timeOut:1000,
+            success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
                 if (response.success == false) {
                     Ext.MessageBox.show({
@@ -495,13 +491,11 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
                 jun.rztPahKasMasuk.reload();
                 this.close();
             },
-            failure:function (f, a){
+            failure:function (f, a) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
-
     },
-
     onbtnCancelclick:function () {
         this.close();
     }

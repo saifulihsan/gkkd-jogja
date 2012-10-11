@@ -2,8 +2,6 @@
 
 class PahAktivitasController extends GxController
 {
-
-
     public function actionView($id)
     {
         $this->render('view', array(
@@ -28,7 +26,7 @@ class PahAktivitasController extends GxController
                 $docref = $ref->get_next_reference(AKTIVITAS);
                 $aktivitas = new PahAktivitas;
                 foreach ($_POST as $k => $v) {
-                    if($k == 'amount')
+                    if ($k == 'amount')
                         $v = Site::get_number($v);
                     $_POST['PahAktivitas'][$k] = $v;
                 }
@@ -38,12 +36,12 @@ class PahAktivitasController extends GxController
                 $aktivitas->attributes = $_POST['PahAktivitas'];
                 $aktivitas->save();
                 $id = $docref;
-                $ref->save(AKTIVITAS,$aktivitas->aktivitas_id,$docref);
+                $ref->save(AKTIVITAS, $aktivitas->aktivitas_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
                 //debet kode beban - kredit kas bank
-                Pah::add_gl(AKTIVITAS,$aktivitas->aktivitas_id,$date,$docref,$aktivitas->pah_chart_master_account_code,
-                    '-',$aktivitas->amount,$user);
-                Pah::add_gl(AKTIVITAS,$aktivitas->aktivitas_id,$date,$docref,$bank_account,'-',-$aktivitas->amount,
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $aktivitas->pah_chart_master_account_code,
+                    '-', $aktivitas->amount, $user);
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
                     $user);
                 $transaction->commit();
                 $status = true;
@@ -52,7 +50,6 @@ class PahAktivitasController extends GxController
                 $status = false;
                 $msg = $ex;
             }
-
             echo CJSON::encode(array(
                 'success' => $status,
                 'id' => $id,
@@ -106,26 +103,19 @@ class PahAktivitasController extends GxController
         }
 
     }*/
-
-
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'PahAktivitas');
-
-
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PahAktivitas'][$k] = $v;
             }
             $model->attributes = $_POST['PahAktivitas'];
-
             if ($model->save()) {
-
                 $status = true;
             } else {
                 $status = false;
             }
-
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
@@ -135,7 +125,6 @@ class PahAktivitasController extends GxController
                 $this->redirect(array('view', 'id' => $model->aktivitas_id));
             }
         }
-
         $this->render('update', array(
             'model' => $model,
         ));
@@ -173,12 +162,11 @@ class PahAktivitasController extends GxController
                     -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $transaction->rollback();
                 $status = false;
                 $msg = $ex;
             }
-
         }
         echo CJSON::encode(array(
             'success' => $status,
@@ -202,15 +190,12 @@ class PahAktivitasController extends GxController
              'dataProvider' => $dataProvider,
          ));
      }*/
-
     public function actionAdmin()
     {
         $model = new PahAktivitas('search');
         $model->unsetAttributes();
-
         if (isset($_GET['PahAktivitas']))
             $model->attributes = $_GET['PahAktivitas'];
-
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -223,10 +208,8 @@ class PahAktivitasController extends GxController
         } else {
             $limit = 20;
         }
-
         if (isset($_POST['start'])) {
             $start = $_POST['start'];
-
         } else {
             $start = 0;
         }
@@ -234,27 +217,22 @@ class PahAktivitasController extends GxController
         //$model->unsetAttributes();
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(AKTIVITAS);
-
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;
-        $criteria->addNotInCondition('aktivitas_id',$void);
+        $criteria->addNotInCondition('aktivitas_id', $void);
         $model = PahAktivitas::model()->findAll($criteria);
         $total = PahAktivitas::model()->count($criteria);
-
         if (isset($_GET['PahAktivitas']))
             $model->attributes = $_GET['PahAktivitas'];
-
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
         } else {
             $model = new PahAktivitas('search');
             $model->unsetAttributes();
-
             $this->render('admin', array(
                 'model' => $model,
             ));
         }
     }
-
 }

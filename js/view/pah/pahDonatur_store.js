@@ -1,17 +1,16 @@
 jun.PahDonaturstore = Ext.extend(Ext.data.JsonStore, {
-    constructor: function(cfg) {
+    constructor:function (cfg) {
         cfg = cfg || {};
         jun.PahDonaturstore.superclass.constructor.call(this, Ext.apply({
-            storeId: 'PahDonaturStoreId',
-            url: 'PondokHarapan/PahDonatur/?output=json',           
-            root: 'results',
-            totalProperty: 'total',
-            fields: [                
+            storeId:'PahDonaturStoreId',
+            url:'PondokHarapan/PahDonatur/?output=json',
+            root:'results',
+            totalProperty:'total',
+            fields:[
                 {name:'id'},
-{name:'name'},
-{name:'phone'},
-{name:'alamat'},
-                
+                {name:'name'},
+                {name:'phone'},
+                {name:'alamat'},
             ]
         }, cfg));
     }

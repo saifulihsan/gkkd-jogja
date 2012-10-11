@@ -1,48 +1,40 @@
 //jun.home = new jun.homePanel({title:'Home'});
 //jun.userGrid = new jun.TblUserGrid({title:'Manage User'});
-    //new Ext.Panel({title:'home',html:'<p style="padding:25px">welcome to the jungle</p>'});
-
+//new Ext.Panel({title:'home',html:'<p style="padding:25px">welcome to the jungle</p>'});
 jun.TabsUi = Ext.extend(Ext.TabPanel, {
-    activeTab: 0,
-    region: 'center',
-    frame: true,
+    activeTab:0,
+    region:'center',
+    frame:true,
     id:'mainpanel',
-    enableTabScroll: true,
-    initComponent: function() {
-        
-         this.items = [
-               //jun.home
-            ];
-           
+    enableTabScroll:true,
+    initComponent:function () {
+        this.items = [
+            //jun.home
+        ];
         jun.TabsUi.superclass.initComponent.call(this);
         this.on('load', this.onActivate, this);
     },
-    onActivate : function(p)
-    {
-        
-       
+    onActivate:function (p) {
     },
-    loadClass : function(href){
-       
+    loadClass:function (href) {
         var id = 'docs-' + href;
-  
         var tab = this.getComponent(id);
-       
         var obj = eval(href);
-                
-        if(tab){
+        if (tab) {
             this.setActiveTab(tab);
-        }else{
+        } else {
+
             var object = new obj({
-                id: id,
-                closable: true
+                id:id,
+                closable:true
             });
-            if(object.iswin)
+            if (object.iswin)
                 object.show();
-            else{
+            else {
                 var p = this.add(object);
                 this.setActiveTab(p);
             }
         }
     }
 });
+

@@ -53,10 +53,9 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         id:'alamatid',
                         ref:'../alamat',
                         anchor:'100%',
-                        height: 100
+                        height:100
                         //allowBlank: 1
                     },
-
                 ]
             }
         ];
@@ -86,27 +85,17 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
     },
-
     onActivate:function () {
-
         this.btnSave.hidden = false;
-
     },
-
     saveForm:function () {
         var urlz;
-
         if (this.modez == 1 || this.modez == 2) {
-
             urlz = 'PondokHarapan/PahDonatur/update/id/' + this.id;
-
         } else {
-
             urlz = 'PondokHarapan/PahDonatur/create/';
         }
-
         Ext.getCmp('form-PahDonatur').getForm().submit({
             url:urlz,
             /*
@@ -116,18 +105,12 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
-
             success:function (f, a) {
                 jun.rztPahDonatur.reload();
-
                 var response = Ext.decode(a.response.responseText);
-
                 if (this.closeForm) {
-
                     this.close();
-
                 } else {
                     if (response.data != undefined) {
                         Ext.MessageBox.alert("Pelayanan", response.data.msg);
@@ -136,22 +119,17 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahDonatur').getForm().reset();
                     }
                 }
-
             },
-
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
-
     },
-
     onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-
     onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);

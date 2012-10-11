@@ -5,19 +5,18 @@ jun.PahAnggaranDetilstore = Ext.extend(Ext.data.JsonStore, {
             storeId:'PahAnggaranDetilStoreId',
             //url: 'PondokHarapan/PahAnggaranDetil/?output=json',
             autoLoad:false,
-            autoSave: false,
+            autoSave:false,
             root:'results',
             totalProperty:'total',
             fields:[
                 {name:'id'},
                 {name:'pah_anggaran_id'},
-                {name:'amount',type:'float'},
+                {name:'amount', type:'float'},
                 {name:'pah_chart_master_account_code'},
-
             ]
         }, cfg));
     },
-    refreshData: function(){
+    refreshData:function () {
         Ext.getCmp('totalangsudid').setValue(this.sum('amount'));
         Ext.get('totalangsudid').focus();
         Ext.getCmp('totalangblmid').setValue(Ext.getCmp('totalangid').getValue() - this.sum('amount'));
