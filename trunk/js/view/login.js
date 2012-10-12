@@ -168,7 +168,7 @@ Ext.onReady(function () {
             //callback : firebugWarning
         });
     }
-    hideMask.defer(50);
+//    hideMask.defer(50);
     Ext.QuickTips.init();
     var myViewport = new jun.login({
         //var myViewport = new jun.login({

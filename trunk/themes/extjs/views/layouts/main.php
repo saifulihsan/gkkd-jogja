@@ -12,22 +12,26 @@
           href="<?php echo Yii::app()->request->baseUrl; ?>/css/extjs.css"/>
     <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/css/default.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/shared/icons/silk.css" />
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo Yii::app()->request->baseUrl; ?>/css/aspnet/aspnet.css" />
 </head>
 <body>
-<div id="loading-mask" style=""></div>
-<div id="loading">
-    <div class="loading-indicator"><img
-        src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/resources/images/default/shared/blue-loading.gif"
-        width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"
-        alt=""/>Aplikasi <?php echo CHtml::encode(Yii::app()->name); ?></a><br/><span id="loading-msg">Loading styles and images...</span>
-    </div>
-</div>
-<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>
+<!--<div id="loading-mask" style=""></div>-->
+<!--<div id="loading">-->
+<!--    <div class="loading-indicator"><img-->
+<!--        src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/ext340/resources/images/default/shared/blue-loading.gif"-->
+<!--        width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"-->
+<!--        alt=""/>Aplikasi --><?php //echo CHtml::encode(Yii::app()->name); ?><!--</a><br/><span id="loading-msg">Loading styles and images...</span>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>-->
 <script type="text/javascript"
         src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/adapter/ext/ext-base.js"></script>
-<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
+<!--<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all.js"></script>
-<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Initializing...';</script>
+<!--<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Initializing...';</script>-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/sidebar.js"></script>
 <? if (Yii::app()->user->isGuest && !strstr($_SERVER['REQUEST_URI'], "site/login")) { ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/view/login.js"></script>

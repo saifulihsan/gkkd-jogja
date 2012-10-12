@@ -134,12 +134,33 @@ class SiteController extends Controller
 //        }
     }
 
-    public function actionEncrypt($value){
-        $enc = NEW bCrypt();
-        echo $enc->hash($value);
-    }
+//    public function actionEncrypt($value){
+//        $enc = NEW bCrypt();
+//        echo $enc->hash($value);
+//    }
+//
+//    public function actionSalt(){
+//        $enc = NEW bCrypt();
+//        echo $enc->getSalt();
+//    }
 
 
+//    public function actionGenerate(){
+//        $templatePath = './css/aspnet/ico';
+//        $files = scandir($templatePath);
+//        $txt = "";
+//        foreach ($files as $file) {
+//            if (is_file($templatePath . '/' . $file)) {
+//                $basename = explode(".",$file);
+//                $name = $basename[0];
+//                $txt .= ".asp-$name { background-image: url(ico/$file) !important; background-repeat: no-repeat; }\n";
+//            }
+//        }
+//        $myFile = "aspnet.css";
+//        $fh = fopen($myFile, 'w') or die("can't open file");
+//        fwrite($fh, $txt);
+//        fclose($fh);
+//    }
 
     public function actionTree()
     {

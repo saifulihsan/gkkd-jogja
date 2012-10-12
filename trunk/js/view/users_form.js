@@ -1,8 +1,22 @@
+Ext.apply(Ext.form.VTypes, {
+
+    password : function(val, field) {
+        if (field.initialPassField) {
+            var pwd = Ext.getCmp(field.initialPassField);
+            return (val == pwd.getValue());
+        }
+        return true;
+    },
+
+    passwordText : 'Passwords do not match'
+});
+
 jun.UsersWin = Ext.extend(Ext.Window, {
     title:'Users',
+    iconCls: 'asp-user2',
     modez:1,
-    width:400,
-    height:300,
+    width:425,
+    height:250,
     layout:'form',
     modal:true,
     padding:5,
@@ -14,7 +28,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                 frame:false,
                 bodyStyle:'background-color: #DFE8F6; padding: 10px',
                 id:'form-Users',
-                labelWidth:100,
+                labelWidth:125,
                 labelAlign:'left',
                 layout:'form',
                 ref:'formz',
@@ -58,7 +72,22 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         ref:'../password',
                         maxLength:100,
                         //allowBlank: ,
-                        anchor:'100%'
+                        anchor:'100%',
+                        inputType: 'password'
+                    },
+                    {
+                        xtype:'textfield',
+                        fieldLabel:'Confirm Password',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'password-cfrm',
+                        id:'password-cfrmid',
+                        ref:'../password-cfrm',
+                        maxLength:100,
+                        anchor:'100%',
+                        inputType: 'password',
+                        vtype: 'password',
+                        initialPassField: 'passwordid' // id of the initial password field
                     },
                     {
                         xtype:'xdatefield',
@@ -72,18 +101,6 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-                    /*
-                     {
-                     xtype: 'textfield',
-                     fieldLabel: 'Status',
-                     hideLabel:false,
-                     //hidden:true,
-                     name:'inactive',
-                     id:'inactiveid',
-                     ref:'../inactive',
-                     //allowBlank: ,
-                     anchor: '100%'
-                     }, */
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
@@ -158,7 +175,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
+//            waitMsg:'Sedang Proses',
             scope:this,
             success:function (f, a) {
                 jun.rztUsers.reload();
