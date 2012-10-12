@@ -51,7 +51,7 @@ Ext.onReady(function () {
             //callback : firebugWarning
         });
     }
-    hideMask.defer(250);
+//    hideMask.defer(250);
     Ext.QuickTips.init();
     loadText = 'Sedang proses... silahkan tunggu';
     Ext.Ajax.on('beforerequest', function () {

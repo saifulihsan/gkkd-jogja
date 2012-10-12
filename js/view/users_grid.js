@@ -1,6 +1,7 @@
 jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
-    title:"Users",
+    title:"Manajemen User",
     id:'docs-jun.UsersGrid',
+    iconCls: 'silk-grid',
 //	width:400,
 //	height:250,
     viewConfig:{
@@ -13,43 +14,44 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'id',
-            width:100
+            hidden:true
         },
         {
-            header:'user_id',
+            header:'User Name',
             sortable:true,
             resizable:true,
             dataIndex:'user_id',
             width:100
         },
+//        {
+//            header:'password',
+//            sortable:true,
+//            resizable:true,
+//            dataIndex:'password',
+//            width:100
+//        },
         {
-            header:'password',
-            sortable:true,
-            resizable:true,
-            dataIndex:'password',
-            width:100
-        },
-        {
-            header:'last_visit_date',
-            sortable:true,
-            resizable:true,
-            dataIndex:'last_visit_date',
-            width:100
-        },
-        {
-            header:'inactive',
-            sortable:true,
-            resizable:true,
-            dataIndex:'inactive',
-            width:100
-        },
-        {
-            header:'nij',
+            header:'Nama Lengkap',
             sortable:true,
             resizable:true,
             dataIndex:'nij',
             width:100
         },
+        {
+            header:'Terakhir Login',
+            sortable:true,
+            resizable:true,
+            dataIndex:'last_visit_date',
+            width:100
+        },
+//        {
+//            header:'inactive',
+//            sortable:true,
+//            resizable:true,
+//            dataIndex:'inactive',
+//            width:100
+//        },
+
         /*
          {
          header:'security_roles_id',
@@ -76,8 +78,9 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
             xtype:'toolbar',
             items:[
                 {
+                    iconCls: 'asp-user2_add',
                     xtype:'button',
-                    text:'Tambah',
+                    text:'Tambah User',
                     ref:'../btnAdd'
                 },
                 {
@@ -85,7 +88,8 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
-                    text:'Ubah',
+                    iconCls: 'asp-user2_edit',
+                    text:'Ubah User',
                     ref:'../btnEdit'
                 },
                 {
@@ -93,7 +97,8 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
-                    text:'Hapus',
+                    iconCls: 'asp-user2_delete',
+                    text:'Hapus Delete',
                     ref:'../btnDelete'
                 }
             ]

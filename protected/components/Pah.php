@@ -194,7 +194,9 @@ class Pah
             ->leftJoin("pah_chart_master e", "d.pah_chart_master_account_code = e.account_code")
             ->leftJoin("pah_donatur f", "d.pah_donatur_id = f.id")
             ->leftJoin("pah_suppliers g", "b.pah_suppliers_supplier_id  = g.supplier_id")
-            ->where("a.trans_date between '$start_date' and '$end_date' and a.bank_act='7' and  type in (0,1)")
+            ->where("a.trans_date between :start and :end and a.bank_act=:act and  type in (:km,:kk)",
+            array(':start' => $start_date, ':end' => $end_date, ':act' => PahPrefs::TypePendapatanAct(),
+                ':km' => KAS_MASUK, ':kk' => KAS_KELUAR))
             ->order("a.trans_date asc")
             ->queryAll();
         return $rows;
@@ -206,8 +208,8 @@ class Pah
             ->select("b.account_code,b.account_name as nama_rekening,sum(a.amount) as total_beban")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-            array(':type' => PahPrefs::TypeCostAct()))
+            ->where("a.tran_date between :start and :end and b.account_type=:type",
+            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -220,7 +222,8 @@ class Pah
             ->select("pah_sub_aktivitas.nama as sub_aktivitas,Sum(pah_aktivitas.amount) as total_beban")
             ->from("pah_aktivitas")
             ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
-            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date'")
+            ->where("pah_aktivitas.trans_date between :start and :end",
+            array(':start' => $start_date, ':end' => $end_date))
             ->group("pah_sub_aktivitas.nama")
             ->queryAll();
         return $rows;
@@ -246,8 +249,8 @@ class Pah
             ->select("b.account_name as nama_rekening,sum(a.amount) as total_pendapatan")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-            array(':type' => PahPrefs::TypePendapatanAct()))
+            ->where("a.tran_date between :start and :end and b.account_type=:type",
+            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypePendapatanAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -260,8 +263,8 @@ class Pah
             ->select("sum(a.amount) as total_pendapatan")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between '$start_date' and '$end_date' and b.account_type=:type",
-            array(':type' => PahPrefs::TypePendapatanAct()))
+            ->where("a.tran_date between :start and :end and b.account_type=:type",
+            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypePendapatanAct()))
             ->order("b.account_code")
             ->queryScalar();
         return $rows == null ? 0 : $rows;
@@ -273,7 +276,8 @@ class Pah
             ->select("sum(a.amount) as total_realisasi")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between '$start_date' and '$end_date' and b.account_code='$code'")
+            ->where("a.tran_date between :start and :end and b.account_code=:code",
+            array(':start' => $start_date, ':end' => $end_date, ':code' => $code))
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }

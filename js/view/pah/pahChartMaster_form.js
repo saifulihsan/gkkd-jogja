@@ -81,11 +81,10 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                         ref:'../description',
                         height:75,
                         anchor:'100%'
-                        //allowBlank: 1
-                    }
+                                }, 
+                                                   
                 ]
-            }
-        ];
+            }];
         this.fbar = {
             xtype:'toolbar',
             items:[

@@ -56,18 +56,21 @@ jun.PahReportMutasiWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -122,7 +125,7 @@ jun.PahReportMutasiWin = Ext.extend(Ext.Window, {
         Ext.getCmp('form-PahReportMutasiWin').getForm().url = 'PondokHarapan/PahReport/MutasiKasDiTangan';
         this.format.setValue('excel');
         Ext.getCmp('form-PahReportMutasiWin').getForm().submit();
-    },
+    }
 });
 jun.PahReportPengeluaranWin = Ext.extend(Ext.Window, {
     title:'Pengeluaran per Kode Rekening',

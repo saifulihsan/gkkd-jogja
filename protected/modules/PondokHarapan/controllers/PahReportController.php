@@ -11,6 +11,7 @@ class PahReportController extends GxController
         if (Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
+            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
