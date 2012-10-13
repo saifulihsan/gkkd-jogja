@@ -20,15 +20,17 @@ class JemaatController extends GxController
                 $_POST['Jemaat'][$k] = $v;
             }
             $model->attributes = $_POST['Jemaat'];
+            $msg = "Data gagal disimpan";
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'id' => $model->nij));
+                    'msg' => $msg));
                 Yii::app()->end();
             } else {
                 $this->redirect(array('view', 'id' => $model->nij));
@@ -48,15 +50,17 @@ class JemaatController extends GxController
                 $_POST['Jemaat'][$k] = $v;
             }
             $model->attributes = $_POST['Jemaat'];
+            $msg = "Data Jemaat dengan nomer induk " . $model->id . " berhasil di ubah.";
             if ($model->save()) {
                 $status = true;
             } else {
                 $status = false;
+                $msg = "Data Jemaat dengan nomer induk " . $model->id . " gagal di ubah.";
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'id' => $model->nij));
+                    'msg' => $msg));
                 Yii::app()->end();
             } else {
                 $this->redirect(array('view', 'id' => $model->nij));

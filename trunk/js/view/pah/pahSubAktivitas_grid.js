@@ -1,6 +1,7 @@
 jun.PahSubAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Daftar Sub Aktivitas",
     id:'docs-jun.PahSubAktivitasGrid',
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

@@ -18,4 +18,4 @@ jun.<?php echo $this->modelClass; ?>store = Ext.extend(Ext.data.JsonStore, {
     }
 });
 jun.rzt<?php echo $this->modelClass; ?> = new jun.<?php echo $this->modelClass; ?>store();
-jun.rzt<?php echo $this->modelClass; ?>.load();
+//jun.rzt<?php echo $this->modelClass; ?>.load();

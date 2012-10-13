@@ -1,8 +1,7 @@
 jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Aktivitas",
     id:'docs-jun.PahAktivitasGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

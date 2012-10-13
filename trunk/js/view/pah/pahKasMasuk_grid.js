@@ -1,8 +1,7 @@
 jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Daftar Kas Masuk",
     id:'docs-jun.PahKasMasukGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

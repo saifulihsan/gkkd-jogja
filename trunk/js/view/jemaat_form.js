@@ -1,8 +1,9 @@
 jun.JemaatWin = Ext.extend(Ext.Window, {
-    title:'Jemaat',
+    title:'Data Jemaat',
+    iconCls: 'asp-user3',
     modez:1,
     width:400,
-    height:300,
+    height:280,
     layout:'form',
     modal:true,
     padding:5,
@@ -46,7 +47,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'textfield',
-                        fieldLabel:'Telepon/HP',
+                        fieldLabel:'Phone',
                         hideLabel:false,
                         //hidden:true,
                         name:'phone',
@@ -58,7 +59,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'textfield',
-                        fieldLabel:'Email',
+                        fieldLabel:'E-mail',
                         hideLabel:false,
                         //hidden:true,
                         name:'email',
@@ -68,18 +69,17 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-                    /*  {
-                     xtype: 'textfield',
-                     fieldLabel: 'Status',
-                     hideLabel:false,
-                     //hidden:true,
-                     name:'inactive',
-                     id:'inactiveid',
-                     ref:'../inactive',
-                     //allowBlank: ,
-                     anchor: '100%'
-                     },*/
-
+                    {
+                        xtype:'textarea',
+                        fieldLabel:'Alamat',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'alamat',
+                        id:'alamatid',
+                        ref:'../alamat',
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
@@ -138,24 +138,32 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
             scope:this,
             success:function (f, a) {
                 jun.rztJemaat.reload();
                 var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
                 if (this.closeForm) {
                     this.close();
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-Jemaat').getForm().reset();
-                    }
+                }
+                if (this.modez == 0) {
+                    Ext.getCmp('form-Jemaat').getForm().reset();
                 }
             },
             failure:function (f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                });
+                //                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });

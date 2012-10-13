@@ -45,6 +45,17 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
                     {
+                        xtype:'textfield',
+                        fieldLabel:'E-Mail',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'mail_address',
+                        id:'mail_addressid',
+                        ref:'../mail_address',
+                        anchor:'100%'
+                        //allowBlank:
+                    },
+                    {
                         xtype:'textarea',
                         fieldLabel:'Alamat',
                         hideLabel:false,
@@ -56,17 +67,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         height:100
                         //allowBlank:
                     },
-                    {
-                        xtype:'textfield',
-                        fieldLabel:'mail_address',
-                        hideLabel:false,
-                        //hidden:true,
-                        name:'mail_address',
-                        id:'mail_addressid',
-                        ref:'../mail_address',
-                        anchor:'100%'
-                        //allowBlank:
-                    },
+
 //                                                                     {
 //                                    xtype: 'textfield',
 //                                    fieldLabel: 'gst_no',
@@ -201,7 +202,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
 //                                },
                     {
                         xtype:'textarea',
-                        fieldLabel:'notes',
+                        fieldLabel:'Keterangan',
                         hideLabel:false,
                         //hidden:true,
                         name:'notes',

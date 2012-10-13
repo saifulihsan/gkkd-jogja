@@ -1,7 +1,8 @@
 jun.PahReportMutasiWin = Ext.extend(Ext.Window, {
     title:'Mutasi Kas di Tangan',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:150,
     layout:'form',
     modal:true,
@@ -129,8 +130,9 @@ jun.PahReportMutasiWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportPengeluaranWin = Ext.extend(Ext.Window, {
     title:'Pengeluaran per Kode Rekening',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:150,
     layout:'form',
     modal:true,
@@ -185,18 +187,21 @@ jun.PahReportPengeluaranWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -244,8 +249,9 @@ jun.PahReportPengeluaranWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportPendapatanWin = Ext.extend(Ext.Window, {
     title:'Pendapatan',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:150,
     layout:'form',
     modal:true,
@@ -300,18 +306,21 @@ jun.PahReportPendapatanWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -358,8 +367,9 @@ jun.PahReportPendapatanWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportBebanAktivitasWin = Ext.extend(Ext.Window, {
     title:'Beban Aktivitas',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:150,
     layout:'form',
     modal:true,
@@ -414,18 +424,21 @@ jun.PahReportBebanAktivitasWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -472,8 +485,9 @@ jun.PahReportBebanAktivitasWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
     title:'Beban Aktivitas per Anak',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:170,
     layout:'form',
     modal:true,
@@ -547,18 +561,21 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -606,8 +623,9 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportTanggungJawabWin = Ext.extend(Ext.Window, {
     title:'Pertanggungjawaban',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:140,
     layout:'form',
     modal:true,
@@ -684,18 +702,21 @@ jun.PahReportTanggungJawabWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'
@@ -741,8 +762,9 @@ jun.PahReportTanggungJawabWin = Ext.extend(Ext.Window, {
 });
 jun.PahReportAnggaranRealisasiWin = Ext.extend(Ext.Window, {
     title:'Anggaran Versus Realisasi',
+    iconCls: 'asp-report2',
     modez:1,
-    width:300,
+    width:350,
     height:140,
     layout:'form',
     modal:true,
@@ -819,18 +841,21 @@ jun.PahReportAnggaranRealisasiWin = Ext.extend(Ext.Window, {
             items:[
                 {
                     xtype:'button',
+                    iconCls: 'asp-excel',
                     text:'Save to Excel',
                     hidden:false,
                     ref:'../btnSave'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-pdf',
                     text:'Save to PDF',
                     hidden:false,
                     ref:'../btnPdf'
                 },
                 {
                     xtype:'button',
+                    iconCls: 'asp-print',
                     text:'Print',
                     hidden:false,
                     ref:'../btnPrint'

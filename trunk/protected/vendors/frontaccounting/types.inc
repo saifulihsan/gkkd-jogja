@@ -7,6 +7,7 @@ define('AKTIVITAS',3);
 define('BANKTRANSFER', 4);
 
 define('VOID', 5);
+define('SALDO_AWAL', 6);
 
 define('ST_SALESINVOICE', 10);
 define('ST_CUSTCREDIT', 11);

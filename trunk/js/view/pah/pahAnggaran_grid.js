@@ -1,6 +1,7 @@
 jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Anggaran",
     id:'docs-jun.PahAnggaranGrid',
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

@@ -28,8 +28,9 @@ jun.ViewportUi = Ext.extend(Ext.Viewport, {
                 xtype:'box',
                 region:'north',
                 id:'app-header',
-                html:"Sistem Informasi Gereja Kristen Kemah Daud Yogyakarta",
-                height:50
+                html:'Sistem Informasi Gereja Kristen Kemah Daud Yogyakarta<br />' +
+                    '<span class="subtitle">Villa Seturan Indah Bl D/10, Caturnunggal, Depok Yogyakarta 55281</span>',
+                height:60
             },
             jun.sidebar,
             jun.mainPanel,

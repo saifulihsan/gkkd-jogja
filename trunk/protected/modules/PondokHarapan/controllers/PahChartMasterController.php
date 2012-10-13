@@ -109,6 +109,37 @@ class PahChartMasterController extends GxController
         ));
     }
 
+    public function actionSetSaldoAwal()
+    {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            $status = false;
+            $msg = 'Saldo Awal berhasil disimpan.';
+            $date = Site::get_date_today();
+            $user = Yii::app()->user->getId();
+            $id = Pah::get_next_trans_saldo_awal();
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                Pah::add_gl(SALDO_AWAL, $id, $date, "-", $_POST['pah_chart_master_account_code'],
+                    '-', Site::get_number($_POST['amount']), $user);
+                $transaction->commit();
+                $status = true;
+            } catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'id' => $id,
+                'msg' => $msg
+            ));
+            Yii::app()->end();
+        }
+    }
+
     public function actionIndex()
     {
         if (isset($_POST['limit'])) {

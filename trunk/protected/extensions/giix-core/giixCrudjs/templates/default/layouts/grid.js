@@ -67,6 +67,7 @@ jun.<?php echo $this->modelClass; ?>Grid=Ext.extend(Ext.grid.GridPanel ,{
                     }
                 ]
             };
+        jun.rzt<?php echo $this->modelClass;?>.reload();
 		jun.<?php echo $this->modelClass; ?>Grid.superclass.initComponent.call(this);
 	        this.btnAdd.on('Click', this.loadForm, this);
                 this.btnEdit.on('Click', this.loadEditForm, this);
@@ -119,7 +120,7 @@ jun.<?php echo $this->modelClass; ?>Grid=Ext.extend(Ext.grid.GridPanel ,{
             }
 
             Ext.Ajax.request({
-                waitMsg: 'Please Wait',
+                //waitMsg: 'Please Wait',
                 url: '<?php echo $this->getModule()->getName();?>/<?php echo $this->modelClass; ?>/delete/id/' + record.json.<? echo $this->tableSchema->primaryKey ?>,
                 //url: 'index.php/api/<?php echo $this->modelClass; ?>/delete/' + record[0].json.nosjp,
                 method: 'POST',

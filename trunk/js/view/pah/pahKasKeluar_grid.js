@@ -1,8 +1,7 @@
 jun.PahKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Pengeluaran Kas Umum",
     id:'docs-jun.PahKasKeluarGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

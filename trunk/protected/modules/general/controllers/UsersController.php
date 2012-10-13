@@ -14,18 +14,24 @@ class UsersController extends GxController
         $model = new Users;
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
+                if ($k == "password") {
+                    $crypt = new bCrypt();
+                    $v = $crypt->hash($v);
+                }
                 $_POST['Users'][$k] = $v;
             }
             $model->attributes = $_POST['Users'];
+            $msg = "User gagal disimpan";
             if ($model->save()) {
                 $status = true;
+                $msg = "User berhasil di simpan dengan id " . $model->id;
             } else {
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'id' => $model->id));
+                    'msg' => $msg));
                 Yii::app()->end();
             } else {
                 $this->redirect(array('view', 'id' => $model->id));
@@ -36,35 +42,96 @@ class UsersController extends GxController
 
     public function actionUpdate($id)
     {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
         $model = $this->loadModel($id, 'Users');
-        if (isset($_POST) && !empty($_POST)) {
-            foreach ($_POST as $k => $v) {
-                $_POST['Users'][$k] = $v;
-            }
-            $model->attributes = $_POST['Users'];
-            if ($model->save()) {
-                $status = true;
-            } else {
-                $status = false;
-            }
-            if (Yii::app()->request->isAjaxRequest) {
-                echo CJSON::encode(array(
-                    'success' => $status,
-                    'id' => $model->id));
-                Yii::app()->end();
-            } else {
-                $this->redirect(array('view', 'id' => $model->id));
-            }
+        $newpass = Site::generatePassword();
+        $crypt = new bCrypt();
+        $v = $crypt->hash($newpass);
+        $msg = "Password berhasil di reset. Info login yang baru.<br />Username : $model->user_id<br />
+            Password : $newpass";
+        $model->password = $v;
+        if ($model->save()) {
+            $status = true;
+        } else {
+            $status = false;
+            $msg = "Password gagal di reset";
         }
-        $this->render('update', array(
-            'model' => $model,
-        ));
+        echo CJSON::encode(array(
+            'success' => $status,
+            'msg' => $msg));
+        Yii::app()->end();
+//        $model = $this->loadModel($id, 'Users');
+//        if (isset($_POST) && !empty($_POST)) {
+//            foreach ($_POST as $k => $v) {
+//                $_POST['Users'][$k] = $v;
+//            }
+//            $model->attributes = $_POST['Users'];
+//            $msg = "User dengan id " . $model->id . " berhasil di ubah.";
+//            if ($model->save()) {
+//                $status = true;
+//            } else {
+//                $status = false;
+//                $msg = "User dengan id " . $model->id . " gagal di ubah.";
+//            }
+//            if (Yii::app()->request->isAjaxRequest) {
+//                echo CJSON::encode(array(
+//                    'success' => $status,
+//                    'msg' => $msg));
+//                Yii::app()->end();
+//            } else {
+//                $this->redirect(array('view', 'id' => $model->id));
+//            }
+//        }
+//        $this->render('update', array(
+//            'model' => $model,
+//        ));
+    }
+
+    public function actionUpdatePass()
+    {
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $passold = $_POST['passwordold'];
+            $passnew = $_POST['password'];
+            $model = $this->loadModel(Yii::app()->user->getId(), 'Users');
+            $msg = "Password lama salah. Untuk mengganti password, password lama harus benar.";
+            $status = false;
+            if (bCrypt::verify($passold, $model->password)) {
+                $crypt = new bCrypt();
+                $pass = $crypt->hash($passnew);
+                $model->password = $pass;
+                if ($model->save()) {
+                    $status = true;
+                    $msg = "Password berhasil diganti.";
+                } else {
+                    $status = false;
+                    $msg = "Password gagal diganti";
+                }
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'msg' => $msg));
+            Yii::app()->end();
+        }
     }
 
     public function actionDelete($id)
     {
+        $msg = "User dengan id " . $model->id . " berhasil di hapus.";
+        $status = true;
         if (Yii::app()->request->isPostRequest) {
-            $this->loadModel($id, 'Users')->delete();
+            try {
+                $this->loadModel($id, 'Users')->delete();
+            } catch (Exception $ex) {
+                $msg = $ex;
+                $status = false;
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'msg' => $msg));
+            Yii::app()->end();
             if (!Yii::app()->request->isAjaxRequest)
                 $this->redirect(array('admin'));
         } else
