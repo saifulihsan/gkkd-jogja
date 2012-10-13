@@ -1,8 +1,7 @@
 jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Daftar Pemasok",
     id:'docs-jun.PahSuppliersGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },
@@ -123,7 +122,7 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
          width:100
          },                */
         {
-            header:'Notes',
+            header:'Keterangan',
             sortable:true,
             resizable:true,
             dataIndex:'notes',

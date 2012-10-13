@@ -64,11 +64,6 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Pengelola',
-                            id: 'jun.NotaGrid',
-                            leaf: true
-                        },
-                        {
                             text: 'Sub Aktivitas',
                             id: 'jun.PahSubAktivitasGrid',
                             leaf: true
@@ -101,7 +96,13 @@ class MenuTree
                             text: 'Mutasi antar Rekening Kas',
                             id: 'jun.PahTranferBankWin',
                             leaf: true
-                        },]
+                        },
+                        {
+                            text: 'Set Saldo Awal',
+                            id: 'jun.PahSaldoAwalWin',
+                            leaf: true
+                        },
+                        ]
                     },
                     {
                     text: 'Report',
@@ -168,15 +169,26 @@ class MenuTree
 
     function get_menu_general()
     {
-        $menu = $this->menu_data_jemaat . $this->menu_users;
+        $menu = "{text: 'Administrasi',
+                  expanded: false,
+                  children:[
+                  $this->menu_data_jemaat
+                  $this->menu_users
+                  ]},";
         return $menu;
     }
 
     public function get_menu()
     {
         $username = Yii::app()->user->name;
-        $data = "[" . $this->get_menu_pondok_harapan() . ',' . $this->get_menu_pondok_efata() . ',' . $this->get_menu_general()
-            . "{
+        $data = "[" . $this->get_menu_pondok_harapan() . ','  . $this->get_menu_general()
+            .
+            "{
+                text: 'Ganti Password',
+                id: 'jun.PasswordWin',
+                leaf: true
+              },
+            {
                 text: 'Logout ($username)',
                 id: 'logout',
                 leaf: true

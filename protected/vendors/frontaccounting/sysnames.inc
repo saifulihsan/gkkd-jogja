@@ -11,7 +11,7 @@ $systypes_array = array (
 	BANKTRANSFER => "Mutasi Antar Kas/Bank",
 
     VOID => "Void Dokumen",
-
+    SALDO_AWAL => "Saldo Awal",
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
 	ST_CUSTPAYMENT => _("Customer Payment"),

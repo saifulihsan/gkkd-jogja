@@ -7,6 +7,7 @@ jun.renderChartType = function (val, meta, record) {
 jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Kode Rekening",
     id:'docs-jun.PahChartMasterGrid',
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

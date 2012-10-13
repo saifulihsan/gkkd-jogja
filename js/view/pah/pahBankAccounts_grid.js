@@ -1,6 +1,7 @@
 jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Kas dan Bank",
     id:'docs-jun.PahBankAccountsGrid',
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },
@@ -181,26 +182,23 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
             method:'POST',
             success:function (f, a) {
                 var response = Ext.decode(f.responseText);
-                if (response.success == false) {
-                    Ext.MessageBox.show({
-                        title:'Warning',
-                        msg:response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.WARNING
-                    });
-                    return;
-                } else {
-                    Ext.MessageBox.show({
-                        title:'Info',
-                        msg:response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.INFO
-                    });
-                    jun.rztPahBankAccounts.reload();
-                }
+                Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
+                jun.rztPahBankAccounts.reload();
             },
-            failure:function (response) {
-                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            failure:function (f, a) {
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                });
+//                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
     }

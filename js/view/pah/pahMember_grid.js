@@ -7,8 +7,7 @@ jun.renderRealName = function (val, meta, record) {
 jun.PahMemberGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Daftar Anak",
     id:'docs-jun.PahMemberGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

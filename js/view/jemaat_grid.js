@@ -1,8 +1,7 @@
 jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
-    title:"Jemaat",
+    title:"Data Jemaat",
     id:'docs-jun.JemaatGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },
@@ -23,17 +22,24 @@ jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
             width:100
         },
         {
-            header:'Telepon/HP',
+            header:'Phone',
             sortable:true,
             resizable:true,
             dataIndex:'phone',
             width:100
         },
         {
-            header:'Email',
+            header:'E-Mail',
             sortable:true,
             resizable:true,
             dataIndex:'email',
+            width:100
+        },
+        {
+            header:'Alamat',
+            sortable:true,
+            resizable:true,
+            dataIndex:'alamat',
             width:100
         },
         {
@@ -62,7 +68,8 @@ jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
             items:[
                 {
                     xtype:'button',
-                    text:'Tambah',
+                    iconCls: 'asp-user3_add',
+                    text:'Tambah Data',
                     ref:'../btnAdd'
                 },
                 {
@@ -70,7 +77,8 @@ jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
-                    text:'Ubah',
+                    iconCls: 'asp-user3_edit',
+                    text:'Ubah Data',
                     ref:'../btnEdit'
                 },
                 {
@@ -78,7 +86,8 @@ jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
-                    text:'Hapus',
+                    iconCls: 'asp-user3_delete',
+                    text:'Hapus Data',
                     ref:'../btnDelete'
                 }
             ]

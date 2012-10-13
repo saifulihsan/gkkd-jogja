@@ -1,6 +1,7 @@
 jun.PahDonaturGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Daftar Donatur",
     id:'docs-jun.PahDonaturGrid',
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

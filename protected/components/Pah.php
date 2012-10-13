@@ -36,6 +36,14 @@ class Pah
         return $total == null ? 0 : $total + 1;
     }
 
+    static function get_next_trans_saldo_awal()
+    {
+        $db = PahGlTrans::model()->getDbConnection();
+        $total = $db->createCommand("SELECT MAX(type_no)
+        FROM pah_gl_trans where type=" . SALDO_AWAL)->queryScalar();
+        return $total == null ? 0 : $total + 1;
+    }
+
     static function get_balance_before_for_bank_account($from, $bank_account = null)
     {
         $bank_act = $bank_account == null ? '' : "bank_act=$bank_account AND";

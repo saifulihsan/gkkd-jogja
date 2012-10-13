@@ -350,7 +350,7 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
+
             scope:this,
             success:function (f, a) {
                 jun.rztPahChartTypes.reload();

@@ -126,7 +126,7 @@ jun.SecurityRolesWin = Ext.extend(Ext.Window, {
              modez: this.modez
              },*/
             timeOut:1000,
-            waitMsg:'Sedang Proses',
+
             scope:this,
             success:function (f, a) {
                 jun.rztSecurityRoles.reload();

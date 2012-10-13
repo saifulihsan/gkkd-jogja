@@ -67,8 +67,7 @@
 #app-header .subtitle {
     font-size: 12px;
     color: #369;
-    float: right;
-    margin: 10px;
+    /*margin: 10px;*/
 }
 #order-view .x-panel-body {
     font-family: Arial, sans-serif;

@@ -1,3 +1,9 @@
+jun.renderJemaat = function (val, meta, record) {
+    var store = jun.rztJemaat;
+    var index = store.find('nij', val);
+    var record = store.getAt(index);
+    return record.data.real_name;
+}
 jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Manajemen User",
     id:'docs-jun.UsersGrid',
@@ -35,6 +41,7 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'nij',
+            renderer:jun.renderJemaat,
             width:100
         },
         {
@@ -88,25 +95,27 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
-                    iconCls: 'asp-user2_edit',
-                    text:'Ubah User',
+                    iconCls: 'asp-access',
+                    text:'Reset Password',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    iconCls: 'asp-user2_delete',
-                    text:'Hapus Delete',
-                    ref:'../btnDelete'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    iconCls: 'asp-user2_delete',
+//                    text:'Hapus Delete',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
+        jun.rztJemaat.reload();
+        jun.rztUsers.reload();
         jun.UsersGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow:function (sm, idx, r) {
@@ -118,16 +127,14 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
         form.show();
     },
     loadEditForm:function () {
-        var selectedz = this.sm.getSelected();
+//        var selectedz = this.sm.getSelected();
         //var dodol = this.store.getAt(0);
-        if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
-            return;
-        }
-        var idz = selectedz.json.id;
-        var form = new jun.UsersWin({modez:1, id:idz});
-        form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+//        if (selectedz == "") {
+//            Ext.MessageBox.alert("Warning", "Anda belum memilih user");
+//            return;
+//        }
+//        var idz = selectedz.json.id;
+        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin mereset password user ini?', this.deleteRecYes, this);
     },
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
@@ -139,20 +146,32 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
         var record = this.sm.getSelected();
         // Check is list selected
         if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih User");
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
-            url:'general/Users/delete/id/' + record.json.id,
+//            waitMsg:'Please Wait',
+            url:'general/Users/update/id/' + record.json.id,
             //url: 'index.php/api/Users/delete/' + record[0].json.nosjp,
             method:'POST',
-            success:function (response) {
+            success:function (f, a) {
                 jun.rztUsers.reload();
-                Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
+                var response = Ext.decode(f.responseText);
+                Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
             },
-            failure:function (response) {
-                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            failure:function (f, a) {
+                var response = Ext.decode(f.responseText);
+                Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                });
             }
         });
     }

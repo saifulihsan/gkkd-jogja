@@ -42,6 +42,8 @@ class UserIdentity extends CUserIdentity
             $this->username = $user->user_id;
             //$this->username = 'admin';
             $this->errorCode = self::ERROR_NONE;
+            $user->last_visit_date = Site::get_date_today('yyyy-MM-dd HH:mm:ss');
+            $user->save();
         }
         return !$this->errorCode;
     }
