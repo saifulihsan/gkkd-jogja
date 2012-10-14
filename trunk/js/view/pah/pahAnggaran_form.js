@@ -61,6 +61,7 @@ getsaldo = function () {
 }
 jun.PahAnggaranWin = Ext.extend(Ext.Window, {
     title:'Anggaran',
+    iconCls:'asp-pay',
     modez:1,
     width:621,
     height:455,
@@ -170,11 +171,22 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         xtype:'numericfield',
                         x:275,
                         y:62,
-                        //width:200,
+                        width:275,
                         name:'kasmasuk',
                         id:'kasmasukid',
                         ref:'../kasmasuk',
                         readOnly:true,
+
+                    },
+                    {
+                        xtype:'button',
+                        x:556,
+                        y:62,
+                        iconCls:'silk-information',
+                        name:'Detil',
+                        id:'Detilid',
+                        ref:'../btnDetil',
+//                        readOnly:true,
                         anchor:'100%'
                     },
                     {
@@ -269,6 +281,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBulan.on('select', this.oncmbBulanchange, this);
         this.periode_tahun.on('spin', this.onperiodetahunchange, this);
+        this.btnDetil.on('click', this.onbtnDetilclick, this);
         if (this.modez == 1 || this.modez == 2) {
             jun.rztPahAnggaranDetil.proxy = new Ext.data.HttpProxy({ url:'PondokHarapan/PahAnggaranDetil/index/id/' + this.id + '/?output=json' });
             jun.rztPahAnggaranDetil.on({
@@ -281,6 +294,11 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             this.periode_tahun.readOnly = true;
         }
     },
+
+    onbtnDetilclick:function (){
+
+    },
+
     onperiodetahunchange:function () {
         if (Ext.getCmp('periode_tahunid').getValue() == "" || this.cmbBulan.value == undefined)
             return;

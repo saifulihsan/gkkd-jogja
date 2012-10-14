@@ -324,15 +324,15 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Tampilkan',
                     ref:'../btnRefresh'
                 },
-                {
-                    xtype:'tbseparator',
-                    //hidden: true,
-                },
-                {
-                    xtype:'button',
-                    text:'Print',
-                    ref:'../btnPrint'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                    //hidden: true,
+//                },
+//                {
+//                    xtype:'button',
+//                    text:'Print',
+//                    ref:'../btnPrint'
+//                }
             ]
         };
         jun.PahBankTransGrid.superclass.initComponent.call(this);

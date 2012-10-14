@@ -59,6 +59,7 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
             items:[
                 {
                     xtype:'button',
+                    iconCls:'asp-pay_add',
                     text:'Tambah Alokasi',
                     ref:'../btnAdd'
                 },
@@ -67,6 +68,7 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
+                    iconCls:'asp-pay_edit',
                     text:'Ubah Alokasi',
                     ref:'../btnEdit'
                 },
@@ -75,6 +77,7 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
+                    iconCls:'asp-pay_delete',
                     text:'Hapus Alokasi',
                     ref:'../btnDelete'
                 }
