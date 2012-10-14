@@ -145,22 +145,22 @@ class SiteController extends Controller
 //    }
 
 
-//    public function actionGenerate(){
-//        $templatePath = './css/aspnet/ico';
-//        $files = scandir($templatePath);
-//        $txt = "";
-//        foreach ($files as $file) {
-//            if (is_file($templatePath . '/' . $file)) {
-//                $basename = explode(".",$file);
-//                $name = $basename[0];
-//                $txt .= ".asp-$name { background-image: url(ico/$file) !important; background-repeat: no-repeat; }\n";
-//            }
-//        }
-//        $myFile = "aspnet.css";
-//        $fh = fopen($myFile, 'w') or die("can't open file");
-//        fwrite($fh, $txt);
-//        fclose($fh);
-//    }
+    public function actionGenerate(){
+        $templatePath = './css/silk_v013/icons';
+        $files = scandir($templatePath);
+        $txt = "";
+        foreach ($files as $file) {
+            if (is_file($templatePath . '/' . $file)) {
+                $basename = explode(".",$file);
+                $name = $basename[0];
+                $txt .= ".silk13-$name { background-image: url(icons/$file) !important; background-repeat: no-repeat; }\n";
+            }
+        }
+        $myFile = "silk013.css";
+        $fh = fopen($myFile, 'w') or die("can't open file");
+        fwrite($fh, $txt);
+        fclose($fh);
+    }
 
     public function actionTree()
     {

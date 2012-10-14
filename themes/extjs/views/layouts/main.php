@@ -16,6 +16,8 @@
           href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/shared/icons/silk.css" />
     <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/css/aspnet/aspnet.css" />
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo Yii::app()->request->baseUrl; ?>/css/silk_v013/silk013.css" />
 </head>
 <body>
 <!--<div id="loading-mask" style=""></div>-->
