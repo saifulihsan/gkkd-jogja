@@ -27,12 +27,14 @@ $model = new <?php echo $this->modelClass; ?>;
 $this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass) ?>-form');
 <?php endif; ?>
 
+if (!Yii::app()->request->isAjaxRequest)
+return;
 if (isset($_POST) && !empty($_POST)) {
 foreach($_POST as $k=>$v){
 $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
 }
 $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
-
+$msg = "Data gagal disimpan";
 <?php if ($this->hasManyManyRelation($this->modelClass)): ?>
 $relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
 <?php endif; ?>
@@ -43,23 +45,18 @@ if ($model->saveWithRelated($relatedData)) {
 if ($model->save()) {
 <?php endif; ?>
 $status = true;
+$msg = "Data berhasil di simpan dengan id " . $model-><?php echo $this->tableSchema->primaryKey; ?>;
 } else {
 $status = false;
 }
 
-if (Yii::app()->request->isAjaxRequest)
-{
 echo CJSON::encode(array(
 'success'=>$status,
-'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+'msg'=>$msg));
 Yii::app()->end();
-} else
-{
-$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
-}
+
 }
 
-$this->render('create', array( 'model' => $model));
 }
 
 public function actionUpdate($id) {

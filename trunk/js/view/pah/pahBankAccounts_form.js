@@ -250,17 +250,12 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
             },
             failure:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
-//                if (response.status != '200') {
-//                    Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-//                    return;
-//                }
                 Ext.MessageBox.show({
                     title:'Warning',
                     msg:response.msg,
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
-//                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });

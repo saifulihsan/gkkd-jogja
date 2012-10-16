@@ -115,24 +115,32 @@ jun.<?php echo $this->modelClass; ?>Grid=Ext.extend(Ext.grid.GridPanel ,{
 
             // Check is list selected
             if(record == ""){
-                Ext.MessageBox.alert("Warning","Anda Belum Memilih Jenis Pelayanan");
+                Ext.MessageBox.alert("Warning","Anda Belum Memilih Data");
                 return;
             }
 
             Ext.Ajax.request({
-                //waitMsg: 'Please Wait',
                 url: '<?php echo $this->getModule()->getName();?>/<?php echo $this->modelClass; ?>/delete/id/' + record.json.<? echo $this->tableSchema->primaryKey ?>,
-                //url: 'index.php/api/<?php echo $this->modelClass; ?>/delete/' + record[0].json.nosjp,
                 method: 'POST',
-                
-                success: function(response){
-                  jun.rzt<?php echo $this->modelClass; ?>.reload();
-                  Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
-
+                success:function (f, a) {
+                    jun.rzt<?php echo $this->modelClass;?>.reload();
+                    var response = Ext.decode(f.responseText);
+                    Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                    });
                 },
-                failure: function(response){
-                  Ext.MessageBox.alert('error','could not connect to the database. retry later');
-                  }
+                failure:function (f, a) {
+                    var response = Ext.decode(f.responseText);
+                    Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                    });
+                }
              });
         
         }
