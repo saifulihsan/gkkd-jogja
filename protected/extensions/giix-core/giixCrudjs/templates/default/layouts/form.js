@@ -77,39 +77,33 @@ jun.<?php echo $this->modelClass; ?>Win = Ext.extend(Ext.Window, {
                 }
              
             Ext.getCmp('form-<?php echo $this->modelClass; ?>').getForm().submit({
-                url:urlz,                
-                /*
-                params:{                                  
-                  tglpeljlo: this.tglpeljlo,
-                  jenpeljlo: this.jenpeljlo,
-                  modez: this.modez
-                },*/
+                url:urlz,
                 timeOut: 1000,
-                //waitMsg: 'Sedang Proses',
                 scope: this,
-
                 success: function(f,a){
                     jun.rzt<?php echo $this->modelClass; ?>.reload();
-                    
                     var response = Ext.decode(a.response.responseText);
-         
-                    if(this.closeForm){
-                    
-                        this.close();
-                    
-                    }else{
-                        if(response.data != undefined){
-                            Ext.MessageBox.alert("Pelayanan",response.data.msg);
-                        }
-                        if(this.modez == 0){
-                            Ext.getCmp('form-<?php echo $this->modelClass; ?>').getForm().reset();
-                        }
+                    Ext.MessageBox.show({
+                    title:'Info',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                    });
+                    if(this.modez == 0){
+                        Ext.getCmp('form-<?php echo $this->modelClass; ?>').getForm().reset();
                     }
-                    
+                    if(this.closeForm){
+                        this.close();
+                    }
                 },
-
-                failure: function(f,a){
-                    Ext.MessageBox.alert("Error","Can't Communicate With The Server");
+                failure:function (f, a) {
+                    var response = Ext.decode(a.response.responseText);
+                    Ext.MessageBox.show({
+                    title:'Warning',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.WARNING
+                    });
                 }
 
             });
