@@ -1,9 +1,3 @@
-var renderChartMaster = function (val, meta, record) {
-    var store = jun.rztPahChartMaster;
-    var index = store.find('account_code', val);
-    var record = store.getAt(index);
-    return record.data.account_name;
-}
 jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"PahAnggaranDetil",
     id:'docs-jun.PahAnggaranDetilGrid',

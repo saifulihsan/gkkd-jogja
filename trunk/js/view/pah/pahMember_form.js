@@ -3,7 +3,7 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
     iconCls:'asp-user8',
     modez:1,
     width:400,
-    height:115,
+    height:140,
     layout:'form',
     modal:true,
     padding:5,
@@ -37,6 +37,18 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
                         //allowBlank:false,
                         anchor:'100%'
                     },
+                    new jun.comboActive({
+                        fieldLabel:'Status',
+                        hideLabel:false,
+                        width:100,
+                        height:20,
+                        name:'inactive',
+                        id:'inactiveid',
+                        ref:'../cmbActive',
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
                 ]
             }
         ];

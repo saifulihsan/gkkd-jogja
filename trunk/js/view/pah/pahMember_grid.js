@@ -29,6 +29,11 @@ jun.PahMemberGrid = Ext.extend(Ext.grid.GridPanel, {
             renderer:jun.renderRealName,
             width:100
         },
+        {
+            header:'Status',
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+        },
     ],
     initComponent:function () {
         this.store = jun.rztPahMemberbyName;

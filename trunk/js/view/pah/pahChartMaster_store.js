@@ -15,7 +15,17 @@ jun.PahChartMasterstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'description'},
             ]
         }, cfg));
+    },
+    FilterData:function () {
+        this.filter([
+            {
+                property:'inactive',
+                value:'0'
+            },
+        ]);
     }
 });
 jun.rztPahChartMaster = new jun.PahChartMasterstore();
+
+
 

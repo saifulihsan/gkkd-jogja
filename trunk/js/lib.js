@@ -116,7 +116,7 @@ Ext.extend(Ext.ux.NumericField, Ext.form.NumberField,
         hasFormat:function () {
             return this.decimalSeparator != '.' || this.useThousandSeparator == true || !Ext.isEmpty(this.currencySymbol) || this.alwaysDisplayDecimals;
         },
-        /**
+            /**
          * Display the numeric value with the fixed decimal precision and without the format using the setRawValue, don't need to do a setValue because we don't want a double
          * formatting and process of the value because beforeBlur perform a getRawValue and then a setValue.
          */
@@ -354,8 +354,8 @@ jun.comboPayment = Ext.extend(Ext.form.ComboBox, {
 jun.active = new Ext.data.ArrayStore({
     fields:['activeVal', 'activeName'],
     data:[
-        ['1', 'Aktif'],
-        ['2', 'Non Aktif']
+        [0, 'Aktif'],
+        [1, 'Non Aktif']
     ]
 });
 
@@ -372,7 +372,9 @@ jun.comboActive = Ext.extend(Ext.form.ComboBox, {
     selectOnFocus:true,
     initComponent:function () {
         this.store = jun.active;
+        //this.store.reload();
         jun.comboActive.superclass.initComponent.call(this);
+
     }
 });
 
@@ -382,7 +384,6 @@ jun.renderActive = function (val, meta, record) {
 
     return val == 1 ? 'Non Aktif' : 'Aktif';
 }
-
 
 Ext.onReady(jun.example.init, jun.example);
 

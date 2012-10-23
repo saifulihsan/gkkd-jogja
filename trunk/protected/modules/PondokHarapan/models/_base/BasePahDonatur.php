@@ -7,71 +7,73 @@
  * property or method in class "PahDonatur".
  *
  * Columns in table "pah_donatur" available as properties of the model,
- * and there are no model relations.
+ * followed by relations of table "pah_donatur" available as properties of the model.
  *
  * @property integer $id
  * @property string $name
  * @property string $phone
  * @property string $alamat
+ * @property integer $inactive
  *
+ * @property PahKasMasuk[] $pahKasMasuks
  */
-abstract class BasePahDonatur extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BasePahDonatur extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'pah_donatur';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'name';
-    }
+	public function tableName() {
+		return 'pah_donatur';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('name', 'length', 'max' => 50),
-            array('phone', 'length', 'max' => 30),
-            array('alamat', 'safe'),
-            array('name, phone, alamat', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, name, phone, alamat', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'name';
+	}
 
-    public function relations()
-    {
-        return array();
-    }
+	public function rules() {
+		return array(
+			array('inactive', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
+			array('phone', 'length', 'max'=>30),
+			array('alamat', 'safe'),
+			array('name, phone, alamat, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, phone, alamat, inactive', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'pahKasMasuks' => array(self::HAS_MANY, 'PahKasMasuk', 'pah_donatur_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'phone' => Yii::t('app', 'Phone'),
-            'alamat' => Yii::t('app', 'Alamat'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('phone', $this->phone, true);
-        $criteria->compare('alamat', $this->alamat, true);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'name' => Yii::t('app', 'Name'),
+			'phone' => Yii::t('app', 'Phone'),
+			'alamat' => Yii::t('app', 'Alamat'),
+			'inactive' => Yii::t('app', 'Inactive'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('name', $this->name, true);
+		$criteria->compare('phone', $this->phone, true);
+		$criteria->compare('alamat', $this->alamat, true);
+		$criteria->compare('inactive', $this->inactive);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

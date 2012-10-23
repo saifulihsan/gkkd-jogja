@@ -9,6 +9,7 @@ jun.PahMemberstore = Ext.extend(Ext.data.JsonStore, {
             fields:[
                 {name:'id'},
                 {name:'jemaat_nij'},
+                {name:'inactive'},
             ]
         }, cfg));
     }
@@ -27,8 +28,17 @@ jun.PahMemberbyNamestore = Ext.extend(Ext.data.JsonStore, {
                 {name:'id'},
                 {name:'jemaat_nij'},
                 {name:'real_name'},
+                {name:'inactive'},
             ]
         }, cfg));
+    },
+    FilterData:function () {
+        this.filter([
+            {
+                property:'inactive',
+                value:'0'
+            },
+        ]);
     }
 });
 jun.rztPahMemberbyName = new jun.PahMemberbyNamestore();

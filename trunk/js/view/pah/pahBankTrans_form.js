@@ -45,7 +45,8 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 //displayField: 'BankAccounts::model()->representingColumn()',
                                 displayField:'bank_account_name',
                                 //allowBlank:false,
-                                anchor:'100%'
+                                anchor:'100%',
+                                lastQuery:''
                             },
                             {
                                 xtype:'numericfield',
@@ -56,8 +57,8 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 readOnly:true,
                                 ref:'../../lblBankBal',
                                 anchor:'100%',
-//                                cls: 'x-form-item',
-//                                style:'text-align:right;margin:3px;',
+                                //                                cls: 'x-form-item',
+                                //                                style:'text-align:right;margin:3px;',
                                 //disable: true,
                             },
                             {
@@ -74,7 +75,9 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 //displayField: 'BankAccounts::model()->representingColumn()',
                                 displayField:'bank_account_name',
                                 //allowBlank:false,
-                                anchor:'100%'
+                                anchor:'100%',
+                                ref:'../../cmbBankTujuan',
+                                lastQuery:''
                             },
                             {
                                 xtype:'xdatefield',
@@ -159,6 +162,15 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbBankAsal.on('focus', this.onLoadBank, this);
+        this.cmbBankTujuan.on('focus', this.onLoadBank, this);
+        this.on('close', this.onWinClose, this);
+    },
+    onWinClose:function () {
+        jun.rztPahBankAccounts.clearFilter();
+    },
+    onLoadBank:function () {
+        jun.rztPahBankAccounts.FilterData();
     },
     onActivate:function () {
         this.btnSave.hidden = false;
@@ -181,15 +193,15 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
     },
     saveForm:function () {
         var urlz;
-//
-//        if (this.modez == 1 || this.modez == 2) {
-//
-//            urlz = 'Wanted/BankTrans/update/id/' + this.id;
-//
-//        } else {
-//
-//            urlz = 'Wanted/BankTrans/create/';
-//        }
+        //
+        //        if (this.modez == 1 || this.modez == 2) {
+        //
+        //            urlz = 'Wanted/BankTrans/update/id/' + this.id;
+        //
+        //        } else {
+        //
+        //            urlz = 'Wanted/BankTrans/create/';
+        //        }
         urlz = 'PondokHarapan/PahBankTrans/createtransfer/';
         Ext.getCmp('pah-form-Transfer-bank').getForm().submit({
             url:urlz,

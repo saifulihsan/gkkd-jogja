@@ -2,7 +2,7 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
     title:'Sub Aktivitas',
     modez:1,
     width:400,
-    height:250,
+    height:275,
     layout:'form',
     modal:true,
     padding:5,
@@ -58,6 +58,18 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
+                    new jun.comboActive({
+                        fieldLabel:'Status',
+                        hideLabel:false,
+                        width:100,
+                        height:20,
+                        name:'inactive',
+                        id:'inactiveid',
+                        ref:'../cmbActive',
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
                     {
                         xtype:'textarea',
                         fieldLabel:'Keterangan',

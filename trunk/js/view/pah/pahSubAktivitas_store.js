@@ -11,8 +11,17 @@ jun.PahSubAktivitasstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'nama'},
                 {name:'desc'},
                 {name:'account_code'},
+                {name:'inactive'},
             ]
         }, cfg));
+    },
+    FilterData:function () {
+        this.filter([
+            {
+                property:'inactive',
+                value:'0'
+            },
+        ]);
     }
 });
 jun.rztPahSubAktivitas = new jun.PahSubAktivitasstore();

@@ -13,69 +13,70 @@
  * @property string $nama
  * @property string $desc
  * @property string $account_code
+ * @property integer $inactive
  *
+ * @property PahAktivitas[] $pahAktivitases
  * @property PahChartMaster $accountCode
  */
-abstract class BasePahSubAktivitas extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BasePahSubAktivitas extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'pah_sub_aktivitas';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'nama';
-    }
+	public function tableName() {
+		return 'pah_sub_aktivitas';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('account_code', 'required'),
-            array('nama', 'length', 'max' => 50),
-            array('account_code', 'length', 'max' => 15),
-            array('desc', 'safe'),
-            array('nama, desc', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, nama, desc, account_code', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'nama';
+	}
 
-    public function relations()
-    {
-        return array(
-            'accountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'account_code'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('account_code', 'required'),
+			array('inactive', 'numerical', 'integerOnly'=>true),
+			array('nama', 'length', 'max'=>50),
+			array('account_code', 'length', 'max'=>15),
+			array('desc', 'safe'),
+			array('nama, desc, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, nama, desc, account_code, inactive', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'pahAktivitases' => array(self::HAS_MANY, 'PahAktivitas', 'pah_sub_aktivitas_id'),
+			'accountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'account_code'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'nama' => Yii::t('app', 'Nama'),
-            'desc' => Yii::t('app', 'Desc'),
-            'account_code' => Yii::t('app', 'Account Code'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id);
-        $criteria->compare('nama', $this->nama, true);
-        $criteria->compare('desc', $this->desc, true);
-        $criteria->compare('account_code', $this->account_code);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'nama' => Yii::t('app', 'Nama'),
+			'desc' => Yii::t('app', 'Desc'),
+			'account_code' => Yii::t('app', 'Account Code'),
+			'inactive' => Yii::t('app', 'Inactive'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('nama', $this->nama, true);
+		$criteria->compare('desc', $this->desc, true);
+		$criteria->compare('account_code', $this->account_code);
+		$criteria->compare('inactive', $this->inactive);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

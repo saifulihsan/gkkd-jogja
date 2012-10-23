@@ -20,18 +20,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                 ref:'formz',
                 border:false,
                 items:[
-//                                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'doc_ref',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'doc_ref',
-//                                    id:'doc_refid',
-//                                    ref:'../doc_ref',
-//                                    maxLength: 15,
-//                                    //allowBlank: 1,
-//                                    anchor: '100%'
-//                                },
                     {
                         xtype:'xdatefield',
                         ref:'../trans_date',
@@ -54,20 +42,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-//                    {
-//                        xtype:'xdatefield',
-//                        ref:'../entry_time',
-//                        fieldLabel:'entry_time',
-//                        name:'entry_time',
-//                        id:'entry_timeid',
-//                        hidden:true,
-//                        value: new Date(),
-//                        //format:'d M Y',
-//                        //allowBlank: 1,
-//                        anchor:'100%'
-//                    },
-
-
                     {
                         xtype:'combo',
                         typeAhead:true,
@@ -82,7 +56,9 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahSuppliers::model()->representingColumn()',
                         displayField:'supp_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbSupplier',
+                        lastQuery:''
                     },
                     {
                         xtype:'combo',
@@ -95,18 +71,16 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_chart_master_account_code',
                         hiddenValue:'pah_chart_master_account_code',
                         valueField:'account_code',
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
                         editable:true,
                         listWidth:300,
                         displayField:'account_code',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbKode',
+                        lastQuery:''
                     },
                     {
                         xtype:'combo',
@@ -122,20 +96,10 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahBankAccounts::model()->representingColumn()',
                         displayField:'bank_account_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbBank',
+                        lastQuery:''
                     },
-                    /* {
-                     xtype:'textfield',
-                     fieldLabel:'trans_via',
-                     hideLabel:false,
-                     //hidden:true,
-                     name:'Cara Pembayaran',
-                     id:'trans_viaid',
-                     ref:'../trans_via',
-                     maxLength:45,
-                     //allowBlank: 1,
-                     anchor:'100%'
-                     },*/
                     new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
                         value:'Tunai',
@@ -155,7 +119,9 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahMember::model()->representingColumn()',
                         displayField:'real_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbAnak',
+                        lastQuery:''
                     },
                     {
                         xtype:'combo',
@@ -171,7 +137,9 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahSubAktivitas::model()->representingColumn()',
                         displayField:'nama',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbSubAktivitas',
+                        lastQuery:''
                     },
                     {
                         xtype:'numericfield',
@@ -185,22 +153,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-//                    {
-//                        xtype:'combo',
-//                        typeAhead:true,
-//                        triggerAction:'all',
-//                        lazyRender:true,
-//                        mode:'local',
-//                        fieldLabel:'users_id',
-//                        store:jun.rztUsers,
-//                        hiddenName:'users_id',
-//                        hiddenValue:'users_id',
-//                        valueField:'id',
-//                        //displayField: 'Users::model()->representingColumn()',
-//                        displayField:'user_id',
-//                        //allowBlank:false,
-//                        anchor:'100%'
-//                    },
                 ]
             }
         ];
@@ -235,6 +187,34 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbBank.on('focus', this.onLoadBank, this);
+        this.cmbKode.on('focus', this.onLoadChartMaster, this);
+        this.cmbSupplier.on('focus', this.onFocusSupplier, this);
+        this.cmbAnak.on('focus', this.onFocusAnak, this);
+        this.cmbAktivitas.on('focus', this.onFocusAktivitas, this);
+        this.on('close', this.onWinClose, this);
+    },
+    onFocusAnak:function () {
+        jun.rztPahMemberbyName.FilterData();
+    },
+    onFocusAktivitas:function () {
+        jun.rztPahSubAktivitas.FilterData();
+    },
+    onLoadBank:function () {
+        jun.rztPahBankAccounts.FilterData();
+    },
+    onLoadChartMaster:function () {
+        jun.rztPahChartMaster.FilterData();
+    },
+    onFocusSupplier:function () {
+        jun.rztPahSuppliers.FilterData();
+    },
+    onWinClose:function () {
+        jun.rztPahBankAccounts.clearFilter();
+        jun.rztPahChartMaster.clearFilter();
+        jun.rztPahSuppliers.clearFilter();
+        jun.rztPahMemberbyName.clearFilter();
+        jun.rztPahSubAktivitas.clearFilter();
     },
     onActivate:function () {
         this.btnSave.hidden = false;
@@ -249,12 +229,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahAktivitas').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             scope:this,
             success:function (f, a) {
@@ -347,7 +321,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:25,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -392,7 +366,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:45,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -407,7 +381,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:65,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -437,7 +411,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:85,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -467,7 +441,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:105,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -538,7 +512,7 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                         xtype:'textarea',
                         fieldLabel:'memo',
                         ref:'../memo',
-//                        hideLabel:false,
+                        //                        hideLabel:false,
                         id:'memo_id',
                         name:'memo_',
                         x:5,

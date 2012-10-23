@@ -8,6 +8,22 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
     padding:5,
     closeForm:false,
     initComponent:function () {
+        var storeChartMaster = new jun.PahChartMasterstore();
+        storeChartMaster.on({
+            'load':{fn:function (store, records, options) {
+                store.filter([
+//                    {
+//                        property     : 'account_type',
+//                        value        : '1'
+//                    },
+                    {
+                        property     : 'inactive',
+                        value        : '0'
+                    },
+                ]);
+            }}
+        });
+//        storeChartMaster.load();
         this.items = [
             {
                 xtype:'form',
@@ -28,6 +44,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         mode:'local',
                         fieldLabel:'Kode Rekening',
                         store:jun.rztPahChartMaster,
+//                        store:storeChartMaster,
                         hiddenName:'account_code',
                         hiddenValue:'account_code',
                         valueField:'account_code',
@@ -44,7 +61,8 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         displayField:'account_code',
                         listWidth:300,
                         editable:true,
-                        anchor:'100%'
+                        anchor:'100%',
+                        lastQuery: ''
                     },
 //                    {
 //                        xtype:'textfield',
@@ -165,17 +183,18 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
 //                        //allowBlank: ,
 //                        anchor:'100%'
 //                    },
-                    {
-                        xtype:'checkbox',
-                        fieldLabel:'Tidak Aktif',
+                    new jun.comboActive({
+                        fieldLabel:'Status',
                         hideLabel:false,
-                        //hidden:true,
+                        width:100,
+                        height:20,
                         name:'inactive',
                         id:'inactiveid',
                         ref:'../inactive',
-                        //allowBlank: ,
-                        anchor:'100%'
-                    }
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
                 ]
             }
         ];
@@ -200,15 +219,27 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahChartMaster.on('load', this.onActivate, this);
         jun.rztPahChartMaster.reload();
         jun.PahBankAccountsWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+
     },
     onActivate:function () {
-        this.btnSave.hidden = false;
+        jun.rztPahChartMaster.clearFilter();
+        jun.rztPahChartMaster.filter([
+            {
+                property:'account_type',
+                value:'1'
+            },
+            {
+                property     : 'inactive',
+                value        : '0'
+            },
+        ]);
     },
     saveForm:function () {
         var urlz;

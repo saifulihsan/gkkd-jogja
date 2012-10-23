@@ -66,6 +66,11 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
             resizable:true,
             dataIndex:'bank_address',
         },
+        {
+            header:'Status',
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+        }
         /*
          {
          header:'bank_curr_code',
@@ -125,23 +130,28 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Ubah Kas/Bank',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    text:'Hapus Kas/Bank',
-                    ref:'../btnDelete'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    text:'Hapus Kas/Bank',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
         jun.PahBankAccountsGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+        this.on('activate', this.onActivate, this);
         jun.rztPahBankAccounts.load();
     },
+    onActivate:function () {
+//        jun.rztPahBankAccounts.clearFilter();
+    },
+
     getrow:function (sm, idx, r) {
         this.record = r;
         var selectedz = this.sm.getSelections();

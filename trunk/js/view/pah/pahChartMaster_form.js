@@ -60,17 +60,29 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                         //allowBlank:false,
                         anchor:'100%'
                     },
-                    {
-                        xtype:'textfield',
-                        fieldLabel:'Inactive',
+                    new jun.comboActive({
+                        fieldLabel:'Status',
                         hideLabel:false,
-                        //hidden:true,
+                        width:100,
+                        height:20,
                         name:'inactive',
                         id:'inactiveid',
-                        ref:'../inactive',
-                        //allowBlank: ,
-                        anchor:'100%'
-                    },
+                        ref:'../cmbActive',
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
+                    //                    {
+                    //                        xtype:'textfield',
+                    //                        fieldLabel:'Inactive',
+                    //                        hideLabel:false,
+                    //                        //hidden:true,
+                    //                        name:'inactive',
+                    //                        id:'inactiveid',
+                    //                        ref:'../inactive',
+                    //                        //allowBlank: ,
+                    //                        anchor:'100%'
+                    //                    },
                     {
                         xtype:'textarea',
                         fieldLabel:'Deskripsi',
@@ -106,6 +118,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        //jun.active.reload();
         jun.PahChartMasterWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);

@@ -36,6 +36,11 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex:'address',
             width:100
         },
+        {
+            header:'Status',
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+        },
 //                                {
 //			header:'mail_address',
 //			sortable:true,
@@ -153,6 +158,7 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
             items:[
                 {
                     xtype:'button',
+                    iconCls:'silk13-package_add',
                     text:'Tambah Pemasok',
                     ref:'../btnAdd'
                 },
@@ -161,23 +167,24 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype:'button',
+                    iconCls:'silk13-package_go',
                     text:'Ubah Pemasok',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    text:'Hapus Pemasok',
-                    ref:'../btnDelete'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    text:'Hapus Pemasok',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
         jun.PahSuppliersGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
         jun.rztPahSuppliers.load();
     },

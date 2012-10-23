@@ -1,9 +1,9 @@
-jun.renderChartType = function (val, meta, record) {
-    var store = jun.rztPahChartTypes;
-    var index = store.find('id', val);
-    var record = store.getAt(index);
-    return record.data.name;
-}
+//jun.renderChartType = function (val, meta, record) {
+//    var store = jun.rztPahChartTypes;
+//    var index = store.find('id', val);
+//    var record = store.getAt(index);
+//    return record.data.name;
+//}
 jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Kode Rekening",
     id:'docs-jun.PahChartMasterGrid',
@@ -40,6 +40,11 @@ jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex:'description',
             width:400
         },
+        {
+            header:'Status',
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+        }
     ],
     initComponent:function () {
         jun.rztPahChartTypes.reload();
@@ -70,21 +75,22 @@ jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Ubah Kode Rekening',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    text:'Hapus Kode Rekening',
-                    ref:'../btnDelete'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    text:'Hapus Kode Rekening',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
+//        jun.rztPahChartTypes.reload();
         jun.rztPahChartMaster.reload();
         jun.PahChartMasterGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow:function (sm, idx, r) {
