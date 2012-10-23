@@ -33,6 +33,11 @@ jun.PahDonaturGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex:'alamat',
             width:400
         },
+        {
+            header:'Status',
+            dataIndex:'inactive',
+            renderer:jun.renderActive,
+        },
     ],
     initComponent:function () {
         this.store = jun.rztPahDonatur;
@@ -62,20 +67,20 @@ jun.PahDonaturGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Ubah Donatur',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    text:'Hapus Donatur',
-                    ref:'../btnDelete'
-                }
+//                {
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    text:'Hapus Donatur',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
         jun.PahDonaturGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
         jun.rztPahDonatur.load();
     },

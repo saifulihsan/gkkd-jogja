@@ -56,7 +56,9 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahSuppliers::model()->representingColumn()',
                         displayField:'supp_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbSupplier',
+                        lastQuery:''
                     },
                     {
                         xtype:'combo',
@@ -72,7 +74,9 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahBankAccounts::model()->representingColumn()',
                         displayField:'bank_account_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbBank',
+                        lastQuery:''
                     },
                     new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
@@ -103,7 +107,9 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         itemSelector:'div.search-item',
                         editable:true,
                         listWidth:300,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbKode',
+                        lastQuery:''
                     },
                     {
                         xtype:'numericfield',
@@ -149,7 +155,30 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbBank.on('focus', this.onLoadBank, this);
+        this.cmbKode.on('focus', this.onLoadChartMaster, this);
+        this.cmbSupplier.on('focus', this.onFocusSupplier, this);
+        this.on('close', this.onWinClose, this);
     },
+
+    onLoadBank:function(){
+        jun.rztPahBankAccounts.FilterData();
+    },
+
+    onLoadChartMaster:function(){
+        jun.rztPahChartMaster.FilterData();
+    },
+
+    onFocusSupplier:function(){
+        jun.rztPahSuppliers.FilterData();
+    },
+
+    onWinClose:function(){
+        jun.rztPahBankAccounts.clearFilter();
+        jun.rztPahChartMaster.clearFilter();
+        jun.rztPahSuppliers.clearFilter();
+    },
+
     onActivate:function () {
         this.btnSave.hidden = false;
     },

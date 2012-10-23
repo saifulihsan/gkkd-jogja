@@ -1,5 +1,6 @@
 jun.PahSuppliersWin = Ext.extend(Ext.Window, {
     title:'Pemasok',
+    iconCls:'silk13-package',
     modez:1,
     width:400,
     height:300,
@@ -64,7 +65,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         id:'addressid',
                         ref:'../address',
                         anchor:'100%',
-                        height:100
+                        height:50
                         //allowBlank:
                     },
 
@@ -200,6 +201,18 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
 //                                    //allowBlank: ,
 //                                    anchor: '100%'
 //                                },
+                    new jun.comboActive({
+                        fieldLabel:'Status',
+                        hideLabel:false,
+                        width:100,
+                        height:20,
+                        name:'inactive',
+                        id:'inactiveid',
+                        ref:'../inactive',
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
                     {
                         xtype:'textarea',
                         fieldLabel:'Keterangan',
@@ -209,7 +222,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         id:'notesid',
                         ref:'../notes',
                         anchor:'100%',
-                        height:100
+                        height:50
                         //allowBlank:
                     },
 //                                                                     {

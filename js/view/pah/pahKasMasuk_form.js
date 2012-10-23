@@ -56,7 +56,9 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahDonatur::model()->representingColumn()',
                         displayField:'name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbDonatur',
+                        lastQuery:''
                     },
                     {
                         xtype:'combo',
@@ -72,7 +74,9 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         //displayField: 'PahBankAccounts::model()->representingColumn()',
                         displayField:'bank_account_name',
                         //allowBlank:false,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbBank',
+                        lastQuery:''
                     },
                     new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
@@ -92,18 +96,15 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_chart_master_account_code',
                         hiddenValue:'pah_chart_master_account_code',
                         valueField:'account_code',
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
                         editable:true,
                         listWidth:300,
                         displayField:'account_code',
                         anchor:'100%',
-                        ref:'../cmbkode'
+                        ref:'../cmbkode',
+                        lastQuery:''
                     },
                     {
                         xtype:'numericfield',
@@ -146,12 +147,31 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         jun.rztPahChartMaster.reload();
         jun.PahKasMasukWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
+        this.on('close', this.onWinClose, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbBank.on('focus', this.onLoadBank, this);
+        this.cmbkode.on('focus', this.onLoadChartMaster, this);
+        this.cmbDonatur.on('focus', this.onFocusDonatur, this);
+    },
+    onFocusDonatur:function () {
+        jun.rztPahDonatur.FilterData();
+    },
+    onLoadBank:function () {
+        jun.rztPahBankAccounts.FilterData();
+    },
+    onLoadChartMaster:function () {
+        jun.rztPahChartMaster.FilterData();
+    },
+    onWinClose:function () {
+        jun.rztPahBankAccounts.clearFilter();
+        jun.rztPahChartMaster.clearFilter();
+        jun.rztPahDonatur.clearFilter();
     },
     onActivate:function () {
-        this.btnSave.hidden = false;
+        this.onLoadBank();
+        this.onLoadChartMaster();
     },
     saveForm:function () {
         var urlz;
@@ -268,7 +288,7 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:25,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -313,7 +333,7 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:45,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -328,7 +348,7 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:65,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -358,7 +378,7 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:85,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -429,7 +449,7 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
                         xtype:'textarea',
                         fieldLabel:'memo',
                         ref:'../memo',
-//                        hideLabel:false,
+                        //                        hideLabel:false,
                         id:'memo_id',
                         name:'memo_',
                         x:5,

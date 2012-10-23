@@ -109,7 +109,7 @@ CREATE TABLE `pah_anggaran` (
   PRIMARY KEY (`id`),
   KEY `fk_pah_anggaran_users1_idx` (`users_id`),
   CONSTRAINT `fk_pah_anggaran_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ CREATE TABLE `pah_anggaran_detil` (
   KEY `fk_pah_anggaran_detil_pah_chart_master1_idx` (`pah_chart_master_account_code`),
   CONSTRAINT `fk_pah_anggaran_detil_pah_anggaran1` FOREIGN KEY (`pah_anggaran_id`) REFERENCES `pah_anggaran` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_anggaran_detil_pah_chart_master1` FOREIGN KEY (`pah_chart_master_account_code`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `pah_bank_accounts` (
 
 LOCK TABLES `pah_bank_accounts` WRITE;
 /*!40000 ALTER TABLE `pah_bank_accounts` DISABLE KEYS */;
-INSERT INTO `pah_bank_accounts` VALUES (7,'110',0,'Kas di Tangan','-','-','-','',0,0,0,'-','-'),(8,'120',0,'Kas di Bank','-','-','-','',0,0,0,'-','-');
+INSERT INTO `pah_bank_accounts` VALUES (7,'110',0,'Kas di Tangan','-','-','-','',0,0,0,'-','-'),(8,'120',0,'Kas di Bank','-','-','-','',0,0,1,'-','-');
 /*!40000 ALTER TABLE `pah_bank_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `pah_bank_trans` (
   KEY `bank_act_2` (`bank_act`,`reconciled`) USING BTREE,
   KEY `bank_act_3` (`bank_act`,`trans_date`) USING BTREE,
   CONSTRAINT `bank_trans_ibfk_1` FOREIGN KEY (`bank_act`) REFERENCES `pah_bank_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +277,7 @@ CREATE TABLE `pah_chart_master` (
 
 LOCK TABLES `pah_chart_master` WRITE;
 /*!40000 ALTER TABLE `pah_chart_master` DISABLE KEYS */;
-INSERT INTO `pah_chart_master` VALUES ('110','','Kas di Tangan','1',0,'-'),('120','','Kas di Bank','1',0,'-'),('410','','Anggaran HO','7',0,'Kas dari kantor pusat'),('420','','Donasi','7',0,'Sumbangan pihak eksternal'),('430','','Pendapatan Lain-lain','7',0,'-'),('510','','Food','5',0,'Uang makan dan snack'),('520','','Suplies (Non Food)','5',0,'Sabun, shampo, pasta gigi, sikat gigi, pembalut, pembersih kaca dan lantai, bayclin, bedak, handbody, cotton bud, rexona, minyak rambut, dan lain sebagainya'),('530','','Transportasi','5',0,'Parkir mobil dan motor, bensin, taxi'),('540','','Utilitas','5',0,'Listrik, telpon, air, ronda, tukang cuci, iuran sampah'),('550','','Rumah Tangga','5',0,'Peralatan dan perawatan rumah tangga'),('570','','Aktivitas Anak','5',0,'Uang saku, rekreasi anak, olah raga, sewa vcd, kebutuhan sekolah, les, eskul, penggalian bakat, speedy, perpustakaan (buku, majalah, koran), spp, daftar ulang dan lain sebagainya.'),('580','','Kesehatan','5',0,'Berobat dan obat'),('590','','Lain-lain','5',0,'PBB, atau apapun yang tidak dapat dikelompokkan dalam kelompok di atas.');
+INSERT INTO `pah_chart_master` VALUES ('110','','Kas di Tangan','1',1,'-'),('120','','Kas di Bank','1',0,'-'),('410','','Anggaran HO','7',0,'Kas dari kantor pusat'),('420','','Donasi','7',0,'Sumbangan pihak eksternal'),('430','','Pendapatan Lain-lain','7',0,'-'),('510','','Food','5',0,'Uang makan dan snack'),('520','','Suplies (Non Food)','5',0,'Sabun, shampo, pasta gigi, sikat gigi, pembalut, pembersih kaca dan lantai, bayclin, bedak, handbody, cotton bud, rexona, minyak rambut, dan lain sebagainya'),('530','','Transportasi','5',0,'Parkir mobil dan motor, bensin, taxi'),('540','','Utilitas','5',0,'Listrik, telpon, air, ronda, tukang cuci, iuran sampah'),('550','','Rumah Tangga','5',0,'Peralatan dan perawatan rumah tangga'),('570','','Aktivitas Anak','5',0,'Uang saku, rekreasi anak, olah raga, sewa vcd, kebutuhan sekolah, les, eskul, penggalian bakat, speedy, perpustakaan (buku, majalah, koran), spp, daftar ulang dan lain sebagainya.'),('580','','Kesehatan','5',0,'Berobat dan obat'),('590','','Lain-lain','5',0,'PBB, atau apapun yang tidak dapat dikelompokkan dalam kelompok di atas.');
 /*!40000 ALTER TABLE `pah_chart_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +327,7 @@ CREATE TABLE `pah_comments` (
   PRIMARY KEY (`id`),
   KEY `type_and_id` (`type`,`id`) USING BTREE,
   KEY `type_no` (`type_no`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,6 +351,7 @@ CREATE TABLE `pah_donatur` (
   `name` varchar(50) DEFAULT NULL,
   `phone` varchar(30) DEFAULT NULL,
   `alamat` tinytext,
+  `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -386,7 +387,7 @@ CREATE TABLE `pah_gl_trans` (
   KEY `account_and_tran_date` (`account`,`tran_date`) USING BTREE,
   KEY `gl_trans_ibfk_4` (`type_no`) USING BTREE,
   CONSTRAINT `gl_trans_ibfk_1` FOREIGN KEY (`account`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,7 +467,7 @@ CREATE TABLE `pah_kas_masuk` (
   CONSTRAINT `fk_pah_kas_masuk_pah_chart_master1` FOREIGN KEY (`pah_chart_master_account_code`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_masuk_pah_donatur1` FOREIGN KEY (`pah_donatur_id`) REFERENCES `pah_donatur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_masuk_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,6 +489,7 @@ DROP TABLE IF EXISTS `pah_member`;
 CREATE TABLE `pah_member` (
   `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `jemaat_nij` varchar(20) NOT NULL,
+  `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_pah_member_jemaat1_idx` (`jemaat_nij`),
   CONSTRAINT `fk_pah_member_jemaat1` FOREIGN KEY (`jemaat_nij`) REFERENCES `jemaat` (`nij`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -518,7 +520,7 @@ CREATE TABLE `pah_refs` (
   PRIMARY KEY (`id`),
   KEY `Type_and_Reference` (`type`,`reference`) USING BTREE,
   KEY `type_no` (`type_no`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -542,6 +544,7 @@ CREATE TABLE `pah_sub_aktivitas` (
   `nama` varchar(50) DEFAULT NULL,
   `desc` text,
   `account_code` varchar(15) NOT NULL,
+  `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_pah_sub_aktivitas_pah_chart_master1_idx` (`account_code`),
   CONSTRAINT `fk_pah_sub_aktivitas_pah_chart_master1` FOREIGN KEY (`account_code`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -554,7 +557,7 @@ CREATE TABLE `pah_sub_aktivitas` (
 
 LOCK TABLES `pah_sub_aktivitas` WRITE;
 /*!40000 ALTER TABLE `pah_sub_aktivitas` DISABLE KEYS */;
-INSERT INTO `pah_sub_aktivitas` VALUES (1,'SPP','-','570');
+INSERT INTO `pah_sub_aktivitas` VALUES (1,'SPP','-','570',0);
 /*!40000 ALTER TABLE `pah_sub_aktivitas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,7 +589,7 @@ CREATE TABLE `pah_suppliers` (
   `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`supplier_id`),
   KEY `supp_ref` (`supp_ref`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -662,7 +665,7 @@ CREATE TABLE `pah_voided` (
   `memo_` tinytext NOT NULL,
   PRIMARY KEY (`id_voided`),
   UNIQUE KEY `id` (`type`,`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -733,7 +736,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','$2a$12$RWK.UtRECG0g7vO5ZEXfx.1YJFek1Gs0d/ug4aUOVGElYE7X3Mala','2012-10-14 21:51:52',0,'0',0),(3,'nove','$2a$12$lFiY1ZWG6/UQrGOy2oC5uOLqW77mDw2lKn4dAPQNFksLYmz368FQq','2012-10-13 19:39:01',0,'1',2);
+INSERT INTO `users` VALUES (1,'admin','$2a$12$RWK.UtRECG0g7vO5ZEXfx.1YJFek1Gs0d/ug4aUOVGElYE7X3Mala','2012-10-17 16:53:58',0,'0',0),(3,'nove','$2a$12$lFiY1ZWG6/UQrGOy2oC5uOLqW77mDw2lKn4dAPQNFksLYmz368FQq','2012-10-13 19:39:01',0,'1',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -746,4 +749,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-14 22:19:07
+-- Dump completed on 2012-10-18  7:15:17

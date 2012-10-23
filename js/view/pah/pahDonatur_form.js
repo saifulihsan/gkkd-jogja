@@ -2,7 +2,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
     title:'Donatur',
     modez:1,
     width:400,
-    height:245,
+    height:270,
     layout:'form',
     modal:true,
     padding:5,
@@ -44,6 +44,18 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
+                    new jun.comboActive({
+                        fieldLabel:'Status',
+                        hideLabel:false,
+                        width:100,
+                        height:20,
+                        name:'inactive',
+                        id:'inactiveid',
+                        ref:'../cmbActive',
+                        hiddenName:'inactive',
+                        hiddenValue:'inactive',
+                        value:1,
+                    }),
                     {
                         xtype:'textarea',
                         fieldLabel:'Alamat',

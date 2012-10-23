@@ -22,6 +22,14 @@ jun.PahBankAccountsstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'atas_nama'},
             ]
         }, cfg));
+    },
+    FilterData:function () {
+        this.filter([
+            {
+                property:'inactive',
+                value:'0'
+            },
+        ]);
     }
 });
 jun.rztPahBankAccounts = new jun.PahBankAccountsstore();

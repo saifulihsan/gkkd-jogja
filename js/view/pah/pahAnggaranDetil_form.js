@@ -34,14 +34,12 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                         valueField:'account_code',
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         displayField:'account_code',
                         listWidth:300,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbkode',
+                        lastQuery:''
                     },
                     {
                         xtype:'numericfield',
@@ -79,12 +77,20 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahChartMaster.reload();
         jun.PahAnggaranDetilWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        jun.rztPahChartMaster.reload();
+        this.cmbkode.on('focus', this.onLoadChartMaster, this);
+        this.on('close', this.onWinClose, this);
+    },
+    onLoadChartMaster:function () {
+        jun.rztPahChartMaster.FilterData();
+    },
+    onWinClose:function () {
+        jun.rztPahChartMaster.clearFilter();
     },
     onActivate:function () {
         this.btnSave.hidden = false;
