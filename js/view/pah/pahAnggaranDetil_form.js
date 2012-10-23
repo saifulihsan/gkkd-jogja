@@ -96,7 +96,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
-        var index_kode = jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbCodeRek.value);
+        var index_kode = jun.rztPahAnggaranDetil.find('pah_chart_master_account_code', this.cmbkode.value);
         if (index_kode > -1 && this.modez == 0) {
             Ext.MessageBox.show({
                 title:'Error',

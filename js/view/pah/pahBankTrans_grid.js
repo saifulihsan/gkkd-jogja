@@ -335,9 +335,10 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
 //                }
             ]
         };
+        jun.rztPahBankAccounts.reload();
         jun.PahBankTransGrid.superclass.initComponent.call(this);
         this.btnRefresh.on('click', this.onbtnRefreshClick, this);
-        this.btnPrint.on('click', this.onbtnPrintClick, this);
+//        this.btnPrint.on('click', this.onbtnPrintClick, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     onbtnPrintClick:function () {
