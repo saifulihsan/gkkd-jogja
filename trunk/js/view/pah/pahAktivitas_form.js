@@ -191,7 +191,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         this.cmbKode.on('focus', this.onLoadChartMaster, this);
         this.cmbSupplier.on('focus', this.onFocusSupplier, this);
         this.cmbAnak.on('focus', this.onFocusAnak, this);
-        this.cmbAktivitas.on('focus', this.onFocusAktivitas, this);
+        this.cmbSubAktivitas.on('focus', this.onFocusAktivitas, this);
         this.on('close', this.onWinClose, this);
     },
     onFocusAnak:function () {
