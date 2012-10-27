@@ -54,13 +54,13 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Pemasok',
-                            id: 'jun.PahSuppliersGrid',
+                            text: 'Grup Anak',
+                            id: 'jun.PahAktivitasGrupGrid',
                             leaf: true
                         },
                         {
-                            text: 'Donatur',
-                            id: 'jun.PahDonaturGrid',
+                            text: 'Pemasok',
+                            id: 'jun.PahSuppliersGrid',
                             leaf: true
                         },
                         {
@@ -93,8 +93,18 @@ class MenuTree
                             leaf: true
                         },
                         {
+                            text: 'Aktivitas Grup Anak',
+                            id: 'jun.PahAktivitasGrupTransGrid',
+                            leaf: true
+                        },
+                        {
                             text: 'Mutasi antar Rekening Kas',
                             id: 'jun.PahTranferBankWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Donasi Non Tunai',
+                            id: 'jun.PahLampiranGrid',
                             leaf: true
                         },
                         {
@@ -139,13 +149,23 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Beban Aktivitas per Bulan',
+                            text: 'Beban Aktivitas',
                             id: 'jun.PahReportBebanAktivitasWin',
                             leaf: true
                         },
                         {
                             text: 'Beban Aktivitas per Anak',
                             id: 'jun.PahReportBebanAktivitasAnakWin ',
+                            leaf: true
+                        },
+                        {
+                            text: 'Beban Aktivitas per Grup',
+                            id: 'jun.PahReportBebanAktivitasGrupWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Lampiran Donasi Non Tunai',
+                            id: 'jun.PahReportLampiranWin',
                             leaf: true
                         }]
                     },

@@ -188,36 +188,22 @@ class Pah
 //---------------------------------------------- Report ----------------------------------------------------------------
     static function get_mutasi_kas_ditangan($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("a.trans_date,
-                (case when a.type = 1 then g.supp_name else f.name end) as payee_payor,
-                (case when a.type = 1 then c.account_name else e.account_name end) as nama_rekening,
-                (case when a.type = 0 then a.amount else 0 end) as kas_masuk,
-                (case when a.type = 1 then a.amount else 0 end) as kas_keluar,
-                a.amount as saldo")
-            ->from("pah_bank_trans a")
-            ->leftJoin("pah_kas_keluar b", "b.doc_ref = a.ref")
-            ->leftJoin("pah_chart_master c", "b.pah_chart_master_account_code = c.account_code")
-            ->leftJoin("pah_kas_masuk d", "d.doc_ref = a.ref")
-            ->leftJoin("pah_chart_master e", "d.pah_chart_master_account_code = e.account_code")
-            ->leftJoin("pah_donatur f", "d.pah_donatur_id = f.id")
-            ->leftJoin("pah_suppliers g", "b.pah_suppliers_supplier_id  = g.supplier_id")
-            ->where("a.trans_date between :start and :end and a.bank_act=:act and  type in (:km,:kk)",
-            array(':start' => $start_date, ':end' => $end_date, ':act' => PahPrefs::TypePendapatanAct(),
-                ':km' => KAS_MASUK, ':kk' => KAS_KELUAR))
-            ->order("a.trans_date asc")
-            ->queryAll();
-        return $rows;
+        $criteria = new CDbCriteria();
+        $criteria->addBetweenCondition('trans_date',$start_date,$end_date);
+        $model = PahBankTrans::model()->findAll($criteria);
+        return $model;
     }
 
     static function get_pengeluaran_per_kode_rekening($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
-            ->select("b.account_code,b.account_name as nama_rekening,sum(a.amount) as total_beban")
+            ->select("b.account_code,b.account_name as nama_rekening,IFNULL(sum(a.amount),0) as total_beban")
             ->from("pah_gl_trans a")
-            ->join("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between :start and :end and b.account_type=:type",
+            ->rightJoin("pah_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end and b.account_type=:type",
             array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
+//            ->where("a.tran_date between :start and :end and b.account_type=:type",
+//            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -226,14 +212,15 @@ class Pah
 
     static function get_beban_aktivitas($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("pah_sub_aktivitas.nama as sub_aktivitas,Sum(pah_aktivitas.amount) as total_beban")
+        $query = Yii::app()->db->createCommand()
+            ->select("pah_sub_aktivitas.nama as sub_aktivitas,IFNULL(Sum(pah_aktivitas.amount),0) as total_beban")
             ->from("pah_aktivitas")
-            ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
-            ->where("pah_aktivitas.trans_date between :start and :end",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->group("pah_sub_aktivitas.nama")
-            ->queryAll();
+            ->rightJoin("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id
+            AND pah_aktivitas.trans_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))
+//            ->where("pah_aktivitas.trans_date between :start and :end",
+//            array(':start' => $start_date, ':end' => $end_date))
+            ->group("pah_sub_aktivitas.nama");
+        $rows = $query->queryAll();
         return $rows;
     }
 
@@ -254,7 +241,7 @@ class Pah
     static function get_detil_pendapatan($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
-            ->select("b.account_name as nama_rekening,sum(a.amount) as total_pendapatan")
+            ->select("b.account_name as nama_rekening,-sum(a.amount) as total_pendapatan")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_type=:type",
@@ -324,5 +311,51 @@ class Pah
         $criteria->addCondition("account_code = '$account'");
         $count = PahBankAccounts::model()->count($criteria);
         return $count > 0;
+    }
+
+    static function get_payee_payoor($type, $id)
+    {
+        switch ($type) {
+            case KAS_MASUK:
+                $model = PahKasMasuk::model()->findAllByPk($id);
+                return $model->PahDonatur->name;
+                break;
+            case KAS_KELUAR:
+                $model = PahKasKeluar::model()->findAllByPk($id);
+                return $model->PahSuppliers->supp_name;
+                break;
+            case AKTIVITAS:
+                $model = PahAktivitas::model()->findAllByPk($id);
+                return $model->PahSuppliers->supp_name;
+                break;
+            case BANKTRANSFER:
+                $criteria = new CDbCriteria();
+                $criteria->addCondition('type=' . BANKTRANSFER);
+                $criteria->addCondition("trans_no=$id");
+                $model = PahBankTrans::model()->find($criteria);
+                $jemaat = get_jemaat_from_user_id($model->users_id);
+                return $jemaat->real_name;
+                break;
+            case VOID:
+                $criteria = new CDbCriteria();
+                $criteria->addCondition('type=' . VOID);
+                $criteria->addCondition("trans_no=$id");
+                $model = PahBankTrans::model()->find($criteria);
+                $jemaat = get_jemaat_from_user_id($model->users_id);
+                return $jemaat->real_name;
+                break;
+            case SALDO_AWAL:
+                $criteria = new CDbCriteria();
+                $criteria->addCondition('type=' . SALDO_AWAL);
+                $criteria->addCondition("trans_no=$id");
+                $model = PahBankTrans::model()->find($criteria);
+                $jemaat = get_jemaat_from_user_id($model->users_id);
+                return $jemaat->real_name;
+                break;
+            case T_AKTIVITASGRUP:
+                $model = PahAktivitasGrupTrans::model()->findAllByPk($id);
+                return $model->PahSuppliers->supp_name;;
+                break;
+        }
     }
 }

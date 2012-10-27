@@ -45,7 +45,7 @@ class UsersController extends GxController
         if (!Yii::app()->request->isAjaxRequest)
             return;
         $model = $this->loadModel($id, 'Users');
-        $newpass = Site::generatePassword();
+        $newpass = generatePassword();
         $crypt = new bCrypt();
         $v = $crypt->hash($newpass);
         $msg = "Password berhasil di reset. Info login yang baru.<br />Username : $model->user_id<br />

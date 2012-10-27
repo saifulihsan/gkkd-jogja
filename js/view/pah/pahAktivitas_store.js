@@ -15,7 +15,6 @@ jun.PahAktivitasstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'trans_date'},
                 {name:'trans_via'},
                 {name:'pah_suppliers_supplier_id'},
-                {name:'pah_chart_master_account_code'},
                 {name:'pah_bank_accounts_id'},
                 {name:'pah_member_id'},
                 {name:'pah_sub_aktivitas_id'},

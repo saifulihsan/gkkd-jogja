@@ -17,7 +17,7 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'type',
-            width:100
+            width:150
         },
         {
             header:'trans_no',
@@ -194,7 +194,9 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         forceFit:true,
         getRowClass:function (record, index) {
             var c = record.get('type');
-            if (c.indexOf("Saldo") !== -1)
+            if (c.indexOf("Saldo Awal -") !== -1)
+                return 'x-row-bold'
+            if (c.indexOf("Saldo Akhir -") !== -1)
                 return 'x-row-bold'
         }
     },

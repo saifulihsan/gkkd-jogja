@@ -2,7 +2,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
     title:'Donatur',
     modez:1,
     width:400,
-    height:270,
+    height:290,
     layout:'form',
     modal:true,
     padding:5,
@@ -54,7 +54,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         ref:'../cmbActive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-                        value:1,
+                        //                        value:1,
                     }),
                     {
                         xtype:'textarea',
@@ -67,6 +67,29 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         height:100
                         //allowBlank: 1
+                    },
+                    {
+                        xtype:'combo',
+                        typeAhead:true,
+                        triggerAction:'all',
+                        lazyRender:true,
+                        mode:'local',
+                        fieldLabel:'Kode Rekening',
+                        store:jun.rztPahChartMaster,
+                        hiddenName:'pah_chart_master_account_code',
+                        hiddenValue:'pah_chart_master_account_code',
+                        valueField:'account_code',
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
+                        matchFieldWidth:false,
+                        itemSelector:'div.search-item',
+                        editable:true,
+                        listWidth:300,
+                        displayField:'account_code',
+                        //allowBlank:false,
+                        anchor:'100%',
+                        editable:false,
+                        ref:'../cmbkode',
+                        lastQuery:''
                     },
                 ]
             }
@@ -92,14 +115,23 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahChartMaster.reload();
         jun.PahDonaturWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
+        this.on('close', this.onWinClose, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbkode.on('focus', this.onLoadChartMaster, this);
+    },
+    onLoadChartMaster:function () {
+        jun.rztPahChartMaster.FilterData();
     },
     onActivate:function () {
         this.btnSave.hidden = false;
+    },
+    onWinClose:function () {
+        jun.rztPahChartMaster.clearFilter();
     },
     saveForm:function () {
         var urlz;

@@ -193,7 +193,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         ref:'../inactive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-                        value:1,
+//                        value:1,
                     }),
                 ]
             }

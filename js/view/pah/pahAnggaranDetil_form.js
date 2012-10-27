@@ -122,7 +122,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         }
         var detil = jun.rztPahAnggaranDetil.recordType;
         var e = new detil({
-            pah_chart_master_account_code:this.cmbCodeRek.value,
+            pah_chart_master_account_code:this.cmbkode.value,
             amount:parseFloat(this.amount.value)
         });
         jun.rztPahAnggaranDetil.insert(0, e);

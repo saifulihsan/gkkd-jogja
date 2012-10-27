@@ -12,27 +12,25 @@ class PahSubAktivitasController extends GxController
     public function actionCreate()
     {
         $model = new PahSubAktivitas;
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PahSubAktivitas'][$k] = $v;
             }
             $model->attributes = $_POST['PahSubAktivitas'];
+            $msg = "Data gagal disimpan";
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
                 $status = false;
             }
-            if (Yii::app()->request->isAjaxRequest) {
-                echo CJSON::encode(array(
-                    'success' => $status,
-                    'id' => $model->id
-                ));
-                Yii::app()->end();
-            } else {
-                $this->redirect(array('view', 'id' => $model->id));
-            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'msg' => $msg));
+            Yii::app()->end();
         }
-        $this->render('create', array('model' => $model));
     }
 
     public function actionUpdate($id)
@@ -42,16 +40,18 @@ class PahSubAktivitasController extends GxController
             foreach ($_POST as $k => $v) {
                 $_POST['PahSubAktivitas'][$k] = $v;
             }
+            $msg = "Data gagal disimpan";
             $model->attributes = $_POST['PahSubAktivitas'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'id' => $model->id
+                    'msg' => $msg
                 ));
                 Yii::app()->end();
             } else {
@@ -66,7 +66,18 @@ class PahSubAktivitasController extends GxController
     public function actionDelete($id)
     {
         if (Yii::app()->request->isPostRequest) {
-            $this->loadModel($id, 'PahSubAktivitas')->delete();
+            $msg = 'Data berhasil dihapus.';
+            $status = true;
+            try {
+                $this->loadModel($id, 'PahSubAktivitas')->delete();
+            } catch (Exception $e) {
+                $status = false;
+                $msg = $ex;
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'msg' => $msg));
+            Yii::app()->end();
             if (!Yii::app()->request->isAjaxRequest)
                 $this->redirect(array('admin'));
         } else
@@ -75,12 +86,12 @@ class PahSubAktivitasController extends GxController
     }
 
     /*
-        public function actionAdmin() {
-            $dataProvider = new CActiveDataProvider('PahSubAktivitas');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
-        }*/
+    public function actionAdmin() {
+    $dataProvider = new CActiveDataProvider('PahSubAktivitas');
+    $this->render('index', array(
+    'dataProvider' => $dataProvider,
+    ));
+    }*/
     public function actionAdmin()
     {
         $model = new PahSubAktivitas('search');
@@ -104,8 +115,8 @@ class PahSubAktivitasController extends GxController
         } else {
             $start = 0;
         }
-        //$model = new PahSubAktivitas('search');
-        //$model->unsetAttributes();
+//$model = new PahSubAktivitas('search');
+//$model->unsetAttributes();
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->offset = $start;

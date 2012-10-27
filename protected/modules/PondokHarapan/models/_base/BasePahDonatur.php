@@ -14,7 +14,9 @@
  * @property string $phone
  * @property string $alamat
  * @property integer $inactive
+ * @property string $pah_chart_master_account_code
  *
+ * @property PahChartMaster $pahChartMasterAccountCode
  * @property PahKasMasuk[] $pahKasMasuks
  */
 abstract class BasePahDonatur extends GxActiveRecord {
@@ -33,17 +35,20 @@ abstract class BasePahDonatur extends GxActiveRecord {
 
 	public function rules() {
 		return array(
+			array('pah_chart_master_account_code', 'required'),
 			array('inactive', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			array('phone', 'length', 'max'=>30),
+			array('pah_chart_master_account_code', 'length', 'max'=>15),
 			array('alamat', 'safe'),
 			array('name, phone, alamat, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id, name, phone, alamat, inactive', 'safe', 'on'=>'search'),
+			array('id, name, phone, alamat, inactive, pah_chart_master_account_code', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
+			'pahChartMasterAccountCode' => array(self::BELONGS_TO, 'PahChartMaster', 'pah_chart_master_account_code'),
 			'pahKasMasuks' => array(self::HAS_MANY, 'PahKasMasuk', 'pah_donatur_id'),
 		);
 	}
@@ -60,6 +65,7 @@ abstract class BasePahDonatur extends GxActiveRecord {
 			'phone' => Yii::t('app', 'Phone'),
 			'alamat' => Yii::t('app', 'Alamat'),
 			'inactive' => Yii::t('app', 'Inactive'),
+			'pah_chart_master_account_code' => Yii::t('app', 'Pah Chart Master Account Code'),
 		);
 	}
 
@@ -71,6 +77,7 @@ abstract class BasePahDonatur extends GxActiveRecord {
 		$criteria->compare('phone', $this->phone, true);
 		$criteria->compare('alamat', $this->alamat, true);
 		$criteria->compare('inactive', $this->inactive);
+		$criteria->compare('pah_chart_master_account_code', $this->pah_chart_master_account_code);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

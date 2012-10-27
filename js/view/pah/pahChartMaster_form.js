@@ -70,7 +70,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                         ref:'../cmbActive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-                        value:1,
+                        value:0,
                     }),
                     //                    {
                     //                        xtype:'textfield',
@@ -183,7 +183,7 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
     title:'Saldo Awal',
     modez:1,
     width:350,
-    height:140,
+    height:170,
     layout:'form',
     modal:true,
     padding:5,
@@ -202,6 +202,16 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
                 ref:'formz',
                 border:false,
                 items:[
+                    {
+                        xtype:'xdatefield',
+                        ref:'../trans_date',
+                        fieldLabel:'Tanggal Transaksi',
+                        name:'trans_date',
+                        id:'trans_dateid',
+                        format:'d M Y',
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },
                     {
                         xtype:'combo',
                         typeAhead:true,

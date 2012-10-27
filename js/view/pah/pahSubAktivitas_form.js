@@ -35,16 +35,14 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         itemSelector:'div.search-item',
                         //hideTrigger:true,
                         //pageSize:10,
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         listWidth:300,
                         //displayField: 'PahChartMaster::model()->representingColumn()',
                         displayField:'account_code',
                         editable:true,
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbKode',
+                        lastQuery:''
                     },
                     {
                         xtype:'textfield',
@@ -68,7 +66,6 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         ref:'../cmbActive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-                        value:1,
                     }),
                     {
                         xtype:'textarea',
@@ -106,11 +103,20 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztPahChartMaster.reload();
         jun.PahSubAktivitasWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
+        this.on('close', this.onWinClose, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.cmbKode.on('focus', this.onLoadChartMaster, this);
+    },
+    onWinClose:function () {
+        jun.rztPahChartMaster.clearFilter();
+    },
+    onLoadChartMaster:function () {
+        jun.rztPahChartMaster.FilterData();
     },
     onActivate:function () {
         this.btnSave.hidden = false;

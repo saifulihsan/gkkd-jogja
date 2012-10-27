@@ -1,14 +1,15 @@
 <?php
 $this->breadcrumbs = array(
-    'Pah Donaturs' => array('index'),
-    GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
-    Yii::t('app', 'Update'),
+	'Pah Donaturs' => array('index'),
+	GxHtml::valueEx($model) => array('view', 'id' => GxActiveRecord::extractPkValue($model, true)),
+	Yii::t('app', 'Update'),
 );
+
 $this->menu = array(
-    array('label' => Yii::t('app', 'List') . ' PahDonatur', 'url' => array('index')),
-    array('label' => Yii::t('app', 'Create') . ' PahDonatur', 'url' => array('create')),
-    array('label' => Yii::t('app', 'View') . ' PahDonatur', 'url' => array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
-    //array('label' => Yii::t('app', 'Manage') . ' PahDonatur', 'url'=>array('admin')),
+	array('label' => Yii::t('app', 'List') . ' PahDonatur', 'url'=>array('index')),
+	array('label' => Yii::t('app', 'Create') . ' PahDonatur', 'url'=>array('create')),
+	array('label' => Yii::t('app', 'View') . ' PahDonatur', 'url'=>array('view', 'id' => GxActiveRecord::extractPkValue($model, true))),
+	//array('label' => Yii::t('app', 'Manage') . ' PahDonatur', 'url'=>array('admin')),
 );
 ?>
 
@@ -16,5 +17,5 @@ $this->menu = array(
 
 <?php
 $this->renderPartial('_form', array(
-    'model' => $model));
+		'model' => $model));
 ?>

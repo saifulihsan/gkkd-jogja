@@ -12,6 +12,8 @@ jun.PahDonaturstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'phone'},
                 {name:'alamat'},
                 {name:'inactive'},
+{name:'pah_chart_master_account_code'},
+                
             ]
         }, cfg));
     },
