@@ -5,27 +5,29 @@
     <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/resources/css/ext-all.css"/>
     <link rel="stylesheet" type="text/css"
+          href="<?php echo Yii::app()->request->baseUrl; ?>/css/default.css"/>
+    <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/grid/grid-examples.css"/>
     <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/ux/css/RowEditor.css"/>
     <link rel="stylesheet" type="text/css"
           href="<?php echo Yii::app()->request->baseUrl; ?>/css/extjs.css"/>
     <link rel="stylesheet" type="text/css"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/css/default.css"/>
+          href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/shared/icons/silk.css"/>
     <link rel="stylesheet" type="text/css"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/shared/icons/silk.css" />
+          href="<?php echo Yii::app()->request->baseUrl; ?>/css/aspnet/aspnet.css"/>
     <link rel="stylesheet" type="text/css"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/css/aspnet/aspnet.css" />
-    <link rel="stylesheet" type="text/css"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/css/silk_v013/silk013.css" />
+          href="<?php echo Yii::app()->request->baseUrl; ?>/css/silk_v013/silk013.css"/>
 </head>
 <body>
 <!--<div id="loading-mask" style=""></div>-->
 <!--<div id="loading">-->
 <!--    <div class="loading-indicator"><img-->
-<!--        src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/ext340/resources/images/default/shared/blue-loading.gif"-->
+<!--        src="-->
+<?php //echo Yii::app()->request->baseUrl; ?><!--/js/ext340/resources/images/default/shared/blue-loading.gif"-->
 <!--        width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"-->
-<!--        alt=""/>Aplikasi --><?php //echo CHtml::encode(Yii::app()->name); ?><!--</a><br/><span id="loading-msg">Loading styles and images...</span>-->
+<!--        alt=""/>Aplikasi -->
+<?php //echo CHtml::encode(Yii::app()->name); ?><!--</a><br/><span id="loading-msg">Loading styles and images...</span>-->
 <!--    </div>-->
 <!--</div>-->
 <!--<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>-->
@@ -40,8 +42,9 @@
     <?
 } else {
     ?>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/ux/TableGrid.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/ux/TableGrid.js"></script>
     <?
     $templatePath = './js/view/pah/';
     $files = scandir($templatePath);
@@ -65,7 +68,8 @@
     }
     ?>
 <!--<div id="header"><h1><strong>--><?php //echo CHtml::encode(Yii::app()->name); ?><!--</strong></h1>-->
-<!--    <span id="usrlogin">Welcome :  --><?php //echo CHtml::encode(Yii::app()->user->name); ?><!--  | <a href="site/logout"-->
+<!--    <span id="usrlogin">Welcome :  -->
+    <?php //echo CHtml::encode(Yii::app()->user->name); ?><!--  | <a href="site/logout"-->
 <!--                                                                                              class="lout">Logout</a></span>-->
 <!--</div>-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/mainpanel.js"></script>

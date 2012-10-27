@@ -2,7 +2,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
     title:'Kas Masuk',
     modez:1,
     width:350,
-    height:280,
+    height:250,
     layout:'form',
     modal:true,
     padding:5,
@@ -44,7 +44,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'combo',
-                        typeAhead:true,
+//                        typeAhead:true,
                         triggerAction:'all',
                         lazyRender:true,
                         mode:'local',
@@ -58,11 +58,12 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         //allowBlank:false,
                         anchor:'100%',
                         ref:'../cmbDonatur',
+                        editable:false,
                         lastQuery:''
                     },
                     {
                         xtype:'combo',
-                        typeAhead:true,
+//                        typeAhead:true,
                         triggerAction:'all',
                         lazyRender:true,
                         mode:'local',
@@ -76,7 +77,8 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         //allowBlank:false,
                         anchor:'100%',
                         ref:'../cmbBank',
-                        lastQuery:''
+                        lastQuery:'',
+                        editable:false,
                     },
                     new jun.comboPayment({
                         fieldLabel:'Cara Bayar',
@@ -84,28 +86,28 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         name:'trans_via'
                     }),
-                    {
-                        xtype:'combo',
-                        typeAhead:true,
-                        triggerAction:'all',
-                        lastQuery:'',
-                        lazyRender:true,
-                        mode:'local',
-                        fieldLabel:'Kode Rekening',
-                        store:jun.rztPahChartMaster,
-                        hiddenName:'pah_chart_master_account_code',
-                        hiddenValue:'pah_chart_master_account_code',
-                        valueField:'account_code',
-                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
-                        matchFieldWidth:false,
-                        itemSelector:'div.search-item',
-                        editable:true,
-                        listWidth:300,
-                        displayField:'account_code',
-                        anchor:'100%',
-                        ref:'../cmbkode',
-                        lastQuery:''
-                    },
+//                    {
+//                        xtype:'combo',
+//                        typeAhead:true,
+//                        triggerAction:'all',
+//                        lastQuery:'',
+//                        lazyRender:true,
+//                        mode:'local',
+//                        fieldLabel:'Kode Rekening',
+//                        store:jun.rztPahChartMaster,
+//                        hiddenName:'pah_chart_master_account_code',
+//                        hiddenValue:'pah_chart_master_account_code',
+//                        valueField:'account_code',
+//                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
+//                        matchFieldWidth:false,
+//                        itemSelector:'div.search-item',
+//                        editable:true,
+//                        listWidth:300,
+//                        displayField:'account_code',
+//                        anchor:'100%',
+//                        ref:'../cmbkode',
+//                        lastQuery:''
+//                    },
                     {
                         xtype:'numericfield',
                         fieldLabel:'Jumlah',
@@ -144,7 +146,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         };
         jun.rztPahDonatur.reload();
         jun.rztPahBankAccounts.reload();
-        jun.rztPahChartMaster.reload();
+//        jun.rztPahChartMaster.reload();
         jun.PahKasMasukWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.on('close', this.onWinClose, this);
@@ -152,7 +154,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBank.on('focus', this.onLoadBank, this);
-        this.cmbkode.on('focus', this.onLoadChartMaster, this);
+//        this.cmbkode.on('focus', this.onLoadChartMaster, this);
         this.cmbDonatur.on('focus', this.onFocusDonatur, this);
     },
     onFocusDonatur:function () {
@@ -161,17 +163,17 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
     onLoadBank:function () {
         jun.rztPahBankAccounts.FilterData();
     },
-    onLoadChartMaster:function () {
-        jun.rztPahChartMaster.FilterData();
-    },
+//    onLoadChartMaster:function () {
+//        jun.rztPahChartMaster.FilterData();
+//    },
     onWinClose:function () {
         jun.rztPahBankAccounts.clearFilter();
-        jun.rztPahChartMaster.clearFilter();
+//        jun.rztPahChartMaster.clearFilter();
         jun.rztPahDonatur.clearFilter();
     },
     onActivate:function () {
         this.onLoadBank();
-        this.onLoadChartMaster();
+//        this.onLoadChartMaster();
     },
     saveForm:function () {
         var urlz;

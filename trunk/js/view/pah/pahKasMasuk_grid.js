@@ -186,7 +186,7 @@ jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                 form.donatur.text = data.name;
                 form.amount.text = Ext.util.Format.number(data.amount, '0,0');
                 form.trans_via.text = data.trans_via;
-                form.codeRek.text = data.account_name;
+                form.codeRek.text = data.account_code;
                 form.codeDesc.text = data.description;
                 form.show(this);
                 //var myform = Ext.getCmp('refid');

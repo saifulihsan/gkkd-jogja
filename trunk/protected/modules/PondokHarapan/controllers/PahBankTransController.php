@@ -39,7 +39,7 @@ class PahBankTransController extends GxController
             return;
         if (isset($_POST) && !empty($_POST)) {
             //$id = $_POST['id'];
-            $amt = Pah::get_balance_before_for_bank_account(Site::get_date_tomorrow(), $_POST['id']);
+            $amt = Pah::get_balance_before_for_bank_account(get_date_tomorrow(), $_POST['id']);
             echo CJSON::encode(array(
                 'success' => true,
                 'id' => $amt,
@@ -61,7 +61,7 @@ class PahBankTransController extends GxController
             $bank_tujuan = $_POST['bank_act_tujuan'];
             $trans_date = $_POST['trans_date'];
             $memo = $_POST['memo'];
-            $amount = Site::get_number($_POST['amount']);
+            $amount = get_number($_POST['amount']);
             if ($bank_asal == $bank_tujuan) {
                 echo CJSON::encode(array(
                     'success' => false,

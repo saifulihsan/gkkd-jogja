@@ -12,6 +12,7 @@ $systypes_array = array (
 
     VOID => "Void Dokumen",
     SALDO_AWAL => "Saldo Awal",
+    T_AKTIVITASGRUP => 'Aktivitas Grup',
 	ST_SALESINVOICE => _("Sales Invoice"),
 	ST_CUSTCREDIT => _("Customer Credit Note"),
 	ST_CUSTPAYMENT => _("Customer Payment"),

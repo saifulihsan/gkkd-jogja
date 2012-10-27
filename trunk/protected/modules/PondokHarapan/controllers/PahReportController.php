@@ -39,8 +39,8 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::sql2long_date($start_date) . " - " .
-                Site::sql2long_date($end_date))
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -48,7 +48,7 @@ class PahReportController extends GxController
             $start++;
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue("A$start", "No")
+                ->setCellValue("A$start", "Doc. Ref")
                 ->setCellValue("B$start", "Tanggal")
                 ->setCellValue("C$start", "Payee/Payor")
                 ->setCellValue("D$start", "Nama Rekening")
@@ -62,12 +62,12 @@ class PahReportController extends GxController
             $saldo = 0;
             foreach ($rows as $row) {
                 $saldo += $row['saldo'];
-                $kas_masuk = $row['kas_masuk'] == 0 ? '' : ($format == 'excel' ? $row['kas_masuk'] : number_format($row['kas_masuk']));
-                $kas_keluar = $row['kas_keluar'] == 0 ? '' : ($format == 'excel' ? -$row['kas_keluar'] : number_format(-$row['kas_keluar']));
+//                $kas_masuk = $row['kas_masuk'] == 0 ? '' : ($format == 'excel' ? $row['kas_masuk'] : number_format($row['kas_masuk']));
+//                $kas_keluar = $row['kas_keluar'] == 0 ? '' : ($format == 'excel' ? -$row['kas_keluar'] : number_format(-$row['kas_keluar']));
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $nomer)
-                    ->setCellValue("B$start", Site::sql2date($row['trans_date']))
-                    ->setCellValue("C$start", $row['payee_payor'])
+                    ->setCellValue("B$start", sql2date($row['trans_date']))
+                    ->setCellValue("C$start", Pah::get_payee_payoor($row['type'],$row['trans_no']))
                     ->setCellValue("D$start", $row['nama_rekening'])
                     ->setCellValue("E$start", $kas_masuk)
                     ->setCellValue("F$start", $kas_keluar)
@@ -103,14 +103,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("F")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("G")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -188,8 +188,8 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::sql2long_date($start_date) . " - " .
-                Site::sql2long_date($end_date))
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -232,14 +232,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -301,8 +301,8 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::sql2long_date($start_date) . " - " .
-                Site::sql2long_date($end_date))
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -345,14 +345,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -414,8 +414,8 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::sql2long_date($start_date) . " - " .
-                Site::sql2long_date($end_date))
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -458,14 +458,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -528,8 +528,8 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::sql2long_date($start_date) . " - " .
-                Site::sql2long_date($end_date))
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -572,14 +572,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -617,7 +617,7 @@ class PahReportController extends GxController
             $format = $_POST['format'];
             $bulan = $_POST['periode_bulan'];
             $tahun = $_POST['periode_tahun'];
-            $periode = Site::period2date($bulan, $tahun);
+            $periode = period2date($bulan, $tahun);
             $start_date = $periode['start'];
             $end_date = $periode['end'];
             $start = 1;
@@ -645,7 +645,7 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::date2longperiode($start_date, 'MMMM yyyy'))
+                ->setCellValue("A$start", "PERIODE: " . date2longperiode($start_date, 'MMMM yyyy'))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -657,7 +657,7 @@ class PahReportController extends GxController
             $index_kas_masuk = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")
-                ->setCellValue("A$start", "Saldo Kas per " . Site::date2longperiode($start_date, 'd MMMM yyyy'))
+                ->setCellValue("A$start", "Saldo Kas per " . date2longperiode($start_date, 'd MMMM yyyy'))
                 ->setCellValue("D$start", $saldo_awal_kas);
             $start++;
             $total_pendapatan = $format == 'excel' ? Pah::get_total_pendapatan($start_date, $end_date) :
@@ -699,7 +699,7 @@ class PahReportController extends GxController
             $index_kas_akhir = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")
-                ->setCellValue("A$start", "Total Kas per " . Site::date2longperiode($end_date, 'dd MMMM yyyy'))
+                ->setCellValue("A$start", "Total Kas per " . date2longperiode($end_date, 'dd MMMM yyyy'))
                 ->setCellValue("D$start", $saldo_akhir_kas);
             $end_body = $start;
             $start++;
@@ -751,14 +751,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -796,7 +796,7 @@ class PahReportController extends GxController
             $format = $_POST['format'];
             $bulan = $_POST['periode_bulan'];
             $tahun = $_POST['periode_tahun'];
-            $periode = Site::period2date($bulan, $tahun);
+            $periode = period2date($bulan, $tahun);
             $start_date = $periode['start'];
             $end_date = $periode['end'];
             $start = 1;
@@ -823,7 +823,7 @@ class PahReportController extends GxController
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "PERIODE: " . Site::date2longperiode($start_date, 'MMMM yyyy'))
+                ->setCellValue("A$start", "PERIODE: " . date2longperiode($start_date, 'MMMM yyyy'))
                 ->getStyle("A$start")->getFont()->setSize(12)
                 ->setBold(true);
             $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
@@ -879,14 +879,14 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
             $start++;
-            $jemaat = Site::get_jemaat_from_user_id(Yii::app()->user->getId());
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
                 ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "Pada tanggal " . Site::get_date_today('dd/MM/yyyy') . " jam " . Site::get_time_now());
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
             ob_end_clean();
             ob_start();
             if ($format == 'excel') {
@@ -915,5 +915,134 @@ class PahReportController extends GxController
             Yii::app()->end();
         }
     }
+
+    public function actionLampiran()
+    {
+        if (Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $format = $_POST['format'];
+            $start_date = $_POST['trans_date_mulai'];
+            $end_date = $_POST['trans_date_sampai'];
+//            $lampiran_id = $_POST['id'];
+            $start = 1;
+            $file_name = 'Lampiran';
+            $worksheet_name = 'Lampiran';
+            $objPHPExcel = new PHPExcel();
+            $objPHPExcel->getDefaultStyle()
+                ->getFont()->setSize(10);
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+            $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setLeft(0.1 / 2.54);
+            $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setRight(0.1 / 2.54);
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "LAMPIRAN DONASI NON TUNAI")
+                ->getStyle("A$start")->getFont()->setSize(18)
+                ->setBold(true);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "PONDOK ASUH HARAPAN")
+                ->getStyle("A$start")->getFont()->setSize(14)
+                ->setBold(true);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+                sql2long_date($end_date))
+                ->getStyle("A$start")->getFont()->setSize(12)
+                ->setBold(true);
+            $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
+            $start++;
+            $start++;
+            $start_body = $start;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A$start", "No.")
+                ->setCellValue("B$start", "Nama Donatur")
+                ->setCellValue("C$start", "Keterangan")
+                ->setCellValue("D$start", "Satuan")
+                ->setCellValue("E$start", "Jumlah")
+                ->getStyle("A$start:F$start")->getFont()->setBold(true);
+            $start++;
+//            $rows = Pah::get_beban_anak($start_date, $end_date, $lampiran_id);
+            $criteria = new CDbCriteria();
+            $criteria->addBetweenCondition('trans_date',$start_date,$end_date);
+            $rows = PahLampiran::model()->findAll($criteria);
+            $no = 0;
+            foreach ($rows as $row) {
+                $no++;
+                $total_beban = $format == 'excel' ? $row['qty'] : number_format($row['qty']);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue("A$start", $no)
+                    ->setCellValue("B$start", $row['nama'])
+                    ->setCellValue("C$start", $row['keterangan'])
+                    ->setCellValue("D$start", $row['satuan'])
+                    ->setCellValue("E$start", $total_beban);
+                $start++;
+            }
+            $end_body = $start - 1;
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->getStyle("A$start_body:E$end_body")->applyFromArray($styleArray);
+            $start_row = $start_body + 1;
+            if ($format == 'excel') {
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle("E$start_row:E$end_body")->getNumberFormat()
+                    ->setFormatCode('#,##0');
+            } else {
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle("E$start_body:E$end_body")->getAlignment()
+                    ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            }
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("E")->setAutoSize(true);
+            $start++;
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
+            ob_end_clean();
+            ob_start();
+            if ($format == 'excel') {
+                header('Content-Type: application/vnd.ms-excel');
+                header("Content-Disposition: attachment;filename=$file_name.xls");
+                header('Cache-Control: max-age=0');
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                $objWriter->save('php://output');
+            } else {
+                $objPHPExcel->getActiveSheet()->setShowGridlines(false);
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4');
+                $objWriter = new PHPExcel_Writer_HTML($objPHPExcel);
+                $header = $objWriter->generateHTMLHeader(true);
+                $header = str_replace("<body>", "<body onload='window.print();'>", $header);
+                $header = str_replace("Untitled Spreadsheet", "Lampiran Donasi Non Tunai", $header);
+                $html = $header . $objWriter->generateStyles(true) .
+                    $objWriter->generateSheetData() . $objWriter->generateHTMLFooter();
+                if ($format == 'pdf') {
+                    $mPDF1->WriteHTML($html);
+                    $mPDF1->Output("$file_name.pdf", 'D');
+                } else {
+                    echo $html;
+                }
+            }
+            Yii::app()->end();
+        }
+    }
+
 }
 

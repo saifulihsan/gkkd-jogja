@@ -172,7 +172,7 @@ jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
         }
         var idz = selectedz.json.aktivitas_id;
         Ext.Ajax.request({
-            url:'PondokHarapan/PahAnggaran/view/',
+            url:'PondokHarapan/PahAktivitas/view/',
             params:{
                 id:idz,
             },

@@ -1,11 +1,12 @@
 <?php
 $this->breadcrumbs = array(
-    'Pah Donaturs' => array('index'),
-    Yii::t('app', 'Create'),
+	'Pah Donaturs' => array('index'),
+	Yii::t('app', 'Create'),
 );
+
 $this->menu = array(
-    array('label' => Yii::t('app', 'List') . ' PahDonatur', 'url' => array('index')),
-    array('label' => Yii::t('app', 'Manage') . ' PahDonatur', 'url' => array('admin')),
+	array('label'=>Yii::t('app', 'List') . ' PahDonatur', 'url' => array('index')),
+	array('label'=>Yii::t('app', 'Manage') . ' PahDonatur', 'url' => array('admin')),
 );
 ?>
 
@@ -13,6 +14,6 @@ $this->menu = array(
 
 <?php
 $this->renderPartial('_form', array(
-    'model' => $model,
-    'buttons' => 'create'));
+		'model' => $model,
+		'buttons' => 'create'));
 ?>

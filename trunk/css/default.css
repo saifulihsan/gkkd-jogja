@@ -85,3 +85,9 @@
 .x-tree-selected {
     font-weight: bold;
 }
+
+* {
+    font-size: 12px;
+    font-family: tahoma, arial, verdana, helvetica, sans-serif;
+    color:#393939;
+}

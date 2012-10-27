@@ -2,11 +2,43 @@
 
 class PahAktivitasController extends GxController
 {
-    public function actionView($id)
+    public function actionView()
     {
-        $this->render('view', array(
-            'model' => $this->loadModel($id, 'PahAktivitas'),
-        ));
+        if (!Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $id = $_POST['id'];
+            $rows = Yii::app()->db->createCommand()
+                ->select("pah_aktivitas.doc_ref,
+                    pah_aktivitas.no_bukti,
+                    pah_aktivitas.amount,
+                    pah_aktivitas.entry_time,
+                    pah_aktivitas.trans_date,
+                    pah_aktivitas.trans_via,
+                    pah_suppliers.supp_name,
+                    pah_chart_master.account_code,
+                    pah_chart_master.description,
+                    pah_bank_accounts.bank_account_name,
+                    jemaat.real_name,
+                    pah_sub_aktivitas.nama")
+                ->from("pah_aktivitas")
+                ->join("pah_suppliers", "pah_aktivitas.pah_suppliers_supplier_id = pah_suppliers.supplier_id")
+                ->join("pah_bank_accounts", "pah_aktivitas.pah_bank_accounts_id = pah_bank_accounts.id")
+                ->join("pah_member", "pah_aktivitas.pah_member_id = pah_member.id")
+                ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
+                ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
+                ->join("pah_chart_master", "pah_sub_aktivitas.account_code = pah_chart_master.account_code")
+                ->where("pah_aktivitas.aktivitas_id = :id", array(':id' => $id))
+                ->query();
+            echo CJSON::encode(array(
+                'success' => true,
+                'data' => $rows
+            ));
+            Yii::app()->end();
+        }
+//        $this->render('view', array(
+//            'model' => $this->loadModel($id, 'PahAktivitas'),
+//        ));
     }
 
     public function actionCreate()
@@ -16,7 +48,7 @@ class PahAktivitasController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
-            $date = Site::get_date_today();
+            $date = get_date_today();
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -27,10 +59,10 @@ class PahAktivitasController extends GxController
                 $aktivitas = new PahAktivitas;
                 foreach ($_POST as $k => $v) {
                     if ($k == 'amount')
-                        $v = Site::get_number($v);
+                        $v = get_number($v);
                     $_POST['PahAktivitas'][$k] = $v;
                 }
-                $_POST['PahAktivitas']['entry_time'] = $date;
+                $_POST['PahAktivitas']['entry_time'] = Now();
                 $_POST['PahAktivitas']['users_id'] = $user;
                 $_POST['PahAktivitas']['doc_ref'] = $docref;
                 $aktivitas->attributes = $_POST['PahAktivitas'];
@@ -38,8 +70,9 @@ class PahAktivitasController extends GxController
                 $id = $docref;
                 $ref->save(AKTIVITAS, $aktivitas->aktivitas_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
+                $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
-                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $aktivitas->pah_chart_master_account_code,
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
                     '-', $aktivitas->amount, $user);
                 Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
                     $user);
@@ -154,11 +187,12 @@ class PahAktivitasController extends GxController
                 $void->memo_ = $memo_;
                 $void->save();
                 $bank = PahBankAccounts::model()->findByPk($aktivitas->pah_bank_accounts_id);
+                $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //void gl
-                Pah::add_gl(VOID, $void->id, $date, $docref,
-                    $aktivitas->pah_chart_master_account_code,
-                    "VOID Aktivitas $docref", $aktivitas->amount, $user);
+                //beban kredit , kas debet karena pengeluaran
                 Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
+                    $aktivitas->amount, $user);
+                Pah::add_gl(VOID, $void->id, $date, $docref, $act_sub, "VOID Aktivitas $docref",
                     -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;

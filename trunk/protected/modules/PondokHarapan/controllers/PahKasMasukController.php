@@ -17,12 +17,12 @@ class PahKasMasukController extends GxController
                     pah_kas_masuk.trans_via,
                     pah_donatur.name,
                     pah_bank_accounts.bank_account_name,
-                    pah_chart_master.account_name,
+                    pah_chart_master.account_code,
                     pah_chart_master.description")
                 ->from("pah_kas_masuk")
                 ->join("pah_donatur", "pah_kas_masuk.pah_donatur_id = pah_donatur.id")
                 ->join("pah_bank_accounts", "pah_kas_masuk.pah_bank_accounts_id = pah_bank_accounts.id")
-                ->join("pah_chart_master", "pah_kas_masuk.pah_chart_master_account_code = pah_chart_master.account_code")
+                ->join("pah_chart_master", "pah_donatur.pah_chart_master_account_code = pah_chart_master.account_code")
                 ->where("pah_kas_masuk.kas_masuk_id = :id", array(':id' => $id))
                 ->query();
             echo CJSON::encode(array(
@@ -43,7 +43,7 @@ class PahKasMasukController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas masuk berhasil disimpan.';
-            $date = Site::get_date_today();
+            $date = get_date_today();
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -54,10 +54,10 @@ class PahKasMasukController extends GxController
                 $kas_masuk = new PahKasMasuk;
                 foreach ($_POST as $k => $v) {
                     if ($k == 'amount')
-                        $v = Site::get_number($v);
+                        $v = get_number($v);
                     $_POST['PahKasMasuk'][$k] = $v;
                 }
-                $_POST['PahKasMasuk']['entry_time'] = $date;
+                $_POST['PahKasMasuk']['entry_time'] = $date.' '.get_time_now();
                 $_POST['PahKasMasuk']['users_id'] = $user;
                 $_POST['PahKasMasuk']['doc_ref'] = $docref;
                 $kas_masuk->attributes = $_POST['PahKasMasuk'];
@@ -65,10 +65,11 @@ class PahKasMasukController extends GxController
                 $id = $docref;
                 $ref->save(KAS_MASUK, $kas_masuk->kas_masuk_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($kas_masuk->pah_bank_accounts_id);
+                $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //debet kode kas/bank - kredit pendapatan
                 Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account, '-', $kas_masuk->amount,
                     $user);
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $kas_masuk->pah_chart_master_account_code,
+                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $act_donatur,
                     '-', -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
@@ -140,9 +141,10 @@ class PahKasMasukController extends GxController
                 $void->memo_ = $memo_;
                 $void->save();
                 $bank = PahBankAccounts::model()->findByPk($kas_masuk->pah_bank_accounts_id);
+                $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //void gl
                 Pah::add_gl(VOID, $void->id, $date, $docref,
-                    $kas_masuk->pah_chart_master_account_code,
+                    $act_donatur,
                     "VOID Kas Masuk $docref", $kas_masuk->amount, $user);
                 Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Kas Masuk $docref",
                     -$kas_masuk->amount, $user);

@@ -70,6 +70,7 @@ if (isset($_POST) && !empty($_POST)) {
 foreach($_POST as $k=>$v){
 $_POST['<?php echo $this->modelClass; ?>'][$k] = $v;
 }
+$msg = "Data gagal disimpan";
 $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
 <?php if ($this->hasManyManyRelation($this->modelClass)): ?>
 $relatedData = <?php echo $this->generateGetPostRelatedData($this->modelClass, 4); ?>;
@@ -82,6 +83,7 @@ if ($model->save()) {
 <?php endif; ?>
 
 $status = true;
+$msg = "Data berhasil di simpan dengan id " . $model-><?php echo $this->tableSchema->primaryKey; ?>;
 } else {
 $status = false;
 }
@@ -90,7 +92,7 @@ if (Yii::app()->request->isAjaxRequest)
 {
 echo CJSON::encode(array(
 'success'=>$status,
-'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>
+'msg'=>$msg
 ));
 Yii::app()->end();
 } else
@@ -106,8 +108,18 @@ $this->render('update', array(
 
 public function actionDelete($id) {
 if (Yii::app()->request->isPostRequest) {
+$msg = 'Data berhasil dihapus.';
+$status = true;
+try {
 $this->loadModel($id, '<?php echo $this->modelClass; ?>')->delete();
-
+} catch (Exception $e) {
+$status = false;
+$msg = $ex;
+}
+echo CJSON::encode(array(
+'success' => $status,
+'msg' => $msg));
+Yii::app()->end();
 if (!Yii::app()->request->isAjaxRequest)
 $this->redirect(array('admin'));
 } else

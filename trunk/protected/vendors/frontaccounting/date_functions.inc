@@ -124,13 +124,13 @@ function Today()
 	return __date($year, $month, $day);	
 }
 
-function Now() 
-{
-	if (user_date_format() == 0)
-		return date("h:i a");
-	else
-		return date("H:i");
-}
+//function Now()
+//{
+//	if (user_date_format() == 0)
+//		return date("h:i a");
+//	else
+//		return date("H:i");
+//}
 //
 //	Retrieve and optionaly set default date for new document.
 //
@@ -302,33 +302,33 @@ function sql2datetime($date_)
 	return $mydate.' '.$mytime;
 }
 
-function sql2date($date_) 
-{
-	global $date_system;
-
-	//for MySQL dates are in the format YYYY-mm-dd
-	if ($date_ == null || strlen($date_) == 0)
-		return "";
-
-	if (strpos($date_, "/")) 
-	{ // In MySQL it could be either / or -
-		list($year, $month, $day) = explode("/", $date_);
-	} 
-	elseif (strpos ($date_, "-")) 
-	{
-		list($year, $month, $day) = explode("-", $date_);
-	}
-
-	if (strlen($day) > 4) 
-	{  /*chop off the time stuff */
-		$day = substr($day, 0, 2);
-	}
-	if ($date_system == 1)
-		list($year, $month, $day) = gregorian_to_jalali($year, $month, $day);
-	elseif ($date_system == 2)
-		list($year, $month, $day) = gregorian_to_islamic($year, $month, $day);
-	return __date($year, $month, $day);	
-} // end function sql2date
+//function sql2date($date_)
+//{
+//	global $date_system;
+//
+//	//for MySQL dates are in the format YYYY-mm-dd
+//	if ($date_ == null || strlen($date_) == 0)
+//		return "";
+//
+//	if (strpos($date_, "/"))
+//	{ // In MySQL it could be either / or -
+//		list($year, $month, $day) = explode("/", $date_);
+//	}
+//	elseif (strpos ($date_, "-"))
+//	{
+//		list($year, $month, $day) = explode("-", $date_);
+//	}
+//
+//	if (strlen($day) > 4)
+//	{  /*chop off the time stuff */
+//		$day = substr($day, 0, 2);
+//	}
+//	if ($date_system == 1)
+//		list($year, $month, $day) = gregorian_to_jalali($year, $month, $day);
+//	elseif ($date_system == 2)
+//		list($year, $month, $day) = gregorian_to_islamic($year, $month, $day);
+//	return __date($year, $month, $day);
+//} // end function sql2date
 
 function datetime2sql($date_){
 	global $dateseps, $date_system;
@@ -341,52 +341,52 @@ function datetime2sql($date_){
 	return $mydate.' '.$mytime;
 }
 
-function date2sql($date_)
-{
-	global $dateseps, $date_system;
-/* takes a date in a the format specified in $DefaultDateFormat
-and converts to a yyyy/mm/dd format */
-
-	$how = user_date_format();
-	$sep = $dateseps[user_date_sep()];
-
-	if ($date_ == null || strlen($date_) == 0)
-		return "";
-
-	$date_ = trim($date_);
-    $year = $month = $day = 0;
-
-    // Split up the date by the separator based on "how" to split it
-    if ($how == 0) // MMDDYYYY
-        list($month, $day, $year) = explode($sep, $date_);
-    elseif ($how == 1) // DDMMYYYY
-        list($day, $month, $year) = explode($sep, $date_);
-    else // $how == 2, YYYYMMDD
-        list($year, $month, $day) = explode($sep, $date_);
-
-//to modify assumption in 2030
-	if ($date_system == 0 || $date_system == 3)
-	{
-		if ((int)$year < 60)
-		{
-			$year = "20".$year;
-		} 
-		elseif ((int)$year > 59 && (int)$year < 100)
-		{
-			$year = "19".$year;
-		}
-	}	
-	if ((int)$year > 9999)
-	{
-		return 0;
-	}
-	if ($date_system == 1)
-		list($year, $month, $day) = jalali_to_gregorian($year, $month, $day); 
-	elseif ($date_system == 2)
-		list($year, $month, $day) = islamic_to_gregorian($year, $month, $day); 
-
-	return sprintf("%04d-%02d-%02d", $year, $month, $day);
-}// end of function
+//function date2sql($date_)
+//{
+//	global $dateseps, $date_system;
+///* takes a date in a the format specified in $DefaultDateFormat
+//and converts to a yyyy/mm/dd format */
+//
+//	$how = user_date_format();
+//	$sep = $dateseps[user_date_sep()];
+//
+//	if ($date_ == null || strlen($date_) == 0)
+//		return "";
+//
+//	$date_ = trim($date_);
+//    $year = $month = $day = 0;
+//
+//    // Split up the date by the separator based on "how" to split it
+//    if ($how == 0) // MMDDYYYY
+//        list($month, $day, $year) = explode($sep, $date_);
+//    elseif ($how == 1) // DDMMYYYY
+//        list($day, $month, $year) = explode($sep, $date_);
+//    else // $how == 2, YYYYMMDD
+//        list($year, $month, $day) = explode($sep, $date_);
+//
+////to modify assumption in 2030
+//	if ($date_system == 0 || $date_system == 3)
+//	{
+//		if ((int)$year < 60)
+//		{
+//			$year = "20".$year;
+//		}
+//		elseif ((int)$year > 59 && (int)$year < 100)
+//		{
+//			$year = "19".$year;
+//		}
+//	}
+//	if ((int)$year > 9999)
+//	{
+//		return 0;
+//	}
+//	if ($date_system == 1)
+//		list($year, $month, $day) = jalali_to_gregorian($year, $month, $day);
+//	elseif ($date_system == 2)
+//		list($year, $month, $day) = islamic_to_gregorian($year, $month, $day);
+//
+//	return sprintf("%04d-%02d-%02d", $year, $month, $day);
+//}// end of function
 
 function date1_greater_date2 ($date1, $date2) 
 {
