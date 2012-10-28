@@ -606,7 +606,7 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
     iconCls: 'silk13-report',
     modez:1,
     width:350,
-    height:170,
+    height:150,
     layout:'form',
     modal:true,
     padding:5,
@@ -647,25 +647,25 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-                    {
-                        xtype:'combo',
-                        typeAhead:true,
-//                        triggerAction:'all',
-                        lazyRender:true,
-                        mode:'local',
-                        fieldLabel:'Anak',
-                        store:jun.rztPahMemberbyName,
-                        hiddenName:'pah_member_id',
-                        hiddenValue:'pah_member_id',
-                        valueField:'id',
-                        //displayField: 'PahMember::model()->representingColumn()',
-                        displayField:'real_name',
-                        //allowBlank:false,
-                        anchor:'100%',
-                        name:'pah_member_id',
-                        id:'pah_member_idid',
-                        ref:'../pah_member_id',
-                    },
+//                    {
+//                        xtype:'combo',
+//                        typeAhead:true,
+////                        triggerAction:'all',
+//                        lazyRender:true,
+//                        mode:'local',
+//                        fieldLabel:'Anak',
+//                        store:jun.rztPahMemberbyName,
+//                        hiddenName:'pah_member_id',
+//                        hiddenValue:'pah_member_id',
+//                        valueField:'id',
+//                        //displayField: 'PahMember::model()->representingColumn()',
+//                        displayField:'real_name',
+//                        //allowBlank:false,
+//                        anchor:'100%',
+//                        name:'pah_member_id',
+//                        id:'pah_member_idid',
+//                        ref:'../pah_member_id',
+//                    },
                     {
                         xtype:'hidden', //should use the more standard hiddenfield
                         name:'format',
@@ -700,10 +700,10 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
                 },
             ]
         };
-        jun.rztPahMemberbyName.reload();
+//        jun.rztPahMemberbyName.reload();
         jun.PahReportBebanAktivitasAnakWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
-        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnSave.on('click', this.saveForm, this);
         this.btnPdf.on('click', this.onbtnPdfclick, this);
         this.btnPrint.on('click', this.onbtnPrintclick, this);
     },
@@ -718,7 +718,6 @@ jun.PahReportBebanAktivitasAnakWin = Ext.extend(Ext.Window, {
             "<form id='form' method='POST' action='PondokHarapan/PahReport/BebanAnak'>" +
             "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
             "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
-            "<input type='hidden' name='pah_member_id' value='" + this.pah_member_id.value + "'>" +
             "<input type='hidden' name='format' value='html'>" +
             "</form></body></html>");
         win.document.close();
@@ -744,7 +743,7 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
     iconCls: 'silk13-report',
     modez:1,
     width:350,
-    height:170,
+    height:150,
     layout:'form',
     modal:true,
     padding:5,
@@ -785,25 +784,25 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor:'100%'
                     },
-                    {
-                        xtype:'combo',
-                        typeAhead:true,
-                        //                        triggerAction:'all',
-                        lazyRender:true,
-                        mode:'local',
-                        fieldLabel:'Anak',
-                        store:jun.rztPahAktivitasGrup,
-                        hiddenName:'pah_member_id',
-                        hiddenValue:'pah_member_id',
-                        valueField:'id',
-                        //displayField: 'PahMember::model()->representingColumn()',
-                        displayField:'name',
-                        //allowBlank:false,
-                        anchor:'100%',
-                        name:'pah_member_id',
-                        id:'pah_member_idid',
-                        ref:'../pah_member_id',
-                    },
+//                    {
+//                        xtype:'combo',
+//                        typeAhead:true,
+//                        //                        triggerAction:'all',
+//                        lazyRender:true,
+//                        mode:'local',
+//                        fieldLabel:'Anak',
+//                        store:jun.rztPahAktivitasGrup,
+//                        hiddenName:'pah_member_id',
+//                        hiddenValue:'pah_member_id',
+//                        valueField:'id',
+//                        //displayField: 'PahMember::model()->representingColumn()',
+//                        displayField:'name',
+//                        //allowBlank:false,
+//                        anchor:'100%',
+//                        name:'pah_member_id',
+//                        id:'pah_member_idid',
+//                        ref:'../pah_member_id',
+//                    },
                     {
                         xtype:'hidden', //should use the more standard hiddenfield
                         name:'format',
@@ -838,10 +837,10 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
                 },
             ]
         };
-        jun.rztPahAktivitasGrup.reload();
+//        jun.rztPahAktivitasGrup.reload();
         jun.PahReportBebanAktivitasGrupWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
-        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnSave.on('click', this.saveForm, this);
         this.btnPdf.on('click', this.onbtnPdfclick, this);
         this.btnPrint.on('click', this.onbtnPrintclick, this);
     },
@@ -853,10 +852,9 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
             window.opener = self;
         var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');
         win.document.write("<html><title>Beban Aktivitas per Grup</title><body>" +
-            "<form id='form' method='POST' action='PondokHarapan/PahReport/BebanAnak'>" +
+            "<form id='form' method='POST' action='PondokHarapan/PahReport/BebanGrup'>" +
             "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
             "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
-            "<input type='hidden' name='pah_member_id' value='" + this.pah_member_id.value + "'>" +
             "<input type='hidden' name='format' value='html'>" +
             "</form></body></html>");
         win.document.close();
@@ -864,7 +862,7 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
     },
     onbtnPdfclick:function () {
         Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().standardSubmit = true;
-        Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().url = 'PondokHarapan/PahReport/BebanAnak';
+        Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().url = 'PondokHarapan/PahReport/BebanGrup';
         this.format.setValue('pdf');
         Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().submit();
     },
@@ -872,7 +870,7 @@ jun.PahReportBebanAktivitasGrupWin = Ext.extend(Ext.Window, {
     },
     saveForm:function () {
         Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().standardSubmit = true;
-        Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().url = 'PondokHarapan/PahReport/BebanAnak';
+        Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().url = 'PondokHarapan/PahReport/BebanGrup';
         this.format.setValue('excel');
         Ext.getCmp('form-PahReportBebanAktivitasGrupWin').getForm().submit();
     },

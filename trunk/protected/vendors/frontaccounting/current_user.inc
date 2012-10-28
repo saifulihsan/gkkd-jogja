@@ -264,10 +264,10 @@ function exrate_format($number) {
 	$_SESSION["wa_current_user"]->prefs->exrate_dec());
 }
 
-function percent_format($number) {
-    return number_format2($number,
-	$_SESSION["wa_current_user"]->prefs->percent_dec());
-}
+//function percent_format($number) {
+//    return number_format2($number,
+//	$_SESSION["wa_current_user"]->prefs->percent_dec());
+//}
 
 function user_numeric($input) {
     global $decseps, $thoseps;

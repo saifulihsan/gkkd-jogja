@@ -183,3 +183,13 @@ function get_date_today($format = 'yyyy-MM-dd')
 function Now($formatDate = 'yyyy-MM-dd'){
     return get_date_today($formatDate).' '.get_time_now();
 }
+
+function percent_format($value,$decimal = 0){
+    return number_format($value*100,$decimal).'%';
+}
+
+function acc_format($value,$decimal = 0){
+    $normalize = $value < 0 ? -$value : $value;
+    $print = number_format($normalize,$decimal);
+    return $value < 0 ? "($print)" : $print;
+}
