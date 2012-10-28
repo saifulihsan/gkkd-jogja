@@ -200,14 +200,31 @@ class Pah
             ->select("b.account_code,b.account_name as nama_rekening,IFNULL(sum(a.amount),0) as total_beban")
             ->from("pah_gl_trans a")
             ->rightJoin("pah_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end and b.account_type=:type",
-            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
+            AND a.tran_date between :start and :end",
+            array(':start' => $start_date, ':end' => $end_date))
 //            ->where("a.tran_date between :start and :end and b.account_type=:type",
 //            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
+            ->where("b.account_type=:type",array(':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
         return $rows;
+    }
+
+    static function get_total_pengeluaran($start_date, $end_date)
+    {
+        $rows = Yii::app()->db->createCommand()
+            ->select("sum(a.amount) as total_beban")
+            ->from("pah_gl_trans a")
+            ->join("pah_chart_master b", "a.account=b.account_code")
+//            AND ",
+//            array(':start' => $start_date, ':end' => $end_date))
+//            ->where("a.tran_date between :start and :end and b.account_type=:type",
+//            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
+            ->where("a.tran_date between :start and :end and b.account_type=:type",
+            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
+            ->queryScalar();
+        return $rows == null ? 0 : $rows;
     }
 
     static function get_beban_aktivitas($start_date, $end_date)
@@ -224,26 +241,80 @@ class Pah
         return $rows;
     }
 
+    static function get_total_beban_aktivitas($start_date, $end_date)
+    {
+        $rows = Yii::app()->db->createCommand()
+            ->select("Sum(pah_aktivitas.amount) as total_beban")
+            ->from("pah_aktivitas")
+            ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
+            ->where("pah_aktivitas.trans_date between :start and :end",
+            array(':start' => $start_date, ':end' => $end_date))
+            ->queryScalar();
+//            ->where("pah_aktivitas.trans_date between :start and :end",
+//            array(':start' => $start_date, ':end' => $end_date))
+        return $rows == null ? 0 : $rows;
+    }
+
     static function get_beban_anak($start_date, $end_date, $anak_id)
     {
         $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
             ->select("Sum(pah_aktivitas.amount) as amount,jemaat.real_name")
             ->from("pah_aktivitas")
-            ->join("pah_member", "pah_aktivitas.pah_member_id = pah_member.id")
+            ->rightJoin("pah_member", "pah_aktivitas.pah_member_id = pah_member.id and
+                pah_aktivitas.trans_date between '$start_date' and '$end_date'")
             ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
-            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date' $per_anak")
+//            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date' $per_anak")
             ->group("jemaat.real_name")
             ->queryAll();
         return $rows;
     }
 
+    static function get_total_beban_anak($start_date, $end_date, $anak_id)
+    {
+        $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
+        $rows = Yii::app()->db->createCommand()
+            ->select("Sum(pah_aktivitas.amount) as amount")
+            ->from("pah_aktivitas")
+            ->rightJoin("pah_member", "pah_aktivitas.pah_member_id = pah_member.id and
+                pah_aktivitas.trans_date between '$start_date' and '$end_date'")
+            ->queryScalar();
+        return $rows == null ? 0 : $rows;
+    }
+
+    static function get_beban_grup($start_date, $end_date, $anak_id)
+    {
+        $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
+        $rows = Yii::app()->db->createCommand()
+            ->select("Sum(pah_aktivitas_grup_trans.amount) as amount,pah_aktivitas_grup.name")
+            ->from("pah_aktivitas_grup_trans")
+            ->rightJoin("pah_aktivitas_grup", "pah_aktivitas_grup_trans.pah_aktivitas_grup_id = pah_aktivitas_grup.id and
+                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date'")
+//            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date' $per_anak")
+            ->group("pah_aktivitas_grup.name")
+            ->queryAll();
+        return $rows;
+    }
+
+    static function get_total_beban_grup($start_date, $end_date, $anak_id)
+    {
+        $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
+        $rows = Yii::app()->db->createCommand()
+            ->select("Sum(pah_aktivitas_grup_trans.amount) as amount")
+            ->from("pah_aktivitas_grup_trans")
+            ->rightJoin("pah_aktivitas_grup", "pah_aktivitas_grup_trans.pah_aktivitas_grup_id = pah_aktivitas_grup.id and
+                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date'")
+            ->queryScalar();
+        return $rows == null ? 0 : $rows;
+    }
+
+
     static function get_detil_pendapatan($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
-            ->select("b.account_name as nama_rekening,-sum(a.amount) as total_pendapatan")
+            ->select("b.account_name as nama_rekening,IFNULL(-sum(a.amount),0) as total_pendapatan")
             ->from("pah_gl_trans a")
-            ->join("pah_chart_master b", "a.account=b.account_code")
+            ->leftJoin("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_type=:type",
             array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypePendapatanAct()))
             ->group("b.account_name")
@@ -255,7 +326,7 @@ class Pah
     static function get_total_pendapatan($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
-            ->select("sum(a.amount) as total_pendapatan")
+            ->select("-sum(a.amount) as total_pendapatan")
             ->from("pah_gl_trans a")
             ->join("pah_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_type=:type",
