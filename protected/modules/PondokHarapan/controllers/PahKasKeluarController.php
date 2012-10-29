@@ -17,7 +17,7 @@ class PahKasKeluarController extends GxController
                     pah_kas_keluar.trans_via,
                     pah_suppliers.supp_name,
                     pah_bank_accounts.bank_account_name,
-                    pah_chart_master.account_name,
+                    pah_chart_master.account_code,
                     pah_chart_master.description")
                 ->from("pah_kas_keluar")
                 ->join("pah_suppliers", "pah_kas_keluar.pah_suppliers_supplier_id = pah_suppliers.supplier_id")

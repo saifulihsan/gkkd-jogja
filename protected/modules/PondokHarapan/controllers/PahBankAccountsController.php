@@ -73,7 +73,7 @@ class PahBankAccountsController extends GxController
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'id' => $model->id
+                    'msg' => $model->id
                 ));
                 Yii::app()->end();
             } else {

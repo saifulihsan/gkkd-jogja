@@ -105,7 +105,7 @@ jun.PahSubAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
         var idz = selectedz.json.id;
         var form = new jun.PahSubAktivitasWin({modez:1, id:idz});
         form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+        form.formz.getForm().loadRecord(selectedz);
     },
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);

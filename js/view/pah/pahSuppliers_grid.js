@@ -206,7 +206,7 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
         var idz = selectedz.json.supplier_id;
         var form = new jun.PahSuppliersWin({modez:1, id:idz});
         form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+        form.formz.getForm().loadRecord(selectedz);
     },
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
