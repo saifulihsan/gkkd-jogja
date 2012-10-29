@@ -113,6 +113,7 @@ jun.PahAktivitasGrupWin = Ext.extend(Ext.Window, {
                 }
                 if (this.closeForm) {
                     this.close();
+
                 }
             },
             failure:function (f, a) {

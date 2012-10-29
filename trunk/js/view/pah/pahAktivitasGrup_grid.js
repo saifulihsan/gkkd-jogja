@@ -78,7 +78,7 @@ jun.PahAktivitasGrupGrid = Ext.extend(Ext.grid.GridPanel, {
     },
     getrow:function (sm, idx, r) {
         this.record = r;
-        var selectedz = this.sm.getSelections();
+//        var selectedz = this.sm.getSelections();
     },
     loadForm:function () {
         var form = new jun.PahAktivitasGrupWin({modez:0});
@@ -94,7 +94,8 @@ jun.PahAktivitasGrupGrid = Ext.extend(Ext.grid.GridPanel, {
         var idz = selectedz.json.id;
         var form = new jun.PahAktivitasGrupWin({modez:1, id:idz});
         form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+//        this.record = this.store.getById(idz);
+        form.formz.getForm().loadRecord(selectedz);
     },
     deleteRec:function () {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
