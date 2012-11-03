@@ -68,139 +68,6 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         height:50
                         //allowBlank:
                     },
-
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'gst_no',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'gst_no',
-//                                    id:'gst_noid',
-//                                    ref:'../gst_no',
-//                                    maxLength: 25,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'contact',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'contact',
-//                                    id:'contactid',
-//                                    ref:'../contact',
-//                                    maxLength: 60,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'supp_account_no',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'supp_account_no',
-//                                    id:'supp_account_noid',
-//                                    ref:'../supp_account_no',
-//                                    maxLength: 40,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'website',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'website',
-//                                    id:'websiteid',
-//                                    ref:'../website',
-//                                    maxLength: 100,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'bank_account',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'bank_account',
-//                                    id:'bank_accountid',
-//                                    ref:'../bank_account',
-//                                    maxLength: 60,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'curr_code',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'curr_code',
-//                                    id:'curr_codeid',
-//                                    ref:'../curr_code',
-//                                    maxLength: 3,
-//                                    //allowBlank: 1,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'payment_terms',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'payment_terms',
-//                                    id:'payment_termsid',
-//                                    ref:'../payment_terms',
-//                                    maxLength: 11,
-//                                    //allowBlank: 1,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'credit_limit',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'credit_limit',
-//                                    id:'credit_limitid',
-//                                    ref:'../credit_limit',
-//                                    maxLength: 30,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'purchase_account',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'purchase_account',
-//                                    id:'purchase_accountid',
-//                                    ref:'../purchase_account',
-//                                    maxLength: 15,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'payable_account',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'payable_account',
-//                                    id:'payable_accountid',
-//                                    ref:'../payable_account',
-//                                    maxLength: 15,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
-//                                                                     {
-//                                    xtype: 'textfield',
-//                                    fieldLabel: 'payment_discount_account',
-//                                    hideLabel:false,
-//                                    //hidden:true,
-//                                    name:'payment_discount_account',
-//                                    id:'payment_discount_accountid',
-//                                    ref:'../payment_discount_account',
-//                                    maxLength: 15,
-//                                    //allowBlank: ,
-//                                    anchor: '100%'
-//                                },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
@@ -211,7 +78,6 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         ref:'../inactive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-//                        value:1,
                     }),
                     {
                         xtype:'textarea',
@@ -225,17 +91,6 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         height:50
                         //allowBlank:
                     },
-//                                                                     {
-//                            xtype: 'textfield',
-//                            fieldLabel: 'inactive',
-//                            hideLabel:false,
-//                            //hidden:true,
-//                            name:'inactive',
-//                            id:'inactiveid',
-//                            ref:'../inactive',
-//                            //allowBlank: ,
-//                            anchor: '100%'
-//                        },
                 ]
             }
         ];
@@ -266,10 +121,15 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahSuppliers/update/id/' + this.id;
@@ -278,12 +138,6 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahSuppliers').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             scope:this,
             success:function (f, a) {
@@ -299,9 +153,11 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahSuppliers').getForm().reset();
                     }
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });

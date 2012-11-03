@@ -107,8 +107,8 @@ class PahChartTypesController extends GxController
         //$model = new PahChartTypes('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahChartTypes::model()->findAll($criteria);
         $total = PahChartTypes::model()->count($criteria);
         if (isset($_GET['PahChartTypes']))

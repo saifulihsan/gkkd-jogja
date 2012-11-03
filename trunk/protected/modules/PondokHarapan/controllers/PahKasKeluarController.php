@@ -43,7 +43,7 @@ class PahKasKeluarController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas keluar berhasil disimpan.';
-            $date = get_date_today();
+
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -57,7 +57,8 @@ class PahKasKeluarController extends GxController
                         $v = get_number($v);
                     $_POST['PahKasKeluar'][$k] = $v;
                 }
-                $_POST['PahKasKeluar']['entry_time'] = $date;
+                $date = $_POST['PahKasKeluar']['trans_date'];
+                $_POST['PahKasKeluar']['entry_time'] = Now();
                 $_POST['PahKasKeluar']['users_id'] = $user;
                 $_POST['PahKasKeluar']['doc_ref'] = $docref;
                 $kas_keluar->attributes = $_POST['PahKasKeluar'];
@@ -142,9 +143,9 @@ class PahKasKeluarController extends GxController
                 $bank = PahBankAccounts::model()->findByPk($kas_keluar->pah_bank_accounts_id);
                 //void gl
                 Pah::add_gl(VOID, $void->id, $date, $docref,
-                    $kas_keluar->pah_chart_master_account_code,
+                    $bank->account_code,
                     "VOID Kas Keluar $docref", $kas_keluar->amount, $user);
-                Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Kas Keluar $docref",
+                Pah::add_gl(VOID, $void->id, $date, $docref, $kas_keluar->pah_chart_master_account_code, "VOID Kas Keluar $docref",
                     -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
@@ -204,8 +205,8 @@ class PahKasKeluarController extends GxController
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(KAS_KELUAR);
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $criteria->addNotInCondition('kas_keluar_id', $void);
         $model = PahKasKeluar::model()->findAll($criteria);
         $total = PahKasKeluar::model()->count($criteria);

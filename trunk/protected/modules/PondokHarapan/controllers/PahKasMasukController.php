@@ -43,7 +43,7 @@ class PahKasMasukController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas masuk berhasil disimpan.';
-            $date = get_date_today();
+
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -57,7 +57,8 @@ class PahKasMasukController extends GxController
                         $v = get_number($v);
                     $_POST['PahKasMasuk'][$k] = $v;
                 }
-                $_POST['PahKasMasuk']['entry_time'] = $date.' '.get_time_now();
+                $date = $_POST['PahKasMasuk']['trans_date'];
+                $_POST['PahKasMasuk']['entry_time'] = Now();
                 $_POST['PahKasMasuk']['users_id'] = $user;
                 $_POST['PahKasMasuk']['doc_ref'] = $docref;
                 $kas_masuk->attributes = $_POST['PahKasMasuk'];
@@ -206,8 +207,8 @@ class PahKasMasukController extends GxController
         $void = Pah::get_voided(KAS_MASUK);
         //$arr = array(1,2);
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $criteria->addNotInCondition('kas_masuk_id', $void);
         $model = PahKasMasuk::model()->findAll($criteria);
         $total = PahKasMasuk::model()->count($criteria);

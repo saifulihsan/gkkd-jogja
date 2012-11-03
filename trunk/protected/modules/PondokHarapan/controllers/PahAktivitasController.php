@@ -48,7 +48,7 @@ class PahAktivitasController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
-            $date = get_date_today();
+
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -62,6 +62,7 @@ class PahAktivitasController extends GxController
                         $v = get_number($v);
                     $_POST['PahAktivitas'][$k] = $v;
                 }
+                $date = $_POST['PahAktivitas']['trans_date'];
                 $_POST['PahAktivitas']['entry_time'] = Now();
                 $_POST['PahAktivitas']['users_id'] = $user;
                 $_POST['PahAktivitas']['doc_ref'] = $docref;
@@ -252,8 +253,8 @@ class PahAktivitasController extends GxController
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(AKTIVITAS);
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $criteria->addNotInCondition('aktivitas_id', $void);
         $model = PahAktivitas::model()->findAll($criteria);
         $total = PahAktivitas::model()->count($criteria);

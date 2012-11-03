@@ -105,8 +105,8 @@ class PahSysController extends GxController
         //$model = new PahSys('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahSys::model()->findAll($criteria);
         $total = PahSys::model()->count($criteria);
         if (isset($_GET['PahSys']))

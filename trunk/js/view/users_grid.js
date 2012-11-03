@@ -71,16 +71,16 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
     ],
     initComponent:function () {
         this.store = jun.rztUsers;
-        this.bbar = {
-            items:[
-                {
-                    xtype:'paging',
-                    store:this.store,
-                    displayInfo:true,
-                    pageSize:10
-                }
-            ]
-        };
+//        this.bbar = {
+//            items:[
+//                {
+//                    xtype:'paging',
+//                    store:this.store,
+//                    displayInfo:true,
+//                    pageSize:10
+//                }
+//            ]
+//        };
         this.tbar = {
             xtype:'toolbar',
             items:[

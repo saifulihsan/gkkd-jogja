@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2012-10-27 06:36:48
+Date: 2012-11-03 16:36:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,7 @@ CREATE TABLE `jemaat` (
 -- ----------------------------
 INSERT INTO `jemaat` VALUES ('0', 'Administrator', '', null, '0', null);
 INSERT INTO `jemaat` VALUES ('1', 'Stephanus Nove Anando', '088215173200', 'novebeta@gmail.com', '0', 'Perum Tirta Kirana B6 Nologaten');
+INSERT INTO `jemaat` VALUES ('2', 'Amelia Beta', '-', '-', '0', '-');
 
 -- ----------------------------
 -- Table structure for `pah_aktivitas`
@@ -58,17 +59,19 @@ CREATE TABLE `pah_aktivitas` (
   KEY `fk_pah_aktivitas_pah_suppliers1_idx` (`pah_suppliers_supplier_id`),
   KEY `fk_pah_aktivitas_pah_bank_accounts1_idx` (`pah_bank_accounts_id`),
   KEY `fk_pah_aktivitas_users1_idx` (`users_id`),
-  CONSTRAINT `fk_pah_aktivitas_pah_sub_aktivitas1` FOREIGN KEY (`pah_sub_aktivitas_id`) REFERENCES `pah_sub_aktivitas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_pah_bank_accounts1` FOREIGN KEY (`pah_bank_accounts_id`) REFERENCES `pah_bank_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_pah_member1` FOREIGN KEY (`pah_member_id`) REFERENCES `pah_member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pah_aktivitas_pah_sub_aktivitas1` FOREIGN KEY (`pah_sub_aktivitas_id`) REFERENCES `pah_sub_aktivitas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_pah_suppliers1` FOREIGN KEY (`pah_suppliers_supplier_id`) REFERENCES `pah_suppliers` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_aktivitas
 -- ----------------------------
-INSERT INTO `pah_aktivitas` VALUES ('1', 'AK00000001', '001', '500000', '2012-10-23 00:00:00', '2012-10-03', null, '1', '7', '1', '1', '1');
+INSERT INTO `pah_aktivitas` VALUES ('1', 'AKA00000001', '1', '90000', '2012-11-03 15:23:18', '2012-11-09', 'Tunai', '1', '7', '2', '1', '1');
+INSERT INTO `pah_aktivitas` VALUES ('2', 'AKA00000002', '2', '120000', '2012-11-03 15:23:53', '2012-11-10', 'Tunai', '2', '7', '1', '2', '1');
+INSERT INTO `pah_aktivitas` VALUES ('3', 'AKA00000003', '3', '70000', '2012-11-03 15:28:27', '2012-11-09', 'Tunai', '1', '7', '2', '2', '1');
 
 -- ----------------------------
 -- Table structure for `pah_aktivitas_grup`
@@ -80,12 +83,14 @@ CREATE TABLE `pah_aktivitas_grup` (
   `notes` text,
   `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_aktivitas_grup
 -- ----------------------------
 INSERT INTO `pah_aktivitas_grup` VALUES ('2', 'Kelompok Renang', '-', '0');
+INSERT INTO `pah_aktivitas_grup` VALUES ('3', 'Kelompok Les', '-', '0');
+INSERT INTO `pah_aktivitas_grup` VALUES ('4', 'Kelompok Menari', 'underconstruction', '0');
 
 -- ----------------------------
 -- Table structure for `pah_aktivitas_grup_trans`
@@ -110,8 +115,8 @@ CREATE TABLE `pah_aktivitas_grup_trans` (
   KEY `fk_pah_aktivitas_users1_idx` (`users_id`),
   KEY `fk_pah_aktivitas_grup_trans_pah_aktivitas_grup1_idx` (`pah_aktivitas_grup_id`),
   KEY `fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1_idx` (`pah_sub_aktivitas_id`),
-  CONSTRAINT `fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1` FOREIGN KEY (`pah_sub_aktivitas_id`) REFERENCES `pah_sub_aktivitas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_grup_trans_pah_aktivitas_grup1` FOREIGN KEY (`pah_aktivitas_grup_id`) REFERENCES `pah_aktivitas_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1` FOREIGN KEY (`pah_sub_aktivitas_id`) REFERENCES `pah_sub_aktivitas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_pah_bank_accounts10` FOREIGN KEY (`pah_bank_accounts_id`) REFERENCES `pah_bank_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_pah_suppliers10` FOREIGN KEY (`pah_suppliers_supplier_id`) REFERENCES `pah_suppliers` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_aktivitas_users10` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -120,9 +125,9 @@ CREATE TABLE `pah_aktivitas_grup_trans` (
 -- ----------------------------
 -- Records of pah_aktivitas_grup_trans
 -- ----------------------------
-INSERT INTO `pah_aktivitas_grup_trans` VALUES ('1', 'AKG00000001', '001', '200000', '2012-10-26 13:20:49', '2012-10-26', 'Tunai', '1', '7', '1', '2', '2');
-INSERT INTO `pah_aktivitas_grup_trans` VALUES ('2', 'AKG00000002', '002', '250000', '2012-10-26 13:45:57', '2012-10-27', 'Tunai', '1', '7', '1', '2', '1');
-INSERT INTO `pah_aktivitas_grup_trans` VALUES ('3', 'AKG00000003', '003', '400000', '2012-10-26 13:57:14', '2012-10-28', 'Tunai', '1', '7', '1', '2', '2');
+INSERT INTO `pah_aktivitas_grup_trans` VALUES ('1', 'AKG00000001', '1', '20000', '2012-11-03 15:24:42', '2012-11-10', 'Transfer', '1', '8', '1', '2', '1');
+INSERT INTO `pah_aktivitas_grup_trans` VALUES ('2', 'AKG00000002', '2', '400000', '2012-11-03 15:25:13', '2012-11-10', 'Tunai', '2', '7', '1', '3', '2');
+INSERT INTO `pah_aktivitas_grup_trans` VALUES ('3', 'AKG00000003', '3', '400000', '2012-11-03 15:29:27', '2012-11-15', 'Debet', '2', '8', '1', '4', '1');
 
 -- ----------------------------
 -- Table structure for `pah_anggaran`
@@ -144,7 +149,7 @@ CREATE TABLE `pah_anggaran` (
 -- ----------------------------
 -- Records of pah_anggaran
 -- ----------------------------
-INSERT INTO `pah_anggaran` VALUES ('1', 'AG00000001', '10', '2012', '2012-10-23', '0', '1');
+INSERT INTO `pah_anggaran` VALUES ('1', 'AGR00000001', '11', '2012', '2012-11-03', '0', '1');
 
 -- ----------------------------
 -- Table structure for `pah_anggaran_detil`
@@ -160,14 +165,16 @@ CREATE TABLE `pah_anggaran_detil` (
   KEY `fk_pah_anggaran_detil_pah_chart_master1_idx` (`pah_chart_master_account_code`),
   CONSTRAINT `fk_pah_anggaran_detil_pah_anggaran1` FOREIGN KEY (`pah_anggaran_id`) REFERENCES `pah_anggaran` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_anggaran_detil_pah_chart_master1` FOREIGN KEY (`pah_chart_master_account_code`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_anggaran_detil
 -- ----------------------------
-INSERT INTO `pah_anggaran_detil` VALUES ('1', '1', '500000', '570');
-INSERT INTO `pah_anggaran_detil` VALUES ('2', '1', '300000', '520');
-INSERT INTO `pah_anggaran_detil` VALUES ('3', '1', '200000', '510');
+INSERT INTO `pah_anggaran_detil` VALUES ('5', '1', '500000', '570');
+INSERT INTO `pah_anggaran_detil` VALUES ('6', '1', '200000', '540');
+INSERT INTO `pah_anggaran_detil` VALUES ('7', '1', '300000', '530');
+INSERT INTO `pah_anggaran_detil` VALUES ('8', '1', '250000', '520');
+INSERT INTO `pah_anggaran_detil` VALUES ('9', '1', '450000', '510');
 
 -- ----------------------------
 -- Table structure for `pah_bank_accounts`
@@ -198,7 +205,7 @@ CREATE TABLE `pah_bank_accounts` (
 -- Records of pah_bank_accounts
 -- ----------------------------
 INSERT INTO `pah_bank_accounts` VALUES ('7', '110', '0', 'Kas di Tangan', '-', '-', '-', '', '0', '0', '0', '-', '-');
-INSERT INTO `pah_bank_accounts` VALUES ('8', '120', '0', 'Kas di Bank', '-', '-', '-', '', '0', '0', '1', '-', '-');
+INSERT INTO `pah_bank_accounts` VALUES ('8', '120', '0', 'Kas di Bank', '-', '-', '-', '', '0', '0', '0', '-', '-');
 
 -- ----------------------------
 -- Table structure for `pah_bank_trans`
@@ -220,25 +227,31 @@ CREATE TABLE `pah_bank_trans` (
   KEY `bank_act_2` (`bank_act`,`reconciled`) USING BTREE,
   KEY `bank_act_3` (`bank_act`,`trans_date`) USING BTREE,
   CONSTRAINT `bank_trans_ibfk_1` FOREIGN KEY (`bank_act`) REFERENCES `pah_bank_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_bank_trans
 -- ----------------------------
-INSERT INTO `pah_bank_trans` VALUES ('1', '0', '1', '7', 'KM00000001', '2012-10-23', '3000000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('2', '0', '2', '7', 'KM00000002', '2012-10-23', '1000000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('3', '0', '3', '7', 'KM00000003', '2012-10-23', '200000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('4', '1', '1', '7', 'KK00000001', '2012-10-23', '-500000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('5', '1', '2', '7', 'KK00000002', '2012-10-23', '-250000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('6', '3', '1', '7', 'AK00000001', '2012-10-23', '-500000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('7', '6', '0', '7', '-', '2012-01-01', '500000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('8', '0', '4', '7', 'KM00000004', '2012-10-26', '500000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('9', '0', '5', '7', 'KM00000005', '2012-10-26', '500000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('10', '7', '1', '7', 'AKG00000001', '2012-10-26', '-200000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('11', '5', '1', '7', 'AKG00000001', '2012-10-26', '200000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('12', '7', '2', '7', 'AKG00000002', '2012-10-26', '-250000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('13', '5', '2', '7', 'AKG00000002', '2012-10-27', '250000', null, '1');
-INSERT INTO `pah_bank_trans` VALUES ('14', '7', '3', '7', 'AKG00000003', '2012-10-26', '-400000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('1', '6', '0', '7', '-', '2012-11-01', '500000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('2', '0', '1', '7', 'KMS00000001', '2012-11-02', '2000000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('3', '0', '2', '8', 'KMS00000002', '2012-11-04', '500000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('4', '1', '1', '7', 'KKR00000001', '2012-11-05', '-600000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('5', '1', '2', '8', 'KKR00000002', '2012-11-07', '-300000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('6', '1', '3', '7', 'KKR00000003', '2012-11-07', '-400000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('7', '1', '4', '7', 'KKR00000004', '2012-11-07', '-100000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('8', '5', '4', '7', 'KKR00000004', '2012-11-07', '100000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('9', '3', '1', '7', 'AKA00000001', '2012-11-09', '-90000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('10', '3', '2', '7', 'AKA00000002', '2012-11-10', '-120000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('11', '7', '1', '8', 'AKG00000001', '2012-11-10', '-20000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('12', '7', '2', '7', 'AKG00000002', '2012-11-10', '-400000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('13', '4', '0', '8', 'BTR00000001', '2012-11-12', '100000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('14', '4', '0', '7', 'BTR00000001', '2012-11-12', '-100000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('15', '3', '3', '7', 'AKA00000003', '2012-11-09', '-70000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('16', '5', '3', '7', 'AKA00000003', '2012-11-09', '70000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('17', '7', '3', '8', 'AKG00000003', '2012-11-15', '-400000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('18', '5', '3', '8', 'AKG00000003', '2012-11-15', '400000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('19', '1', '5', '7', 'KKR00000005', '2012-11-15', '-50000', null, '1');
+INSERT INTO `pah_bank_trans` VALUES ('20', '5', '5', '7', 'KKR00000005', '2012-11-15', '50000', null, '1');
 
 -- ----------------------------
 -- Table structure for `pah_chart_class`
@@ -280,7 +293,7 @@ CREATE TABLE `pah_chart_master` (
 -- ----------------------------
 -- Records of pah_chart_master
 -- ----------------------------
-INSERT INTO `pah_chart_master` VALUES ('110', '', 'Kas di Tangan', '1', '1', '-');
+INSERT INTO `pah_chart_master` VALUES ('110', '', 'Kas di Tangan', '1', '0', '123');
 INSERT INTO `pah_chart_master` VALUES ('120', '', 'Kas di Bank', '1', '0', '-');
 INSERT INTO `pah_chart_master` VALUES ('410', '', 'Anggaran HO', '7', '0', 'Kas dari kantor pusat');
 INSERT INTO `pah_chart_master` VALUES ('420', '', 'Donasi', '7', '0', 'Sumbangan pihak eksternal');
@@ -293,6 +306,7 @@ INSERT INTO `pah_chart_master` VALUES ('550', '', 'Rumah Tangga', '5', '0', 'Per
 INSERT INTO `pah_chart_master` VALUES ('570', '', 'Aktivitas Anak', '5', '0', 'Uang saku, rekreasi anak, olah raga, sewa vcd, kebutuhan sekolah, les, eskul, penggalian bakat, speedy, perpustakaan (buku, majalah, koran), spp, daftar ulang dan lain sebagainya.');
 INSERT INTO `pah_chart_master` VALUES ('580', '', 'Kesehatan', '5', '0', 'Berobat dan obat');
 INSERT INTO `pah_chart_master` VALUES ('590', '', 'Lain-lain', '5', '0', 'PBB, atau apapun yang tidak dapat dikelompokkan dalam kelompok di atas.');
+INSERT INTO `pah_chart_master` VALUES ('600', '', 'tes', '5', '1', '-');
 
 -- ----------------------------
 -- Table structure for `pah_chart_types`
@@ -330,38 +344,46 @@ CREATE TABLE `pah_comments` (
   PRIMARY KEY (`id`),
   KEY `type_and_id` (`type`,`id`) USING BTREE,
   KEY `type_no` (`type_no`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_comments
 -- ----------------------------
-INSERT INTO `pah_comments` VALUES ('1', '0', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('2', '0', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('3', '0', '2', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('4', '0', '2', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('5', '0', '3', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('6', '0', '3', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('7', '1', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('8', '1', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('9', '1', '2', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('10', '1', '2', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('11', '3', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('12', '3', '1', '2012-10-23', '-');
-INSERT INTO `pah_comments` VALUES ('13', '6', '0', '2012-01-01', '-');
-INSERT INTO `pah_comments` VALUES ('14', '0', '4', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('15', '0', '4', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('16', '0', '5', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('17', '0', '5', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('18', '7', '1', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('19', '7', '1', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('20', '5', '1', '2012-10-26', 'VOID Aktivitas Grup AKG00000001');
-INSERT INTO `pah_comments` VALUES ('21', '5', '1', '2012-10-26', 'VOID Aktivitas Grup AKG00000001');
-INSERT INTO `pah_comments` VALUES ('22', '7', '2', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('23', '7', '2', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('24', '5', '2', '2012-10-27', 'VOID Aktivitas Grup AKG00000002');
-INSERT INTO `pah_comments` VALUES ('25', '5', '2', '2012-10-27', 'VOID Aktivitas Grup AKG00000002');
-INSERT INTO `pah_comments` VALUES ('26', '7', '3', '2012-10-26', '-');
-INSERT INTO `pah_comments` VALUES ('27', '7', '3', '2012-10-26', '-');
+INSERT INTO `pah_comments` VALUES ('1', '6', '0', '2012-11-01', '-');
+INSERT INTO `pah_comments` VALUES ('2', '0', '1', '2012-11-02', '-');
+INSERT INTO `pah_comments` VALUES ('3', '0', '1', '2012-11-02', '-');
+INSERT INTO `pah_comments` VALUES ('4', '0', '2', '2012-11-04', '-');
+INSERT INTO `pah_comments` VALUES ('5', '0', '2', '2012-11-04', '-');
+INSERT INTO `pah_comments` VALUES ('6', '1', '1', '2012-11-05', '-');
+INSERT INTO `pah_comments` VALUES ('7', '1', '1', '2012-11-05', '-');
+INSERT INTO `pah_comments` VALUES ('8', '1', '2', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('9', '1', '2', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('10', '1', '3', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('11', '1', '3', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('12', '1', '4', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('13', '1', '4', '2012-11-07', '-');
+INSERT INTO `pah_comments` VALUES ('14', '5', '4', '2012-11-07', 'VOID Kas Keluar KKR00000004');
+INSERT INTO `pah_comments` VALUES ('15', '5', '4', '2012-11-07', 'VOID Kas Keluar KKR00000004');
+INSERT INTO `pah_comments` VALUES ('16', '3', '1', '2012-11-09', '-');
+INSERT INTO `pah_comments` VALUES ('17', '3', '1', '2012-11-09', '-');
+INSERT INTO `pah_comments` VALUES ('18', '3', '2', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('19', '3', '2', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('20', '7', '1', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('21', '7', '1', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('22', '7', '2', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('23', '7', '2', '2012-11-10', '-');
+INSERT INTO `pah_comments` VALUES ('24', '3', '3', '2012-11-09', '-');
+INSERT INTO `pah_comments` VALUES ('25', '3', '3', '2012-11-09', '-');
+INSERT INTO `pah_comments` VALUES ('26', '5', '3', '2012-11-09', 'VOID Aktivitas AKA00000003');
+INSERT INTO `pah_comments` VALUES ('27', '5', '3', '2012-11-09', 'VOID Aktivitas AKA00000003');
+INSERT INTO `pah_comments` VALUES ('28', '7', '3', '2012-11-15', '-');
+INSERT INTO `pah_comments` VALUES ('29', '7', '3', '2012-11-15', '-');
+INSERT INTO `pah_comments` VALUES ('30', '5', '3', '2012-11-15', 'VOID Aktivitas Grup AKG00000003');
+INSERT INTO `pah_comments` VALUES ('31', '5', '3', '2012-11-15', 'VOID Aktivitas Grup AKG00000003');
+INSERT INTO `pah_comments` VALUES ('32', '1', '5', '2012-11-15', '-');
+INSERT INTO `pah_comments` VALUES ('33', '1', '5', '2012-11-15', '-');
+INSERT INTO `pah_comments` VALUES ('34', '5', '5', '2012-11-15', 'VOID Kas Keluar KKR00000005');
+INSERT INTO `pah_comments` VALUES ('35', '5', '5', '2012-11-15', 'VOID Kas Keluar KKR00000005');
 
 -- ----------------------------
 -- Table structure for `pah_donatur`
@@ -405,38 +427,46 @@ CREATE TABLE `pah_gl_trans` (
   KEY `account_and_tran_date` (`account`,`tran_date`) USING BTREE,
   KEY `gl_trans_ibfk_4` (`type_no`) USING BTREE,
   CONSTRAINT `gl_trans_ibfk_1` FOREIGN KEY (`account`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_gl_trans
 -- ----------------------------
-INSERT INTO `pah_gl_trans` VALUES ('1', '0', '1', '2012-10-23', '110', '-', '3000000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('2', '0', '1', '2012-10-23', '410', '-', '-3000000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('3', '0', '2', '2012-10-23', '110', '-', '1000000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('4', '0', '2', '2012-10-23', '420', '-', '-1000000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('5', '0', '3', '2012-10-23', '110', '-', '200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('6', '0', '3', '2012-10-23', '430', '-', '-200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('7', '1', '1', '2012-10-23', '510', '-', '500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('8', '1', '1', '2012-10-23', '110', '-', '-500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('9', '1', '2', '2012-10-23', '520', '-', '250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('10', '1', '2', '2012-10-23', '110', '-', '-250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('11', '3', '1', '2012-10-23', '570', '-', '500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('12', '3', '1', '2012-10-23', '110', '-', '-500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('13', '6', '0', '2012-01-01', '110', '-', '500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('14', '0', '4', '2012-10-26', '110', '-', '500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('15', '0', '4', '2012-10-26', '410', '-', '-500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('16', '0', '5', '2012-10-26', '110', '-', '500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('17', '0', '5', '2012-10-26', '410', '-', '-500000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('18', '7', '1', '2012-10-26', '580', '-', '200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('19', '7', '1', '2012-10-26', '110', '-', '-200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('20', '5', '1', '2012-10-26', '110', 'VOID Aktivitas Grup AKG00000001', '200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('21', '5', '1', '2012-10-26', '580', 'VOID Aktivitas Grup AKG00000001', '-200000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('22', '7', '2', '2012-10-26', '570', '-', '250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('23', '7', '2', '2012-10-26', '110', '-', '-250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('24', '5', '2', '2012-10-27', '110', 'VOID Aktivitas Grup AKG00000002', '250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('25', '5', '2', '2012-10-27', '570', 'VOID Aktivitas Grup AKG00000002', '-250000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('26', '7', '3', '2012-10-26', '580', '-', '400000', '1');
-INSERT INTO `pah_gl_trans` VALUES ('27', '7', '3', '2012-10-26', '110', '-', '-400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('1', '6', '0', '2012-11-01', '110', '-', '500000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('2', '0', '1', '2012-11-02', '110', '-', '2000000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('3', '0', '1', '2012-11-02', '410', '-', '-2000000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('4', '0', '2', '2012-11-04', '120', '-', '500000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('5', '0', '2', '2012-11-04', '420', '-', '-500000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('6', '1', '1', '2012-11-05', '510', '-', '600000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('7', '1', '1', '2012-11-05', '110', '-', '-600000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('8', '1', '2', '2012-11-07', '520', '-', '300000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('9', '1', '2', '2012-11-07', '120', '-', '-300000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('10', '1', '3', '2012-11-07', '580', '-', '400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('11', '1', '3', '2012-11-07', '110', '-', '-400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('12', '1', '4', '2012-11-07', '510', '-', '100000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('13', '1', '4', '2012-11-07', '110', '-', '-100000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('14', '5', '4', '2012-11-07', '110', 'VOID Kas Keluar KKR00000004', '100000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('15', '5', '4', '2012-11-07', '510', 'VOID Kas Keluar KKR00000004', '-100000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('16', '3', '1', '2012-11-09', '570', '-', '90000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('17', '3', '1', '2012-11-09', '110', '-', '-90000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('18', '3', '2', '2012-11-10', '580', '-', '120000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('19', '3', '2', '2012-11-10', '110', '-', '-120000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('20', '7', '1', '2012-11-10', '570', '-', '20000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('21', '7', '1', '2012-11-10', '120', '-', '-20000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('22', '7', '2', '2012-11-10', '580', '-', '400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('23', '7', '2', '2012-11-10', '110', '-', '-400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('24', '3', '3', '2012-11-09', '580', '-', '70000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('25', '3', '3', '2012-11-09', '110', '-', '-70000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('26', '5', '3', '2012-11-09', '110', 'VOID Aktivitas AKA00000003', '70000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('27', '5', '3', '2012-11-09', '580', 'VOID Aktivitas AKA00000003', '-70000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('28', '7', '3', '2012-11-15', '570', '-', '400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('29', '7', '3', '2012-11-15', '120', '-', '-400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('30', '5', '3', '2012-11-15', '120', 'VOID Aktivitas Grup AKG00000003', '400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('31', '5', '3', '2012-11-15', '570', 'VOID Aktivitas Grup AKG00000003', '-400000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('32', '1', '5', '2012-11-15', '530', '-', '50000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('33', '1', '5', '2012-11-15', '110', '-', '-50000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('34', '5', '5', '2012-11-15', '110', 'VOID Kas Keluar KKR00000005', '50000', '1');
+INSERT INTO `pah_gl_trans` VALUES ('35', '5', '5', '2012-11-15', '530', 'VOID Kas Keluar KKR00000005', '-50000', '1');
 
 -- ----------------------------
 -- Table structure for `pah_kas_keluar`
@@ -463,13 +493,16 @@ CREATE TABLE `pah_kas_keluar` (
   CONSTRAINT `fk_pah_kas_keluar_pah_chart_master1` FOREIGN KEY (`pah_chart_master_account_code`) REFERENCES `pah_chart_master` (`account_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_keluar_pah_suppliers1` FOREIGN KEY (`pah_suppliers_supplier_id`) REFERENCES `pah_suppliers` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_keluar_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_kas_keluar
 -- ----------------------------
-INSERT INTO `pah_kas_keluar` VALUES ('1', 'KK00000001', '001', '500000', '2012-10-23 00:00:00', '2012-10-02', 'Tunai', '1', '510', '7', '1');
-INSERT INTO `pah_kas_keluar` VALUES ('2', 'KK00000002', '002', '250000', '2012-10-23 00:00:00', '2012-10-02', 'Tunai', '1', '520', '7', '1');
+INSERT INTO `pah_kas_keluar` VALUES ('1', 'KKR00000001', '1', '600000', '2012-11-03 15:19:51', '2012-11-05', 'Tunai', '1', '510', '7', '1');
+INSERT INTO `pah_kas_keluar` VALUES ('2', 'KKR00000002', '2', '300000', '2012-11-03 15:20:22', '2012-11-07', 'Tunai', '1', '520', '8', '1');
+INSERT INTO `pah_kas_keluar` VALUES ('3', 'KKR00000003', '3', '400000', '2012-11-03 15:21:20', '2012-11-07', 'Tunai', '2', '580', '7', '1');
+INSERT INTO `pah_kas_keluar` VALUES ('4', 'KKR00000004', '4', '100000', '2012-11-03 15:22:11', '2012-11-07', 'Tunai', '1', '510', '7', '1');
+INSERT INTO `pah_kas_keluar` VALUES ('5', 'KKR00000005', '5', '50000', '2012-11-03 15:42:56', '2012-11-15', 'Tunai', '2', '530', '7', '1');
 
 -- ----------------------------
 -- Table structure for `pah_kas_masuk`
@@ -490,19 +523,16 @@ CREATE TABLE `pah_kas_masuk` (
   KEY `fk_pah_kas_masuk_pah_donatur1_idx` (`pah_donatur_id`),
   KEY `fk_pah_kas_masuk_pah_bank_accounts1_idx` (`pah_bank_accounts_id`),
   KEY `fk_pah_kas_masuk_users1_idx` (`users_id`),
-  CONSTRAINT `fk_pah_kas_masuk_pah_donatur1` FOREIGN KEY (`pah_donatur_id`) REFERENCES `pah_donatur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_masuk_pah_bank_accounts1` FOREIGN KEY (`pah_bank_accounts_id`) REFERENCES `pah_bank_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pah_kas_masuk_pah_donatur1` FOREIGN KEY (`pah_donatur_id`) REFERENCES `pah_donatur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pah_kas_masuk_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_kas_masuk
 -- ----------------------------
-INSERT INTO `pah_kas_masuk` VALUES ('1', 'KM00000001', '001', '3000000', '2012-10-23 00:00:00', '2012-10-01', 'Tunai', '1', '7', '1');
-INSERT INTO `pah_kas_masuk` VALUES ('2', 'KM00000002', '002', '1000000', '2012-10-23 00:00:00', '2012-10-01', 'Tunai', '2', '7', '1');
-INSERT INTO `pah_kas_masuk` VALUES ('3', 'KM00000003', '003', '200000', '2012-10-23 00:00:00', '2012-10-01', 'Tunai', '3', '7', '1');
-INSERT INTO `pah_kas_masuk` VALUES ('4', 'KM00000004', '004', '500000', '2012-10-26 00:00:00', '2012-10-02', 'Tunai', '1', '7', '1');
-INSERT INTO `pah_kas_masuk` VALUES ('5', 'KM00000005', '005', '500000', '2012-10-26 06:44:33', '2012-10-03', 'Tunai', '1', '7', '1');
+INSERT INTO `pah_kas_masuk` VALUES ('1', 'KMS00000001', '1', '2000000', '2012-11-03 15:15:00', '2012-11-02', 'Tunai', '1', '7', '1');
+INSERT INTO `pah_kas_masuk` VALUES ('2', 'KMS00000002', '2', '500000', '2012-11-03 15:15:37', '2012-11-04', 'Tunai', '2', '8', '1');
 
 -- ----------------------------
 -- Table structure for `pah_lampiran`
@@ -517,12 +547,13 @@ CREATE TABLE `pah_lampiran` (
   `qty` double DEFAULT NULL,
   `entry_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id_lampiran`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_lampiran
 -- ----------------------------
-INSERT INTO `pah_lampiran` VALUES ('3', 'Nove', '2012-10-26', 'Coba ngasih', 'Krat', '3', '2012-10-26 15:44:49');
+INSERT INTO `pah_lampiran` VALUES ('1', 'ayin', '2012-11-13', 'beras', 'kuintal', '1', '2012-11-03 15:26:41');
+INSERT INTO `pah_lampiran` VALUES ('2', 'gimel', '2012-11-21', 'gula', 'kg', '10', '2012-11-03 15:27:07');
 
 -- ----------------------------
 -- Table structure for `pah_member`
@@ -535,12 +566,13 @@ CREATE TABLE `pah_member` (
   PRIMARY KEY (`id`),
   KEY `fk_pah_member_jemaat1_idx` (`jemaat_nij`),
   CONSTRAINT `fk_pah_member_jemaat1` FOREIGN KEY (`jemaat_nij`) REFERENCES `jemaat` (`nij`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_member
 -- ----------------------------
 INSERT INTO `pah_member` VALUES ('1', '1', '0');
+INSERT INTO `pah_member` VALUES ('2', '2', '0');
 
 -- ----------------------------
 -- Table structure for `pah_refs`
@@ -554,23 +586,26 @@ CREATE TABLE `pah_refs` (
   PRIMARY KEY (`id`),
   KEY `Type_and_Reference` (`type`,`reference`) USING BTREE,
   KEY `type_no` (`type_no`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_refs
 -- ----------------------------
-INSERT INTO `pah_refs` VALUES ('1', '1', '0', 'KM00000001');
-INSERT INTO `pah_refs` VALUES ('2', '2', '0', 'KM00000002');
-INSERT INTO `pah_refs` VALUES ('3', '3', '0', 'KM00000003');
-INSERT INTO `pah_refs` VALUES ('4', '1', '1', 'KK00000001');
-INSERT INTO `pah_refs` VALUES ('5', '2', '1', 'KK00000002');
-INSERT INTO `pah_refs` VALUES ('6', '1', '3', 'AK00000001');
-INSERT INTO `pah_refs` VALUES ('7', '1', '2', 'AG00000001');
-INSERT INTO `pah_refs` VALUES ('8', '4', '0', 'KM00000004');
-INSERT INTO `pah_refs` VALUES ('9', '5', '0', 'KM00000005');
+INSERT INTO `pah_refs` VALUES ('1', '1', '0', 'KMS00000001');
+INSERT INTO `pah_refs` VALUES ('2', '2', '0', 'KMS00000002');
+INSERT INTO `pah_refs` VALUES ('3', '1', '2', 'AGR00000001');
+INSERT INTO `pah_refs` VALUES ('4', '1', '1', 'KKR00000001');
+INSERT INTO `pah_refs` VALUES ('5', '2', '1', 'KKR00000002');
+INSERT INTO `pah_refs` VALUES ('6', '3', '1', 'KKR00000003');
+INSERT INTO `pah_refs` VALUES ('7', '4', '1', 'KKR00000004');
+INSERT INTO `pah_refs` VALUES ('8', '1', '3', 'AKA00000001');
+INSERT INTO `pah_refs` VALUES ('9', '2', '3', 'AKA00000002');
 INSERT INTO `pah_refs` VALUES ('10', '1', '7', 'AKG00000001');
 INSERT INTO `pah_refs` VALUES ('11', '2', '7', 'AKG00000002');
-INSERT INTO `pah_refs` VALUES ('12', '3', '7', 'AKG00000003');
+INSERT INTO `pah_refs` VALUES ('12', '0', '4', 'BTR00000001');
+INSERT INTO `pah_refs` VALUES ('13', '3', '3', 'AKA00000003');
+INSERT INTO `pah_refs` VALUES ('14', '3', '7', 'AKG00000003');
+INSERT INTO `pah_refs` VALUES ('15', '5', '1', 'KKR00000005');
 
 -- ----------------------------
 -- Table structure for `pah_sub_aktivitas`
@@ -618,12 +653,13 @@ CREATE TABLE `pah_suppliers` (
   `inactive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`supplier_id`),
   KEY `supp_ref` (`supp_ref`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of pah_suppliers
 -- ----------------------------
 INSERT INTO `pah_suppliers` VALUES ('1', 'Carefour', 'Carefour', '-', '-', '', '', '', '', '', null, null, '0', '', '', '', '-', '0');
+INSERT INTO `pah_suppliers` VALUES ('2', 'superindo', 'superindo', 'underconstruction', 'underconstruction ', '', '', '', '', '', null, null, '0', '', '', '', 'underconstruction', '0');
 
 -- ----------------------------
 -- Table structure for `pah_sys_prefs`
@@ -656,11 +692,11 @@ CREATE TABLE `pah_sys_types` (
 -- ----------------------------
 -- Records of pah_sys_types
 -- ----------------------------
-INSERT INTO `pah_sys_types` VALUES ('0', '1', 'KMS00000006');
-INSERT INTO `pah_sys_types` VALUES ('1', '1', 'KKR00000003');
+INSERT INTO `pah_sys_types` VALUES ('0', '1', 'KMS00000003');
+INSERT INTO `pah_sys_types` VALUES ('1', '1', 'KKR00000006');
 INSERT INTO `pah_sys_types` VALUES ('2', '1', 'AGR00000002');
-INSERT INTO `pah_sys_types` VALUES ('3', '1', 'AKA00000002');
-INSERT INTO `pah_sys_types` VALUES ('4', '1', 'BTR00000001');
+INSERT INTO `pah_sys_types` VALUES ('3', '1', 'AKA00000004');
+INSERT INTO `pah_sys_types` VALUES ('4', '1', 'BTR00000002');
 INSERT INTO `pah_sys_types` VALUES ('7', '1', 'AKG00000004');
 
 -- ----------------------------
@@ -680,8 +716,10 @@ CREATE TABLE `pah_voided` (
 -- ----------------------------
 -- Records of pah_voided
 -- ----------------------------
-INSERT INTO `pah_voided` VALUES ('3', '7', '1', '2012-10-26', 'Coba void');
-INSERT INTO `pah_voided` VALUES ('4', '7', '2', '2012-10-27', 'lagi co ba void');
+INSERT INTO `pah_voided` VALUES ('1', '1', '4', '2012-11-07', 'salah input');
+INSERT INTO `pah_voided` VALUES ('2', '3', '3', '2012-11-09', 'salah input');
+INSERT INTO `pah_voided` VALUES ('3', '7', '3', '2012-11-15', 'salah');
+INSERT INTO `pah_voided` VALUES ('4', '1', '5', '2012-11-15', 'salah');
 
 -- ----------------------------
 -- Table structure for `security_roles`
@@ -723,10 +761,11 @@ CREATE TABLE `users` (
   KEY `fk_users_security_roles1_idx` (`security_roles_id`),
   CONSTRAINT `fk_users_jemaat1` FOREIGN KEY (`nij`) REFERENCES `jemaat` (`nij`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_users_security_roles1` FOREIGN KEY (`security_roles_id`) REFERENCES `security_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', '$2a$12$RWK.UtRECG0g7vO5ZEXfx.1YJFek1Gs0d/ug4aUOVGElYE7X3Mala', '2012-10-24 07:10:38', '0', '0', '0');
+INSERT INTO `users` VALUES ('1', 'admin', '$2a$12$RWK.UtRECG0g7vO5ZEXfx.1YJFek1Gs0d/ug4aUOVGElYE7X3Mala', '2012-11-03 15:09:16', '0', '0', '0');
 INSERT INTO `users` VALUES ('3', 'nove', '$2a$12$lFiY1ZWG6/UQrGOy2oC5uOLqW77mDw2lKn4dAPQNFksLYmz368FQq', '2012-10-13 19:39:01', '0', '1', '2');
+INSERT INTO `users` VALUES ('4', 'beta', '$2a$12$IctLgrti/8czy2h.I.iwFOKfR/rGR3OFKFqpTfCH/r2UKCTCzA2Oe', '2012-11-02 20:41:08', '0', '2', '11');

@@ -44,7 +44,7 @@ class PahAktivitasGrupTransController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Transaksi berhasil disimpan.';
-            $date = get_date_today();
+
             $user = Yii::app()->user->getId();
             $id = -1;
             require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -58,6 +58,7 @@ class PahAktivitasGrupTransController extends GxController
                         $v = get_number($v);
                     $_POST['PahAktivitasGrupTrans'][$k] = $v;
                 }
+                $date = $_POST['PahAktivitasGrupTrans']['trans_date'];
                 $_POST['PahAktivitasGrupTrans']['entry_time'] = Now();
                 $_POST['PahAktivitasGrupTrans']['users_id'] = $user;
                 $_POST['PahAktivitasGrupTrans']['doc_ref'] = $docref;
@@ -199,8 +200,8 @@ class PahAktivitasGrupTransController extends GxController
         require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(T_AKTIVITASGRUP);
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $criteria->addNotInCondition('aktivitas_id', $void);
         $model = PahAktivitasGrupTrans::model()->findAll($criteria);
         $total = PahAktivitasGrupTrans::model()->count($criteria);

@@ -57,9 +57,11 @@ class Pah
     static function get_bank_trans_for_bank_account($bank_account, $from, $to)
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("bank_act =" . $bank_account);
-        $criteria->addCondition("trans_date >= '$from'");
-        $criteria->addCondition("trans_date <= '$to'");
+        if ($bank_account != null)
+            $criteria->addCondition("bank_act =" . $bank_account);
+//        $criteria->addCondition("trans_date >= '$from'");
+//        $criteria->addCondition("trans_date <= '$to'");
+        $criteria->addBetweenCondition("trans_date",$from,$to);
         $criteria->order = "trans_date, id";
         return PahBankTrans::model()->findAll($criteria);
     }
@@ -189,7 +191,7 @@ class Pah
     static function get_mutasi_kas_ditangan($start_date, $end_date)
     {
         $criteria = new CDbCriteria();
-        $criteria->addBetweenCondition('trans_date',$start_date,$end_date);
+        $criteria->addBetweenCondition('trans_date', $start_date, $end_date);
         $model = PahBankTrans::model()->findAll($criteria);
         return $model;
     }
@@ -204,7 +206,7 @@ class Pah
             array(':start' => $start_date, ':end' => $end_date))
 //            ->where("a.tran_date between :start and :end and b.account_type=:type",
 //            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
-            ->where("b.account_type=:type",array(':type' => PahPrefs::TypeCostAct()))
+            ->where("b.account_type=:type", array(':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -307,7 +309,6 @@ class Pah
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }
-
 
     static function get_detil_pendapatan($start_date, $end_date)
     {
@@ -425,7 +426,8 @@ class Pah
                 break;
             case T_AKTIVITASGRUP:
                 $model = PahAktivitasGrupTrans::model()->findAllByPk($id);
-                return $model->PahSuppliers->supp_name;;
+                return $model->PahSuppliers->supp_name;
+                ;
                 break;
         }
     }

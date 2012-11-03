@@ -172,8 +172,8 @@ class UsersController extends GxController
         //$model = new Users('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = Users::model()->findAll($criteria);
         $total = Users::model()->count($criteria);
         if (isset($_GET['Users']))

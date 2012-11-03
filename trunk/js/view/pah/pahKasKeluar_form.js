@@ -53,7 +53,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_suppliers_supplier_id',
                         hiddenValue:'pah_suppliers_supplier_id',
                         valueField:'supplier_id',
-                        //displayField: 'PahSuppliers::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'supp_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -71,7 +71,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_bank_accounts_id',
                         hiddenValue:'pah_bank_accounts_id',
                         valueField:'id',
-                        //displayField: 'PahBankAccounts::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -96,13 +96,9 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_chart_master_account_code',
                         hiddenValue:'pah_chart_master_account_code',
                         valueField:'account_code',
-                        //displayField: 'PahChartMaster::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'account_code',
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
                         editable:true,
@@ -160,29 +156,29 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
         this.cmbSupplier.on('focus', this.onFocusSupplier, this);
         this.on('close', this.onWinClose, this);
     },
-
-    onLoadBank:function(){
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
+    onLoadBank:function () {
         jun.rztPahBankAccounts.FilterData();
     },
-
-    onLoadChartMaster:function(){
+    onLoadChartMaster:function () {
         jun.rztPahChartMaster.FilterData();
     },
-
-    onFocusSupplier:function(){
+    onFocusSupplier:function () {
         jun.rztPahSuppliers.FilterData();
     },
-
-    onWinClose:function(){
+    onWinClose:function () {
         jun.rztPahBankAccounts.clearFilter();
         jun.rztPahChartMaster.clearFilter();
         jun.rztPahSuppliers.clearFilter();
     },
-
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         urlz = 'PondokHarapan/PahKasKeluar/create/';
         Ext.getCmp('form-PahKasKeluar').getForm().submit({
@@ -198,6 +194,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
+                    this.btnDisabled(false);
                     return;
                 } else {
                     Ext.MessageBox.show({
@@ -213,6 +210,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });
@@ -287,7 +285,7 @@ jun.PahKasKeluarShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:25,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -332,7 +330,7 @@ jun.PahKasKeluarShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:45,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -347,7 +345,7 @@ jun.PahKasKeluarShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:65,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -377,7 +375,7 @@ jun.PahKasKeluarShowWin = Ext.extend(Ext.Window, {
                         x:5,
                         y:85,
                         width:100,
-//                        style:'text-align:right;'
+                        //                        style:'text-align:right;'
                     },
                     {
                         xtype:'label',
@@ -448,7 +446,7 @@ jun.PahKasKeluarVoidWin = Ext.extend(Ext.Window, {
                         xtype:'textarea',
                         fieldLabel:'memo',
                         ref:'../memo',
-//                        hideLabel:false,
+                        //                        hideLabel:false,
                         id:'memo_id',
                         name:'memo_',
                         x:5,
@@ -478,7 +476,11 @@ jun.PahKasKeluarVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnProses.setDisabled(status);
+    },
     onbtnProsesclick:function () {
+        this.btnDisabled(true);
         var form = Ext.getCmp('form-PahKasKeluarVoid').getForm();
         Ext.getCmp('form-PahKasKeluarVoid').getForm().submit({
             url:'PondokHarapan/PahKasKeluar/delete/',
@@ -497,6 +499,7 @@ jun.PahKasKeluarVoidWin = Ext.extend(Ext.Window, {
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
+                    this.btnDisabled(false);
                     return;
                 } else {
                     Ext.MessageBox.show({
@@ -511,6 +514,7 @@ jun.PahKasKeluarVoidWin = Ext.extend(Ext.Window, {
                 this.close();
             },
             failure:function (f, a) {
+                this.btnDisabled(false);
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });

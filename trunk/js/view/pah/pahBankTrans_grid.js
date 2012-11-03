@@ -7,42 +7,36 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     columns:[
         {
             header:'id',
-            sortable:true,
             resizable:true,
             dataIndex:'id',
             width:100
         },
         {
             header:'type',
-            sortable:true,
             resizable:true,
             dataIndex:'type',
             width:150
         },
         {
             header:'trans_no',
-            sortable:true,
             resizable:true,
             dataIndex:'trans_no',
             width:100
         },
         {
             header:'bank_act',
-            sortable:true,
             resizable:true,
             dataIndex:'bank_act',
             width:100
         },
         {
             header:'ref',
-            sortable:true,
             resizable:true,
             dataIndex:'ref',
             width:100
         },
         {
             header:'trans_date',
-            sortable:true,
             resizable:true,
             dataIndex:'trans_date',
             width:100
@@ -50,28 +44,28 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         /*
          {
          header:'amount',
-         sortable:true,
+
          resizable:true,
          dataIndex:'amount',
          width:100
          },
          {
          header:'person_type_id',
-         sortable:true,
+
          resizable:true,
          dataIndex:'person_type_id',
          width:100
          },
          {
          header:'person_id',
-         sortable:true,
+
          resizable:true,
          dataIndex:'person_id',
          width:100
          },
          {
          header:'reconciled',
-         sortable:true,
+
          resizable:true,
          dataIndex:'reconciled',
          width:100
@@ -80,16 +74,16 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     ],
     initComponent:function () {
         this.store = jun.rztPahBankTrans;
-        this.bbar = {
-            items:[
-                {
-                    xtype:'paging',
-                    store:this.store,
-                    displayInfo:true,
-                    pageSize:10
-                }
-            ]
-        };
+        //        this.bbar = {
+        //            items:[
+        //                {
+        //                    xtype:'paging',
+        //                    store:this.store,
+        //                    displayInfo:true,
+        //                    pageSize:10
+        //                }
+        //            ]
+        //        };
         this.tbar = {
             xtype:'toolbar',
             items:[
@@ -188,8 +182,8 @@ jun.pahbankTransStore = new Ext.data.JsonStore({
 jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Mutasi Kas per Bank",
     id:'docs-jun.BankTransGrid',
-//	width:400,
-//	height:250,
+    //	width:400,
+    //	height:250,
     viewConfig:{
         forceFit:true,
         getRowClass:function (record, index) {
@@ -204,49 +198,43 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     columns:[
         {
             header:'Type',
-            //sortable:true,
+            //
             resizable:true,
             dataIndex:'type',
-//			width:100
+            //			width:100
         },
         {
             header:'Reference',
-            sortable:true,
             resizable:true,
             dataIndex:'ref',
-//			width:100
+            //			width:100
         },
         {
             header:'Tanggal',
-            sortable:true,
             resizable:true,
             dataIndex:'tgl',
-//			width:100
+            //			width:100
         },
         {
             header:'Debit',
-            sortable:true,
             resizable:true,
             dataIndex:'debit',
             align:'right'
         },
         {
             header:'Kredit',
-            sortable:true,
             resizable:true,
             dataIndex:'kredit',
             align:'right'
         },
         {
             header:'Neraca',
-            sortable:true,
             resizable:true,
             dataIndex:'neraca',
             align:'right'
         },
         {
             header:'Person/Item',
-            sortable:true,
             resizable:true,
             dataIndex:'person',
         }
@@ -280,67 +268,59 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         this.tbar = {
             xtype:'toolbar',
             buttonAlign:'center',
-            items:['Akun Bank : ',
-                {
-                    xtype:'combo',
-                    id:'bank_act_banktrans',
-                    typeAhead:true,
-                    triggerAction:'all',
-                    lazyRender:true,
-                    mode:'local',
-                    fieldLabel:'bank_act',
-                    store:jun.rztPahBankAccounts,
-//                    hiddenName:'bank_act',
-//                    hiddenValue:'bank_act',
-                    valueField:'id',
-                    displayField:'bank_account_name',
-                },
-                {
-                    xtype:'tbseparator',
-                    //hidden: true,
-                }, ' Dari : ',
-                {
-                    xtype:'datefield',
-                    name:'from_date_banktrans',
-                    id:'from_date_banktrans',
-                    format:'d/m/Y',
-                    value:new Date()
-                },
-                {
-                    xtype:'tbseparator',
-                    //hidden: true,
-                }, ' Sampai : ',
-                {
-                    xtype:'datefield',
-                    name:'to_date_banktrans',
-                    id:'to_date_banktrans',
-                    format:'d/m/Y',
-                    value:new Date()
-                },
-                {
-                    xtype:'tbseparator',
-                    //hidden: true,
-                },
-                {
-                    xtype:'button',
-                    text:'Tampilkan',
-                    ref:'../btnRefresh'
-                },
-//                {
-//                    xtype:'tbseparator',
-//                    //hidden: true,
-//                },
-//                {
-//                    xtype:'button',
-//                    text:'Print',
-//                    ref:'../btnPrint'
-//                }
+            items:['Akun Bank : ', {
+                xtype:'combo',
+                id:'bank_act_banktrans',
+                typeAhead:true,
+                triggerAction:'all',
+                lazyRender:true,
+                mode:'local',
+                fieldLabel:'bank_act',
+                store:jun.rztPahBankAccounts,
+                //                    hiddenName:'bank_act',
+                //                    hiddenValue:'bank_act',
+                valueField:'id',
+                displayField:'bank_account_name',
+            }, {
+                xtype:'tbseparator',
+                //hidden: true,
+            }, ' Dari : ', {
+                xtype:'datefield',
+                name:'from_date_banktrans',
+                id:'from_date_banktrans',
+                format:'d/m/Y',
+                value:new Date()
+            }, {
+                xtype:'tbseparator',
+                //hidden: true,
+            }, ' Sampai : ', {
+                xtype:'datefield',
+                name:'to_date_banktrans',
+                id:'to_date_banktrans',
+                format:'d/m/Y',
+                value:new Date()
+            }, {
+                xtype:'tbseparator',
+                //hidden: true,
+            }, {
+                xtype:'button',
+                text:'Tampilkan',
+                ref:'../btnRefresh'
+            }, //                {
+                //                    xtype:'tbseparator',
+                //                    //hidden: true,
+                //                },
+                //                {
+                //                    xtype:'button',
+                //                    text:'Print',
+                //                    ref:'../btnPrint'
+                //                }
             ]
         };
         jun.rztPahBankAccounts.reload();
         jun.PahBankTransGrid.superclass.initComponent.call(this);
         this.btnRefresh.on('click', this.onbtnRefreshClick, this);
-//        this.btnPrint.on('click', this.onbtnPrintClick, this);
+        //        this.btnPrint.on('click', this.onbtnPrintClick, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     onbtnPrintClick:function () {
@@ -353,7 +333,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
              modez: this.modez
              },*/
             timeOut:1000,
-
             scope:this,
             success:function (f, a) {
                 jun.rztPahChartTypes.reload();
@@ -396,8 +375,8 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     },
     onbtnRefreshClick:function () {
         this.store.load();
-//        var row = this.getView().getRow(1);
-//        row.style.fontWeight = "Bold";
+        //        var row = this.getView().getRow(1);
+        //        row.style.fontWeight = "Bold";
     },
     loadForm:function () {
         var form = new jun.BankTransWin({modez:0});

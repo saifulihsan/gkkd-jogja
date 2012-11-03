@@ -42,7 +42,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         hiddenName:'nij',
                         hiddenValue:'nij',
                         valueField:'nij',
-                        //displayField: 'Jemaat::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'real_name',
                         //allowBlank:false,
                         anchor:'100%'
@@ -86,18 +86,6 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         vtype:'password',
                         initialPassField:'passwordid' // id of the initial password field
                     },
-                    //                    {
-                    //                        xtype:'xdatefield',
-                    //                        ref:'../last_visit_date',
-                    //                        fieldLabel:'last_visit_date',
-                    //                        name:'last_visit_date',
-                    //                        id:'last_visit_dateid',
-                    //                        //  format: 'Y-mm-dd',
-                    //                        hidden:true,
-                    //                        value:new Date(),
-                    //                        //allowBlank: 1,
-                    //                        anchor:'100%'
-                    //                    },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
@@ -105,7 +93,6 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         height:20,
                         ref:'../cmbActive',
                         id:'statusid',
-                        value:1,
                     }),
                     {
                         xtype:'combo',
@@ -118,7 +105,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                         hiddenName:'security_roles_id',
                         hiddenValue:'security_roles_id',
                         valueField:'id',
-                        //displayField: 'SecurityRoles::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'role',
                         //allowBlank:false,
                         anchor:'100%'
@@ -155,10 +142,15 @@ jun.UsersWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'general/Users/update/id/' + this.id;
@@ -184,6 +176,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                 if (this.modez == 0) {
                     Ext.getCmp('form-Users').getForm().reset();
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
                 if (a.failureType == "client")
@@ -195,7 +188,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
-                //                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });
@@ -304,10 +297,14 @@ jun.PasswordWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         Ext.getCmp('form-Password').getForm().submit({
             url:'general/users/UpdatePass',
             timeOut:1000,
@@ -332,6 +329,7 @@ jun.PasswordWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
             }
 
         });

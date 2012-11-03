@@ -105,8 +105,8 @@ class PahSuppliersController extends GxController
         //$model = new PahSuppliers('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahSuppliers::model()->findAll($criteria);
         $total = PahSuppliers::model()->count($criteria);
         if (isset($_GET['PahSuppliers']))

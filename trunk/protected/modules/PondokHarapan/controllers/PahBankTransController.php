@@ -187,8 +187,8 @@ class PahBankTransController extends GxController
         //$model = new PahBankTrans('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahBankTrans::model()->findAll($criteria);
         $total = PahBankTrans::model()->count($criteria);
         if (isset($_GET['PahBankTrans']))

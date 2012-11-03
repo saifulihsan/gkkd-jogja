@@ -236,8 +236,8 @@ class PahAnggaranController extends GxController
             $start = 0;
         }
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahAnggaran::model()->findAll($criteria);
         $total = PahAnggaran::model()->count($criteria);
         if (isset($_GET['PahAnggaran']))

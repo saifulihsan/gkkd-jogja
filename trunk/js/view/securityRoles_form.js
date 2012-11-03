@@ -107,10 +107,15 @@ jun.SecurityRolesWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'general/SecurityRoles/update/id/' + this.id;
@@ -119,14 +124,7 @@ jun.SecurityRolesWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-SecurityRoles').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
-
             scope:this,
             success:function (f, a) {
                 jun.rztSecurityRoles.reload();
@@ -141,9 +139,11 @@ jun.SecurityRolesWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-SecurityRoles').getForm().reset();
                     }
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });

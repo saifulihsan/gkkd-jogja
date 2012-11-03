@@ -105,8 +105,8 @@ class PahAnggaranDetilController extends GxController
         //$model = new PahAnggaranDetil('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $criteria->addCondition("pah_anggaran_id =" . $id);
         $model = PahAnggaranDetil::model()->findAll($criteria);
         $total = PahAnggaranDetil::model()->count($criteria);

@@ -53,7 +53,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_suppliers_supplier_id',
                         hiddenValue:'pah_suppliers_supplier_id',
                         valueField:'supplier_id',
-                        //displayField: 'PahSuppliers::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'supp_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -71,7 +71,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_bank_accounts_id',
                         hiddenValue:'pah_bank_accounts_id',
                         valueField:'id',
-                        //displayField: 'PahBankAccounts::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -95,7 +95,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_aktivitas_grup_id',
                         hiddenValue:'pah_aktivitas_grup_id',
                         valueField:'id',
-                        //displayField: 'Users::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -113,7 +113,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_sub_aktivitas_id',
                         hiddenValue:'pah_sub_aktivitas_id',
                         valueField:'id',
-                        //displayField: 'PahSubAktivitas::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'nama',
                         //allowBlank:false,
                         anchor:'100%',
@@ -160,18 +160,20 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
         jun.rztPahSuppliers.reload();
         jun.rztPahAktivitasGrup.reload();
         jun.rztPahSubAktivitas.reload();
-        //        jun.rztPahChartMaster.reload();
         jun.PahAktivitasGrupTransWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBank.on('focus', this.onLoadBank, this);
-        //        this.cmbKode.on('focus', this.onLoadChartMaster, this);
         this.cmbSupplier.on('focus', this.onFocusSupplier, this);
         this.cmbAnak.on('focus', this.onFocusAnak, this);
         this.cmbSubAktivitas.on('focus', this.onFocusAktivitas, this);
         this.on('close', this.onWinClose, this);
+    },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
     },
     onFocusAnak:function () {
         jun.rztPahAktivitasGrup.FilterData();
@@ -182,9 +184,6 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
     onLoadBank:function () {
         jun.rztPahBankAccounts.FilterData();
     },
-    //    onLoadChartMaster:function () {
-    //        jun.rztPahChartMaster.FilterData();
-    //    },
     onFocusSupplier:function () {
         jun.rztPahSuppliers.FilterData();
     },
@@ -199,6 +198,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(false);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahAktivitasGrupTrans/update/id/' + this.id;
@@ -233,6 +233,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
             }
 
         });
@@ -528,7 +529,11 @@ jun.PahAktivitasGrupTransVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnProses.setDisabled(status);
+    },
     onbtnProsesclick:function () {
+        this.btnDisabled(true);
         var form = Ext.getCmp('form-PahAktivitasGrupVoid').getForm();
         Ext.getCmp('form-PahAktivitasGrupVoid').getForm().submit({
             url:'PondokHarapan/PahAktivitasGrupTrans/delete/',
@@ -547,6 +552,7 @@ jun.PahAktivitasGrupTransVoidWin = Ext.extend(Ext.Window, {
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
+                    this.btnDisabled(false);
                     return;
                 } else {
                     Ext.MessageBox.show({
@@ -562,6 +568,7 @@ jun.PahAktivitasGrupTransVoidWin = Ext.extend(Ext.Window, {
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+                this.btnDisabled(false);
             }
         });
     },

@@ -55,14 +55,14 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                         hiddenName:'account_type',
                         hiddenValue:'account_type',
                         valueField:'id',
-                        //displayField: 'PahChartTypes::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'name',
-                        //allowBlank:false,
                         anchor:'100%'
                     },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
+                        lazyRender:true,
                         width:100,
                         height:20,
                         name:'inactive',
@@ -70,19 +70,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                         ref:'../cmbActive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-                        value:0,
                     }),
-                    //                    {
-                    //                        xtype:'textfield',
-                    //                        fieldLabel:'Inactive',
-                    //                        hideLabel:false,
-                    //                        //hidden:true,
-                    //                        name:'inactive',
-                    //                        id:'inactiveid',
-                    //                        ref:'../inactive',
-                    //                        //allowBlank: ,
-                    //                        anchor:'100%'
-                    //                    },
                     {
                         xtype:'textarea',
                         fieldLabel:'Deskripsi',
@@ -128,7 +116,12 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
     onActivate:function () {
         this.btnSave.hidden = false;
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahChartMaster/update/id/' + this.id;
@@ -137,14 +130,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahChartMaster').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
-            //                waitMsg: 'Sedang Proses',
             scope:this,
             success:function (f, a) {
                 jun.rztPahChartMaster.reload();
@@ -158,10 +144,12 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
                     if (this.modez == 0) {
                         Ext.getCmp('form-PahChartMaster').getForm().reset();
                     }
+                    this.btnDisabled(false);
                 }
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });
@@ -229,7 +217,7 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
                         editable:true,
                         listWidth:300,
                         displayField:'account_code',
-                        //allowBlank:false,
+                        forceSelection:true,
                         anchor:'100%'
                     },
                     {
@@ -266,14 +254,17 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
         jun.rztPahChartMaster.reload();
         jun.PahSaldoAwalWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
-        //        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    btnDisabled:function(status){
+        this.btnSave.setDisabled(status);
     },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         Ext.getCmp('form-PahSaldoAwal').getForm().submit({
             url:'PondokHarapan/PahChartMaster/SetSaldoAwal/',
             timeOut:1000,
@@ -299,8 +290,8 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
             }
-
         });
     },
     onbtnSaveCloseClick:function () {
