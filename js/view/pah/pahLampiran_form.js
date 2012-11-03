@@ -108,10 +108,15 @@ jun.PahLampiranWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahLampiran/update/id/' + this.id;
@@ -146,6 +151,7 @@ jun.PahLampiranWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
             }
 
         });

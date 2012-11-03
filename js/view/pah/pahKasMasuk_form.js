@@ -44,7 +44,6 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'combo',
-//                        typeAhead:true,
                         triggerAction:'all',
                         lazyRender:true,
                         mode:'local',
@@ -53,9 +52,8 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_donatur_id',
                         hiddenValue:'pah_donatur_id',
                         valueField:'id',
-                        //displayField: 'PahDonatur::model()->representingColumn()',
                         displayField:'name',
-                        //allowBlank:false,
+                        forceSelection:true,
                         anchor:'100%',
                         ref:'../cmbDonatur',
                         editable:false,
@@ -63,7 +61,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype:'combo',
-//                        typeAhead:true,
+                        //                        typeAhead:true,
                         triggerAction:'all',
                         lazyRender:true,
                         mode:'local',
@@ -72,7 +70,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_bank_accounts_id',
                         hiddenValue:'pah_bank_accounts_id',
                         valueField:'id',
-                        //displayField: 'PahBankAccounts::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -86,28 +84,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         name:'trans_via'
                     }),
-//                    {
-//                        xtype:'combo',
-//                        typeAhead:true,
-//                        triggerAction:'all',
-//                        lastQuery:'',
-//                        lazyRender:true,
-//                        mode:'local',
-//                        fieldLabel:'Kode Rekening',
-//                        store:jun.rztPahChartMaster,
-//                        hiddenName:'pah_chart_master_account_code',
-//                        hiddenValue:'pah_chart_master_account_code',
-//                        valueField:'account_code',
-//                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
-//                        matchFieldWidth:false,
-//                        itemSelector:'div.search-item',
-//                        editable:true,
-//                        listWidth:300,
-//                        displayField:'account_code',
-//                        anchor:'100%',
-//                        ref:'../cmbkode',
-//                        lastQuery:''
-//                    },
+
                     {
                         xtype:'numericfield',
                         fieldLabel:'Jumlah',
@@ -146,7 +123,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         };
         jun.rztPahDonatur.reload();
         jun.rztPahBankAccounts.reload();
-//        jun.rztPahChartMaster.reload();
+        //        jun.rztPahChartMaster.reload();
         jun.PahKasMasukWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.on('close', this.onWinClose, this);
@@ -154,28 +131,34 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBank.on('focus', this.onLoadBank, this);
-//        this.cmbkode.on('focus', this.onLoadChartMaster, this);
+        //        this.cmbkode.on('focus', this.onLoadChartMaster, this);
         this.cmbDonatur.on('focus', this.onFocusDonatur, this);
     },
+    btnDisabled:function(status){
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
+
     onFocusDonatur:function () {
         jun.rztPahDonatur.FilterData();
     },
     onLoadBank:function () {
         jun.rztPahBankAccounts.FilterData();
     },
-//    onLoadChartMaster:function () {
-//        jun.rztPahChartMaster.FilterData();
-//    },
+    //    onLoadChartMaster:function () {
+    //        jun.rztPahChartMaster.FilterData();
+    //    },
     onWinClose:function () {
         jun.rztPahBankAccounts.clearFilter();
-//        jun.rztPahChartMaster.clearFilter();
+        //        jun.rztPahChartMaster.clearFilter();
         jun.rztPahDonatur.clearFilter();
     },
     onActivate:function () {
         this.onLoadBank();
-//        this.onLoadChartMaster();
+        //        this.onLoadChartMaster();
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahKasMasuk/update/id/' + this.id;
@@ -184,38 +167,30 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahKasMasuk').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
+
             timeOut:1000,
             scope:this,
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
-                if (response.success == false) {
-                    Ext.MessageBox.show({
-                        title:'Kas Masuk',
-                        msg:response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.ERROR
-                    });
-                    return;
-                } else {
-                    Ext.MessageBox.show({
-                        title:'Kas Masuk',
-                        msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.INFO
-                    });
-                    Ext.getCmp('form-PahKasMasuk').getForm().reset();
-                }
+                Ext.MessageBox.show({
+                    title:'Kas Masuk',
+                    msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
+                Ext.getCmp('form-PahKasMasuk').getForm().reset();
                 jun.rztPahKasMasuk.reload();
                 this.close();
             },
             failure:function (f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title:'Kas Masuk',
+                    msg:response.msg['xdebug_message'],
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.ERROR
+                });
+                this.btnDisabled(false);
             }
 
         });
@@ -481,7 +456,11 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function(status){
+        this.btnProses.setDisabled(status);
+    },
     onbtnProsesclick:function () {
+        this.btnDisabled(true);
         var form = Ext.getCmp('form-PahKasMasukVoid').getForm();
         Ext.getCmp('form-PahKasMasukVoid').getForm().submit({
             url:'PondokHarapan/PahKasMasuk/delete/',
@@ -493,28 +472,26 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
             timeOut:1000,
             success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
-                if (response.success == false) {
-                    Ext.MessageBox.show({
-                        title:'Kas Masuk',
-                        msg:response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.ERROR
-                    });
-                    return;
-                } else {
-                    Ext.MessageBox.show({
-                        title:'Kas Masuk',
-                        msg:response.msg,
-                        buttons:Ext.MessageBox.OK,
-                        icon:Ext.MessageBox.INFO
-                    });
-                    Ext.getCmp('form-PahKasMasukVoid').getForm().reset();
-                }
+                Ext.MessageBox.show({
+                    title:'Kas Masuk',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.INFO
+                });
+                Ext.getCmp('form-PahKasMasukVoid').getForm().reset();
                 jun.rztPahKasMasuk.reload();
                 this.close();
             },
             failure:function (f, a) {
-                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title:'Kas Masuk',
+                    msg:response.msg,
+                    buttons:Ext.MessageBox.OK,
+                    icon:Ext.MessageBox.ERROR
+                });
+                this.btnDisabled(false);
+                //                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
     },

@@ -33,11 +33,9 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         valueField:'account_code',
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
-                        //hideTrigger:true,
-                        //pageSize:10,
                         tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         listWidth:300,
-                        //displayField: 'PahChartMaster::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'account_code',
                         editable:true,
                         anchor:'100%',
@@ -112,6 +110,10 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbKode.on('focus', this.onLoadChartMaster, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onWinClose:function () {
         jun.rztPahChartMaster.clearFilter();
     },
@@ -122,6 +124,7 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahSubAktivitas/update/id/' + this.id;
@@ -130,12 +133,6 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahSubAktivitas').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             scope:this,
             success:function (f, a) {
@@ -151,9 +148,11 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahSubAktivitas').getForm().reset();
                     }
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });

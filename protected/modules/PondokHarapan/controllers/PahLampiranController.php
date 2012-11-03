@@ -118,8 +118,8 @@ class PahLampiranController extends GxController
 //$model = new PahLampiran('search');
 //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahLampiran::model()->findAll($criteria);
         $total = PahLampiran::model()->count($criteria);
         if (isset($_GET['PahLampiran']))

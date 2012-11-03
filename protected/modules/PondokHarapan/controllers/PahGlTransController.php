@@ -105,8 +105,8 @@ class PahGlTransController extends GxController
         //$model = new PahGlTrans('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahGlTrans::model()->findAll($criteria);
         $total = PahGlTrans::model()->count($criteria);
         if (isset($_GET['PahGlTrans']))

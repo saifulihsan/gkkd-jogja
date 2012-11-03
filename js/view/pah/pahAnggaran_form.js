@@ -1,3 +1,209 @@
+jun.pahKasAwalStore = new Ext.data.JsonStore({
+    //autoDestroy:true,
+    root:'data',
+    storeId:'kasAwalStore',
+    //scope:jun.NotaDtlGrid,
+    url:'PondokHarapan/PahbankTrans/view',
+    //idProperty: 'item_id',
+    fields:[
+        {name:'type'},
+        {name:'ref'},
+        {name:'tgl'},
+        {name:'debit'},
+        {name:'kredit'},
+        {name:'neraca'},
+        {name:'person'}
+    ],
+    //data:[],
+    autoLoad:false,
+    autoSave:false,
+});
+jun.PahKasAwalGrid = Ext.extend(Ext.grid.GridPanel, {
+    id:'docs-jun.KasAwalGrid',
+    frameHeader:false,
+    header:false,
+    modal:true,
+    viewConfig:{
+        forceFit:true,
+        getRowClass:function (record, index) {
+            var c = record.get('type');
+            if (c.indexOf("Saldo Awal -") !== -1)
+                return 'x-row-bold'
+            if (c.indexOf("Saldo Akhir -") !== -1)
+                return 'x-row-bold'
+        }
+    },
+    sm:new Ext.grid.RowSelectionModel({singleSelect:true}),
+    columns:[
+        {
+            header:'Type',
+            //sortable:true,
+            resizable:true,
+            dataIndex:'type',
+            //			width:100
+        },
+        {
+            header:'Reference',
+            sortable:true,
+            resizable:true,
+            dataIndex:'ref',
+            //			width:100
+        },
+        {
+            header:'Tanggal',
+            sortable:true,
+            resizable:true,
+            dataIndex:'tgl',
+            //			width:100
+        },
+        {
+            header:'Debit',
+            sortable:true,
+            resizable:true,
+            dataIndex:'debit',
+            align:'right'
+        },
+        {
+            header:'Kredit',
+            sortable:true,
+            resizable:true,
+            dataIndex:'kredit',
+            align:'right'
+        },
+        {
+            header:'Neraca',
+            sortable:true,
+            resizable:true,
+            dataIndex:'neraca',
+            align:'right'
+        },
+        {
+            header:'Person/Item',
+            sortable:true,
+            resizable:true,
+            dataIndex:'person',
+        }
+    ],
+    initComponent:function () {
+        this.store = jun.pahKasAwalStore;
+        this.store.on({
+
+            'load':{
+                fn:function (store, records, options) {
+                },
+                scope:this
+            },
+            'loadexception':{
+
+                fn:function (obj, options, response, e) {
+                    console.info('store loadexception, arguments:', arguments);
+                    console.info('error = ', e);
+                },
+                scope:this
+            }
+
+        });
+        this.store.on('beforeload', function (store, options) {
+            var bulan = Ext.getCmp('periode_bulanid').getValue();
+            var tahun = Ext.getCmp('periode_tahunid').getValue();
+            var tgl = new Date(tahun + '-' + bulan + '-01');
+            options.params = {
+                bank_act:null,
+                from_date:tgl.format('Y-m-d'),
+                to_date:tgl.format('Y-m-t'),
+            };
+        });
+        jun.PahKasAwalGrid.superclass.initComponent.call(this);
+        this.store.load();
+    },
+    onbtnPrintClick:function () {
+        Ext.getCmp('form-PahChartTypes').getForm().submit({
+            url:'PondokHarapan/PahBankTrans/print/',
+            timeOut:1000,
+            scope:this,
+            success:function (f, a) {
+                jun.rztPahChartTypes.reload();
+                var response = Ext.decode(a.response.responseText);
+                if (this.closeForm) {
+                    this.close();
+                } else {
+                    if (response.data != undefined) {
+                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
+                    }
+                    if (this.modez == 0) {
+                        Ext.getCmp('form-PahChartTypes').getForm().reset();
+                    }
+                }
+            },
+            failure:function (f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+            }
+
+        });
+        Ext.Ajax.request({
+            waitMsg:'Please Wait',
+            url:'PondokHarapan/PahBankTrans/print/',
+            params:{
+                bank_act:Ext.getCmp('bank_act_banktrans').getValue(),
+                from_date:(new Date(Ext.getCmp('from_date_banktrans').getValue())).dateFormat('Y-m-d'),
+                to_date:(new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d'),
+            },
+            success:function (response) {
+            },
+            failure:function (response) {
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
+    },
+    getrow:function (sm, idx, r) {
+        this.record = r;
+        var selectedz = this.sm.getSelections();
+    },
+    onbtnRefreshClick:function () {
+        this.store.load();
+    },
+    loadForm:function () {
+        var form = new jun.BankTransWin({modez:0});
+        form.show();
+    },
+    loadEditForm:function () {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            return;
+        }
+        var idz = selectedz.json.id;
+        var form = new jun.BankTransWin({modez:1, id:idz});
+        form.show(this);
+        form.formz.getForm().loadRecord(this.record);
+    },
+    deleteRec:function () {
+        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
+    },
+    deleteRecYes:function (btn) {
+        if (btn == 'no') {
+            return;
+        }
+        var record = this.sm.getSelected();
+        // Check is list selected
+        if (record == "") {
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            return;
+        }
+        Ext.Ajax.request({
+            waitMsg:'Please Wait',
+            url:'Wanted/BankTrans/delete/id/' + record.json.id,
+            method:'POST',
+            success:function (response) {
+                jun.rztBankTrans.reload();
+                Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
+            },
+            failure:function (response) {
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
+    }
+})
 checkPeriodeAnggaran = function () {
     //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
     Ext.Ajax.request({
@@ -176,7 +382,6 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         id:'kasmasukid',
                         ref:'../kasmasuk',
                         readOnly:true,
-
                     },
                     {
                         xtype:'button',
@@ -186,7 +391,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         name:'Detil',
                         id:'Detilid',
                         ref:'../btnDetil',
-//                        readOnly:true,
+                        //                        readOnly:true,
                         anchor:'100%'
                     },
                     {
@@ -294,11 +499,40 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             this.periode_tahun.readOnly = true;
         }
     },
-
-    onbtnDetilclick:function (){
-
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
     },
-
+    onbtnDetilclick:function () {
+        if (Ext.getCmp('periode_bulanid').getValue() == "" || Ext.getCmp('periode_tahunid').getValue() == "") {
+            Ext.MessageBox.show({
+                title:'Warning',
+                msg:"Silahkan pilih bulan dan tahun anggaran terlebih dahulu.",
+                buttons:Ext.MessageBox.OK,
+                icon:Ext.MessageBox.WARNING
+            });
+            return;
+        }
+        win = new Ext.Window({
+            layout:'fit',
+            title:"Detil Mutasi Kas",
+            modal:true,
+            width:750,
+            height:400,
+            items:new jun.PahKasAwalGrid(),
+            buttons:[
+                {
+                    text:'Tutup',
+                    handler:function () {
+                        win.close();
+                    }
+                }
+            ]
+        });
+        win.show();
+        //        var detil = new jun.PahKasAwalGrid();
+        //        detil.show(this);
+    },
     onperiodetahunchange:function () {
         if (Ext.getCmp('periode_tahunid').getValue() == "" || this.cmbBulan.value == undefined)
             return;
@@ -316,12 +550,13 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahAnggaran/update/';
         } else {
             Ext.Ajax.request({
-//
+                //
                 url:'PondokHarapan/PahAnggaran/IsPeriodeExist/',
                 params:{
                     bulan:this.cmbBulan.value,
@@ -342,6 +577,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 },
                 failure:function (f, a) {
                     Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                    this.btnDisabled(false);
                 }
             });
             urlz = 'PondokHarapan/PahAnggaran/create/';
@@ -361,28 +597,29 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                 if (response.success == false) {
                     Ext.MessageBox.show({
                         title:'Anggaran',
-                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
-                            " gagal disimpan.<br /> Alasan : " + response.msg,
+                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun + " gagal disimpan.<br /> Alasan : " + response.msg,
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
+                    this.btnDisabled(false);
                     return;
                 }
                 if (this.modez == 0) {
                     Ext.MessageBox.show({
                         title:'Anggaran',
-                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun +
-                            " berhasil disimpan.<br /> Ref. Dokumen : " + response.id,
+                        msg:"Anggaran bulan " + response.bulan + " tahun " + response.tahun + " berhasil disimpan.<br /> Ref. Dokumen : " + response.id,
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.INFO
                     });
                     Ext.getCmp('form-PahAnggaran').getForm().reset();
+                    this.btnDisabled(false);
                 }
                 jun.rztPahAnggaran.reload();
                 this.close();
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });

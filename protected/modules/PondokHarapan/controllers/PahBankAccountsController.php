@@ -146,8 +146,8 @@ class PahBankAccountsController extends GxController
         //$model = new PahBankAccounts('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahBankAccounts::model()->findAll($criteria);
         $total = PahBankAccounts::model()->count($criteria);
         if (isset($_GET['PahBankAccounts']))

@@ -53,7 +53,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_suppliers_supplier_id',
                         hiddenValue:'pah_suppliers_supplier_id',
                         valueField:'supplier_id',
-                        //displayField: 'PahSuppliers::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'supp_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -71,7 +71,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_bank_accounts_id',
                         hiddenValue:'pah_bank_accounts_id',
                         valueField:'id',
-                        //displayField: 'PahBankAccounts::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'bank_account_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -95,7 +95,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_member_id',
                         hiddenValue:'pah_member_id',
                         valueField:'id',
-                        //displayField: 'PahMember::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'real_name',
                         //allowBlank:false,
                         anchor:'100%',
@@ -113,7 +113,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         hiddenName:'pah_sub_aktivitas_id',
                         hiddenValue:'pah_sub_aktivitas_id',
                         valueField:'id',
-                        //displayField: 'PahSubAktivitas::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'nama',
                         //allowBlank:false,
                         anchor:'100%',
@@ -160,18 +160,20 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         jun.rztPahSuppliers.reload();
         jun.rztPahMemberbyName.reload();
         jun.rztPahSubAktivitas.reload();
-        //        jun.rztPahChartMaster.reload();
         jun.PahAktivitasWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbBank.on('focus', this.onLoadBank, this);
-        //        this.cmbKode.on('focus', this.onLoadChartMaster, this);
         this.cmbSupplier.on('focus', this.onFocusSupplier, this);
         this.cmbAnak.on('focus', this.onFocusAnak, this);
         this.cmbSubAktivitas.on('focus', this.onFocusAktivitas, this);
         this.on('close', this.onWinClose, this);
+    },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
     },
     onFocusAnak:function () {
         jun.rztPahMemberbyName.FilterData();
@@ -182,9 +184,6 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
     onLoadBank:function () {
         jun.rztPahBankAccounts.FilterData();
     },
-    //    onLoadChartMaster:function () {
-    //        jun.rztPahChartMaster.FilterData();
-    //    },
     onFocusSupplier:function () {
         jun.rztPahSuppliers.FilterData();
     },
@@ -200,6 +199,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
         jun.rztPahMemberbyName.reload();
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahAktivitas/update/id/' + this.id;
@@ -223,8 +223,10 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
                         Ext.getCmp('form-PahAktivitas').getForm().reset();
                     }
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
+                this.btnDisabled(false);
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
@@ -521,7 +523,11 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
         this.btnProses.on('click', this.onbtnProsesclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnProses.setDisabled(status);
+    },
     onbtnProsesclick:function () {
+        this.btnDisabled(true);
         var form = Ext.getCmp('form-PahAktivitasVoid').getForm();
         Ext.getCmp('form-PahAktivitasVoid').getForm().submit({
             url:'PondokHarapan/PahAktivitas/delete/',
@@ -550,10 +556,12 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
                     });
                     Ext.getCmp('form-PahAktivitasVoid').getForm().reset();
                 }
+                this.btnDisabled(false);
                 jun.rztPahAktivitas.reload();
                 this.close();
             },
             failure:function (f, a) {
+                this.btnDisabled(false);
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });

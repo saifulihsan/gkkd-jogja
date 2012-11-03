@@ -87,7 +87,6 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                         height:20,
                         ref:'../cmbActive',
                         id:'statusid',
-                        value:1,
                     }),
                 ]
             }
@@ -119,10 +118,15 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function(status){
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'general/Jemaat/update/id/' + this.id;
@@ -131,12 +135,6 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-Jemaat').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             scope:this,
             success:function (f, a) {
@@ -154,6 +152,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                 if (this.modez == 0) {
                     Ext.getCmp('form-Jemaat').getForm().reset();
                 }
+                this.btnDisabled(false);
             },
             failure:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
@@ -163,6 +162,7 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
                 //                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 

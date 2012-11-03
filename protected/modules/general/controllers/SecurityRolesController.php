@@ -105,8 +105,8 @@ class SecurityRolesController extends GxController
         //$model = new SecurityRoles('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = SecurityRoles::model()->findAll($criteria);
         $total = SecurityRoles::model()->count($criteria);
         if (isset($_GET['SecurityRoles']))

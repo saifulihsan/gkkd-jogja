@@ -155,8 +155,8 @@ class PahChartMasterController extends GxController
         //$model = new PahChartMaster('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         //$criteria->addCondition("inactive = 0");
         $model = PahChartMaster::model()->findAll($criteria);
         $total = PahChartMaster::model()->count($criteria);

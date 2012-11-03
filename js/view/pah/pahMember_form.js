@@ -32,9 +32,8 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
                         hiddenName:'jemaat_nij',
                         hiddenValue:'jemaat_nij',
                         valueField:'nij',
-                        //displayField: 'Jemaat::model()->representingColumn()',
+                        forceSelection:true,
                         displayField:'real_name',
-                        //allowBlank:false,
                         anchor:'100%'
                     },
                     new jun.comboActive({
@@ -47,7 +46,6 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
                         ref:'../cmbActive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-//                        value:1,
                     }),
                 ]
             }
@@ -79,10 +77,15 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
     },
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
     onActivate:function () {
         this.btnSave.hidden = false;
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahMember/update/id/' + this.id;
@@ -91,14 +94,7 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahMember').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
-
             scope:this,
             success:function (f, a) {
                 jun.rztPahMember.reload();
@@ -112,10 +108,12 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
                     if (this.modez == 0) {
                         Ext.getCmp('form-PahMember').getForm().reset();
                     }
+                    this.btnDisabled(false);
                 }
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });

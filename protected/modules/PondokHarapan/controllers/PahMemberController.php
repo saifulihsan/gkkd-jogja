@@ -105,8 +105,8 @@ class PahMemberController extends GxController
         //$model = new PahMember('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahMember::model()->findAll($criteria);
         $total = PahMember::model()->count($criteria);
         if (isset($_GET['PahMember']))

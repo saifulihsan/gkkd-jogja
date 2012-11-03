@@ -8,22 +8,6 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
     padding:5,
     closeForm:false,
     initComponent:function () {
-        var storeChartMaster = new jun.PahChartMasterstore();
-        storeChartMaster.on({
-            'load':{fn:function (store, records, options) {
-                store.filter([
-//                    {
-//                        property     : 'account_type',
-//                        value        : '1'
-//                    },
-                    {
-                        property     : 'inactive',
-                        value        : '0'
-                    },
-                ]);
-            }}
-        });
-//        storeChartMaster.load();
         this.items = [
             {
                 xtype:'form',
@@ -44,38 +28,20 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         mode:'local',
                         fieldLabel:'Kode Rekening',
                         store:jun.rztPahChartMaster,
-//                        store:storeChartMaster,
+                        forceSelection:true,
                         hiddenName:'account_code',
                         hiddenValue:'account_code',
                         valueField:'account_code',
                         matchFieldWidth:false,
                         itemSelector:'div.search-item',
-                        //hideTrigger:true,
-                        //pageSize:10,
-                        tpl:new Ext.XTemplate(
-                            '<tpl for="."><div class="search-item">',
-                            '<h3><span">{account_code} - {account_name}</span></h3><br />{description}',
-                            '</div></tpl>'
-                        ),
-                        //displayField: 'PahChartMaster::model()->representingColumn()',
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
                         displayField:'account_code',
                         listWidth:300,
                         editable:true,
                         anchor:'100%',
-                        lastQuery: ''
+                        ref:'../cmbKode',
+                        lastQuery:''
                     },
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'account_type',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'account_type',
-//                        id:'account_typeid',
-//                        ref:'../account_type',
-//                        maxLength:6,
-//                        //allowBlank: ,
-//                        anchor:'100%'
-//                    },
                     {
                         xtype:'textfield',
                         fieldLabel:'Kas/Bank',
@@ -148,41 +114,6 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         height:50
                         //allowBlank: 1
                     },
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'bank_curr_code',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'bank_curr_code',
-//                        id:'bank_curr_codeid',
-//                        ref:'../bank_curr_code',
-//                        maxLength:3,
-//                        //allowBlank: ,
-//                        anchor:'100%'
-//                    },
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'dflt_curr_act',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'dflt_curr_act',
-//                        id:'dflt_curr_actid',
-//                        ref:'../dflt_curr_act',
-//                        //allowBlank: ,
-//                        anchor:'100%'
-//                    },
-//                    {
-//                        xtype:'textfield',
-//                        fieldLabel:'ending_reconcile_balance',
-//                        hideLabel:false,
-//                        //hidden:true,
-//                        name:'ending_reconcile_balance',
-//                        id:'ending_reconcile_balanceid',
-//                        ref:'../ending_reconcile_balance',
-//                        maxLength:20,
-//                        //allowBlank: ,
-//                        anchor:'100%'
-//                    },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
@@ -193,7 +124,6 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                         ref:'../inactive',
                         hiddenName:'inactive',
                         hiddenValue:'inactive',
-//                        value:1,
                     }),
                 ]
             }
@@ -219,29 +149,22 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
-        jun.rztPahChartMaster.on('load', this.onActivate, this);
         jun.rztPahChartMaster.reload();
         jun.PahBankAccountsWin.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-
+        this.cmbKode.on('focus', this.onLoadBank, this);
     },
-    onActivate:function () {
-        jun.rztPahChartMaster.clearFilter();
-        jun.rztPahChartMaster.filter([
-            {
-                property:'account_type',
-                value:'1'
-            },
-            {
-                property     : 'inactive',
-                value        : '0'
-            },
-        ]);
+    btnDisabled:function (status) {
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
+    },
+    onLoadBank:function () {
+        jun.rztPahChartMaster.FilterData();
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
         if (this.modez == 1 || this.modez == 2) {
             urlz = 'PondokHarapan/PahBankAccounts/update/id/' + this.id;
@@ -253,7 +176,6 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
             timeOut:1000,
             scope:this,
             success:function (f, a) {
-//                jun.rztPahBankAccounts.reload();
                 var response = Ext.decode(a.response.responseText);
                 Ext.MessageBox.show({
                     title:'Info',
@@ -265,19 +187,10 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                     Ext.getCmp('form-PahBankAccounts').getForm().reset();
                 }
                 jun.rztPahBankAccounts.reload();
+                this.btnDisabled(false);
                 if (this.closeForm) {
                     this.close();
                 }
-//                if (this.closeForm) {
-//                    this.close();
-//                } else {
-//                    if (response.data != undefined) {
-//                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-//                    }
-//                    if (this.modez == 0) {
-//                        Ext.getCmp('form-PahBankAccounts').getForm().reset();
-//                    }
-//                }
             },
             failure:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
@@ -287,6 +200,7 @@ jun.PahBankAccountsWin = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
+                this.btnDisabled(false);
             }
 
         });

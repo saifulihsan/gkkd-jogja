@@ -118,8 +118,8 @@ class PahSubAktivitasController extends GxController
 //$model = new PahSubAktivitas('search');
 //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahSubAktivitas::model()->findAll($criteria);
         $total = PahSubAktivitas::model()->count($criteria);
         if (isset($_GET['PahSubAktivitas']))

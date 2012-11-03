@@ -107,8 +107,8 @@ class PahDonaturController extends GxController
         //$model = new PahDonatur('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = PahDonatur::model()->findAll($criteria);
         $total = PahDonatur::model()->count($criteria);
         if (isset($_GET['PahDonatur']))

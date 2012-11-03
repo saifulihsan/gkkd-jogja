@@ -115,8 +115,8 @@ class JemaatController extends GxController
         //$model = new Jemaat('search');
         //$model->unsetAttributes();
         $criteria = new CDbCriteria();
-        $criteria->limit = $limit;
-        $criteria->offset = $start;
+//        $criteria->limit = $limit;
+//        $criteria->offset = $start;
         $model = Jemaat::model()->findAll($criteria);
         $total = Jemaat::model()->count($criteria);
         if (isset($_GET['Jemaat']))

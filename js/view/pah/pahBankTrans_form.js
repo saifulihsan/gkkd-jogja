@@ -42,7 +42,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 hiddenValue:'bank_act',
                                 valueField:'id',
                                 ref:'../../cmbBankAsal',
-                                //displayField: 'BankAccounts::model()->representingColumn()',
+                                forceSelection:true,
                                 displayField:'bank_account_name',
                                 //allowBlank:false,
                                 anchor:'100%',
@@ -72,7 +72,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 hiddenName:'bank_act_tujuan',
                                 hiddenValue:'bank_act',
                                 valueField:'id',
-                                //displayField: 'BankAccounts::model()->representingColumn()',
+                                forceSelection:true,
                                 displayField:'bank_account_name',
                                 //allowBlank:false,
                                 anchor:'100%',
@@ -165,6 +165,11 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
         this.cmbBankAsal.on('focus', this.onLoadBank, this);
         this.cmbBankTujuan.on('focus', this.onLoadBank, this);
         this.on('close', this.onWinClose, this);
+
+    },
+    btnDisabled:function(status){
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
     },
     onWinClose:function () {
         jun.rztPahBankAccounts.clearFilter();
@@ -192,16 +197,9 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
         });
     },
     saveForm:function () {
+        this.btnDisabled(true);
         var urlz;
-        //
-        //        if (this.modez == 1 || this.modez == 2) {
-        //
-        //            urlz = 'Wanted/BankTrans/update/id/' + this.id;
-        //
-        //        } else {
-        //
-        //            urlz = 'Wanted/BankTrans/create/';
-        //        }
+
         urlz = 'PondokHarapan/PahBankTrans/createtransfer/';
         Ext.getCmp('pah-form-Transfer-bank').getForm().submit({
             url:urlz,
@@ -222,6 +220,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                         buttons:Ext.MessageBox.OK,
                         icon:Ext.MessageBox.ERROR
                     });
+                    this.btnDisabled(false);
                     return;
                 } else {
                     Ext.MessageBox.show({
@@ -237,6 +236,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+                this.btnDisabled(false);
             }
 
         });
