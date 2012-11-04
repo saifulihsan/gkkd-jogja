@@ -23,7 +23,7 @@ class JemaatController extends GxController
             $msg = "Data gagal disimpan";
             if ($model->save()) {
                 $status = true;
-                $msg = "Data berhasil di simpan dengan id " . $model->id;
+                $msg = "Data berhasil di simpan dengan id " . $model->nij;
             } else {
                 $status = false;
             }
@@ -50,12 +50,12 @@ class JemaatController extends GxController
                 $_POST['Jemaat'][$k] = $v;
             }
             $model->attributes = $_POST['Jemaat'];
-            $msg = "Data Jemaat dengan nomer induk " . $model->id . " berhasil di ubah.";
+            $msg = "Data Jemaat dengan nomer induk " . $model->nij . " berhasil di ubah.";
             if ($model->save()) {
                 $status = true;
             } else {
                 $status = false;
-                $msg = "Data Jemaat dengan nomer induk " . $model->id . " gagal di ubah.";
+                $msg = "Data Jemaat dengan nomer induk " . $model->nij . " gagal di ubah.";
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(

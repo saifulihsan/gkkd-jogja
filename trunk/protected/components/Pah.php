@@ -206,7 +206,7 @@ class Pah
             array(':start' => $start_date, ':end' => $end_date))
 //            ->where("a.tran_date between :start and :end and b.account_type=:type",
 //            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypeCostAct()))
-            ->where("b.account_type=:type", array(':type' => PahPrefs::TypeCostAct()))
+            ->where("b.account_type=:type and !b.inactive", array(':type' => PahPrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
@@ -235,8 +235,8 @@ class Pah
             ->select("pah_sub_aktivitas.nama as sub_aktivitas,IFNULL(Sum(pah_aktivitas.amount),0) as total_beban")
             ->from("pah_aktivitas")
             ->rightJoin("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id
-            AND pah_aktivitas.trans_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))
-//            ->where("pah_aktivitas.trans_date between :start and :end",
+            AND pah_aktivitas.trans_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))            
+            ->where("!pah_sub_aktivitas.inactive")
 //            array(':start' => $start_date, ':end' => $end_date))
             ->group("pah_sub_aktivitas.nama");
         $rows = $query->queryAll();
@@ -266,7 +266,7 @@ class Pah
             ->rightJoin("pah_member", "pah_aktivitas.pah_member_id = pah_member.id and
                 pah_aktivitas.trans_date between '$start_date' and '$end_date'")
             ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
-//            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date' $per_anak")
+            ->where("!pah_member.inactive")
             ->group("jemaat.real_name")
             ->queryAll();
         return $rows;
@@ -292,7 +292,7 @@ class Pah
             ->from("pah_aktivitas_grup_trans")
             ->rightJoin("pah_aktivitas_grup", "pah_aktivitas_grup_trans.pah_aktivitas_grup_id = pah_aktivitas_grup.id and
                 pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date'")
-//            ->where("pah_aktivitas.trans_date between '$start_date' and '$end_date' $per_anak")
+            ->where("!pah_aktivitas_grup.inactive")
             ->group("pah_aktivitas_grup.name")
             ->queryAll();
         return $rows;
@@ -315,9 +315,9 @@ class Pah
         $rows = Yii::app()->db->createCommand()
             ->select("b.account_name as nama_rekening,IFNULL(-sum(a.amount),0) as total_pendapatan")
             ->from("pah_gl_trans a")
-            ->leftJoin("pah_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between :start and :end and b.account_type=:type",
-            array(':start' => $start_date, ':end' => $end_date, ':type' => PahPrefs::TypePendapatanAct()))
+            ->rightJoin("pah_chart_master b", "a.account=b.account_code and 
+                a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
+            ->where("b.account_type=:type and !b.inactive", array(':type' => PahPrefs::TypePendapatanAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();

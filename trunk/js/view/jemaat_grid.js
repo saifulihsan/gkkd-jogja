@@ -81,22 +81,22 @@ jun.JemaatGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Ubah Data',
                     ref:'../btnEdit'
                 },
-                {
-                    xtype:'tbseparator',
-                },
-                {
-                    xtype:'button',
-                    iconCls: 'asp-user3_delete',
-                    text:'Hapus Data',
-                    ref:'../btnDelete'
-                }
+                //{
+//                    xtype:'tbseparator',
+//                },
+//                {
+//                    xtype:'button',
+//                    iconCls: 'asp-user3_delete',
+//                    text:'Hapus Data',
+//                    ref:'../btnDelete'
+//                }
             ]
         };
         jun.rztJemaat.reload();
         jun.JemaatGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow:function (sm, idx, r) {
