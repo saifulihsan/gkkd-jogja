@@ -65,15 +65,17 @@ class PahBankAccountsController extends GxController
                 $_POST['PahBankAccounts'][$k] = $v;
             }
             $model->attributes = $_POST['PahBankAccounts'];
+            $msg = "Data Jemaat dengan nomer induk " . $model->id . " berhasil di ubah.";
             if ($model->save()) {
                 $status = true;
             } else {
                 $status = false;
+                $msg = "Data Jemaat dengan nomer induk " . $model->id . " gagal di ubah.";
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
-                    'msg' => $model->id
+                    'msg' => $msg
                 ));
                 Yii::app()->end();
             } else {

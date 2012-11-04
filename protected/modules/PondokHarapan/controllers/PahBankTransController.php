@@ -17,10 +17,11 @@ class PahBankTransController extends GxController
         $result = Pah::get_bank_trans_for_bank_account($_POST['bank_act'], $_POST['from_date'], $_POST['to_date']);
         foreach ($result as $myrow) {
             $running_total += $myrow->amount;
+            $jemaat = get_jemaat_from_user_id($myrow->users_id);
             $arr['data'][] = array('type' => $systypes_array[$myrow->type], 'ref' => $myrow->ref, 'tgl' => sql2date($myrow->trans_date),
                 'debit' => $myrow->amount >= 0 ? number_format($myrow->amount, 2) : '',
                 'kredit' => $myrow->amount < 0 ? number_format(-$myrow->amount, 2) : '',
-                'neraca' => number_format($running_total, 2), 'person' => '');
+                'neraca' => number_format($running_total, 2), 'person' => $jemaat->real_name);
             if ($myrow->amount > 0)
                 $debit += $myrow->amount;
             else

@@ -141,7 +141,7 @@ class PahMemberController extends GxController
 //        $criteria->offset = $start;
 //        $model = PahMember::model()->findAll($criteria);
 //        $total = PahMember::model()->count($criteria);
-        $sql = "SELECT b.id, b.jemaat_nij, a.real_name
+        $sql = "SELECT b.id, b.jemaat_nij, a.real_name, b.inactive
                 FROM jemaat a
                 inner join pah_member b ON a.nij = b.jemaat_nij
                 ORDER BY a.real_name asc";

@@ -1,8 +1,7 @@
 jun.PahAktivitasGrupGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Grup Anak",
     id:'docs-jun.PahAktivitasGrupGrid',
-    //	width:400,
-    //	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

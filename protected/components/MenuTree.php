@@ -115,21 +115,16 @@ class MenuTree
                         ]
                     },
                     {
-                    text: 'Report',
+                    text: 'Laporan',
                     expanded: false,
                     children:[
                         {
-                            text: 'Bank Statement',
+                            text: 'Mutasi Kas per Bank',
                             id: 'jun.PahBankTransGrid',
                             leaf: true
-                        },
+                        },                        
                         {
-                            text: 'Mutasi Kas per Bank',
-                            id: 'jun.PahReportMutasiWin',
-                            leaf: true
-                        },
-                        {
-                            text: 'Laporan Pertanggungjawaban',
+                            text: 'Pertanggungjawaban',
                             id: 'jun.PahReportTanggungJawabWin',
                             leaf: true
                         },
@@ -139,12 +134,12 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Laporan Pendapatan',
+                            text: 'Pendapatan',
                             id: 'jun.PahReportPendapatanWin',
                             leaf:true
                         },
                         {
-                            text: 'Pengeluaran per Kode Rekening',
+                            text: 'Pengeluaran',
                             id: 'jun.PahReportPengeluaranWin',
                             leaf: true
                         },

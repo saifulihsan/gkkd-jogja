@@ -34,7 +34,8 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
                         valueField:'nij',
                         forceSelection:true,
                         displayField:'real_name',
-                        anchor:'100%'
+                        anchor:'100%',
+                        ref:'../cmbName'
                     },
                     new jun.comboActive({
                         fieldLabel:'Status',
@@ -76,6 +77,10 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        if(this.modez == 1 || this.modez == 2)
+            this.cmbName.setDisabled(true);
+        else
+            this.cmbName.setDisabled(false);
     },
     btnDisabled:function (status) {
         this.btnSave.setDisabled(status);
@@ -97,7 +102,7 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
             timeOut:1000,
             scope:this,
             success:function (f, a) {
-                jun.rztPahMember.reload();
+                jun.rztPahMemberbyName.load();
                 var response = Ext.decode(a.response.responseText);
                 if (this.closeForm) {
                     this.close();

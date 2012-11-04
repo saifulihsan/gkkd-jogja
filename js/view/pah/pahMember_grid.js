@@ -56,14 +56,15 @@ jun.PahMemberGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Tambah Anak',
                     ref:'../btnAdd'
                 },
-//                {
-//                    xtype:'tbseparator',
-//                },
-//                {
-//                    xtype:'button',
-//                    text:'Ubah',
-//                    ref:'../btnEdit'
-//                },
+                {
+                    xtype:'tbseparator',
+                },
+                {
+                    xtype:'button',
+                    iconCls:'asp-user8_edit',
+                    text:'Ubah Anak',
+                    ref:'../btnEdit'
+                },
 //                {
 //                    xtype:'tbseparator',
 //                },
@@ -78,7 +79,7 @@ jun.PahMemberGrid = Ext.extend(Ext.grid.GridPanel, {
         jun.rztPahMemberbyName.load();
         jun.PahMemberGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
-//        this.btnEdit.on('Click', this.loadEditForm, this);
+        this.btnEdit.on('Click', this.loadEditForm, this);
 //        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },

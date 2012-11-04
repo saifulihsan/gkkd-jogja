@@ -1,8 +1,7 @@
 jun.PahAktivitasGrupTransGrid = Ext.extend(Ext.grid.GridPanel, {
     title:"Aktivitas Grup Anak",
     id:'docs-jun.PahAktivitasGrupTransGrid',
-    //	width:400,
-    //	height:250,
+    iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },
@@ -42,7 +41,9 @@ jun.PahAktivitasGrupTransGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'amount',
-            width:100
+            width:100,
+            align:'right',
+            renderer:Ext.util.Format.numberRenderer('0,0')
         },
 
         /*

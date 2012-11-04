@@ -101,15 +101,15 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
                                 //allowBlank: 1,
                                 anchor:'100%'
                             },
-                            {
-                                xtype:'numericfield',
-                                fieldLabel:'Biaya Bank',
-                                name:'reconciled',
-                                id:'reconciledid',
-                                format:'d M Y',
-                                //allowBlank: 1,
-                                anchor:'100%'
-                            }
+                            //{
+//                                xtype:'numericfield',
+//                                fieldLabel:'Biaya Bank',
+//                                name:'reconciled',
+//                                id:'reconciledid',
+//                                format:'d M Y',
+//                                //allowBlank: 1,
+//                                anchor:'100%'
+//                            }
                         ]
                     },
                     {

@@ -1,11 +1,12 @@
 jun.renderChartType = function (val, meta, record) {
-    //    jun.rztPahChartTypes.reload();
+    //jun.rztPahChartTypes.reload();
     var store = jun.rztPahChartTypes;
     var index = store.find('id', val);
     var record = store.getAt(index);
     return record.data.name;
 }
 var renderChartMaster = function (val, meta, record) {
+    //jun.rztPahChartMaster.reload();
     var store = jun.rztPahChartMaster;
     var index = store.find('account_code', val);
     var record = store.getAt(index);

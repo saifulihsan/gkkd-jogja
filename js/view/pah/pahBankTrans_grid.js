@@ -234,7 +234,7 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             align:'right'
         },
         {
-            header:'Person/Item',
+            header:'Person',
             resizable:true,
             dataIndex:'person',
         }

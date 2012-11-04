@@ -1,8 +1,7 @@
 jun.PahLampiranGrid=Ext.extend(Ext.grid.GridPanel ,{        
 	title:"Donasi Non Tunai",
         id:'docs-jun.PahLampiranGrid',
-//	width:400,
-//	height:250,
+iconCls: 'silk-grid',
     viewConfig:{
         forceFit:true,
     },

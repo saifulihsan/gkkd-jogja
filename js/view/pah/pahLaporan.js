@@ -129,7 +129,7 @@ jun.PahReportMutasiWin = Ext.extend(Ext.Window, {
     }
 });
 jun.PahReportPengeluaranWin = Ext.extend(Ext.Window, {
-    title:'Pengeluaran per Kode Rekening',
+    title:'Pengeluaran',
     iconCls: 'silk13-report',
     modez:1,
     width:350,

@@ -1169,10 +1169,11 @@ class PahReportController extends GxController
             $start_body = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", "No.")
-                ->setCellValue("B$start", "Nama Donatur")
-                ->setCellValue("C$start", "Keterangan")
-                ->setCellValue("D$start", "Satuan")
-                ->setCellValue("E$start", "Jumlah")
+                ->setCellValue("B$start", "Tgl Transaksi")
+                ->setCellValue("C$start", "Nama Donatur")
+                ->setCellValue("D$start", "Keterangan")
+                ->setCellValue("E$start", "Satuan")
+                ->setCellValue("F$start", "Jumlah")
                 ->getStyle("A$start:F$start")->getFont()->setBold(true);
             $start++;
 //            $rows = Pah::get_beban_anak($start_date, $end_date, $lampiran_id);
@@ -1185,10 +1186,11 @@ class PahReportController extends GxController
                 $total_beban = $format == 'excel' ? $row['qty'] : number_format($row['qty']);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $no)
-                    ->setCellValue("B$start", $row['nama'])
-                    ->setCellValue("C$start", $row['keterangan'])
-                    ->setCellValue("D$start", $row['satuan'])
-                    ->setCellValue("E$start", $total_beban);
+                    ->setCellValue("B$start", sql2date($row['trans_date']))
+                    ->setCellValue("C$start", $row['nama'])
+                    ->setCellValue("D$start", $row['keterangan'])
+                    ->setCellValue("E$start", $row['satuan'])
+                    ->setCellValue("F$start", $total_beban);
                 $start++;
             }
             $end_body = $start - 1;
@@ -1200,15 +1202,15 @@ class PahReportController extends GxController
                 )
             );
             $objPHPExcel->setActiveSheetIndex(0)
-                ->getStyle("A$start_body:E$end_body")->applyFromArray($styleArray);
+                ->getStyle("A$start_body:F$end_body")->applyFromArray($styleArray);
             $start_row = $start_body + 1;
             if ($format == 'excel') {
                 $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle("E$start_row:E$end_body")->getNumberFormat()
+                    ->getStyle("F$start_row:F$end_body")->getNumberFormat()
                     ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);
             } else {
                 $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle("E$start_body:E$end_body")->getAlignment()
+                    ->getStyle("F$start_body:F$end_body")->getAlignment()
                     ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             }
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
@@ -1216,6 +1218,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("E")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("F")->setAutoSize(true);
             $start++;
             $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
             $objPHPExcel->setActiveSheetIndex(0)
