@@ -47,7 +47,7 @@ class PahAktivitasGrupTransController extends GxController
 
             $user = Yii::app()->user->getId();
             $id = -1;
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = dbTrans();
             try {
                 $ref = new PahReferenceCom();
@@ -129,7 +129,7 @@ class PahAktivitasGrupTransController extends GxController
             $status = false;
             $msg = 'Transaksi berhasil divoid.';
             $user = Yii::app()->user->getId();
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $aktivitas = PahAktivitasGrupTrans::model()->findByPk($id);
@@ -197,7 +197,7 @@ class PahAktivitasGrupTransController extends GxController
         }
 //$model = new PahAktivitasGrupTrans('search');
 //$model->unsetAttributes();
-        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(T_AKTIVITASGRUP);
         $criteria = new CDbCriteria();
 //        $criteria->limit = $limit;

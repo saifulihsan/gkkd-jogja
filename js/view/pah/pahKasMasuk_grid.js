@@ -151,12 +151,6 @@ jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.kas_masuk_id;
-//        loadText = 'Sedang proses... silahkan tunggu';
-//        Ext.Ajax.on('beforerequest', function () {
-//            Ext.getBody().mask(loadText, 'x-mask-loading', true)
-//        }, Ext.getBody());
-//        Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
-//        Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
         Ext.Ajax.request({
 //
             url:'PondokHarapan/PahKasMasuk/view/',

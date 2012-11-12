@@ -46,7 +46,7 @@ class PahKasMasukController extends GxController
 
             $user = Yii::app()->user->getId();
             $id = -1;
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $ref = new PahReferenceCom();
@@ -128,7 +128,7 @@ class PahKasMasukController extends GxController
             $status = false;
             $msg = 'Kas masuk berhasil divoid.';
             $user = Yii::app()->user->getId();
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $kas_masuk = PahKasMasuk::model()->findByPk($id);
@@ -203,7 +203,7 @@ class PahKasMasukController extends GxController
         }
         //$model = new PahKasMasuk('search');
         //$model->unsetAttributes();
-        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(KAS_MASUK);
         //$arr = array(1,2);
         $criteria = new CDbCriteria();

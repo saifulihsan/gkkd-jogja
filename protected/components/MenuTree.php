@@ -165,20 +165,159 @@ class MenuTree
                         }]
                     },
                     ]
-                  }";
+                  },";
         return $menu;
     }
 
     function get_menu_pondok_efata()
     {
-        $menu = "{text: 'Pondok Asuh Efata',
+        $menu = "{text: 'Pondok Efata',
                   expanded: false,
                   children:[{
-                    text: 'Faktur Penjualan',
-                    id: 'jun.NotaGrid',
-                    leaf: true
-                    }]
-                  }";
+                    text: 'File',
+                    expanded: false,
+                    children:[{
+                            text: 'Eksport',
+                            id: 'jun.NotaGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Import',
+                            id: 'jun.NotaGrid',
+                            leaf: true
+                        }]
+                    },
+                    {
+                    text: 'Master',
+                    expanded: false,
+                    children:[{
+                            text: 'Kode Rekening',
+                            id: 'jun.PeChartMasterGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Kas dan Bank',
+                            id: 'jun.PeBankAccountsGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Anggota',
+                            id: 'jun.PeMemberGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Grup Anggota',
+                            id: 'jun.PeAktivitasGrupGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pemasok',
+                            id: 'jun.PeSuppliersGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Sub Aktivitas',
+                            id: 'jun.PeSubAktivitasGrid',
+                            leaf: true
+                        },]
+                    },
+                    {
+                    text: 'Transaksi',
+                    expanded: false,
+                    children:[{
+                            text: 'Kas Masuk',
+                            id: 'jun.PeKasMasukGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Anggaran',
+                            id: 'jun.PeAnggaranGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pengeluaran Kas Umum',
+                            id: 'jun.PeKasKeluarGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Aktivitas Anggota',
+                            id: 'jun.PeAktivitasGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Aktivitas Grup Anggota',
+                            id: 'jun.PeAktivitasGrupTransGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Mutasi antar Rekening Kas',
+                            id: 'jun.PeTranferBankWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Donasi Non Tunai',
+                            id: 'jun.PeLampiranGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Set Saldo Awal',
+                            id: 'jun.PeSaldoAwalWin',
+                            leaf: true
+                        },
+                        ]
+                    },
+                    {
+                    text: 'Laporan',
+                    expanded: false,
+                    children:[
+                        {
+                            text: 'Mutasi Kas per Bank',
+                            id: 'jun.PeBankTransGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pertanggungjawaban',
+                            id: 'jun.PeReportTanggungJawabWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Anggaran versus Realisasi',
+                            id: 'jun.PeReportAnggaranRealisasiWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pendapatan',
+                            id: 'jun.PeReportPendapatanWin',
+                            leaf:true
+                        },
+                        {
+                            text: 'Pengeluaran',
+                            id: 'jun.PeReportPengeluaranWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Beban Aktivitas',
+                            id: 'jun.PeReportBebanAktivitasWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Beban Aktivitas per Anggota',
+                            id: 'jun.PeReportBebanAktivitasAnakWin ',
+                            leaf: true
+                        },
+                        {
+                            text: 'Beban Aktivitas per Grup',
+                            id: 'jun.PeReportBebanAktivitasGrupWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Lampiran Donasi Non Tunai',
+                            id: 'jun.PeReportLampiranWin',
+                            leaf: true
+                        }]
+                    },
+                    ]
+                  },";
         return $menu;
     }
 
@@ -196,8 +335,9 @@ class MenuTree
     public function get_menu()
     {
         $username = Yii::app()->user->name;
-        $data = "[" . $this->get_menu_pondok_harapan() . ','  . $this->get_menu_general()
-            .
+        $data = "[" . $this->get_menu_pondok_harapan() .
+            $this->get_menu_pondok_efata() .
+            $this->get_menu_general() .
             "{
                 text: 'Ganti Password',
                 id: 'jun.PasswordWin',

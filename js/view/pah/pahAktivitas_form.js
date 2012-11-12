@@ -12,7 +12,7 @@ jun.PahAktivitasWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitas',
                 labelWidth:120,
                 labelAlign:'left',
@@ -259,7 +259,7 @@ jun.PahAktivitasShowWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitasShow',
                 layout:'absolute',
                 ref:'formz',
@@ -475,7 +475,7 @@ jun.PahAktivitasVoidWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitasVoid',
                 layout:'absolute',
                 ref:'formz',

@@ -46,7 +46,7 @@ class PahKasKeluarController extends GxController
 
             $user = Yii::app()->user->getId();
             $id = -1;
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $ref = new PahReferenceCom();
@@ -127,7 +127,7 @@ class PahKasKeluarController extends GxController
             $status = false;
             $msg = 'Kas keluar berhasil divoid.';
             $user = Yii::app()->user->getId();
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $kas_keluar = PahKasKeluar::model()->findByPk($id);
@@ -202,7 +202,7 @@ class PahKasKeluarController extends GxController
         }
         //$model = new PahKasKeluar('search');
         //$model->unsetAttributes();
-        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(KAS_KELUAR);
         $criteria = new CDbCriteria();
 //        $criteria->limit = $limit;

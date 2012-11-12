@@ -231,13 +231,17 @@ class Pah
 
     static function get_beban_aktivitas($start_date, $end_date)
     {
+        $void = Pah::get_voided(AKTIVITAS);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas.aktivitas_id not in (".join(',',$void).")";
         $query = Yii::app()->db->createCommand()
             ->select("pah_sub_aktivitas.nama as sub_aktivitas,IFNULL(Sum(pah_aktivitas.amount),0) as total_beban")
             ->from("pah_aktivitas")
             ->rightJoin("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id
-            AND pah_aktivitas.trans_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))            
+            AND pah_aktivitas.trans_date between :start and :end $void_st ",
+            array(':start' => $start_date, ':end' => $end_date))
             ->where("!pah_sub_aktivitas.inactive")
-//            array(':start' => $start_date, ':end' => $end_date))
             ->group("pah_sub_aktivitas.nama");
         $rows = $query->queryAll();
         return $rows;
@@ -245,11 +249,15 @@ class Pah
 
     static function get_total_beban_aktivitas($start_date, $end_date)
     {
+        $void = Pah::get_voided(AKTIVITAS);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas.aktivitas_id not in (".join(',',$void).")";
         $rows = Yii::app()->db->createCommand()
             ->select("Sum(pah_aktivitas.amount) as total_beban")
             ->from("pah_aktivitas")
             ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
-            ->where("pah_aktivitas.trans_date between :start and :end",
+            ->where("pah_aktivitas.trans_date between :start and :end $void_st ",
             array(':start' => $start_date, ':end' => $end_date))
             ->queryScalar();
 //            ->where("pah_aktivitas.trans_date between :start and :end",
@@ -259,12 +267,16 @@ class Pah
 
     static function get_beban_anak($start_date, $end_date, $anak_id)
     {
+        $void = Pah::get_voided(AKTIVITAS);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas.aktivitas_id not in (".join(',',$void).")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
             ->select("Sum(pah_aktivitas.amount) as amount,jemaat.real_name")
             ->from("pah_aktivitas")
             ->rightJoin("pah_member", "pah_aktivitas.pah_member_id = pah_member.id and
-                pah_aktivitas.trans_date between '$start_date' and '$end_date'")
+                pah_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
             ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
             ->where("!pah_member.inactive")
             ->group("jemaat.real_name")
@@ -274,24 +286,32 @@ class Pah
 
     static function get_total_beban_anak($start_date, $end_date, $anak_id)
     {
+        $void = Pah::get_voided(AKTIVITAS);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas.aktivitas_id not in (".join(',',$void).")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
             ->select("Sum(pah_aktivitas.amount) as amount")
             ->from("pah_aktivitas")
             ->rightJoin("pah_member", "pah_aktivitas.pah_member_id = pah_member.id and
-                pah_aktivitas.trans_date between '$start_date' and '$end_date'")
+                pah_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
     static function get_beban_grup($start_date, $end_date, $anak_id)
     {
+        $void = Pah::get_voided(T_AKTIVITASGRUP);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
-            ->select("Sum(pah_aktivitas_grup_trans.amount) as amount,pah_aktivitas_grup.name")
+            ->select("IFNULL(Sum(pah_aktivitas_grup_trans.amount),0) as amount,pah_aktivitas_grup.name")
             ->from("pah_aktivitas_grup_trans")
             ->rightJoin("pah_aktivitas_grup", "pah_aktivitas_grup_trans.pah_aktivitas_grup_id = pah_aktivitas_grup.id and
-                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date'")
+                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
             ->where("!pah_aktivitas_grup.inactive")
             ->group("pah_aktivitas_grup.name")
             ->queryAll();
@@ -300,12 +320,17 @@ class Pah
 
     static function get_total_beban_grup($start_date, $end_date, $anak_id)
     {
+        $void = Pah::get_voided(T_AKTIVITASGRUP);
+//        $void = Pah::get_voided(7);
+        $void_st = '';
+        if(count($void)>0)
+            $void_st = "and pah_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pah_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
             ->select("Sum(pah_aktivitas_grup_trans.amount) as amount")
             ->from("pah_aktivitas_grup_trans")
             ->rightJoin("pah_aktivitas_grup", "pah_aktivitas_grup_trans.pah_aktivitas_grup_id = pah_aktivitas_grup.id and
-                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date'")
+                pah_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
             ->queryScalar();
         return $rows == null ? 0 : $rows;
     }

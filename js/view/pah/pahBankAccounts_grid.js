@@ -20,13 +20,6 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
             resizable:true,
             dataIndex:'account_code',
         },
-//                                {
-//			header:'account_type',
-//			sortable:true,
-//			resizable:true,
-//                        dataIndex:'account_type',
-//			width:100
-//		},
         {
             header:'Kas/Bank',
             sortable:true,
@@ -182,13 +175,11 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
         var record = this.sm.getSelected();
         // Check is list selected
         if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
             url:'PondokHarapan/PahBankAccounts/delete/id/' + record.json.id,
-            //url: 'index.php/api/PahBankAccounts/delete/' + record[0].json.nosjp,
             method:'POST',
             success:function (f, a) {
                 var response = Ext.decode(f.responseText);
@@ -208,7 +199,6 @@ jun.PahBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                 });
-//                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });
     }

@@ -74,7 +74,7 @@ class PahAnggaranController extends GxController
             $bulan = $_POST['periode_bulan'];
             $tahun = $_POST['periode_tahun'];
             $detils = CJSON::decode($_POST['detil']);
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $anggaran = new PahAnggaran;
@@ -131,7 +131,7 @@ class PahAnggaranController extends GxController
             $tahun = $_POST['periode_tahun'];
             $detils = CJSON::decode($_POST['detil']);
             $id = $_POST['id'];
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $anggaran = PahAnggaran::model()->findByPk($id);

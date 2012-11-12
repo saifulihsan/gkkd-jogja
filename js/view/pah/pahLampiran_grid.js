@@ -63,7 +63,6 @@ iconCls: 'silk-grid',
 //            pageSize: 10
 //           }]
 //        };
-            
            this.tbar = {
                 xtype: 'toolbar',
                 items: [

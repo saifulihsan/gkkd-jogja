@@ -114,7 +114,7 @@ class PahChartMasterController extends GxController
         if (!Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $status = false;
             $msg = 'Saldo Awal berhasil disimpan.';
             $date = $_POST['trans_date'];

@@ -51,7 +51,7 @@ class PahAktivitasController extends GxController
 
             $user = Yii::app()->user->getId();
             $id = -1;
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $ref = new PahReferenceCom();
@@ -93,50 +93,6 @@ class PahAktivitasController extends GxController
         }
     }
 
-    /*public function actionCreate() {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
-        if (isset($_POST) && !empty($_POST)){
-            $status = false;
-            $msg = 'Aktifitas berhasil disimpan.';
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                $model = new PahAktivitas;
-                $ref = new PahReferenceCom();
-                $docref = $ref->get_next_reference(ANGGARAN);
-                $_POST['PahAktivitas']['doc_ref'] = $docref;
-                $_POST['PahAktivitas']['periode_bulan'] = $bulan;
-                $_POST['PahAktivitas']['periode_tahun'] = $tahun;
-                $_POST['PahAktivitas']['lock'] = 0;
-                $_POST['PahAktivitas']['trans_date'] = '2012-09-24';
-                $_POST['PahAktivitas']['users_id'] = Yii::app()->user->getId();
-                $model->attributes = $_POST['PahAktivitas'];
-                $result = $model->save();
-                $err = $model->getErrors();
-                $transaction->commit();
-                $status = true;
-            }
-            catch (Exception $ex) {
-                $transaction->rollback();
-                $status = false;
-                $msg = $ex;
-            }
-
-
-
-
-            echo CJSON::encode(array(
-                'success'=>$status,
-                'bulan'=>$bulanStr,
-                'tahun'=>$tahun,
-                'id'=>$docref,
-                'msg'=>$msg));
-
-            Yii::app()->end();
-
-        }
-
-    }*/
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'PahAktivitas');
@@ -174,7 +130,7 @@ class PahAktivitasController extends GxController
             $status = false;
             $msg = 'Aktivitas berhasil divoid.';
             $user = Yii::app()->user->getId();
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $aktivitas = PahAktivitas::model()->findByPk($id);
@@ -250,7 +206,7 @@ class PahAktivitasController extends GxController
         }
         //$model = new PahAktivitas('search');
         //$model->unsetAttributes();
-        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(AKTIVITAS);
         $criteria = new CDbCriteria();
 //        $criteria->limit = $limit;

@@ -163,8 +163,8 @@ $start = 0;
 //$model->unsetAttributes();
 
 $criteria = new CDbCriteria();
-$criteria->limit = $limit;
-$criteria->offset = $start;
+//$criteria->limit = $limit;
+//$criteria->offset = $start;
 $model = <?php echo $this->modelClass; ?>::model()->findAll($criteria);
 $total = <?php echo $this->modelClass; ?>::model()->count($criteria);
 

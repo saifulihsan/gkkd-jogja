@@ -282,7 +282,9 @@ jun.methodPay = new Ext.data.ArrayStore({
     data:[
         ['Tunai', 'Tunai'],
         ['Debet', 'Debet'],
-        ['Transfer', 'Transfer']
+        ['Transfer', 'Transfer'],
+        ['Cek','Cek'],
+        ['Bilyet Giro (BG)','Bilyet Giro (BG)']        
     ]
 });
 jun.comboPayment = Ext.extend(Ext.form.ComboBox, {

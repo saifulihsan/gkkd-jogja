@@ -23,7 +23,7 @@ jun.UsersWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-Users',
                 labelWidth:125,
                 labelAlign:'left',
@@ -222,7 +222,7 @@ jun.PasswordWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-Password',
                 labelWidth:150,
                 labelAlign:'left',

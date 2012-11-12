@@ -4,7 +4,8 @@ class PahBankTransController extends GxController
 {
     public function actionView()
     {
-        require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        global $systypes_array;
+        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $bfw = Pah::get_balance_before_for_bank_account($_POST['from_date'], $_POST['bank_act']);
         $arr['data'][] = array('type' => 'Saldo Awal - ' . sql2date($_POST['from_date']), 'ref' => '', 'tgl' => '',
             'debit' => $bfw >= 0 ? number_format($bfw, 2) : '', 'kredit' => $bfw < 0 ? number_format($bfw, 2) : '', 'neraca' => '', 'person' => '');
@@ -54,7 +55,7 @@ class PahBankTransController extends GxController
         if (!Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $status = false;
             $msg = 'Transfer antar kas berhasil diproses.';
             $id = -1;

@@ -8,20 +8,12 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
     columns:[
         {
             header:'id',
-            header:'id',
             sortable:true,
             resizable:true,
             dataIndex:'id',
             hidden:true,
             width:100
         },
-//                                {
-//			header:'pah_anggaran_id',
-//			sortable:true,
-//			resizable:true,
-//                        dataIndex:'pah_anggaran_id',
-//			width:100
-//		},
         {
             header:'Kode Rekening',
             sortable:true,
@@ -34,7 +26,7 @@ jun.PahAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'pah_chart_master_account_code',
-            renderer:renderChartMaster,
+            renderer:renderPahChartMaster,
         },
         {
             header:'Jumlah',

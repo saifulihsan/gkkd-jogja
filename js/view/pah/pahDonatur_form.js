@@ -12,7 +12,7 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahDonatur',
                 labelWidth:100,
                 labelAlign:'left',
@@ -142,12 +142,6 @@ jun.PahDonaturWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahDonatur').getForm().submit({
             url:urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut:1000,
             scope:this,
             success:function (f, a) {

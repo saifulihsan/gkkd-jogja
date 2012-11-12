@@ -114,8 +114,7 @@ jun.PahAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
 //                    store:this.store,
 //                    displayInfo:true,
 //                    pageSize:10
-//                }
-//            ]
+        //           }]
 //        };
         this.tbar = {
             xtype:'toolbar',

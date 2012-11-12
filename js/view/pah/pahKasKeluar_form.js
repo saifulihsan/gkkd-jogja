@@ -12,7 +12,7 @@ jun.PahKasKeluarWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasKeluar',
                 labelWidth:120,
                 labelAlign:'left',
@@ -242,7 +242,7 @@ jun.PahKasKeluarShowWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasKeluarShow',
                 layout:'absolute',
                 ref:'formz',
@@ -428,7 +428,7 @@ jun.PahKasKeluarVoidWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasKeluarVoid',
                 layout:'absolute',
                 ref:'formz',

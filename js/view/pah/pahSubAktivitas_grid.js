@@ -117,11 +117,10 @@ jun.PahSubAktivitasGrid = Ext.extend(Ext.grid.GridPanel, {
         var record = this.sm.getSelected();
         // Check is list selected
         if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
             url:'PondokHarapan/PahSubAktivitas/delete/id/' + record.json.id,
             //url: 'index.php/api/PahSubAktivitas/delete/' + record[0].json.nosjp,
             method:'POST',
