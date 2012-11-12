@@ -218,11 +218,10 @@ jun.PahSuppliersGrid = Ext.extend(Ext.grid.GridPanel, {
         var record = this.sm.getSelected();
         // Check is list selected
         if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
             url:'PondokHarapan/PahSuppliers/delete/id/' + record.json.supplier_id,
             //url: 'index.php/api/PahSuppliers/delete/' + record[0].json.nosjp,
             method:'POST',

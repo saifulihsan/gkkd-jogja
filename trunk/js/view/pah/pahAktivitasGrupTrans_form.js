@@ -12,7 +12,7 @@ jun.PahAktivitasGrupTransWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitasGrupTrans',
                 labelWidth:100,
                 labelAlign:'left',
@@ -265,7 +265,7 @@ jun.PahAktivitasGrupShowWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitasGrupShow',
                 layout:'absolute',
                 ref:'formz',
@@ -481,7 +481,7 @@ jun.PahAktivitasGrupTransVoidWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahAktivitasGrupVoid',
                 layout:'absolute',
                 ref:'formz',

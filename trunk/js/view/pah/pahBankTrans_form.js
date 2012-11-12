@@ -15,7 +15,7 @@ jun.PahTranferBankWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'pah-form-Transfer-bank',
                 labelWidth:100,
                 labelAlign:'left',

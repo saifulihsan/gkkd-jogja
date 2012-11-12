@@ -8,7 +8,27 @@
  * This is the shortcut to DIRECTORY_SEPARATOR
  */
 defined('DS') or define('DS',DIRECTORY_SEPARATOR);
+defined('KAS_MASUK') or define('KAS_MASUK', 0);
+defined('KAS_KELUAR') or define('KAS_KELUAR', 1);
+defined('ANGGARAN') or define('ANGGARAN', 2);
+defined('AKTIVITAS') or define('AKTIVITAS',3);
+defined('BANKTRANSFER') or define('BANKTRANSFER', 4);
+defined('VOID') or define('VOID', 5);
+defined('SALDO_AWAL') or define('SALDO_AWAL', 6);
+defined('T_AKTIVITASGRUP') or define('T_AKTIVITASGRUP', 7);
 
+global $systypes_array;
+$systypes_array = array (
+    KAS_MASUK => "Kas Masuk",
+    KAS_KELUAR => "Kas Keluar",
+    ANGGARAN => "Anggaran",
+    AKTIVITAS => "Aktivitas",
+    BANKTRANSFER => "Mutasi Antar Kas/Bank",
+
+    VOID => "Void Dokumen",
+    SALDO_AWAL => "Saldo Awal",
+    T_AKTIVITASGRUP => 'Aktivitas Grup',
+    );
 /**
  * This is the shortcut to Yii::app()
  */

@@ -12,7 +12,7 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasMasuk',
                 labelWidth:120,
                 labelAlign:'left',
@@ -123,7 +123,6 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         };
         jun.rztPahDonatur.reload();
         jun.rztPahBankAccounts.reload();
-        //        jun.rztPahChartMaster.reload();
         jun.PahKasMasukWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.on('close', this.onWinClose, this);
@@ -167,7 +166,6 @@ jun.PahKasMasukWin = Ext.extend(Ext.Window, {
         }
         Ext.getCmp('form-PahKasMasuk').getForm().submit({
             url:urlz,
-
             timeOut:1000,
             scope:this,
             success:function (f, a) {
@@ -222,7 +220,7 @@ jun.PahKasMasukShowWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasMasukShow',
                 layout:'absolute',
                 ref:'formz',
@@ -408,7 +406,7 @@ jun.PahKasMasukVoidWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahKasMasukVoid',
                 layout:'absolute',
                 ref:'formz',

@@ -13,7 +13,7 @@ jun.PahSuppliersWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahSuppliers',
                 labelWidth:100,
                 labelAlign:'left',

@@ -44,7 +44,6 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         /*
          {
          header:'amount',
-
          resizable:true,
          dataIndex:'amount',
          width:100
@@ -93,9 +92,15 @@ jun.PahBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     ref:'../btnAdd'
                 },
                 {
+                    xtype:'tbseparator',
+                },
+                {
                     xtype:'button',
                     text:'Edit',
                     ref:'../btnEdit'
+                },
+                {
+                    xtype:'tbseparator',
                 },
                 {
                     xtype:'button',

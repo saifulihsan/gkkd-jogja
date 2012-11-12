@@ -42,13 +42,6 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex:'trans_date',
             width:100
         },
-//                                {
-//			header:'lock',
-//			sortable:true,
-//			resizable:true,
-//                        dataIndex:'lock',
-//			width:100
-//		},
     ],
     initComponent:function () {
         this.store = jun.rztPahAnggaran;
@@ -130,10 +123,8 @@ jun.PahAnggaranGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
             url:'PondokHarapan/PahAnggaran/delete',
             //url:'PondokHarapan/PahAnggaran/delete/id/' + record.json.id,
-            //url: 'index.php/api/PahAnggaran/delete/' + record[0].json.nosjp,
             method:'POST',
             params:{
                 id_anggaran:record.json.id,

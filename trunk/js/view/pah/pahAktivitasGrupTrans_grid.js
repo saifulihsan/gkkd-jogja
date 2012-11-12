@@ -152,18 +152,6 @@ jun.PahAktivitasGrupTransGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.aktivitas_id;
-        var form = new jun.PahAktivitasGrupTransWin({modez:1, id:idz});
-        form.show(this);
-        form.formz.getForm().loadRecord(this.record);
-    },
-    loadEditForm:function () {
-        var selectedz = this.sm.getSelected();
-        //var dodol = this.store.getAt(0);
-        if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Aktivitas Grup");
-            return;
-        }
-        var idz = selectedz.json.aktivitas_id;
         Ext.Ajax.request({
             url:'PondokHarapan/PahAktivitasGrupTrans/view/',
             params:{

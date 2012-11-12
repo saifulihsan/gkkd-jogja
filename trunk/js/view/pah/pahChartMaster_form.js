@@ -12,7 +12,7 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahChartMaster',
                 labelWidth:125,
                 labelAlign:'left',
@@ -182,7 +182,7 @@ jun.PahSaldoAwalWin = Ext.extend(Ext.Window, {
             {
                 xtype:'form',
                 frame:false,
-                bodyStyle:'background-color: #DFE8F6; padding: 10px',
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
                 id:'form-PahSaldoAwal',
                 labelWidth:125,
                 labelAlign:'left',

@@ -31,7 +31,7 @@ jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'account_type',
-            renderer:jun.renderChartType,
+            renderer:jun.renderPahChartType,
         },
         {
             header:'Deskripsi',
@@ -128,7 +128,6 @@ jun.PahChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
             url:'PondokHarapan/PahChartMaster/delete/id/' + record.json.account_code,
             //url: 'index.php/api/PahChartMaster/delete/' + record[0].json.nosjp,
             method:'POST',

@@ -25,6 +25,7 @@ jun.PahDonaturGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable:true,
             resizable:true,
             dataIndex:'phone',
+            width:100
         },
         {
             header:'Alamat',

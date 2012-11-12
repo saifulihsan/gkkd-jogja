@@ -30,12 +30,12 @@ jun.PahKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
             width:100
         },
         {
-         header:'Kode Rekening',
-         sortable:true,
-         resizable:true,
-         dataIndex:'pah_chart_master_account_code',
-         width:100
-         },
+            header:'Kode Rekening',
+            sortable:true,
+            resizable:true,
+            dataIndex:'pah_chart_master_account_code',
+            width:100
+        },
         {
             header:'No. Bukti',
             sortable:true,

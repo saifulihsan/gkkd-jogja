@@ -11,7 +11,7 @@ class PahReportController extends GxController
         if (Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
-            require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
@@ -67,7 +67,7 @@ class PahReportController extends GxController
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $nomer)
                     ->setCellValue("B$start", sql2date($row['trans_date']))
-                    ->setCellValue("C$start", Pah::get_payee_payoor($row['type'],$row['trans_no']))
+                    ->setCellValue("C$start", Pah::get_payee_payoor($row['type'], $row['trans_no']))
                     ->setCellValue("D$start", $row['nama_rekening'])
                     ->setCellValue("E$start", $kas_masuk)
                     ->setCellValue("F$start", $kas_keluar)
@@ -204,10 +204,12 @@ class PahReportController extends GxController
             $start++;
             $rows = Pah::get_pengeluaran_per_kode_rekening($start_date, $end_date);
             $total = Pah::get_total_pengeluaran($start_date, $end_date);
+            $total_persen = 0;
             foreach ($rows as $row) {
+                $total_persen += $row['total_beban'] / $total;
                 $total_beban = $format == 'excel' ? $row['total_beban'] : acc_format($row['total_beban']);
-                $persen = $format == 'excel' ? $row['total_beban']/$total :
-                    percent_format($row['total_beban']/$total,2);
+                $persen = $format == 'excel' ? $row['total_beban'] / $total :
+                    percent_format($row['total_beban'] / $total, 2);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['nama_rekening'])
                     ->setCellValue("B$start", $total_beban)
@@ -218,7 +220,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $total_format)
-                ->setCellValue("C$start",  $format == 'excel' ? 1 : percent_format(1,2));
+                ->setCellValue("C$start", $format == 'excel' ? $total_persen : percent_format($total_persen, 2));
             $start++;
             $end_body = $start - 1;
             $styleArray = array(
@@ -332,10 +334,12 @@ class PahReportController extends GxController
             $start++;
             $sub_total = Pah::get_total_pendapatan($start_date, $end_date);
             $rows = Pah::get_detil_pendapatan($start_date, $end_date);
+            $total_persen = 0;
             foreach ($rows as $row) {
+                $total_persen += $row['total_pendapatan'] / $sub_total;
                 $total_pendapatan = $format == 'excel' ? $row['total_pendapatan'] : acc_format($row['total_pendapatan']);
-                $persen = $format == 'excel' ? ($row['total_pendapatan']/$sub_total) :
-                    percent_format($row['total_pendapatan']/$sub_total,2);
+                $persen = $format == 'excel' ? ($row['total_pendapatan'] / $sub_total) :
+                    percent_format($row['total_pendapatan'] / $sub_total, 2);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['nama_rekening'])
                     ->setCellValue("B$start", $total_pendapatan)
@@ -345,8 +349,8 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $format == 'excel' ? $sub_total :
-                    acc_format($sub_total))
-                ->setCellValue("C$start", $format == 'excel' ? 1 : percent_format(1,2));
+                acc_format($sub_total))
+                ->setCellValue("C$start", $format == 'excel' ? $total_persen : percent_format($total_persen, 2));
             $start++;
             $end_body = $start - 1;
             $styleArray = array(
@@ -417,6 +421,7 @@ class PahReportController extends GxController
         if (Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
@@ -459,11 +464,13 @@ class PahReportController extends GxController
                 ->getStyle("A$start:C$start")->getFont()->setBold(true);
             $start++;
             $rows = Pah::get_beban_aktivitas($start_date, $end_date);
-            $total= Pah::get_total_beban_aktivitas($start_date, $end_date);
+            $total = Pah::get_total_beban_aktivitas($start_date, $end_date);
+            $total_persen = 0;
             foreach ($rows as $row) {
+                $total_persen += $row['total_beban'] / $total;
                 $total_beban = $format == 'excel' ? $row['total_beban'] : acc_format($row['total_beban']);
-                $persen = $format == 'excel' ? $row['total_beban']/$total :
-                    percent_format($row['total_beban']/$total,2);
+                $persen = $format == 'excel' ? $row['total_beban'] / $total :
+                    percent_format($row['total_beban'] / $total, 2);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['sub_aktivitas'])
                     ->setCellValue("B$start", $total_beban)
@@ -474,7 +481,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $total_format)
-                ->setCellValue("C$start", $format == 'excel' ? 1 : percent_format(1,2));
+                ->setCellValue("C$start", $format == 'excel' ? $total_persen  : percent_format($total_persen , 2));
             $start++;
             $end_body = $start - 1;
             $styleArray = array(
@@ -545,6 +552,7 @@ class PahReportController extends GxController
         if (Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
@@ -589,10 +597,12 @@ class PahReportController extends GxController
             $start++;
             $rows = Pah::get_beban_anak($start_date, $end_date, $anak_id);
             $total = Pah::get_total_beban_anak($start_date, $end_date, $anak_id);
+            $total_persen = 0;
             foreach ($rows as $row) {
+                $total_persen += $row['amount'] / $total;
                 $total_beban = $format == 'excel' ? $row['amount'] : acc_format($row['amount']);
-                $persen = $format == 'excel' ? $row['amount']/$total :
-                    percent_format($row['amount']/$total,2);
+                $persen = $format == 'excel' ? $row['amount'] / $total :
+                    percent_format($row['amount'] / $total, 2);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['real_name'])
                     ->setCellValue("B$start", $total_beban)
@@ -603,7 +613,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $total_format)
-                ->setCellValue("C$start", $format == 'excel' ? 1 : percent_format(1,2));
+                ->setCellValue("C$start", $format == 'excel' ? $total_persen  : percent_format($total_persen , 2));
             $start++;
             $end_body = $start - 1;
             $styleArray = array(
@@ -674,6 +684,7 @@ class PahReportController extends GxController
         if (Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
+            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
@@ -718,10 +729,12 @@ class PahReportController extends GxController
             $start++;
             $rows = Pah::get_beban_grup($start_date, $end_date, $anak_id);
             $total = Pah::get_total_beban_grup($start_date, $end_date, $anak_id);
+            $total_persen = 0 ;
             foreach ($rows as $row) {
+                $total_persen += $row['amount'] / $total;
                 $total_beban = $format == 'excel' ? $row['amount'] : acc_format($row['amount']);
-                $persen = $format == 'excel' ? $row['amount']/$total :
-                    percent_format($row['amount']/$total,2);
+                $persen = $format == 'excel' ? $row['amount'] / $total :
+                    percent_format($row['amount'] / $total, 2);
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['name'])
                     ->setCellValue("B$start", $total_beban)
@@ -732,7 +745,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $total_format)
-                ->setCellValue("C$start", $format == 'excel' ? 1 : percent_format(1,2));
+                ->setCellValue("C$start", $format == 'excel' ? $total_persen  : percent_format($total_persen , 2));
             $start++;
             $end_body = $start - 1;
             $styleArray = array(
@@ -853,7 +866,7 @@ class PahReportController extends GxController
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")
                 ->setCellValue("A$start", "Penerimaan")
-                ->setCellValue("D$start", $format == 'excel' ?  $total_pendapatan : acc_format($total_pendapatan));
+                ->setCellValue("D$start", $format == 'excel' ? $total_pendapatan : acc_format($total_pendapatan));
             $start++;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")
@@ -1034,11 +1047,15 @@ class PahReportController extends GxController
                 $total_anggaran += $anggaran;
                 $total_realisasi += $realisasi;
                 $selisih = $anggaran - $realisasi;
-                $persen = $realisasi / $anggaran;
+                if ($anggaran != 0)
+                    $persen = $realisasi / $anggaran;
                 $anggaran_format = $format == 'excel' ? $anggaran : acc_format($anggaran);
                 $realisasi_format = $format == 'excel' ? $realisasi : acc_format($realisasi);
                 $selisih_format = $format == 'excel' ? $selisih : acc_format($selisih);
-                $persen_format = $format == 'excel' ? $persen : percent_format($persen,2);
+                if ($anggaran != 0)
+                    $persen_format = $format == 'excel' ? $persen : percent_format($persen, 2);
+                else
+                    $persen_format = '#DEF';
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue("A$start", $row['account_name'])
                     ->setCellValue("B$start", $anggaran_format)
@@ -1051,8 +1068,8 @@ class PahReportController extends GxController
             $total_persen = $total_realisasi / $total_anggaran;
             $total_anggaran_format = $format == 'excel' ? $total_anggaran : acc_format($total_anggaran);
             $total_realisasi_format = $format == 'excel' ? $total_realisasi : acc_format($total_realisasi);
-            $total_selisih_format = $format == 'excel' ? $total_selisih: acc_format($total_selisih);
-            $total_persen_format = $format == 'excel' ? $total_persen: percent_format($total_persen,2);
+            $total_selisih_format = $format == 'excel' ? $total_selisih : acc_format($total_selisih);
+            $total_persen_format = $format == 'excel' ? $total_persen : percent_format($total_persen, 2);
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A$start", 'Total')
                 ->setCellValue("B$start", $total_anggaran_format)
@@ -1178,7 +1195,7 @@ class PahReportController extends GxController
             $start++;
 //            $rows = Pah::get_beban_anak($start_date, $end_date, $lampiran_id);
             $criteria = new CDbCriteria();
-            $criteria->addBetweenCondition('trans_date',$start_date,$end_date);
+            $criteria->addBetweenCondition('trans_date', $start_date, $end_date);
             $rows = PahLampiran::model()->findAll($criteria);
             $no = 0;
             foreach ($rows as $row) {
@@ -1256,6 +1273,5 @@ class PahReportController extends GxController
             Yii::app()->end();
         }
     }
-
 }
 
