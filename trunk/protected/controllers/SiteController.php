@@ -164,7 +164,8 @@ class SiteController extends Controller
 
     public function actionTree()
     {
-        $menu = new MenuTree(1);
+        $user = Users::model()->findByPk(user()->getId());
+        $menu = new MenuTree($user->security_roles_id);
         $data = $menu->get_menu();
 
 //        $data = "[{text: 'Penjualan',

@@ -2,7 +2,7 @@
 
 class MenuTree
 {
-    var $security_role_id;
+    var $security_role;
     var $menu_data_jemaat = "{text: 'Data Jemaat',
                                 id: 'jun.JemaatGrid',
                                 leaf: true
@@ -11,10 +11,16 @@ class MenuTree
                                 id: 'jun.UsersGrid',
                                 leaf: true
                                 },";
+    var $security = "{text: 'Security Role',
+                                id: 'jun.SecurityRolesWin',
+                                leaf: true
+                                },";
 
     function __construct($id)
     {
-        $this->security_role_id = $id;
+        //$this->security_role_id = $id;
+        $role = SecurityRoles::model()->findByPk($id);
+        $this->security_role = explode(",", $role->sections);
     }
 
     function get_menu_pondok_harapan()
@@ -335,10 +341,11 @@ class MenuTree
     public function get_menu()
     {
         $username = Yii::app()->user->name;
-        $data = "[" . $this->get_menu_pondok_harapan() .
-            $this->get_menu_pondok_efata() .
-            $this->get_menu_general() .
-            "{
+        $data = "[";
+        $data .= in_array(PONDOKHARAPAN, $this->security_role) ? $this->get_menu_pondok_harapan() : '';
+        $data .= in_array(PONDOKEFATA, $this->security_role) ? $this->get_menu_pondok_efata() : '';
+        $data .= in_array(ADMINISTRATOR, $this->security_role) ? $this->get_menu_general() : '';
+        $data .= "{
                 text: 'Ganti Password',
                 id: 'jun.PasswordWin',
                 leaf: true

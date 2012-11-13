@@ -4,6 +4,7 @@
  * Date: 10/21/12
  * Time: 6:01 PM
  */
+require_once('security.php');
 /**
  * This is the shortcut to DIRECTORY_SEPARATOR
  */
@@ -24,7 +25,6 @@ $systypes_array = array (
     ANGGARAN => "Anggaran",
     AKTIVITAS => "Aktivitas",
     BANKTRANSFER => "Mutasi Antar Kas/Bank",
-
     VOID => "Void Dokumen",
     SALDO_AWAL => "Saldo Awal",
     T_AKTIVITASGRUP => 'Aktivitas Grup',
