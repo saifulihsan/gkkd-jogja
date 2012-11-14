@@ -112,12 +112,14 @@ class MenuTree
                             text: 'Donasi Non Tunai',
                             id: 'jun.PahLampiranGrid',
                             leaf: true
-                        },
+                        },  ";
+        $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
                         {
                             text: 'Set Saldo Awal',
                             id: 'jun.PahSaldoAwalWin',
                             leaf: true
-                        },
+                        }," : '';
+        $menu .= "
                         ]
                     },
                     {
@@ -264,12 +266,13 @@ class MenuTree
                             text: 'Donasi Non Tunai',
                             id: 'jun.PeLampiranGrid',
                             leaf: true
-                        },
-                        {
+                        },  ";
+        $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "{
                             text: 'Set Saldo Awal',
                             id: 'jun.PeSaldoAwalWin',
                             leaf: true
-                        },
+                        }," : '';
+        $menu .= "
                         ]
                     },
                     {
