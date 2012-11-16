@@ -854,7 +854,7 @@ class PeReportController extends GxController
             $start++;
             $start++;
             $start_body = $start;
-            $saldo_awal_kas = Pe::get_balance_before_for_bank_account("$tahun-$bulan-02");
+            $saldo_awal_kas = Pe::get_balance_before_for_bank_account("$tahun-$bulan-01");
             $index_kas_masuk = $start;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->mergeCells("A$start:C$start")

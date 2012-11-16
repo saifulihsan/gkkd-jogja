@@ -127,6 +127,7 @@ jun.PahAnggaranDetilWin = Ext.extend(Ext.Window, {
         });
         jun.rztPahAnggaranDetil.insert(0, e);
         jun.rztPahAnggaranDetil.refreshData();
+        Ext.getCmp('form-PahAnggaranDetil').getForm().reset();
         if (this.closeForm)
             this.close();
     },

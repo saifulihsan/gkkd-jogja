@@ -23,14 +23,17 @@ class PahAnggaranController extends GxController
                 Yii::app()->end();
             }
 //            $bank_act = PahPrefs::BankOnHand();
+            $periode = period2date($bulan, $tahun);
+            $start_date = $periode['start'];
+            $end_date = $periode['end'];
             $sisa_anggaran = Pah::get_balance_before_for_bank_account($tahun . "-" . $bulan . "-1");
-            $total_saldo = Pah::get_balance_before_for_bank_account($tahun . "-" . ($bulan + 1) . "-1");
-            $saldo_skrg = $total_saldo - $sisa_anggaran;
+            $total_saldo = Pah::get_total_pendapatan($start_date, $end_date);//Pah::get_balance_before_for_bank_account($tahun . "-" . ($bulan + 1) . "-1");
+            $saldo_skrg = $total_saldo + $sisa_anggaran;
             echo CJSON::encode(array(
                 'success' => true,
                 'sisa' => $sisa_anggaran,
-                'current' => $saldo_skrg,
-                'total' => $total_saldo
+                'current' => $total_saldo,
+                'total' => $saldo_skrg
             ));
             Yii::app()->end();
         }
