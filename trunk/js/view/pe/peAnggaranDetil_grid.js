@@ -54,15 +54,15 @@ jun.PeAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
                 {
                     xtype:'tbseparator',
                 },
-                {
-                    xtype:'button',
-                    iconCls:'asp-pay_edit',
-                    text:'Ubah Alokasi',
-                    ref:'../btnEdit'
-                },
-                {
-                    xtype:'tbseparator',
-                },
+//                {
+//                    xtype:'button',
+//                    iconCls:'asp-pay_edit',
+//                    text:'Ubah Alokasi',
+//                    ref:'../btnEdit'
+//                },
+//                {
+//                    xtype:'tbseparator',
+//                },
                 {
                     xtype:'button',
                     iconCls:'asp-pay_delete',

@@ -127,6 +127,7 @@ jun.PeAnggaranDetilWin = Ext.extend(Ext.Window, {
         });
         jun.rztPeAnggaranDetil.insert(0, e);
         jun.rztPeAnggaranDetil.refreshData();
+        Ext.getCmp('form-PeAnggaranDetil').getForm().reset();
         if (this.closeForm)
             this.close();
     },

@@ -204,7 +204,7 @@ jun.PahKasAwalGrid = Ext.extend(Ext.grid.GridPanel, {
         });
     }
 })
-checkPeriodeAnggaran = function () {
+pahcheckPeriodeAnggaran = function () {
     //console.info('Bulan ' + this.cmbBulan.value + 'Tahun ' + this.periode_tahun.defaultValue);
     Ext.Ajax.request({
 
@@ -224,14 +224,14 @@ checkPeriodeAnggaran = function () {
                     icon:Ext.MessageBox.WARNING
                 });
             }
-            getsaldo();
+            pahgetsaldo();
         },
         failure:function (f, a) {
             Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
         }
     });
 }
-getsaldo = function () {
+pahgetsaldo = function () {
     Ext.Ajax.request({
 
         url:'PondokHarapan/PahAnggaran/getSaldo/',
@@ -348,7 +348,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
                         x:465,
                         y:2,
                         width:100,
-                        onBlur:checkPeriodeAnggaran,
+                        onBlur:pahcheckPeriodeAnggaran,
                     },
                     {
                         xtype:'label',
@@ -543,7 +543,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         var value = Ext.getCmp('periode_tahunid').getValue();
         if (Ext.getCmp('periode_tahunid').getValue() == "" || this.cmbBulan.value == undefined)
             return;
-        checkPeriodeAnggaran();
+        pahcheckPeriodeAnggaran();
         //getsaldo();
     },
     onActivate:function () {
@@ -625,7 +625,7 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
         });
     },
     onloadrecordupdate:function () {
-        getsaldo();
+        pahgetsaldo();
     },
     onbtnSaveCloseClick:function () {
         this.closeForm = true;

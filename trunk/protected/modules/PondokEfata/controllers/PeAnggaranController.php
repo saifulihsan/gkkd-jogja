@@ -23,14 +23,17 @@ class PeAnggaranController extends GxController
                 Yii::app()->end();
             }
 //            $bank_act = PePrefs::BankOnHand();
+            $periode = period2date($bulan, $tahun);
+            $start_date = $periode['start'];
+            $end_date = $periode['end'];
             $sisa_anggaran = Pe::get_balance_before_for_bank_account($tahun . "-" . $bulan . "-1");
-            $total_saldo = Pe::get_balance_before_for_bank_account($tahun . "-" . ($bulan + 1) . "-1");
-            $saldo_skrg = $total_saldo - $sisa_anggaran;
+            $total_saldo = Pe::get_total_pendapatan($start_date, $end_date);
+            $saldo_skrg = $total_saldo + $sisa_anggaran;
             echo CJSON::encode(array(
                 'success' => true,
                 'sisa' => $sisa_anggaran,
-                'current' => $saldo_skrg,
-                'total' => $total_saldo
+                'current' => $total_saldo,
+                'total' => $saldo_skrg
             ));
             Yii::app()->end();
         }
@@ -98,7 +101,7 @@ class PeAnggaranController extends GxController
                     //  $ag_detil[] = $anggaran_detil;
                     $anggaran_detil->save();
                     $err_ang = $anggaran_detil->getErrors();
-            }
+                }
                 //$anggaran->peAnggaranDetils = $ag_detil;
                 $ref->save(ANGGARAN, $anggaran->id, $docref);
                 $transaction->commit();

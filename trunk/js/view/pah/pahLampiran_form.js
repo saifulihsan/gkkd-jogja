@@ -138,6 +138,7 @@ jun.PahLampiranWin = Ext.extend(Ext.Window, {
                 });
                 if (this.modez == 0) {
                     Ext.getCmp('form-PahLampiran').getForm().reset();
+                    this.btnDisabled(false);
                 }
                 if (this.closeForm) {
                     this.close();
