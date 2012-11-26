@@ -78,9 +78,14 @@ jun.PeMemberWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         if(this.modez == 1 || this.modez == 2)
+        {    
             this.cmbName.setDisabled(true);
+            this.btnSave.setVisible(false);
+        }
         else
-            this.cmbName.setDisabled(false);
+        {    this.cmbName.setDisabled(false);
+            this.btnSave.setVisible(true);
+        }
     },
     btnDisabled:function (status) {
         this.btnSave.setDisabled(status);

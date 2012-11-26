@@ -498,6 +498,11 @@ jun.PahAnggaranWin = Ext.extend(Ext.Window, {
             this.cmbBulan.readOnly = true;
             this.periode_tahun.readOnly = true;
         }
+        if (this.modez == 1 || this.modez == 2) {            
+            this.btnSave.setVisible(false);
+        } else {            
+            this.btnSave.setVisible(true);
+        }
     },
     btnDisabled:function (status) {
         this.btnSave.setDisabled(status);

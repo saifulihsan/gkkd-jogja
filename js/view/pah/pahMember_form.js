@@ -77,10 +77,13 @@ jun.PahMemberWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        if(this.modez == 1 || this.modez == 2)
+        if (this.modez == 1 || this.modez == 2) {
             this.cmbName.setDisabled(true);
-        else
+            this.btnSave.setVisible(false);
+        } else {
             this.cmbName.setDisabled(false);
+            this.btnSave.setVisible(true);
+        }
     },
     btnDisabled:function (status) {
         this.btnSave.setDisabled(status);
