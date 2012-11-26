@@ -55,7 +55,7 @@ class MenuTree
                             leaf: true
                         },
                         {
-                            text: 'Anak',
+                            text: 'Penghuni Pondok',
                             id: 'jun.PahMemberGrid',
                             leaf: true
                         },
