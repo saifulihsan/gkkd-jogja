@@ -109,6 +109,11 @@ jun.PahSubAktivitasWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.cmbKode.on('focus', this.onLoadChartMaster, this);
+        if (this.modez == 1 || this.modez == 2) {            
+            this.btnSave.setVisible(false);
+        } else {            
+            this.btnSave.setVisible(true);
+        }
     },
     btnDisabled:function (status) {
         this.btnSave.setDisabled(status);

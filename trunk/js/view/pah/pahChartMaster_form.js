@@ -112,6 +112,11 @@ jun.PahChartMasterWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        if (this.modez == 1 || this.modez == 2) {            
+            this.btnSave.setVisible(false);
+        } else {            
+            this.btnSave.setVisible(true);
+        }
     },
     onActivate:function () {
         this.btnSave.hidden = false;
