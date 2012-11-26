@@ -1273,5 +1273,144 @@ class PahReportController extends GxController
             Yii::app()->end();
         }
     }
+
+    public function actionCetakPenghuniPondok()
+    {
+        if (Yii::app()->request->isAjaxRequest)
+            return;
+        if (isset($_POST) && !empty($_POST)) {
+            $format = $_POST['format'];
+            $start_date = $_POST['trans_date_mulai'];
+            $end_date = $_POST['trans_date_sampai'];
+//            $lampiran_id = $_POST['id'];
+            $start = 1;
+            $file_name = 'PenghuniPondok';
+            $worksheet_name = 'PenghuniPondok';
+            $objPHPExcel = new PHPExcel();
+            $objPHPExcel->getDefaultStyle()
+                ->getFont()->setSize(10);
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+            $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setLeft(0.1 / 2.54);
+            $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setRight(0.1 / 2.54);
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "DAFTAR PENGHUNI PONDOK")
+                ->getStyle("A$start")->getFont()->setSize(18)
+                ->setBold(true);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "PONDOK ASUH HARAPAN")
+                ->getStyle("A$start")->getFont()->setSize(14)
+                ->setBold(true);
+            $start++;
+//            $objPHPExcel->setActiveSheetIndex(0)
+//                ->mergeCells("A$start:G$start")
+//                ->setCellValue("A$start", "PERIODE: " . sql2long_date($start_date) . " - " .
+//                sql2long_date($end_date))
+//                ->getStyle("A$start")->getFont()->setSize(12)
+//                ->setBold(true);
+            $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
+            $start++;
+            $start++;
+            $start_body = $start;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A$start", "No.")
+                ->setCellValue("B$start", "Nama")
+//                ->setCellValue("C$start", "Nama Donatur")
+//                ->setCellValue("D$start", "Keterangan")
+//                ->setCellValue("E$start", "Satuan")
+//                ->setCellValue("F$start", "Jumlah")
+                ->getStyle("A$start:B$start")->getFont()->setBold(true);
+            $start++;
+//            $rows = Pah::get_beban_anak($start_date, $end_date, $lampiran_id);
+//            $criteria = new CDbCriteria();
+//            $criteria->addBetweenCondition('trans_date', $start_date, $end_date);
+//            $rows = PahLampiran::model()->findAll($criteria);
+            $sql = "SELECT b.id, b.jemaat_nij, a.real_name, b.inactive
+                FROM jemaat a
+                inner join pah_member b ON a.nij = b.jemaat_nij
+                where b.inactive = 0
+                ORDER BY a.real_name asc";
+            $rows = Yii::app()->db->createCommand($sql)->queryAll();
+            $no = 0;
+            foreach ($rows as $row) {
+                $no++;
+//                $total_beban = $format == 'excel' ? $row['qty'] : number_format($row['qty']);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue("A$start", $no)
+                    ->setCellValue("B$start", $row['real_name']);
+//                    ->setCellValue("C$start", $row['nama'])
+//                    ->setCellValue("D$start", $row['keterangan'])
+//                    ->setCellValue("E$start", $row['satuan'])
+//                    ->setCellValue("F$start", $total_beban);
+
+                $start++;
+            }
+            $end_body = $start - 1;
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->getStyle("A$start_body:B$end_body")->applyFromArray($styleArray);
+            $start_row = $start_body + 1;
+//            if ($format == 'excel') {
+//                $objPHPExcel->setActiveSheetIndex(0)
+//                    ->getStyle("F$start_row:F$end_body")->getNumberFormat()
+//                    ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);
+//            } else {
+//                $objPHPExcel->setActiveSheetIndex(0)
+//                    ->getStyle("F$start_body:F$end_body")->getAlignment()
+//                    ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+//            }
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
+//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
+//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
+//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("E")->setAutoSize(true);
+//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("F")->setAutoSize(true);
+            $start++;
+            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "Dicetak oleh: " . $jemaat->real_name);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " . get_time_now());
+            ob_end_clean();
+            ob_start();
+            if ($format == 'excel') {
+                header('Content-Type: application/vnd.ms-excel');
+                header("Content-Disposition: attachment;filename=$file_name.xls");
+                header('Cache-Control: max-age=0');
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                $objWriter->save('php://output');
+            } else {
+                $objPHPExcel->getActiveSheet()->setShowGridlines(false);
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4');
+                $objWriter = new PHPExcel_Writer_HTML($objPHPExcel);
+                $header = $objWriter->generateHTMLHeader(true);
+                $header = str_replace("<body>", "<body onload='window.print();'>", $header);
+                $header = str_replace("Untitled Spreadsheet", "Daftar Penghuni Pondok", $header);
+                $html = $header . $objWriter->generateStyles(true) .
+                    $objWriter->generateSheetData() . $objWriter->generateHTMLFooter();
+                if ($format == 'pdf') {
+                    $mPDF1->WriteHTML($html);
+                    $mPDF1->Output("$file_name.pdf", 'D');
+                } else {
+                    echo $html;
+                }
+            }
+            Yii::app()->end();
+        }
+    }
+
 }
 
