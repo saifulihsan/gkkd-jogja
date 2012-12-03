@@ -44,7 +44,6 @@ class PahAktivitasGrupTransController extends GxController
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Transaksi berhasil disimpan.';
-
             $user = Yii::app()->user->getId();
             $id = -1;
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
@@ -70,9 +69,9 @@ class PahAktivitasGrupTransController extends GxController
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
                 Pah::add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
-                    '-', $aktivitas->amount, $user);
-                Pah::add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
-                    $user);
+                    $aktivitas->note, $aktivitas->amount, $user);
+                Pah::add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date, $docref, $bank_account,
+                    '-', -$aktivitas->amount,$user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

@@ -1108,3 +1108,148 @@ jun.PeReportAnggaranRealisasiWin = Ext.extend(Ext.Window, {
         Ext.getCmp('form-PeReportAnggaranRealisasiWin').getForm().submit();
     },
 });
+
+jun.PeReportPengeluaranDetilWin = Ext.extend(Ext.Window, {
+    title:'Pengeluaran Detil',
+    iconCls: 'silk13-report',
+    modez:1,
+    width:350,
+    height:170,
+    layout:'form',
+    modal:true,
+    padding:5,
+    closeForm:false,
+    iswin:true,
+    //ajaxSubmit:false,
+    initComponent:function () {
+        this.items = [
+            {
+                xtype:'form',
+                //url:'PondokEfata/PeBankTrans/print/',
+                frame:false,
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
+                id:'form-PeReportPengeluaranDetilWin',
+                labelWidth:100,
+                labelAlign:'left',
+                layout:'form',
+                ref:'formz',
+                border:false,
+                items:[
+                    {
+                        xtype:'xdatefield',
+                        ref:'../trans_date_mulai',
+                        fieldLabel:'Dari Tanggal',
+                        name:'trans_date_mulai',
+                        id:'trans_date_mulaiid',
+                        format:'d M Y',
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },
+                    {
+                        xtype:'xdatefield',
+                        ref:'../trans_date_sampai',
+                        fieldLabel:'Sampai Tanggal',
+                        name:'trans_date_sampai',
+                        id:'trans_date_sampaiid',
+                        format:'d M Y',
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },
+                    {
+                        xtype:'combo',
+                        typeAhead:true,
+                        triggerAction:'all',
+                        lazyRender:true,
+                        mode:'local',
+                        fieldLabel:'Kode Rekening',
+                        store:jun.rztPeChartMaster,
+                        emptyText:'Semua Akun',
+                        hiddenName:'account_code',
+                        hiddenValue:'account_code',
+                        valueField:'account_code',
+                        matchFieldWidth:false,
+                        itemSelector:'div.search-item',
+                        tpl:new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
+                        displayField:'account_code',
+                        listWidth:300,
+                        editable:true,
+                        anchor:'100%',
+                        ref:'../cmbKode',
+                        lastQuery:''
+                    },
+                    {
+                        xtype:'hidden', //should use the more standard hiddenfield
+                        name:'format',
+                        ref:'../format',
+                    }
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype:'toolbar',
+            items:[
+                {
+                    xtype:'button',
+                    iconCls: 'silk13-page_white_excel',
+                    text:'Save to Excel',
+                    hidden:false,
+                    ref:'../btnSave'
+                },
+                {
+                    xtype:'button',
+                    iconCls: 'silk13-page_white_acrobat',
+                    text:'Save to PDF',
+                    hidden:true,
+                    ref:'../btnPdf'
+                },
+                {
+                    xtype:'button',
+                    iconCls: 'silk13-printer',
+                    text:'Print',
+                    hidden:true,
+                    ref:'../btnPrint'
+                },
+            ]
+        };
+        jun.rztPeChartMaster.reload();
+        jun.PeReportPengeluaranDetilWin.superclass.initComponent.call(this);
+        this.on('activate', this.onActivate, this);
+//        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
+        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnPdf.on('click', this.onbtnPdfclick, this);
+        this.btnPrint.on('click', this.onbtnPrintclick, this);
+    },
+    onbtnPrintclick:function () {
+        var mulai = this.trans_date_mulai.hiddenField.dom.value;
+        var sampai = this.trans_date_sampai.hiddenField.dom.value;
+        var akun = this.cmbKode.value;
+        var browser = navigator.appName;
+        if (browser == "Microsoft Internet Explorer")
+            window.opener = self;
+        var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');
+        win.document.write("<html><title>Pengeluaran per Kode Rekening Detil</title><body>" +
+            "<form id='form' method='POST' action='PondokEfata/PeReport/PengeluaranPerKodeRekeningDetil'>" +
+            "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
+            "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+            "<input type='hidden' name='account_code' value='" + akun + "'>" +
+            "<input type='hidden' name='format' value='html'>" +
+            "</form></body></html>");
+        win.document.close();
+        win.document.getElementById('form').submit();
+    },
+    onbtnPdfclick:function () {
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().standardSubmit = true;
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().url = 'PondokEfata/PeReport/PengeluaranPerKodeRekeningDetil';
+        this.format.setValue('pdf');
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().submit();
+    },
+    onActivate:function () {
+        this.btnSave.hidden = false;
+    },
+    onbtnSaveclick:function () {
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().standardSubmit = true;
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().url = 'PondokEfata/PeReport/PengeluaranPerKodeRekeningDetil';
+        this.format.setValue('excel');
+        Ext.getCmp('form-PeReportPengeluaranDetilWin').getForm().submit();
+    },
+});

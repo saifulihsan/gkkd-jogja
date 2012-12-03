@@ -196,6 +196,32 @@ class Pe
         return $model;
     }
 
+    static function get_arr_kode_rekening_pengeluaran($code = ""){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("account_type='".PePrefs::TypeCostAct()."'");
+        if($code != "account_code")
+            $criteria->addCondition("account_code='$code'");
+        $model = PeChartMaster::model()->findAll($criteria);
+        $daftar = array();
+        foreach($model as $coderek){
+            $daftar[$coderek['account_code']] = $coderek['account_name'];
+        }
+        return $daftar;
+    }
+
+    static function get_pengeluaran_detil_kode_rekening($start_date, $end_date, $code)
+    {
+        $rows = Yii::app()->db->createCommand()
+            ->select("a.tran_date,a.memo_,IF(a.amount > 0,a.amount,'') as debit,IF(a.amount < 0,-a.amount,'') as kredit")
+            ->from("Pe_gl_trans a")
+            ->rightJoin("Pe_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
+            ->where("b.account_type=:type and b.account_code=:code",array(':type' => PePrefs::TypeCostAct(),':code'=>$code))
+            ->order("a.tran_date")
+            ->queryAll();
+        return $rows;
+    }
+
     static function get_pengeluaran_per_kode_rekening($start_date, $end_date)
     {
         $rows = Yii::app()->db->createCommand()
@@ -204,26 +230,22 @@ class Pe
             ->rightJoin("pe_chart_master b", "a.account=b.account_code
             AND a.tran_date between :start and :end",
             array(':start' => $start_date, ':end' => $end_date))
-//            ->where("a.tran_date between :start and :end and b.account_type=:type",
-//            array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypeCostAct()))
-            ->where("b.account_type=:type and !b.inactive", array(':type' => PePrefs::TypeCostAct()))
+            ->where("b.account_type=:type and !b.inactive",
+            array(':type' => PePrefs::TypeCostAct()))
             ->group("b.account_name")
             ->order("b.account_code")
             ->queryAll();
         return $rows;
     }
 
-    static function get_total_pengeluaran($start_date, $end_date)
+    static function get_total_pengeluaran($start_date, $end_date, $code = "")
     {
+        $kode = $code == "" ? "" : "and b.account_code = '$code'";
         $rows = Yii::app()->db->createCommand()
             ->select("sum(a.amount) as total_beban")
             ->from("pe_gl_trans a")
             ->join("pe_chart_master b", "a.account=b.account_code")
-//            AND ",
-//            array(':start' => $start_date, ':end' => $end_date))
-//            ->where("a.tran_date between :start and :end and b.account_type=:type",
-//            array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypeCostAct()))
-            ->where("a.tran_date between :start and :end and b.account_type=:type",
+           ->where("a.tran_date between :start and :end and b.account_type=:type  $kode",
             array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypeCostAct()))
             ->queryScalar();
         return $rows == null ? 0 : $rows;
@@ -385,6 +407,15 @@ class Pe
             array(':month' => $month, ':year' => $year, ':code' => $code))
             ->queryScalar();
         return $rows == null ? 0 : $rows;
+    }
+
+    static function get_penghuni_pondok($where=""){
+         return app()->db->createCommand()
+             ->from("jemaat")
+             ->join("pe_member","jemaat.nij = pe_member.jemaat_nij")
+             ->where("pe_member.inactive = 0 $where")
+             ->order("jemaat.real_name asc")
+             ->queryAll();
     }
 
     static function get_chart_master_beban()

@@ -78,7 +78,7 @@ jun.PahReportPenghuniPondok = Ext.extend(Ext.Window, {
                 },
             ]
         };
-        jun.PahReportMutasiWin.superclass.initComponent.call(this);
+        jun.PahReportPenghuniPondok.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         //        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
@@ -107,10 +107,10 @@ jun.PahReportPenghuniPondok = Ext.extend(Ext.Window, {
         //        win.document.close();
         //        win.document.getElementById('form').submit();
         //        return;
-        Ext.getCmp('form-PahReportMutasiWin').getForm().standardSubmit = true;
-        Ext.getCmp('form-PahReportMutasiWin').getForm().url = 'PondokHarapan/PahReport/CetakPenghuniPondok';
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().standardSubmit = true;
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().url = 'PondokHarapan/PahReport/CetakPenghuniPondok';
         this.format.setValue('pdf');
-        Ext.getCmp('form-PahReportMutasiWin').getForm().submit();
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().submit();
     },
     onActivate:function () {
         this.btnSave.hidden = false;
@@ -120,10 +120,10 @@ jun.PahReportPenghuniPondok = Ext.extend(Ext.Window, {
         //        newwindow=window.open('google.com','name','height=200,width=150');
         //        if (window.focus) {newwindow.focus()}
         //        return;
-        Ext.getCmp('form-PahReportMutasiWin').getForm().standardSubmit = true;
-        Ext.getCmp('form-PahReportMutasiWin').getForm().url = 'PondokHarapan/PahReport/CetakPenghuniPondok';
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().standardSubmit = true;
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().url = 'PondokHarapan/PahReport/CetakPenghuniPondok';
         this.format.setValue('excel');
-        Ext.getCmp('form-PahReportMutasiWin').getForm().submit();
+        Ext.getCmp('form-PahReportPenghuniPondok').getForm().submit();
     }
 });
 

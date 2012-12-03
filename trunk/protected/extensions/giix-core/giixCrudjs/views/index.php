@@ -62,6 +62,15 @@ $('#{$class}_model').bind('keyup change', function(){
 		<?php echo $form->error($model,'controller'); ?>
 	</div>
 
+<div class="row">
+    <?php echo $form->labelEx($model,'path'); ?>
+    <?php echo $form->textField($model,'path',array('size'=>65)); ?>
+    <div class="tooltip">
+        This is destination path for generated result.
+    </div>
+    <?php echo $form->error($model,'path'); ?>
+</div>
+
 	<div class="row sticky">
 		<?php echo $form->labelEx($model, 'authtype'); ?>
 		<?php echo $form->dropDownList($model, 'authtype', array(

@@ -21,10 +21,11 @@
  * @property integer $pah_member_id
  * @property integer $pah_sub_aktivitas_id
  * @property integer $users_id
+ * @property string $note
  *
- * @property PahSubAktivitas $pahSubAktivitas
  * @property PahBankAccounts $pahBankAccounts
  * @property PahMember $pahMember
+ * @property PahSubAktivitas $pahSubAktivitas
  * @property PahSuppliers $pahSuppliersSupplier
  * @property Users $users
  */
@@ -49,17 +50,17 @@ abstract class BasePahAktivitas extends GxActiveRecord {
 			array('amount', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
 			array('no_bukti, trans_via', 'length', 'max'=>45),
-			array('entry_time, trans_date', 'safe'),
-			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('aktivitas_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_suppliers_supplier_id, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id', 'safe', 'on'=>'search'),
+			array('entry_time, trans_date, note', 'safe'),
+			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('aktivitas_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_suppliers_supplier_id, pah_bank_accounts_id, pah_member_id, pah_sub_aktivitas_id, users_id, note', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
-			'pahSubAktivitas' => array(self::BELONGS_TO, 'PahSubAktivitas', 'pah_sub_aktivitas_id'),
 			'pahBankAccounts' => array(self::BELONGS_TO, 'PahBankAccounts', 'pah_bank_accounts_id'),
 			'pahMember' => array(self::BELONGS_TO, 'PahMember', 'pah_member_id'),
+			'pahSubAktivitas' => array(self::BELONGS_TO, 'PahSubAktivitas', 'pah_sub_aktivitas_id'),
 			'pahSuppliersSupplier' => array(self::BELONGS_TO, 'PahSuppliers', 'pah_suppliers_supplier_id'),
 			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
 		);
@@ -84,6 +85,7 @@ abstract class BasePahAktivitas extends GxActiveRecord {
 			'pah_member_id' => Yii::t('app', 'Pah Member'),
 			'pah_sub_aktivitas_id' => Yii::t('app', 'Pah Sub Aktivitas'),
 			'users_id' => Yii::t('app', 'Users'),
+			'note' => Yii::t('app', 'Note'),
 		);
 	}
 
@@ -102,6 +104,7 @@ abstract class BasePahAktivitas extends GxActiveRecord {
 		$criteria->compare('pah_member_id', $this->pah_member_id);
 		$criteria->compare('pah_sub_aktivitas_id', $this->pah_sub_aktivitas_id);
 		$criteria->compare('users_id', $this->users_id);
+		$criteria->compare('note', $this->note, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

@@ -15,8 +15,13 @@
  * @property string $email
  * @property integer $inactive
  * @property string $alamat
+ * @property string $gender
+ * @property string $birthdate
+ * @property string $education
+ * @property string $hometown
  *
  * @property PahMember[] $pahMembers
+ * @property PeMember[] $peMembers
  * @property Users[] $users
  */
 abstract class BaseJemaat extends GxActiveRecord {
@@ -40,15 +45,18 @@ abstract class BaseJemaat extends GxActiveRecord {
 			array('nij', 'length', 'max'=>20),
 			array('real_name, email', 'length', 'max'=>100),
 			array('phone', 'length', 'max'=>30),
-			array('alamat', 'safe'),
-			array('real_name, phone, email, inactive, alamat', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('nij, real_name, phone, email, inactive, alamat', 'safe', 'on'=>'search'),
+			array('gender', 'length', 'max'=>1),
+			array('education', 'length', 'max'=>255),
+			array('alamat, birthdate, hometown', 'safe'),
+			array('real_name, phone, email, inactive, alamat, gender, birthdate, education, hometown', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('nij, real_name, phone, email, inactive, alamat, gender, birthdate, education, hometown', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
 			'pahMembers' => array(self::HAS_MANY, 'PahMember', 'jemaat_nij'),
+			'peMembers' => array(self::HAS_MANY, 'PeMember', 'jemaat_nij'),
 			'users' => array(self::HAS_MANY, 'Users', 'nij'),
 		);
 	}
@@ -66,6 +74,10 @@ abstract class BaseJemaat extends GxActiveRecord {
 			'email' => Yii::t('app', 'Email'),
 			'inactive' => Yii::t('app', 'Inactive'),
 			'alamat' => Yii::t('app', 'Alamat'),
+			'gender' => Yii::t('app', 'Gender'),
+			'birthdate' => Yii::t('app', 'Birthdate'),
+			'education' => Yii::t('app', 'Education'),
+			'hometown' => Yii::t('app', 'Hometown'),
 		);
 	}
 
@@ -78,6 +90,10 @@ abstract class BaseJemaat extends GxActiveRecord {
 		$criteria->compare('email', $this->email, true);
 		$criteria->compare('inactive', $this->inactive);
 		$criteria->compare('alamat', $this->alamat, true);
+		$criteria->compare('gender', $this->gender, true);
+		$criteria->compare('birthdate', $this->birthdate, true);
+		$criteria->compare('education', $this->education, true);
+		$criteria->compare('hometown', $this->hometown, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

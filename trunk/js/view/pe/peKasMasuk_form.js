@@ -1,8 +1,8 @@
 jun.PeKasMasukWin = Ext.extend(Ext.Window, {
     title:'Kas Masuk',
     modez:1,
-    width:350,
-    height:250,
+    width:420,
+    height:310,
     layout:'form',
     modal:true,
     padding:5,
@@ -86,7 +86,17 @@ jun.PeKasMasukWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         name:'trans_via'
                     }),
-
+                    {
+                        xtype:'textarea',
+                        fieldLabel:'Keterangan',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'note',
+                        id:'noteid',
+                        ref:'../note',
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
                     {
                         xtype:'numericfield',
                         fieldLabel:'Jumlah',

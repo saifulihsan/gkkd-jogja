@@ -53,20 +53,23 @@ jun.<?php echo $this->modelClass; ?>Win = Ext.extend(Ext.Window, {
         this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
-        this.btnCancel.on('click', this.onbtnCancelclick, this);       
-        
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+        if (this.modez == 1 || this.modez == 2) {
+            this.btnSave.setVisible(false);
+        } else {
+            this.btnSave.setVisible(true);
+        }
     },
-    
-    onActivate: function(){
-              
-        this.btnSave.hidden = false;
-        
+
+    btnDisabled:function(status){
+        this.btnSave.setDisabled(status);
+        this.btnSaveClose.setDisabled(status);
     },
             
     saveForm : function()
-    {       
+    {
+        this.btnDisabled(true);
             var urlz;
-     
             if(this.modez == 1 || this.modez== 2) {
                     
                     urlz= '<?php echo $this->getModule()->getName();?>/<?php echo $this->modelClass; ?>/update/id/' + this.id;
@@ -91,6 +94,7 @@ jun.<?php echo $this->modelClass; ?>Win = Ext.extend(Ext.Window, {
                     });
                     if(this.modez == 0){
                         Ext.getCmp('form-<?php echo $this->modelClass; ?>').getForm().reset();
+                        this.btnDisabled(false);
                     }
                     if(this.closeForm){
                         this.close();
@@ -104,6 +108,7 @@ jun.<?php echo $this->modelClass; ?>Win = Ext.extend(Ext.Window, {
                     buttons:Ext.MessageBox.OK,
                     icon:Ext.MessageBox.WARNING
                     });
+                    this.btnDisabled(false);
                 }
 
             });

@@ -20,91 +20,89 @@
  * @property string $pe_account_code
  * @property integer $pe_bank_accounts_id
  * @property integer $users_id
+ * @property string $note
  *
- * @property Users $users
  * @property PeSuppliers $peSupplier
  * @property PeChartMaster $peAccountCode
  * @property PeBankAccounts $peBankAccounts
+ * @property Users $users
  */
-abstract class BasePeKasKeluar extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BasePeKasKeluar extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'pe_kas_keluar';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'doc_ref';
-    }
+	public function tableName() {
+		return 'pe_kas_keluar';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('pe_supplier_id, pe_account_code, pe_bank_accounts_id, users_id', 'required'),
-            array('pe_supplier_id, pe_bank_accounts_id, users_id', 'numerical', 'integerOnly' => true),
-            array('amount', 'numerical'),
-            array('doc_ref, pe_account_code', 'length', 'max' => 15),
-            array('no_bukti, trans_via', 'length', 'max' => 45),
-            array('entry_time, trans_date', 'safe'),
-            array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('kas_keluar_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pe_supplier_id, pe_account_code, pe_bank_accounts_id, users_id', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'doc_ref';
+	}
 
-    public function relations()
-    {
-        return array(
-            'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
-            'peSupplier' => array(self::BELONGS_TO, 'PeSuppliers', 'pe_supplier_id'),
-            'peAccountCode' => array(self::BELONGS_TO, 'PeChartMaster', 'pe_account_code'),
-            'peBankAccounts' => array(self::BELONGS_TO, 'PeBankAccounts', 'pe_bank_accounts_id'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('pe_supplier_id, pe_account_code, pe_bank_accounts_id, users_id', 'required'),
+			array('pe_supplier_id, pe_bank_accounts_id, users_id', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical'),
+			array('doc_ref, pe_account_code', 'length', 'max'=>15),
+			array('no_bukti, trans_via', 'length', 'max'=>45),
+			array('entry_time, trans_date, note', 'safe'),
+			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('kas_keluar_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pe_supplier_id, pe_account_code, pe_bank_accounts_id, users_id, note', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'peSupplier' => array(self::BELONGS_TO, 'PeSuppliers', 'pe_supplier_id'),
+			'peAccountCode' => array(self::BELONGS_TO, 'PeChartMaster', 'pe_account_code'),
+			'peBankAccounts' => array(self::BELONGS_TO, 'PeBankAccounts', 'pe_bank_accounts_id'),
+			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'kas_keluar_id' => Yii::t('app', 'Kas Keluar'),
-            'doc_ref' => Yii::t('app', 'Doc Ref'),
-            'no_bukti' => Yii::t('app', 'No Bukti'),
-            'amount' => Yii::t('app', 'Amount'),
-            'entry_time' => Yii::t('app', 'Entry Time'),
-            'trans_date' => Yii::t('app', 'Trans Date'),
-            'trans_via' => Yii::t('app', 'Trans Via'),
-            'pe_supplier_id' => Yii::t('app', 'Pe Supplier'),
-            'pe_account_code' => Yii::t('app', 'Pe Account Code'),
-            'pe_bank_accounts_id' => Yii::t('app', 'Pe Bank Accounts'),
-            'users_id' => Yii::t('app', 'Users'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('kas_keluar_id', $this->kas_keluar_id);
-        $criteria->compare('doc_ref', $this->doc_ref, true);
-        $criteria->compare('no_bukti', $this->no_bukti, true);
-        $criteria->compare('amount', $this->amount);
-        $criteria->compare('entry_time', $this->entry_time, true);
-        $criteria->compare('trans_date', $this->trans_date, true);
-        $criteria->compare('trans_via', $this->trans_via, true);
-        $criteria->compare('pe_supplier_id', $this->pe_supplier_id);
-        $criteria->compare('pe_account_code', $this->pe_account_code);
-        $criteria->compare('pe_bank_accounts_id', $this->pe_bank_accounts_id);
-        $criteria->compare('users_id', $this->users_id);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'kas_keluar_id' => Yii::t('app', 'Kas Keluar'),
+			'doc_ref' => Yii::t('app', 'Doc Ref'),
+			'no_bukti' => Yii::t('app', 'No Bukti'),
+			'amount' => Yii::t('app', 'Amount'),
+			'entry_time' => Yii::t('app', 'Entry Time'),
+			'trans_date' => Yii::t('app', 'Trans Date'),
+			'trans_via' => Yii::t('app', 'Trans Via'),
+			'pe_supplier_id' => Yii::t('app', 'Pe Supplier'),
+			'pe_account_code' => Yii::t('app', 'Pe Account Code'),
+			'pe_bank_accounts_id' => Yii::t('app', 'Pe Bank Accounts'),
+			'users_id' => Yii::t('app', 'Users'),
+			'note' => Yii::t('app', 'Note'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('kas_keluar_id', $this->kas_keluar_id);
+		$criteria->compare('doc_ref', $this->doc_ref, true);
+		$criteria->compare('no_bukti', $this->no_bukti, true);
+		$criteria->compare('amount', $this->amount);
+		$criteria->compare('entry_time', $this->entry_time, true);
+		$criteria->compare('trans_date', $this->trans_date, true);
+		$criteria->compare('trans_via', $this->trans_via, true);
+		$criteria->compare('pe_supplier_id', $this->pe_supplier_id);
+		$criteria->compare('pe_account_code', $this->pe_account_code);
+		$criteria->compare('pe_bank_accounts_id', $this->pe_bank_accounts_id);
+		$criteria->compare('users_id', $this->users_id);
+		$criteria->compare('note', $this->note, true);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

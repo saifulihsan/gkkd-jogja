@@ -68,7 +68,7 @@ class PahKasKeluarController extends GxController
                 $bank_account = Pah::get_act_code_from_bank_act($kas_keluar->pah_bank_accounts_id);
                 //debet kode beban - kredit kas/bank
                 Pah::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref,
-                    $kas_keluar->pah_chart_master_account_code, '-', $kas_keluar->amount, $user);
+                    $kas_keluar->pah_chart_master_account_code, $kas_keluar->note, $kas_keluar->amount, $user);
                 Pah::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref, $bank_account,
                     '-', -$kas_keluar->amount, $user);
                 $transaction->commit();

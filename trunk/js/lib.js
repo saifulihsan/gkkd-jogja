@@ -304,6 +304,32 @@ jun.comboPayment = Ext.extend(Ext.form.ComboBox, {
         //        this.hiddenValue = 'payVal';
     }
 });
+jun.Gender = new Ext.data.ArrayStore({
+    fields:['code', 'desc'],
+    data:[
+        ['M', 'Laki-laki'],
+        ['F', 'Perempuan']                
+    ]
+});
+jun.cmbGender = Ext.extend(Ext.form.ComboBox,{
+	displayField:'desc',
+    valueField:'code',
+    typeAhead:true,
+    mode:'local',
+    forceSelection:true,
+    triggerAction:'all',
+    emptyText:'Pilih jenis kelamin...',
+    selectOnFocus:true,
+    name:'gender',
+    hiddenName:'gender',
+    hiddenValue:'gender',
+    initComponent:function () {
+        this.store = jun.Gender;
+        jun.comboPayment.superclass.initComponent.call(this);
+        //        this.hiddenName = 'trans_via';
+        //        this.hiddenValue = 'payVal';
+    }
+});
 /*status aktif*/
 jun.active = new Ext.data.ArrayStore({
     fields:['activeVal', 'activeName'],
