@@ -71,7 +71,7 @@ class PeKasMasukController extends GxController
                 Pe::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account, '-', $kas_masuk->amount,
                     $user);
                 Pe::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $act_donatur,
-                    '-', -$kas_masuk->amount, $user);
+                    $kas_masuk->note, -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

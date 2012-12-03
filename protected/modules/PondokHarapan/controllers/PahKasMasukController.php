@@ -68,10 +68,10 @@ class PahKasMasukController extends GxController
                 $bank_account = Pah::get_act_code_from_bank_act($kas_masuk->pah_bank_accounts_id);
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //debet kode kas/bank - kredit pendapatan
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account, '-', $kas_masuk->amount,
-                    $user);
+                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account,
+                    '-', $kas_masuk->amount,$user);
                 Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $act_donatur,
-                    '-', -$kas_masuk->amount, $user);
+                    $kas_masuk->note, -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

@@ -1,8 +1,8 @@
 jun.PeKasKeluarWin = Ext.extend(Ext.Window, {
     title:'Pengeluaran Kas Umum',
     modez:1,
-    width:350,
-    height:280,
+    width:420,
+    height:330,
     layout:'form',
     modal:true,
     padding:5,
@@ -106,6 +106,17 @@ jun.PeKasKeluarWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         ref:'../cmbKode',
                         lastQuery:''
+                    },
+                    {
+                        xtype:'textarea',
+                        fieldLabel:'Keterangan',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'note',
+                        id:'noteid',
+                        ref:'../note',
+                        //allowBlank: ,
+                        anchor:'100%'
                     },
                     {
                         xtype:'numericfield',

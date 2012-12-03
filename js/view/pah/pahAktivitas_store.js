@@ -19,9 +19,10 @@ jun.PahAktivitasstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'pah_member_id'},
                 {name:'pah_sub_aktivitas_id'},
                 {name:'users_id'},
+                {name:'note'},
             ]
         }, cfg));
     }
 });
 jun.rztPahAktivitas = new jun.PahAktivitasstore();
-
+//jun.rztPahAktivitas.load();

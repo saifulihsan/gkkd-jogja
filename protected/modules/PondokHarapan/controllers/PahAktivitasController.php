@@ -74,9 +74,9 @@ class PahAktivitasController extends GxController
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
                 Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
-                    '-', $aktivitas->amount, $user);
-                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
-                    $user);
+                    $aktivitas->note, $aktivitas->amount, $user);
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account,
+                    '-', -$aktivitas->amount,$user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

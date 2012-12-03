@@ -2,8 +2,8 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
     title:'Data Jemaat',
     iconCls: 'asp-user3',
     modez:1,
-    width:400,
-    height:280,
+    width:500,
+    height:380,
     layout:'form',
     modal:true,
     padding:5,
@@ -46,6 +46,25 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
                     {
+                        xtype:'xdatefield',
+                        ref:'../birth_date',
+                        fieldLabel:'Tanggal Lahir',
+                        name:'birthdate',
+                        id:'birthdateid',
+                        format:'d M Y',
+                        //allowBlank: 1,
+                        anchor:'100%'
+                    },                    
+                    new jun.cmbGender({
+                        fieldLabel:'Jenis Kelamin',
+                        hideLabel:false,
+                        width:200,
+                        height:20,
+                        name:'gender',
+                        ref:'../cmbGender',
+                        id:'genderid'
+                    }),
+                    {
                         xtype:'textfield',
                         fieldLabel:'Phone',
                         hideLabel:false,
@@ -70,6 +89,18 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                         anchor:'100%'
                     },
                     {
+                        xtype:'textfield',
+                        fieldLabel:'Pendidikan',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'education',
+                        id:'educationid',
+                        ref:'../education',
+                        maxLength:30,
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
+                    {
                         xtype:'textarea',
                         fieldLabel:'Alamat',
                         hideLabel:false,
@@ -80,14 +111,27 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
                         //allowBlank: ,
                         anchor:'100%'
                     },
+                    {
+                        xtype:'textfield',
+                        fieldLabel:'Kota Asal',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'hometown',
+                        id:'hometownid',
+                        ref:'../hometown',
+                        maxLength:30,
+                        //allowBlank: ,
+                        anchor:'100%'
+                    },
                     new jun.comboActive({
                         fieldLabel:'Status',
                         hideLabel:false,
-                        width:100,
+                        width:200,
                         height:20,
+                        name:'inactive',
                         ref:'../cmbActive',
-                        id:'statusid',
-                    }),
+                        id:'statusid'
+                    })
                 ]
             }
         ];
@@ -117,6 +161,11 @@ jun.JemaatWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        if (this.modez == 1 || this.modez == 2) {            
+            this.btnSave.setVisible(false);
+        } else {            
+            this.btnSave.setVisible(true);
+        }
     },
     btnDisabled:function(status){
         this.btnSave.setDisabled(status);

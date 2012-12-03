@@ -19,6 +19,7 @@ jun.PahAktivitasGrupTransstore = Ext.extend(Ext.data.JsonStore, {
                 {name:'users_id'},
                 {name:'pah_aktivitas_grup_id'},
                 {name:'pah_sub_aktivitas_id'},
+                {name:'note'},
             ]
         }, cfg));
     }

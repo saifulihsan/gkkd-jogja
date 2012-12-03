@@ -73,7 +73,7 @@ class PeAktivitasController extends GxController
                 $act_sub = $aktivitas->peSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
                 Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
-                    '-', $aktivitas->amount, $user);
+                    $aktivitas->note, $aktivitas->amount, $user);
                 Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
                     $user);
                 $transaction->commit();

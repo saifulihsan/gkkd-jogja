@@ -1,8 +1,8 @@
 jun.PeAktivitasGrupTransWin = Ext.extend(Ext.Window, {
     title:'Aktivitas Grup Anngota',
     modez:1,
-    width:400,
-    height:300,
+    width:450,
+    height:360,
     layout:'form',
     modal:true,
     padding:5,
@@ -119,6 +119,17 @@ jun.PeAktivitasGrupTransWin = Ext.extend(Ext.Window, {
                         anchor:'100%',
                         ref:'../cmbSubAktivitas',
                         lastQuery:''
+                    },
+                    {
+                        xtype:'textarea',
+                        fieldLabel:'Keterangan',
+                        hideLabel:false,
+                        //hidden:true,
+                        name:'note',
+                        id:'noteid',
+                        ref:'../note',
+                        //allowBlank: ,
+                        anchor:'100%'
                     },
                     {
                         xtype:'numericfield',

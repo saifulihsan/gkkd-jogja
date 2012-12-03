@@ -152,6 +152,11 @@ class MenuTree
                             leaf: true
                         },
                         {
+                            text: 'Pengeluaran Detil',
+                            id: 'jun.PahReportPengeluaranDetilWin',
+                            leaf: true
+                        },
+                        {
                             text: 'Beban Aktivitas',
                             id: 'jun.PahReportBebanAktivitasWin',
                             leaf: true
@@ -302,6 +307,11 @@ class MenuTree
                         {
                             text: 'Pengeluaran',
                             id: 'jun.PeReportPengeluaranWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pengeluaran Detil',
+                            id: 'jun.PeReportPengeluaranDetilWin',
                             leaf: true
                         },
                         {

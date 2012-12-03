@@ -19,9 +19,10 @@
  * @property integer $pah_donatur_id
  * @property integer $pah_bank_accounts_id
  * @property integer $users_id
+ * @property string $note
  *
- * @property PahDonatur $pahDonatur
  * @property PahBankAccounts $pahBankAccounts
+ * @property PahDonatur $pahDonatur
  * @property Users $users
  */
 abstract class BasePahKasMasuk extends GxActiveRecord {
@@ -45,16 +46,16 @@ abstract class BasePahKasMasuk extends GxActiveRecord {
 			array('amount', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
 			array('no_bukti, trans_via', 'length', 'max'=>45),
-			array('entry_time, trans_date', 'safe'),
-			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('kas_masuk_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_donatur_id, pah_bank_accounts_id, users_id', 'safe', 'on'=>'search'),
+			array('entry_time, trans_date, note', 'safe'),
+			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('kas_masuk_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, pah_donatur_id, pah_bank_accounts_id, users_id, note', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
-			'pahDonatur' => array(self::BELONGS_TO, 'PahDonatur', 'pah_donatur_id'),
 			'pahBankAccounts' => array(self::BELONGS_TO, 'PahBankAccounts', 'pah_bank_accounts_id'),
+			'pahDonatur' => array(self::BELONGS_TO, 'PahDonatur', 'pah_donatur_id'),
 			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
 		);
 	}
@@ -76,6 +77,7 @@ abstract class BasePahKasMasuk extends GxActiveRecord {
 			'pah_donatur_id' => Yii::t('app', 'Pah Donatur'),
 			'pah_bank_accounts_id' => Yii::t('app', 'Pah Bank Accounts'),
 			'users_id' => Yii::t('app', 'Users'),
+			'note' => Yii::t('app', 'Note'),
 		);
 	}
 
@@ -92,6 +94,7 @@ abstract class BasePahKasMasuk extends GxActiveRecord {
 		$criteria->compare('pah_donatur_id', $this->pah_donatur_id);
 		$criteria->compare('pah_bank_accounts_id', $this->pah_bank_accounts_id);
 		$criteria->compare('users_id', $this->users_id);
+		$criteria->compare('note', $this->note, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

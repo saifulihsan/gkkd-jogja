@@ -68,7 +68,7 @@ class PeKasKeluarController extends GxController
                 $bank_account = Pe::get_act_code_from_bank_act($kas_keluar->pe_bank_accounts_id);
                 //debet kode beban - kredit kas/bank
                 Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref,
-                    $kas_keluar->pe_account_code, '-', $kas_keluar->amount, $user);
+                    $kas_keluar->pe_account_code, $kas_keluar->note, $kas_keluar->amount, $user);
                 Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref, $bank_account,
                     '-', -$kas_keluar->amount, $user);
                 $transaction->commit();
