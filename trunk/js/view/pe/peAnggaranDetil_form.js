@@ -106,15 +106,15 @@ jun.PeAnggaranDetilWin = Ext.extend(Ext.Window, {
                 });
             return;
                 }
-        if (Ext.getCmp('totalangblmid').getValue() < this.amount.value) {
-                Ext.MessageBox.show({
-                title:'Error',
-                msg:'Alokasi melebihi anggaran!',
-                    buttons:Ext.MessageBox.OK,
-                icon:Ext.MessageBox.ERROR
-                });
-            return;
-            }
+//        if (Ext.getCmp('totalangblmid').getValue() < this.amount.value) {
+//                Ext.MessageBox.show({
+//                title:'Error',
+//                msg:'Alokasi melebihi anggaran!',
+//                    buttons:Ext.MessageBox.OK,
+//                icon:Ext.MessageBox.ERROR
+//                });
+//            return;
+//            }
         if (this.modez > 0) {
             var index = jun.rztPeAnggaranDetil.find('account_code', this.id);
             if (index > -1)

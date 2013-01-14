@@ -9,11 +9,8 @@ class Pe
 //------------------------------------------------ Void ----------------------------------------------------------------
     static function get_voided($type)
     {
-        $void = Yii::app()->db->createCommand()
-            ->select('id')
-            ->from('pe_voided')
-            ->where('type=:type', array(':type' => $type))
-            ->queryColumn();
+        $void = Yii::app()->db->createCommand()->select('id')->from('pe_voided')
+            ->where('type=:type', array(':type' => $type))->queryColumn();
         return $void;
     }
 
@@ -49,19 +46,17 @@ class Pe
         $bank_act = $bank_account == null ? '' : "bank_act=$bank_account AND";
         $db = PeBankTrans::model()->getDbConnection();
         $total = $db->createCommand("SELECT SUM(amount)
-        FROM pe_bank_trans where $bank_act trans_date < '$from'")
-            ->queryScalar();
+        FROM pe_bank_trans where $bank_act trans_date < '$from'")->queryScalar();
         return $total == null ? 0 : $total;
     }
 
     static function get_bank_trans_for_bank_account($bank_account, $from, $to)
     {
         $criteria = new CDbCriteria();
-        if ($bank_account != null)
-            $criteria->addCondition("bank_act =" . $bank_account);
+        if ($bank_account != null) $criteria->addCondition("bank_act =" . $bank_account);
 //        $criteria->addCondition("trans_date >= '$from'");
 //        $criteria->addCondition("trans_date <= '$to'");
-        $criteria->addBetweenCondition("trans_date",$from,$to);
+        $criteria->addBetweenCondition("trans_date", $from, $to);
         $criteria->order = "trans_date, id";
         return PeBankTrans::model()->findAll($criteria);
     }
@@ -71,18 +66,14 @@ class Pe
         $criteria = new CDbCriteria();
         $criteria->addCondition("account_code =" . $account_code);
         $bank_act = PeBankAccounts::model()->find($criteria);
-        if ($bank_act != null)
-            return $bank_act->id;
-        else
+        if ($bank_act != null) return $bank_act->id; else
             return false;
     }
 
     static function get_act_code_from_bank_act($bank_act)
     {
         $bank = PeBankAccounts::model()->findByPk($bank_act);
-        if ($bank != null)
-            return $bank->accountCode->account_code;
-        else
+        if ($bank != null) return $bank->accountCode->account_code; else
             return false;
     }
 
@@ -102,16 +93,11 @@ class Pe
 //--------------------------------------------- Gl Trans ---------------------------------------------------------------
     static function get_sql_for_journal_inquiry($from, $to)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("gl_trans.tran_date,gl_trans.type,refs.reference,Sum(IF(amount>0, amount,0)) AS amount,
-                comments.memo_,gl_trans.person_id,gl_trans.type_no")
-            ->from('gl_trans')
+        $rows = Yii::app()->db->createCommand()->select("gl_trans.tran_date,gl_trans.type,refs.reference,Sum(IF(amount>0, amount,0)) AS amount,
+                comments.memo_,gl_trans.person_id,gl_trans.type_no")->from('gl_trans')
             ->join('comments', 'gl_trans.type = comments.type AND gl_trans.type_no = comments.type_no')
-            ->Join('refs', 'gl_trans.type = refs.type AND gl_trans.type_no = refs.type_no')
-            ->where("gl_trans.amount!=0 and gl_trans.tran_date >= '$from'
-		        AND gl_trans.tran_date <= '$to'")
-            ->group('gl_trans.type, gl_trans.type_no')
-            ->order('tran_date desc')
+            ->Join('refs', 'gl_trans.type = refs.type AND gl_trans.type_no = refs.type_no')->where("gl_trans.amount!=0 and gl_trans.tran_date >= '$from'
+		        AND gl_trans.tran_date <= '$to'")->group('gl_trans.type, gl_trans.type_no')->order('tran_date desc')
             ->queryAll();
         return $rows;
     }
@@ -196,14 +182,14 @@ class Pe
         return $model;
     }
 
-    static function get_arr_kode_rekening_pengeluaran($code = ""){
+    static function get_arr_kode_rekening_pengeluaran($code = "")
+    {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("account_type='".PePrefs::TypeCostAct()."'");
-        if($code != "account_code")
-            $criteria->addCondition("account_code='$code'");
+        $criteria->addCondition("account_type='" . PePrefs::TypeCostAct() . "'");
+        if ($code != "account_code" && $code != "") $criteria->addCondition("account_code='$code'");
         $model = PeChartMaster::model()->findAll($criteria);
         $daftar = array();
-        foreach($model as $coderek){
+        foreach ($model as $coderek) {
             $daftar[$coderek['account_code']] = $coderek['account_name'];
         }
         return $daftar;
@@ -213,12 +199,11 @@ class Pe
     {
         $rows = Yii::app()->db->createCommand()
             ->select("a.tran_date,a.memo_,IF(a.amount > 0,a.amount,'') as debit,IF(a.amount < 0,-a.amount,'') as kredit")
-            ->from("Pe_gl_trans a")
-            ->rightJoin("Pe_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
-            ->where("b.account_type=:type and b.account_code=:code",array(':type' => PePrefs::TypeCostAct(),':code'=>$code))
-            ->order("a.tran_date")
-            ->queryAll();
+            ->from("Pe_gl_trans a")->rightJoin("Pe_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))
+            ->leftJoin('pe_voided c',"a.type_no=c.id AND c.type=a.type")
+            ->where("b.account_code=:code and a.type != :type and ISNULL(c.date_)",
+            array('code' => $code,'type'=>VOID))->order("a.tran_date")->queryAll();
         return $rows;
     }
 
@@ -226,28 +211,20 @@ class Pe
     {
         $rows = Yii::app()->db->createCommand()
             ->select("b.account_code,b.account_name as nama_rekening,IFNULL(sum(a.amount),0) as total_beban")
-            ->from("pe_gl_trans a")
-            ->rightJoin("pe_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->where("b.account_type=:type and !b.inactive",
-            array(':type' => PePrefs::TypeCostAct()))
-            ->group("b.account_name")
-            ->order("b.account_code")
-            ->queryAll();
+            ->from("pe_gl_trans a")->rightJoin("pe_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))
+            ->where("b.account_type=:type and !b.inactive", array(':type' => PePrefs::TypeCostAct()))
+            ->group("b.account_name")->order("b.account_code")->queryAll();
         return $rows;
     }
 
     static function get_total_pengeluaran($start_date, $end_date, $code = "")
     {
         $kode = $code == "" ? "" : "and b.account_code = '$code'";
-        $rows = Yii::app()->db->createCommand()
-            ->select("sum(a.amount) as total_beban")
-            ->from("pe_gl_trans a")
+        $rows = Yii::app()->db->createCommand()->select("sum(a.amount) as total_beban")->from("pe_gl_trans a")
             ->join("pe_chart_master b", "a.account=b.account_code")
-           ->where("a.tran_date between :start and :end and b.account_type=:type  $kode",
-            array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypeCostAct()))
-            ->queryScalar();
+            ->where("a.tran_date between :start and :end and b.account_type=:type  $kode",
+            array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypeCostAct()))->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
@@ -255,15 +232,12 @@ class Pe
     {
         $void = Pe::get_voided(AKTIVITAS);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas.aktivitas_id not in (".join(',',$void).")";
+        if (count($void) > 0) $void_st = "and pe_aktivitas.aktivitas_id not in (" . join(',', $void) . ")";
         $query = Yii::app()->db->createCommand()
             ->select("pe_sub_aktivitas.nama as sub_aktivitas,IFNULL(Sum(pe_aktivitas.amount),0) as total_beban")
-            ->from("pe_aktivitas")
-            ->rightJoin("pe_sub_aktivitas", "pe_aktivitas.pe_sub_aktivitas_id = pe_sub_aktivitas.id
+            ->from("pe_aktivitas")->rightJoin("pe_sub_aktivitas", "pe_aktivitas.pe_sub_aktivitas_id = pe_sub_aktivitas.id
             AND pe_aktivitas.trans_date between :start and :end $void_st ",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->where("!pe_sub_aktivitas.inactive")
+            array(':start' => $start_date, ':end' => $end_date))->where("!pe_sub_aktivitas.inactive")
             ->group("pe_sub_aktivitas.nama");
         $rows = $query->queryAll();
         return $rows;
@@ -273,15 +247,11 @@ class Pe
     {
         $void = Pe::get_voided(AKTIVITAS);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas.aktivitas_id not in (".join(',',$void).")";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(pe_aktivitas.amount) as total_beban")
-            ->from("pe_aktivitas")
+        if (count($void) > 0) $void_st = "and pe_aktivitas.aktivitas_id not in (" . join(',', $void) . ")";
+        $rows = Yii::app()->db->createCommand()->select("Sum(pe_aktivitas.amount) as total_beban")->from("pe_aktivitas")
             ->join("pe_sub_aktivitas", "pe_aktivitas.pe_sub_aktivitas_id = pe_sub_aktivitas.id")
             ->where("pe_aktivitas.trans_date between :start and :end $void_st ",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->queryScalar();
+            array(':start' => $start_date, ':end' => $end_date))->queryScalar();
 //            ->where("pe_aktivitas.trans_date between :start and :end",
 //            array(':start' => $start_date, ':end' => $end_date))
         return $rows == null ? 0 : $rows;
@@ -291,18 +261,13 @@ class Pe
     {
         $void = Pe::get_voided(AKTIVITAS);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas.aktivitas_id not in (".join(',',$void).")";
+        if (count($void) > 0) $void_st = "and pe_aktivitas.aktivitas_id not in (" . join(',', $void) . ")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pe_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(pe_aktivitas.amount) as amount,jemaat.real_name")
-            ->from("pe_aktivitas")
-            ->rightJoin("pe_member", "pe_aktivitas.pe_member_id = pe_member.id and
+        $rows = Yii::app()->db->createCommand()->select("Sum(pe_aktivitas.amount) as amount,jemaat.real_name")
+            ->from("pe_aktivitas")->rightJoin("pe_member", "pe_aktivitas.pe_member_id = pe_member.id and
                 pe_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
-            ->join("jemaat", "pe_member.jemaat_nij = jemaat.nij")
-            ->where("!pe_member.inactive")
-            ->group("jemaat.real_name")
-            ->queryAll();
+            ->join("jemaat", "pe_member.jemaat_nij = jemaat.nij")->where("!pe_member.inactive")
+            ->group("jemaat.real_name")->queryAll();
         return $rows;
     }
 
@@ -310,15 +275,11 @@ class Pe
     {
         $void = Pe::get_voided(AKTIVITAS);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas.aktivitas_id not in (".join(',',$void).")";
+        if (count($void) > 0) $void_st = "and pe_aktivitas.aktivitas_id not in (" . join(',', $void) . ")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pe_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(pe_aktivitas.amount) as amount")
-            ->from("pe_aktivitas")
+        $rows = Yii::app()->db->createCommand()->select("Sum(pe_aktivitas.amount) as amount")->from("pe_aktivitas")
             ->rightJoin("pe_member", "pe_aktivitas.pe_member_id = pe_member.id and
-                pe_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
-            ->queryScalar();
+                pe_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
@@ -326,17 +287,13 @@ class Pe
     {
         $void = Pe::get_voided(T_AKTIVITASGRUP);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
+        if (count($void) > 0) $void_st = "and pe_aktivitas_grup_trans.aktivitas_id not in (" . join(',', $void) . ")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pe_member.id = $anak_id";
         $rows = Yii::app()->db->createCommand()
             ->select("IFNULL(Sum(pe_aktivitas_grup_trans.amount),0) as amount,pe_aktivitas_grup.name")
-            ->from("pe_aktivitas_grup_trans")
-            ->rightJoin("pe_aktivitas_grup", "pe_aktivitas_grup_trans.pe_aktivitas_grup_id = pe_aktivitas_grup.id and
+            ->from("pe_aktivitas_grup_trans")->rightJoin("pe_aktivitas_grup", "pe_aktivitas_grup_trans.pe_aktivitas_grup_id = pe_aktivitas_grup.id and
                 pe_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
-            ->where("!pe_aktivitas_grup.inactive")
-            ->group("pe_aktivitas_grup.name")
-            ->queryAll();
+            ->where("!pe_aktivitas_grup.inactive")->group("pe_aktivitas_grup.name")->queryAll();
         return $rows;
     }
 
@@ -345,15 +302,11 @@ class Pe
         $void = Pe::get_voided(T_AKTIVITASGRUP);
 //        $void = Pe::get_voided(7);
         $void_st = '';
-        if(count($void)>0)
-            $void_st = "and pe_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
+        if (count($void) > 0) $void_st = "and pe_aktivitas_grup_trans.aktivitas_id not in (" . join(',', $void) . ")";
         $per_anak = $anak_id == 'undefined' ? '' : "AND pe_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(pe_aktivitas_grup_trans.amount) as amount")
-            ->from("pe_aktivitas_grup_trans")
-            ->rightJoin("pe_aktivitas_grup", "pe_aktivitas_grup_trans.pe_aktivitas_grup_id = pe_aktivitas_grup.id and
-                pe_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
-            ->queryScalar();
+        $rows = Yii::app()->db->createCommand()->select("Sum(pe_aktivitas_grup_trans.amount) as amount")
+            ->from("pe_aktivitas_grup_trans")->rightJoin("pe_aktivitas_grup", "pe_aktivitas_grup_trans.pe_aktivitas_grup_id = pe_aktivitas_grup.id and
+                pe_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
@@ -361,61 +314,46 @@ class Pe
     {
         $rows = Yii::app()->db->createCommand()
             ->select("b.account_name as nama_rekening,IFNULL(-sum(a.amount),0) as total_pendapatan")
-            ->from("pe_gl_trans a")
-            ->rightJoin("pe_chart_master b", "a.account=b.account_code and 
-                a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
+            ->from("pe_gl_trans a")->rightJoin("pe_chart_master b", "a.account=b.account_code and
+                a.tran_date between :start and :end", array(':start' => $start_date, ':end' => $end_date))
             ->where("b.account_type=:type and !b.inactive", array(':type' => PePrefs::TypePendapatanAct()))
-            ->group("b.account_name")
-            ->order("b.account_code")
-            ->queryAll();
+            ->group("b.account_name")->order("b.account_code")->queryAll();
         return $rows;
     }
 
     static function get_total_pendapatan($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("-sum(a.amount) as total_pendapatan")
-            ->from("pe_gl_trans a")
+        $rows = Yii::app()->db->createCommand()->select("-sum(a.amount) as total_pendapatan")->from("pe_gl_trans a")
             ->join("pe_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_type=:type",
             array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypePendapatanAct()))
-            ->order("b.account_code")
-            ->queryScalar();
+            ->order("b.account_code")->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
     static function get_realisasi_by_code($start_date, $end_date, $code)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("sum(a.amount) as total_realisasi")
-            ->from("pe_gl_trans a")
+        $rows = Yii::app()->db->createCommand()->select("sum(a.amount) as total_realisasi")->from("pe_gl_trans a")
             ->join("pe_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_code=:code",
-            array(':start' => $start_date, ':end' => $end_date, ':code' => $code))
-            ->queryScalar();
+            array(':start' => $start_date, ':end' => $end_date, ':code' => $code))->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
     static function get_anggaran_by_code($month, $year, $code)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("pe_anggaran_detil.amount AS anggaran")
-            ->from("pe_anggaran_detil")
-            ->join("pe_anggaran", "pe_anggaran.id = pe_anggaran_detil.anggaran_id")
-            ->where("pe_anggaran.periode_bulan = :month AND pe_anggaran.periode_tahun = :year AND
-                pe_anggaran_detil.account_code = :code",
-            array(':month' => $month, ':year' => $year, ':code' => $code))
-            ->queryScalar();
+        $rows =
+            Yii::app()->db->createCommand()->select("pe_anggaran_detil.amount AS anggaran")->from("pe_anggaran_detil")
+                ->join("pe_anggaran", "pe_anggaran.id = pe_anggaran_detil.anggaran_id")->where("pe_anggaran.periode_bulan = :month AND pe_anggaran.periode_tahun = :year AND
+                pe_anggaran_detil.account_code = :code", array(':month' => $month, ':year' => $year, ':code' => $code))
+                ->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_penghuni_pondok($where=""){
-         return app()->db->createCommand()
-             ->from("jemaat")
-             ->join("pe_member","jemaat.nij = pe_member.jemaat_nij")
-             ->where("pe_member.inactive = 0 $where")
-             ->order("jemaat.real_name asc")
-             ->queryAll();
+    static function get_penghuni_pondok($where = "")
+    {
+        return app()->db->createCommand()->from("jemaat")->join("pe_member", "jemaat.nij = pe_member.jemaat_nij")
+            ->where("pe_member.inactive = 0 $where")->order("jemaat.real_name asc")->queryAll();
     }
 
     static function get_chart_master_beban()

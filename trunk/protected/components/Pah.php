@@ -199,7 +199,7 @@ class Pah
     static function get_arr_kode_rekening_pengeluaran($code = ""){
         $criteria = new CDbCriteria();
         $criteria->addCondition("account_type='".PahPrefs::TypeCostAct()."'");
-        if($code != "account_code")
+        if($code != "account_code" && $code != "")
             $criteria->addCondition("account_code='$code'");
         $model = PahChartMaster::model()->findAll($criteria);
         $daftar = array();
@@ -216,7 +216,9 @@ class Pah
             ->from("pah_gl_trans a")
             ->rightJoin("pah_chart_master b", "a.account=b.account_code
             AND a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
-            ->where("b.account_type=:type and b.account_code=:code",array(':type' => PahPrefs::TypeCostAct(),':code'=>$code))
+            ->leftJoin('pah_voided c',"a.type_no=c.id AND c.type=a.type")
+            ->where("b.account_code=:code and a.type != :type and ISNULL(c.date_)",array('code'=>$code,'type'=>VOID))
+            //->where("b.account_code=:code",array('code'=>$code))
             ->order("a.tran_date")
             ->queryAll();
         return $rows;
