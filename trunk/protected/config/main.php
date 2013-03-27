@@ -21,12 +21,13 @@ return array(
             'class' => 'system.gii.GiiModule',
             'password' => 'admin',
             'ipFilters' => array('127.0.0.1', '::1'),
-            'generatorPaths' => array('ext.giix-core', 
+            'generatorPaths' => array('ext.giix-core',
             ),
         ),
         'general',
         'PondokHarapan',
         'PondokEfata',
+        'Mahkotrans',
     ),
     'components' => array(
         'user' => array(
@@ -41,10 +42,9 @@ return array(
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
-
-        'excel'=>array(
-            'class'=>'application.extensions.PHPExcel',
-            ),
+        'excel' => array(
+            'class' => 'application.extensions.PHPExcel',
+        ),
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=gkkd',
             'emulatePrepare' => true,
@@ -52,15 +52,14 @@ return array(
             'password' => 'root',
             'charset' => 'utf8',
         ),
-
-        'errorHandler' => array( 
+        'errorHandler' => array(
             'errorAction' => 'site/error',),
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(array(
-                'class' => 'CWebLogRoute',                
-                'levels' => 'error, warning',
-            ), 
+                    'class' => 'CWebLogRoute',
+                    'levels' => 'error, warning',
+                ),
             ),
         ),
         'ePdf' => array(
@@ -72,20 +71,15 @@ return array(
                         '_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
                     ),
                     'class' => 'mpdf',
-                    
                 ),
                 'HTML2PDF' => array(
                     'librarySourcePath' => 'application.vendors.html2pdf.*',
-                    'classFile' => 'html2pdf.class.php', 
-                    
+                    'classFile' => 'html2pdf.class.php',
                 )
             ),
         ),
-
     ),
-
-    
-    'params' => array( 
+    'params' => array(
         'adminEmail' => 'webmaster@example.com',
         'phpass' => array(
             'iteration_count_log2' => 8,
