@@ -1,7 +1,7 @@
 <?php
 
-class MenuTree
-{
+class MenuTree {
+
     var $security_role;
     var $menu_data_jemaat = "{text: 'Data Jemaat',
                                 id: 'jun.JemaatGrid',
@@ -16,15 +16,113 @@ class MenuTree
                                 leaf: true
                                 },";
 
-    function __construct($id)
-    {
+    function __construct($id) {
         //$this->security_role_id = $id;
         $role = SecurityRoles::model()->findByPk($id);
         $this->security_role = explode(",", $role->sections);
     }
 
-    function get_menu_pondok_harapan()
-    {
+    function get_menu_mahkotrans() {
+        $menu = "{text: 'Mahkotrans',
+                  expanded: false,
+                  children:[{
+                    text: 'File',
+                    expanded: false,
+                    children:[{
+                            text: 'Eksport',
+                            id: 'jun.NotaGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Import',
+                            id: 'jun.NotaGrid',
+                            leaf: true
+                        }]
+                    },
+                    {
+                    text: 'Master',
+                    expanded: false,
+                    children:[{
+                            text: 'Kode Rekening',
+                            id: 'jun.MtChartMasterGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Kas dan Bank',
+                            id: 'jun.MtBankAccountsGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pemasok',
+                            id: 'jun.MtSuppliersGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Mobil',
+                            id: 'jun.MtMobilGrid',
+                            leaf: true
+                        },
+                        ]
+                    },
+                    {
+                    text: 'Transaksi',
+                    expanded: false,
+                    children:[{
+                            text: 'Penerimaan Kas',
+                            id: 'jun.MtKasMasukGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pengeluaran Kas',
+                            id: 'jun.MtKasKeluarGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Mutasi antar Rekening Kas',
+                            id: 'jun.MtTranferBankWin',
+                            leaf: true
+                        },";
+        $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
+                        {
+                            text: 'Set Saldo Awal',
+                            id: 'jun.MtSaldoAwalWin',
+                            leaf: true
+                        },"
+                    : '';
+        $menu .= "
+                        ]
+                    },
+                    {
+                    text: 'Laporan',
+                    expanded: false,
+                    children:[
+                        {
+                            text: 'Mutasi Kas per Bank',
+                            id: 'jun.MtBankTransGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pendapatan',
+                            id: 'jun.MtReportPendapatanWin',
+                            leaf:true
+                        },
+                        {
+                            text: 'Pengeluaran',
+                            id: 'jun.MtReportPengeluaranWin',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pengeluaran Detil',
+                            id: 'jun.MtReportPengeluaranDetilWin',
+                            leaf: true
+                        },]
+                    },
+                    ]
+                  },";
+        return $menu;
+    }
+
+    function get_menu_pondok_harapan() {
         $menu = "{text: 'Pondok Asuh Harapan',
                   expanded: false,
                   children:[{
@@ -118,7 +216,8 @@ class MenuTree
                             text: 'Set Saldo Awal',
                             id: 'jun.PahSaldoAwalWin',
                             leaf: true
-                        }," : '';
+                        },"
+                    : '';
         $menu .= "
                         ]
                     },
@@ -130,7 +229,7 @@ class MenuTree
                             text: 'Mutasi Kas per Bank',
                             id: 'jun.PahBankTransGrid',
                             leaf: true
-                        },                        
+                        },
                         {
                             text: 'Pertanggungjawaban',
                             id: 'jun.PahReportTanggungJawabWin',
@@ -182,8 +281,7 @@ class MenuTree
         return $menu;
     }
 
-    function get_menu_pondok_efata()
-    {
+    function get_menu_pondok_efata() {
         $menu = "{text: 'Pondok Efata',
                   expanded: false,
                   children:[{
@@ -276,7 +374,8 @@ class MenuTree
                             text: 'Set Saldo Awal',
                             id: 'jun.PeSaldoAwalWin',
                             leaf: true
-                        }," : '';
+                        },"
+                    : '';
         $menu .= "
                         ]
                     },
@@ -340,8 +439,7 @@ class MenuTree
         return $menu;
     }
 
-    function get_menu_general()
-    {
+    function get_menu_general() {
         $menu = "{text: 'Administrasi',
                   expanded: false,
                   children:[
@@ -351,13 +449,17 @@ class MenuTree
         return $menu;
     }
 
-    public function get_menu()
-    {
+    public function get_menu() {
         $username = Yii::app()->user->name;
         $data = "[";
-        $data .= in_array(PONDOKHARAPAN, $this->security_role) ? $this->get_menu_pondok_harapan() : '';
-        $data .= in_array(PONDOKEFATA, $this->security_role) ? $this->get_menu_pondok_efata() : '';
-        $data .= in_array(ADMINISTRATOR, $this->security_role) ? $this->get_menu_general() : '';
+        $data .= in_array(PONDOKHARAPAN, $this->security_role) ? $this->get_menu_pondok_harapan()
+                    : '';
+        $data .= in_array(PONDOKEFATA, $this->security_role) ? $this->get_menu_pondok_efata()
+                    : '';
+        $data .= in_array(MAHKOTRANS, $this->security_role) ? $this->get_menu_mahkotrans()
+                    : '';
+        $data .= in_array(ADMINISTRATOR, $this->security_role) ? $this->get_menu_general()
+                    : '';
         $data .= "{
                 text: 'Ganti Password',
                 id: 'jun.PasswordWin',
@@ -370,4 +472,5 @@ class MenuTree
               }]";
         return $data;
     }
+
 }
