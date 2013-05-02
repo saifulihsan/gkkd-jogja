@@ -10,6 +10,7 @@ return array(
         'application.modules.general.models.*',
         'application.modules.PondokHarapan.models.*',
         'application.modules.PondokEfata.models.*',
+        'application.modules.Mahkotrans.models.*',
         'application.components.*',
         'ext.giix-components.*',
         'application.extensions.PasswordHash',
