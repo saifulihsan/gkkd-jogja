@@ -43,6 +43,16 @@ class MenuTree {
                     text: 'Master',
                     expanded: false,
                     children:[{
+                            text: 'Kelompok Pelanggan',
+                            id: 'jun.MtKelompokPelangganGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Pelanggan',
+                            id: 'jun.MtPelangganGrid',
+                            leaf: true
+                        },
+                        {
                             text: 'Kode Rekening',
                             id: 'jun.MtChartMasterGrid',
                             leaf: true
@@ -53,27 +63,38 @@ class MenuTree {
                             leaf: true
                         },
                         {
-                            text: 'Pemasok',
-                            id: 'jun.MtSuppliersGrid',
-                            leaf: true
-                        },
-                        {
                             text: 'Mobil',
                             id: 'jun.MtMobilGrid',
                             leaf: true
                         },
+                        {
+                            text: 'Driver',
+                            id: 'jun.MtDriverGrid',
+                            leaf: true
+                        },
+
                         ]
                     },
                     {
                     text: 'Transaksi',
                     expanded: false,
                     children:[{
-                            text: 'Penerimaan Kas',
+                            text: 'Peminjaman Kendaraan',
+                            id: 'jun.MtPinjamanGrid',
+                            leaf: true
+                        },
+                         {
+                            text: 'Pengembalian Kendaraan',
+                            id: 'jun.MtPengembalianGrid',
+                            leaf: true
+                        },
+                        {
+                            text: 'Kas Masuk',
                             id: 'jun.MtKasMasukGrid',
                             leaf: true
                         },
                         {
-                            text: 'Pengeluaran Kas',
+                            text: 'Kas Keluar',
                             id: 'jun.MtKasKeluarGrid',
                             leaf: true
                         },
@@ -83,23 +104,16 @@ class MenuTree {
                             leaf: true
                         },
                         {
-                            text: 'Peminjaman Kendaraan',
-                            id: 'jun.MtPinjamanGrid',
+                            text: 'Jurnal Umum',
+                            id: 'jun.MtGlTransWin',
                             leaf: true
-                        },
-                          {
-                            text: 'Pengembalian Kendaraan',
-                            id: 'jun.MtPengembalianGrid',
-                            leaf: true
-                        },
-                        ";
+                        },";
         $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
                         {
                             text: 'Set Saldo Awal',
                             id: 'jun.MtSaldoAwalWin',
                             leaf: true
-                        },"
-                    : '';
+                        }," : '';
         $menu .= "
                         ]
                     },
@@ -227,8 +241,7 @@ class MenuTree {
                             text: 'Set Saldo Awal',
                             id: 'jun.PahSaldoAwalWin',
                             leaf: true
-                        },"
-                    : '';
+                        }," : '';
         $menu .= "
                         ]
                     },
@@ -385,8 +398,7 @@ class MenuTree {
                             text: 'Set Saldo Awal',
                             id: 'jun.PeSaldoAwalWin',
                             leaf: true
-                        },"
-                    : '';
+                        }," : '';
         $menu .= "
                         ]
                     },
@@ -463,14 +475,10 @@ class MenuTree {
     public function get_menu() {
         $username = Yii::app()->user->name;
         $data = "[";
-        $data .= in_array(PONDOKHARAPAN, $this->security_role) ? $this->get_menu_pondok_harapan()
-                    : '';
-        $data .= in_array(PONDOKEFATA, $this->security_role) ? $this->get_menu_pondok_efata()
-                    : '';
-        $data .= in_array(MAHKOTRANS, $this->security_role) ? $this->get_menu_mahkotrans()
-                    : '';
-        $data .= in_array(ADMINISTRATOR, $this->security_role) ? $this->get_menu_general()
-                    : '';
+        $data .= in_array(PONDOKHARAPAN, $this->security_role) ? $this->get_menu_pondok_harapan() : '';
+        $data .= in_array(PONDOKEFATA, $this->security_role) ? $this->get_menu_pondok_efata() : '';
+        $data .= in_array(MAHKOTRANS, $this->security_role) ? $this->get_menu_mahkotrans() : '';
+        $data .= in_array(ADMINISTRATOR, $this->security_role) ? $this->get_menu_general() : '';
         $data .= "{
                 text: 'Ganti Password',
                 id: 'jun.PasswordWin',

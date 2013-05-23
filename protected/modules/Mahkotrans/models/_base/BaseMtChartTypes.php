@@ -15,73 +15,68 @@
  * @property string $parent
  * @property integer $inactive
  *
- * @property MtChartMaster[] $pahChartMasters
+ * @property MtChartMaster[] $mtChartMasters
  * @property MtChartClass $class
  */
-abstract class BaseMtChartTypes extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BaseMtChartTypes extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'mt_chart_types';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'name';
-    }
+	public function tableName() {
+		return 'mt_chart_types';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('id', 'required'),
-            array('inactive', 'numerical', 'integerOnly' => true),
-            array('id, parent', 'length', 'max' => 10),
-            array('name', 'length', 'max' => 60),
-            array('class_id', 'length', 'max' => 3),
-            array('name, class_id, parent, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, name, class_id, parent, inactive', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'name';
+	}
 
-    public function relations()
-    {
-        return array(
-            'pahChartMasters' => array(self::HAS_MANY, 'MtChartMaster', 'account_type'),
-            'class' => array(self::BELONGS_TO, 'MtChartClass', 'class_id'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('id', 'required'),
+			array('inactive', 'numerical', 'integerOnly'=>true),
+			array('id, parent', 'length', 'max'=>10),
+			array('name', 'length', 'max'=>60),
+			array('class_id', 'length', 'max'=>3),
+			array('name, class_id, parent, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, name, class_id, parent, inactive', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'mtChartMasters' => array(self::HAS_MANY, 'MtChartMaster', 'account_type'),
+			'class' => array(self::BELONGS_TO, 'MtChartClass', 'class_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'class_id' => Yii::t('app', 'Class'),
-            'parent' => Yii::t('app', 'Parent'),
-            'inactive' => Yii::t('app', 'Inactive'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('class_id', $this->class_id);
-        $criteria->compare('parent', $this->parent, true);
-        $criteria->compare('inactive', $this->inactive);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'name' => Yii::t('app', 'Name'),
+			'class_id' => Yii::t('app', 'Class'),
+			'parent' => Yii::t('app', 'Parent'),
+			'inactive' => Yii::t('app', 'Inactive'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id, true);
+		$criteria->compare('name', $this->name, true);
+		$criteria->compare('class_id', $this->class_id);
+		$criteria->compare('parent', $this->parent, true);
+		$criteria->compare('inactive', $this->inactive);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

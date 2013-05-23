@@ -14,68 +14,63 @@
  * @property integer $ctype
  * @property integer $inactive
  *
- * @property MtChartTypes[] $pahChartTypes
+ * @property MtChartTypes[] $mtChartTypes
  */
-abstract class BaseMtChartClass extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BaseMtChartClass extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'mt_chart_class';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'class_name';
-    }
+	public function tableName() {
+		return 'mt_chart_class';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('cid', 'required'),
-            array('ctype, inactive', 'numerical', 'integerOnly' => true),
-            array('cid', 'length', 'max' => 3),
-            array('class_name', 'length', 'max' => 60),
-            array('class_name, ctype, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('cid, class_name, ctype, inactive', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'class_name';
+	}
 
-    public function relations()
-    {
-        return array(
-            'pahChartTypes' => array(self::HAS_MANY, 'MtChartTypes', 'class_id'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('cid, ctype', 'required'),
+			array('ctype, inactive', 'numerical', 'integerOnly'=>true),
+			array('cid', 'length', 'max'=>3),
+			array('class_name', 'length', 'max'=>60),
+			array('class_name, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('cid, class_name, ctype, inactive', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'mtChartTypes' => array(self::HAS_MANY, 'MtChartTypes', 'class_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'cid' => Yii::t('app', 'Cid'),
-            'class_name' => Yii::t('app', 'Class Name'),
-            'ctype' => Yii::t('app', 'Ctype'),
-            'inactive' => Yii::t('app', 'Inactive'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('cid', $this->cid, true);
-        $criteria->compare('class_name', $this->class_name, true);
-        $criteria->compare('ctype', $this->ctype);
-        $criteria->compare('inactive', $this->inactive);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'cid' => Yii::t('app', 'Cid'),
+			'class_name' => Yii::t('app', 'Class Name'),
+			'ctype' => Yii::t('app', 'Ctype'),
+			'inactive' => Yii::t('app', 'Inactive'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('cid', $this->cid, true);
+		$criteria->compare('class_name', $this->class_name, true);
+		$criteria->compare('ctype', $this->ctype);
+		$criteria->compare('inactive', $this->inactive);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

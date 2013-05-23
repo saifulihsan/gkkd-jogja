@@ -16,82 +16,76 @@
  * @property string $ref
  * @property string $trans_date
  * @property double $amount
- * @property string $reconciled
  * @property integer $users_id
  *
  * @property MtBankAccounts $bankAct
+ * @property Users $users
  */
-abstract class BaseMtBankTrans extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BaseMtBankTrans extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'mt_bank_trans';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'ref';
-    }
+	public function tableName() {
+		return 'mt_bank_trans';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('users_id', 'required'),
-            array('type, trans_no, bank_act, users_id', 'numerical', 'integerOnly' => true),
-            array('amount', 'numerical'),
-            array('ref', 'length', 'max' => 40),
-            array('trans_date, reconciled', 'safe'),
-            array('type, trans_no, bank_act, ref, trans_date, amount, reconciled', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, type, trans_no, bank_act, ref, trans_date, amount, reconciled, users_id', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'ref';
+	}
 
-    public function relations()
-    {
-        return array(
-            'bankAct' => array(self::BELONGS_TO, 'MtBankAccounts', 'bank_act'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('users_id', 'required'),
+			array('type, trans_no, bank_act, users_id', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical'),
+			array('ref', 'length', 'max'=>40),
+			array('trans_date', 'safe'),
+			array('type, trans_no, bank_act, ref, trans_date, amount', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, type, trans_no, bank_act, ref, trans_date, amount, users_id', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'bankAct' => array(self::BELONGS_TO, 'MtBankAccounts', 'bank_act'),
+			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
-            'trans_no' => Yii::t('app', 'Trans No'),
-            'bank_act' => Yii::t('app', 'Bank Act'),
-            'ref' => Yii::t('app', 'Ref'),
-            'trans_date' => Yii::t('app', 'Trans Date'),
-            'amount' => Yii::t('app', 'Amount'),
-            'reconciled' => Yii::t('app', 'Reconciled'),
-            'users_id' => Yii::t('app', 'Users'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('trans_no', $this->trans_no);
-        $criteria->compare('bank_act', $this->bank_act);
-        $criteria->compare('ref', $this->ref, true);
-        $criteria->compare('trans_date', $this->trans_date, true);
-        $criteria->compare('amount', $this->amount);
-        $criteria->compare('reconciled', $this->reconciled, true);
-        $criteria->compare('users_id', $this->users_id);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'type' => Yii::t('app', 'Type'),
+			'trans_no' => Yii::t('app', 'Trans No'),
+			'bank_act' => Yii::t('app', 'Bank Act'),
+			'ref' => Yii::t('app', 'Ref'),
+			'trans_date' => Yii::t('app', 'Trans Date'),
+			'amount' => Yii::t('app', 'Amount'),
+			'users_id' => Yii::t('app', 'Users'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('type', $this->type);
+		$criteria->compare('trans_no', $this->trans_no);
+		$criteria->compare('bank_act', $this->bank_act);
+		$criteria->compare('ref', $this->ref, true);
+		$criteria->compare('trans_date', $this->trans_date, true);
+		$criteria->compare('amount', $this->amount);
+		$criteria->compare('users_id', $this->users_id);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

@@ -157,7 +157,7 @@ jun.MtTranferBankWin = Ext.extend(Ext.Window, {
         };
         jun.rztMtBankAccounts.reload();
         jun.MtTranferBankWin.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
+//        this.on('activate', this.onActivate, this);
         this.cmbBankAsal.on('select', this.oncmbBankAsalChange, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);

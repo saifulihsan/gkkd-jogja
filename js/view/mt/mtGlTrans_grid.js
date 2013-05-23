@@ -1,80 +1,54 @@
 jun.MtGlTransGrid = Ext.extend(Ext.grid.GridPanel, {
-    title:"MtGlTrans",
-    id:'docs-jun.MtGlTransGrid',
-//	width:400,
-//	height:250,
-    viewConfig:{
-        forceFit:true,
+    title: "MtGlTrans",
+    id: 'docs-jun.MtGlTransGrid',
+    viewConfig: {
+        forceFit: true,
     },
-    sm:new Ext.grid.RowSelectionModel({singleSelect:true}),
-    columns:[
+    sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
+    columns: [
         {
-            header:'counter',
-            sortable:true,
-            resizable:true,
-            dataIndex:'counter',
-            width:100
+            header: 'counter',
+            sortable: false,
+            resizable: true,
+            dataIndex: 'counter',
+            hidden: true,
+            width: 20
         },
         {
-            header:'type',
-            sortable:true,
-            resizable:true,
-            dataIndex:'type',
-            width:100
+            header: 'Kode Rekening',
+            sortable: false,
+            resizable: true,
+            dataIndex: 'account',
+            width: 100
         },
         {
-            header:'type_no',
-            sortable:true,
-            resizable:true,
-            dataIndex:'type_no',
-            width:100
+            header: 'Nama Rekening',
+            sortable: false,
+            resizable: true,
+            dataIndex: 'account',
+            width: 250,
+            renderer: renderMtChartMaster,
         },
         {
-            header:'tran_date',
-            sortable:true,
-            resizable:true,
-            dataIndex:'tran_date',
-            width:100
+            header: 'Debit',
+            sortable: false,
+            resizable: true,
+            dataIndex: 'debit',
+            align: 'right',
+            renderer: Ext.util.Format.numberRenderer('0,0'),
+            width: 100
         },
         {
-            header:'account',
-            sortable:true,
-            resizable:true,
-            dataIndex:'account',
-            width:100
+            header: 'Kredit',
+            sortable: false,
+            resizable: true,
+            dataIndex: 'kredit',
+            align: 'right',
+            renderer: Ext.util.Format.numberRenderer('0,0'),
+            width: 100
         },
-        {
-            header:'memo_',
-            sortable:true,
-            resizable:true,
-            dataIndex:'memo_',
-            width:100
-        },
-        /*
-         {
-         header:'amount',
-         sortable:true,
-         resizable:true,
-         dataIndex:'amount',
-         width:100
-         },
-         {
-         header:'person_type_id',
-         sortable:true,
-         resizable:true,
-         dataIndex:'person_type_id',
-         width:100
-         },
-         {
-         header:'person_id',
-         sortable:true,
-         resizable:true,
-         dataIndex:'person_id',
-         width:100
-         },
-         */
     ],
-    initComponent:function () {
+    initComponent: function() {
         this.store = jun.rztMtGlTrans;
 //        this.bbar = {
 //            items:[
@@ -87,28 +61,28 @@ jun.MtGlTransGrid = Ext.extend(Ext.grid.GridPanel, {
 //            ]
 //        };
         this.tbar = {
-            xtype:'toolbar',
-            items:[
+            xtype: 'toolbar',
+            items: [
                 {
-                    xtype:'button',
-                    text:'Tambah',
-                    ref:'../btnAdd'
+                    xtype: 'button',
+                    text: 'Tambah Debit',
+                    ref: '../btnAdd'
                 },
                 {
-                    xtype:'tbseparator',
+                    xtype: 'tbseparator',
                 },
                 {
-                    xtype:'button',
-                    text:'Ubah',
-                    ref:'../btnEdit'
+                    xtype: 'button',
+                    text: 'Tambah Kredit',
+                    ref: '../btnEdit'
                 },
                 {
-                    xtype:'tbseparator',
+                    xtype: 'tbseparator',
                 },
                 {
-                    xtype:'button',
-                    text:'Hapus',
-                    ref:'../btnDelete'
+                    xtype: 'button',
+                    text: 'Hapus',
+                    ref: '../btnDelete'
                 }
             ]
         };
@@ -118,30 +92,22 @@ jun.MtGlTransGrid = Ext.extend(Ext.grid.GridPanel, {
         this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
-    getrow:function (sm, idx, r) {
+    getrow: function(sm, idx, r) {
         this.record = r;
         var selectedz = this.sm.getSelections();
     },
-    loadForm:function () {
-        var form = new jun.MtGlTransWin({modez:0});
+    loadForm: function() {
+        var form = new jun.MtGlTransDetilWin({modez: 0, debit: true, title: "Tambah Debit"});
         form.show();
     },
-    loadEditForm:function () {
-        var selectedz = this.sm.getSelected();
-        //var dodol = this.store.getAt(0);
-        if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
-            return;
-        }
-        var idz = selectedz.json.counter;
-        var form = new jun.MtGlTransWin({modez:1, id:idz});
-        form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+    loadEditForm: function() {
+        var form = new jun.MtGlTransDetilWin({modez: 0, debit: false, title: "Tambah Kredit"});
+        form.show();
     },
-    deleteRec:function () {
+    deleteRec: function() {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
     },
-    deleteRecYes:function (btn) {
+    deleteRecYes: function(btn) {
         if (btn == 'no') {
             return;
         }
@@ -152,15 +118,15 @@ jun.MtGlTransGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         Ext.Ajax.request({
-            waitMsg:'Please Wait',
-            url:'Mahkotrans/MtGlTrans/delete/id/' + record.json.counter,
+            waitMsg: 'Please Wait',
+            url: 'Mahkotrans/MtGlTrans/delete/id/' + record.json.counter,
             //url: 'index.php/api/MtGlTrans/delete/' + record[0].json.nosjp,
-            method:'POST',
-            success:function (response) {
+            method: 'POST',
+            success: function(response) {
                 jun.rztMtGlTrans.reload();
                 Ext.Msg.alert('Pelayanan', 'Delete Berhasil');
             },
-            failure:function (response) {
+            failure: function(response) {
                 Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
             }
         });

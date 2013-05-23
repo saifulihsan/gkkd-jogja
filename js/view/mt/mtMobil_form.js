@@ -1,8 +1,9 @@
 jun.MtMobilWin = Ext.extend(Ext.Window, {
-    title: 'MtMobil',
+    title: 'Daftar Mobil',
+    iconCls: 'silk13-car',
     modez: 1,
     width: 400,
-    height: 300,
+    height: 400,
     layout: 'form',
     modal: true,
     padding: 5,
@@ -12,9 +13,9 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
             {
                 xtype: 'form',
                 frame: false,
-                bodyStyle: 'background-color: #DFE8F6; padding: 10px',
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
                 id: 'form-MtMobil',
-                labelWidth: 100,
+                labelWidth: 150,
                 labelAlign: 'left',
                 layout: 'form',
                 ref: 'formz',
@@ -22,7 +23,7 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                 items: [
                     {
                         xtype: 'textfield',
-                        fieldLabel: 'Nopol',
+                        fieldLabel: 'No. Polisi',
                         hideLabel: false,
                         //hidden:true,
                         name: 'nopol',
@@ -45,20 +46,22 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
+                        xtype: 'spinnerfield',
                         fieldLabel: 'Tahun',
-                        hideLabel: false,
+//                        hideLabel: false,
                         //hidden:true,
                         name: 'tahun',
                         id: 'tahunid',
                         ref: '../tahun',
-                        maxLength: 11,
-                        //allowBlank: 1,
+                        maxLength: 4,
+                        minValue: 2000,
+                        maxValue: 3000,
+                        defaultValue: 2013,
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'tarif_12',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Tarif 12 Jam Normal',
                         hideLabel: false,
                         //hidden:true,
                         name: 'tarif_12',
@@ -69,8 +72,8 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'tarif_24',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Tarif 1 Hari Normal',
                         hideLabel: false,
                         //hidden:true,
                         name: 'tarif_24',
@@ -81,8 +84,8 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'tarif_high_12',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Taris 12 Jam High',
                         hideLabel: false,
                         //hidden:true,
                         name: 'tarif_high_12',
@@ -93,8 +96,8 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'tarif_high_24',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Tarif 1 Hari High',
                         hideLabel: false,
                         //hidden:true,
                         name: 'tarif_high_24',
@@ -105,8 +108,8 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'tarif_bulanan',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Tarif 1 Bulan',
                         hideLabel: false,
                         //hidden:true,
                         name: 'tarif_bulanan',
@@ -117,8 +120,8 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'overtime',
+                        xtype: 'numericfield',
+                        fieldLabel: 'Overtime',
                         hideLabel: false,
                         //hidden:true,
                         name: 'overtime',
@@ -129,7 +132,7 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
+                        xtype: 'numericfield',
                         fieldLabel: 'discount_other_rental',
                         hideLabel: false,
                         //hidden:true,
@@ -140,6 +143,27 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor: '100%'
                     },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Status Pemilik',
+                        hideLabel: false,
+                        //hidden:true,
+                        name: 'status_pemilik',
+                        id: 'status_pemilikid',
+                        ref: '../status_pemilik',
+                        maxLength: 30,
+                        //allowBlank: 1,
+                        anchor: '100%'
+                    },
+                    new jun.comboActive({
+                        fieldLabel: 'Status',
+                        hideLabel: false,
+                        width: 200,
+                        height: 20,
+                        name: 'status',
+                        ref: '../cmbActive',
+                        id: 'statusid'
+                    })
                 ]
             }];
         this.fbar = {
@@ -164,7 +188,7 @@ jun.MtMobilWin = Ext.extend(Ext.Window, {
             ]
         };
         jun.MtMobilWin.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
+//        this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);

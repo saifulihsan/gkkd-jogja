@@ -1,16 +1,50 @@
 <?php
 
-class MtGlTransController extends GxController
-{
-    public function actionView($id)
-    {
-        $this->render('view', array(
+class MtGlTransController extends GxController {
+
+    public function actionView($id) {
+        $this->render('view',
+                array(
             'model' => $this->loadModel($id, 'MtGlTrans'),
         ));
     }
 
-    public function actionCreate()
-    {
+    public function actionCreateJurnalUmum() {
+//        return;
+        if (!app()->request->isAjaxRequest) return;
+        if (isset($_POST) && !empty($_POST)) {
+            $status = false;
+            $msg = 'Jurnal umum berhasil disimpan.';
+            $user = app()->user->getId();
+            $detils = CJSON::decode($_POST['detil']);
+            $transaction = app()->db->beginTransaction();
+            try {
+                $ref = new MtReferenceCom();
+                $docref = $ref->get_next_reference(JURNAL_UMUM);
+                $jurnal_umum_id = Mt::get_max_type_no(JURNAL_UMUM);
+                $jurnal_umum_id++;
+                foreach ($detils as $detil) {
+                    $amount = $detil['debit'] > 0 ? $detil['debit'] : -$detil['kredit'];
+                    Mt::add_gl(JURNAL_UMUM, $jurnal_umum_id, $_POST['tran_date'],
+                            $docref, $detil['account'],"-", $amount, $user);
+                }
+                $ref->save(JURNAL_UMUM, $jurnal_umum_id, $docref);
+                $transaction->commit();
+                $status = true;
+            } catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'id' => $docref,
+                'msg' => $msg));
+            app()->end();
+        }        
+    }
+
+    public function actionCreate() {
         $model = new MtGlTrans;
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
@@ -34,8 +68,7 @@ class MtGlTransController extends GxController
         $this->render('create', array('model' => $model));
     }
 
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->loadModel($id, 'MtGlTrans');
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
@@ -61,37 +94,36 @@ class MtGlTransController extends GxController
         ));
     }
 
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         if (Yii::app()->request->isPostRequest) {
             $this->loadModel($id, 'MtGlTrans')->delete();
             if (!Yii::app()->request->isAjaxRequest)
-                $this->redirect(array('admin'));
-        } else
-            throw new CHttpException(400,
-                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+                    $this->redirect(array('admin'));
+        }
+        else
+                throw new CHttpException(400,
+            Yii::t('app',
+                    'Invalid request. Please do not repeat this request again.'));
     }
 
     /*
-        public function actionAdmin() {
-            $dataProvider = new CActiveDataProvider('MtGlTrans');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
-        }*/
-    public function actionAdmin()
-    {
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('MtGlTrans');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
+
+    public function actionAdmin() {
         $model = new MtGlTrans('search');
         $model->unsetAttributes();
-        if (isset($_GET['MtGlTrans']))
-            $model->attributes = $_GET['MtGlTrans'];
+        if (isset($_GET['MtGlTrans'])) $model->attributes = $_GET['MtGlTrans'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -109,16 +141,17 @@ class MtGlTransController extends GxController
 //        $criteria->offset = $start;
         $model = MtGlTrans::model()->findAll($criteria);
         $total = MtGlTrans::model()->count($criteria);
-        if (isset($_GET['MtGlTrans']))
-            $model->attributes = $_GET['MtGlTrans'];
+        if (isset($_GET['MtGlTrans'])) $model->attributes = $_GET['MtGlTrans'];
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
         } else {
             $model = new MtGlTrans('search');
             $model->unsetAttributes();
-            $this->render('admin', array(
+            $this->render('admin',
+                    array(
                 'model' => $model,
             ));
         }
     }
+
 }

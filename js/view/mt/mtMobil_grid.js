@@ -3,26 +3,27 @@ jun.MtMobilGrid = Ext.extend(Ext.grid.GridPanel, {
     id: 'docs-jun.MtMobilGrid',
     iconCls: 'silk-grid',
     viewConfig: {
-        forceFit: true
+        forceFit: true,
     },
     sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
     columns: [
-//        {
-//            header: 'id_mobil',
-//            sortable: true,
-//            resizable: true,
-//            dataIndex: 'id_mobil',
-//            width: 100
-//        },
         {
-            header: 'Nopol',
+            header: 'id_mobil',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'id_mobil',
+            hidden: true,
+            width: 100
+        },
+        {
+            header: 'No. Polisi',
             sortable: true,
             resizable: true,
             dataIndex: 'nopol',
             width: 100
         },
         {
-            header: 'Jenis',
+            header: 'Jenis Mobil',
             sortable: true,
             resizable: true,
             dataIndex: 'jenis',
@@ -35,54 +36,82 @@ jun.MtMobilGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex: 'tahun',
             width: 100
         },
-//        {
-//            header: 'tarif_12',
-//            sortable: true,
-//            resizable: true,
-//            dataIndex: 'tarif_12',
-//            width: 100
-//        },
-//        {
-//            header: 'tarif_24',
-//            sortable: true,
-//            resizable: true,
-//            dataIndex: 'tarif_24',
-//            width: 100
-//        },
-        /*
+        {
+            header: 'Status Pemilik',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'status_pemilik',
+            width: 100
+        },
+        {
+            header: 'Status',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'inactive',
+            renderer: jun.renderActive,
+        },
+        /*{
+         header: 'tarif_12',
+         sortable: true,
+         resizable: true,
+         dataIndex: 'tarif_12',
+         width: 100
+         },
+         {
+         header: 'tarif_24',
+         sortable: true,
+         resizable: true,
+         dataIndex: 'tarif_24',
+         width: 100
+         },
+         
          {
          header:'tarif_high_12',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'tarif_high_12',
          width:100
          },
          {
          header:'tarif_high_24',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'tarif_high_24',
          width:100
          },
          {
          header:'tarif_bulanan',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'tarif_bulanan',
          width:100
          },
          {
          header:'overtime',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'overtime',
          width:100
          },
          {
          header:'discount_other_rental',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'discount_other_rental',
+         width:100
+         },
+         {
+         header:'status_pemilik',
+         sortable:true,
+         resizable:true,                        
+         dataIndex:'status_pemilik',
+         width:100
+         },
+         {
+         header:'status',
+         sortable:true,
+         resizable:true,                        
+         dataIndex:'status',
          width:100
          },
          */

@@ -20,9 +20,12 @@
  * @property string $tarif_bulanan
  * @property double $overtime
  * @property double $discount_other_rental
+ * @property string $status_pemilik
+ * @property integer $inactive
  *
  * @property MtKasKeluar[] $mtKasKeluars
  * @property MtKasMasuk[] $mtKasMasuks
+ * @property MtPinjamKendaraan[] $mtPinjamKendaraans
  */
 abstract class BaseMtMobil extends GxActiveRecord {
 
@@ -41,13 +44,14 @@ abstract class BaseMtMobil extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('nopol', 'required'),
-			array('tahun', 'numerical', 'integerOnly'=>true),
+			array('tahun, inactive', 'numerical', 'integerOnly'=>true),
 			array('overtime, discount_other_rental', 'numerical'),
 			array('nopol', 'length', 'max'=>10),
 			array('jenis', 'length', 'max'=>50),
 			array('tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan', 'length', 'max'=>20),
-			array('jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_mobil, nopol, jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental', 'safe', 'on'=>'search'),
+			array('status_pemilik', 'length', 'max'=>30),
+			array('jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental, status_pemilik, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_mobil, nopol, jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental, status_pemilik, inactive', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +59,7 @@ abstract class BaseMtMobil extends GxActiveRecord {
 		return array(
 			'mtKasKeluars' => array(self::HAS_MANY, 'MtKasKeluar', 'id_mobil'),
 			'mtKasMasuks' => array(self::HAS_MANY, 'MtKasMasuk', 'id_mobil'),
+			'mtPinjamKendaraans' => array(self::HAS_MANY, 'MtPinjamKendaraan', 'id_mobil'),
 		);
 	}
 
@@ -76,6 +81,8 @@ abstract class BaseMtMobil extends GxActiveRecord {
 			'tarif_bulanan' => Yii::t('app', 'Tarif Bulanan'),
 			'overtime' => Yii::t('app', 'Overtime'),
 			'discount_other_rental' => Yii::t('app', 'Discount Other Rental'),
+			'status_pemilik' => Yii::t('app', 'Status Pemilik'),
+			'inactive' => Yii::t('app', 'Inactive'),
 		);
 	}
 
@@ -93,6 +100,8 @@ abstract class BaseMtMobil extends GxActiveRecord {
 		$criteria->compare('tarif_bulanan', $this->tarif_bulanan, true);
 		$criteria->compare('overtime', $this->overtime);
 		$criteria->compare('discount_other_rental', $this->discount_other_rental);
+		$criteria->compare('status_pemilik', $this->status_pemilik, true);
+		$criteria->compare('inactive', $this->inactive);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

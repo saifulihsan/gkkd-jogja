@@ -13,7 +13,6 @@
  * @property string $jemaat_nij
  * @property integer $inactive
  *
- * @property MtAktivitas[] $pahAktivitases
  * @property Jemaat $jemaatNij
  */
 abstract class BaseMtMember extends GxActiveRecord {
@@ -42,7 +41,6 @@ abstract class BaseMtMember extends GxActiveRecord {
 
 	public function relations() {
 		return array(
-			'pahAktivitases' => array(self::HAS_MANY, 'MtAktivitas', 'mt_member_id'),
 			'jemaatNij' => array(self::BELONGS_TO, 'Jemaat', 'jemaat_nij'),
 		);
 	}

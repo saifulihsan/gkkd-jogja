@@ -67,7 +67,7 @@ jun.MtSysWin = Ext.extend(Ext.Window, {
             ]
         };
         jun.MtSysWin.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
+//        this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);

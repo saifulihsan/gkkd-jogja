@@ -8,13 +8,6 @@ jun.MtBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
     sm:new Ext.grid.RowSelectionModel({singleSelect:true}),
     columns:[
         {
-            header:'id',
-            sortable:true,
-            resizable:true,
-            dataIndex:'id',
-            hidden:true
-        },
-        {
             header:'Kode Rekening',
             sortable:true,
             resizable:true,
