@@ -81,7 +81,18 @@ class MenuTree {
                             text: 'Mutasi antar Rekening Kas',
                             id: 'jun.MtTranferBankWin',
                             leaf: true
-                        },";
+                        },
+                        {
+                            text: 'Peminjaman Kendaraan',
+                            id: 'jun.MtPinjamanGrid',
+                            leaf: true
+                        },
+                          {
+                            text: 'Pengembalian Kendaraan',
+                            id: 'jun.MtPengembalianGrid',
+                            leaf: true
+                        },
+                        ";
         $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
                         {
                             text: 'Set Saldo Awal',
