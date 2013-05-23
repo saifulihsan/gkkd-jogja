@@ -50,7 +50,7 @@ jun.<?php echo $this->modelClass; ?>Win = Ext.extend(Ext.Window, {
             ]
         };
         jun.<?php echo $this->modelClass; ?>Win.superclass.initComponent.call(this);
-        this.on('activate', this.onActivate, this);
+//        this.on('activate', this.onActivate, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);

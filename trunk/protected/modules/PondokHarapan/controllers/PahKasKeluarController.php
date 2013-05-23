@@ -205,8 +205,6 @@ class PahKasKeluarController extends GxController
         //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pah::get_voided(KAS_KELUAR);
         $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
         $criteria->addNotInCondition('kas_keluar_id', $void);
         $model = PahKasKeluar::model()->findAll($criteria);
         $total = PahKasKeluar::model()->count($criteria);

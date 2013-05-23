@@ -18,6 +18,8 @@ jun.MtMobilstore = Ext.extend(Ext.data.JsonStore, {
 {name:'tarif_bulanan'},
 {name:'overtime'},
 {name:'discount_other_rental'},
+{name:'status_pemilik'},
+{name:'inactive'},
                 
             ]
         }, cfg));

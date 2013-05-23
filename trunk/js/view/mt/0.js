@@ -1,17 +1,17 @@
-jun.renderMtChartType = function (val, meta, record) {
+jun.renderMtChartType = function(val, meta, record) {
     //jun.rztMtChartTypes.reload();
     var store = jun.rztMtChartTypes;
     var index = store.find('id', val);
     var record = store.getAt(index);
     return record.data.name;
-}
-var renderMtChartMaster = function (val, meta, record) {
+};
+var renderMtChartMaster = function(val, meta, record) {
     //jun.rztMtChartMaster.reload();
     var store = jun.rztMtChartMaster;
     var index = store.find('account_code', val);
     var record = store.getAt(index);
     return record.data.account_name;
-}
+};
 //Ext.ux.GridCombo = Ext.extend(Ext.form.ComboBox, {
 //    initList:function () {
 //        var tconf = {

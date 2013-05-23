@@ -182,11 +182,7 @@ jun.PahKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                 form.trans_via.text = data.trans_via;
                 form.codeRek.text = data.account_code;
                 form.codeDesc.text = data.description;
-                form.show(this);
-                //var myform = Ext.getCmp('refid');
-//                Ext.getCmp('refid').text = data.doc_ref;
-//                Ext.getCmp('form-PahKasMasukShow').reload;
-                //this.txtRef.text = data.doc_ref;
+                form.show(this);                
             },
             failure:function (f, a) {
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");

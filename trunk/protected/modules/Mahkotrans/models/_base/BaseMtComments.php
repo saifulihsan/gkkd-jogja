@@ -16,64 +16,60 @@
  * @property string $memo_
  *
  */
-abstract class BaseMtComments extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BaseMtComments extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'mt_comments';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'date_';
-    }
+	public function tableName() {
+		return 'mt_comments';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('type, type_no', 'numerical', 'integerOnly' => true),
-            array('date_, memo_', 'safe'),
-            array('type, type_no, date_, memo_', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, type, type_no, date_, memo_', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'date_';
+	}
 
-    public function relations()
-    {
-        return array();
-    }
+	public function rules() {
+		return array(
+			array('type, type_no', 'numerical', 'integerOnly'=>true),
+			array('date_, memo_', 'safe'),
+			array('type, type_no, date_, memo_', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, type, type_no, date_, memo_', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
-            'type_no' => Yii::t('app', 'Type No'),
-            'date_' => Yii::t('app', 'Date'),
-            'memo_' => Yii::t('app', 'Memo'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('type_no', $this->type_no);
-        $criteria->compare('date_', $this->date_, true);
-        $criteria->compare('memo_', $this->memo_, true);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'type' => Yii::t('app', 'Type'),
+			'type_no' => Yii::t('app', 'Type No'),
+			'date_' => Yii::t('app', 'Date'),
+			'memo_' => Yii::t('app', 'Memo'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('type', $this->type);
+		$criteria->compare('type_no', $this->type_no);
+		$criteria->compare('date_', $this->date_, true);
+		$criteria->compare('memo_', $this->memo_, true);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

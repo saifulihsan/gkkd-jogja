@@ -16,99 +16,87 @@
  * @property string $bank_account_number
  * @property string $bank_name
  * @property string $bank_address
- * @property string $bank_curr_code
- * @property integer $dflt_curr_act
- * @property double $ending_reconcile_balance
  * @property integer $inactive
  * @property string $bank_phone
  * @property string $atas_nama
  *
  * @property MtChartMaster $accountCode
- * @property MtBankTrans[] $pahBankTrans
+ * @property MtBankTrans[] $mtBankTrans
+ * @property MtKasKeluar[] $mtKasKeluars
+ * @property MtKasMasuk[] $mtKasMasuks
  */
-abstract class BaseMtBankAccounts extends GxActiveRecord
-{
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+abstract class BaseMtBankAccounts extends GxActiveRecord {
 
-    public function tableName()
-    {
-        return 'mt_bank_accounts';
-    }
+	public static function model($className=__CLASS__) {
+		return parent::model($className);
+	}
 
-    public static function representingColumn()
-    {
-        return 'bank_account_name';
-    }
+	public function tableName() {
+		return 'mt_bank_accounts';
+	}
 
-    public function rules()
-    {
-        return array(
-            array('account_type, dflt_curr_act, inactive', 'numerical', 'integerOnly' => true),
-            array('ending_reconcile_balance', 'numerical'),
-            array('account_code', 'length', 'max' => 15),
-            array('bank_account_name, bank_name', 'length', 'max' => 60),
-            array('bank_account_number', 'length', 'max' => 100),
-            array('bank_curr_code', 'length', 'max' => 3),
-            array('bank_phone, atas_nama', 'length', 'max' => 50),
-            array('bank_address', 'safe'),
-            array('account_code, account_type, bank_account_name, bank_account_number, bank_name, bank_address, bank_curr_code, dflt_curr_act, ending_reconcile_balance, inactive, bank_phone, atas_nama', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, account_code, account_type, bank_account_name, bank_account_number, bank_name, bank_address, bank_curr_code, dflt_curr_act, ending_reconcile_balance, inactive, bank_phone, atas_nama', 'safe', 'on' => 'search'),
-        );
-    }
+	public static function representingColumn() {
+		return 'bank_account_name';
+	}
 
-    public function relations()
-    {
-        return array(
-            'accountCode' => array(self::BELONGS_TO, 'MtChartMaster', 'account_code'),
-            'pahBankTrans' => array(self::HAS_MANY, 'MtBankTrans', 'bank_act'),
-        );
-    }
+	public function rules() {
+		return array(
+			array('account_type, inactive', 'numerical', 'integerOnly'=>true),
+			array('account_code', 'length', 'max'=>15),
+			array('bank_account_name, bank_name', 'length', 'max'=>60),
+			array('bank_account_number', 'length', 'max'=>100),
+			array('bank_phone, atas_nama', 'length', 'max'=>50),
+			array('bank_address', 'safe'),
+			array('account_code, account_type, bank_account_name, bank_account_number, bank_name, bank_address, inactive, bank_phone, atas_nama', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id, account_code, account_type, bank_account_name, bank_account_number, bank_name, bank_address, inactive, bank_phone, atas_nama', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function pivotModels()
-    {
-        return array();
-    }
+	public function relations() {
+		return array(
+			'accountCode' => array(self::BELONGS_TO, 'MtChartMaster', 'account_code'),
+			'mtBankTrans' => array(self::HAS_MANY, 'MtBankTrans', 'bank_act'),
+			'mtKasKeluars' => array(self::HAS_MANY, 'MtKasKeluar', 'mt_bank_accounts_id'),
+			'mtKasMasuks' => array(self::HAS_MANY, 'MtKasMasuk', 'mt_bank_accounts_id'),
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('app', 'ID'),
-            'account_code' => Yii::t('app', 'Account Code'),
-            'account_type' => Yii::t('app', 'Account Type'),
-            'bank_account_name' => Yii::t('app', 'Bank Account Name'),
-            'bank_account_number' => Yii::t('app', 'Bank Account Number'),
-            'bank_name' => Yii::t('app', 'Bank Name'),
-            'bank_address' => Yii::t('app', 'Bank Address'),
-            'bank_curr_code' => Yii::t('app', 'Bank Curr Code'),
-            'dflt_curr_act' => Yii::t('app', 'Dflt Curr Act'),
-            'ending_reconcile_balance' => Yii::t('app', 'Ending Reconcile Balance'),
-            'inactive' => Yii::t('app', 'Inactive'),
-            'bank_phone' => Yii::t('app', 'Bank Phone'),
-            'atas_nama' => Yii::t('app', 'Atas Nama'),
-        );
-    }
+	public function pivotModels() {
+		return array(
+		);
+	}
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->compare('id', $this->id);
-        $criteria->compare('account_code', $this->account_code);
-        $criteria->compare('account_type', $this->account_type);
-        $criteria->compare('bank_account_name', $this->bank_account_name, true);
-        $criteria->compare('bank_account_number', $this->bank_account_number, true);
-        $criteria->compare('bank_name', $this->bank_name, true);
-        $criteria->compare('bank_address', $this->bank_address, true);
-        $criteria->compare('bank_curr_code', $this->bank_curr_code, true);
-        $criteria->compare('dflt_curr_act', $this->dflt_curr_act);
-        $criteria->compare('ending_reconcile_balance', $this->ending_reconcile_balance);
-        $criteria->compare('inactive', $this->inactive);
-        $criteria->compare('bank_phone', $this->bank_phone, true);
-        $criteria->compare('atas_nama', $this->atas_nama, true);
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
-    }
+	public function attributeLabels() {
+		return array(
+			'id' => Yii::t('app', 'ID'),
+			'account_code' => Yii::t('app', 'Account Code'),
+			'account_type' => Yii::t('app', 'Account Type'),
+			'bank_account_name' => Yii::t('app', 'Bank Account Name'),
+			'bank_account_number' => Yii::t('app', 'Bank Account Number'),
+			'bank_name' => Yii::t('app', 'Bank Name'),
+			'bank_address' => Yii::t('app', 'Bank Address'),
+			'inactive' => Yii::t('app', 'Inactive'),
+			'bank_phone' => Yii::t('app', 'Bank Phone'),
+			'atas_nama' => Yii::t('app', 'Atas Nama'),
+		);
+	}
+
+	public function search() {
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('account_code', $this->account_code);
+		$criteria->compare('account_type', $this->account_type);
+		$criteria->compare('bank_account_name', $this->bank_account_name, true);
+		$criteria->compare('bank_account_number', $this->bank_account_number, true);
+		$criteria->compare('bank_name', $this->bank_name, true);
+		$criteria->compare('bank_address', $this->bank_address, true);
+		$criteria->compare('inactive', $this->inactive);
+		$criteria->compare('bank_phone', $this->bank_phone, true);
+		$criteria->compare('atas_nama', $this->atas_nama, true);
+
+		return new CActiveDataProvider(get_class($this), array(
+			'criteria' => $criteria,
+		));
+	}
 }

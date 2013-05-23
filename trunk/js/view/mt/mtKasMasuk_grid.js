@@ -1,95 +1,81 @@
 jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
-    title: "MtKasMasuk",
+    title: "Daftar Kas Masuk",
     id: 'docs-jun.MtKasMasukGrid',
-//	width:400,
-//	height:250,
+    iconCls: 'silk-grid',
     viewConfig: {
         forceFit: true,
     },
     sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
     columns: [
         {
-            header: 'kas_masuk_id',
-            sortable: true,
-            resizable: true,
-            dataIndex: 'kas_masuk_id',
-            width: 100
-        },
-        {
-            header: 'doc_ref',
+            header: 'Ref. Dokumen',
             sortable: true,
             resizable: true,
             dataIndex: 'doc_ref',
             width: 100
         },
         {
-            header: 'no_bukti',
+            header: 'Tanggal Transaksi',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'trans_date',
+            width: 100
+        },
+        {
+            header: 'No. Bukti',
             sortable: true,
             resizable: true,
             dataIndex: 'no_bukti',
             width: 100
         },
         {
-            header: 'amount',
+            header: 'Jumlah',
             sortable: true,
             resizable: true,
             dataIndex: 'amount',
-            width: 100
-        },
-        {
-            header: 'entry_time',
-            sortable: true,
-            resizable: true,
-            dataIndex: 'entry_time',
-            width: 100
-        },
-        {
-            header: 'trans_date',
-            sortable: true,
-            resizable: true,
-            dataIndex: 'trans_date',
-            width: 100
+            width: 100,
+            renderer: Ext.util.Format.numberRenderer('0,0')
         },
         /*
          {
          header:'trans_via',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'trans_via',
          width:100
          },
          {
          header:'mt_bank_accounts_id',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'mt_bank_accounts_id',
          width:100
          },
          {
          header:'users_id',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'users_id',
          width:100
          },
          {
          header:'note',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'note',
          width:100
          },
          {
          header:'id_mobil',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'id_mobil',
          width:100
          },
          {
          header:'account_code',
          sortable:true,
-         resizable:true,
+         resizable:true,                        
          dataIndex:'account_code',
          width:100
          },
@@ -113,7 +99,7 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
             items: [
                 {
                     xtype: 'button',
-                    text: 'Tambah',
+                    text: 'Tambah Kas Masuk',
                     ref: '../btnAdd'
                 },
                 {
@@ -121,7 +107,7 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Ubah',
+                    text: 'Lihat Kas Masuk',
                     ref: '../btnEdit'
                 },
                 {
@@ -129,14 +115,11 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Hapus',
+                    text: 'Void Kas Masuk',
                     ref: '../btnDelete'
                 }
             ]
         };
-        jun.rztMtMobil.load();
-        jun.rztMtBankAccounts.load();
-        jun.rztMtChartMaster.load();
         jun.rztMtKasMasuk.reload();
         jun.MtKasMasukGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
@@ -156,16 +139,47 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
     loadEditForm: function() {
 
         var selectedz = this.sm.getSelected();
-
-        //var dodol = this.store.getAt(0);
         if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda belum memilih kas masuk");
             return;
         }
         var idz = selectedz.json.kas_masuk_id;
-        var form = new jun.MtKasMasukWin({modez: 1, id: idz});
-        form.show(this);
-        form.formz.getForm().loadRecord(this.record);
+        Ext.Ajax.request({
+            url: 'Mahkotrans/MtKasMasuk/view/',
+            params: {
+                id: idz,
+            },
+            method: 'POST',
+            success: function(f, a) {
+                var response = Ext.decode(f.responseText);
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title: 'Warning',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.WARNING
+                    });
+                    return;
+                }
+//                this.show();
+                var data = response.data[0];
+                var form = new jun.MtKasMasukShowWin({modez: 1, id: idz});
+                form.txtRef.text = data.doc_ref;
+                form.trans_entry.text = data.entry_time;
+                form.no_bukti.text = data.no_bukti;
+                form.trans_date.text = data.trans_date;
+                form.kas.text = data.bank_account_name;
+                form.mobil.text = data.nopol;
+                form.amount.text = Ext.util.Format.number(data.amount, '0,0');
+                form.trans_via.text = data.trans_via;
+                form.codeRek.text = data.account_code;
+                form.codeDesc.text = data.description;
+                form.show(this);
+            },
+            failure: function(f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+            }
+        });
     },
     deleteRec: function() {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);

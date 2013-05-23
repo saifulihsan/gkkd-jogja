@@ -111,7 +111,6 @@ class PahAnggaranController extends GxController
                 $status = false;
                 $msg = $ex;
             }
-//            $anggaran->withRelated->save(true,array('pahAnggaranDetils'));
             echo CJSON::encode(array(
                 'success' => $status,
                 'bulan' => $bulanStr,

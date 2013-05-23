@@ -17,6 +17,7 @@ defined('BANKTRANSFER') or define('BANKTRANSFER', 4);
 defined('VOID') or define('VOID', 5);
 defined('SALDO_AWAL') or define('SALDO_AWAL', 6);
 defined('T_AKTIVITASGRUP') or define('T_AKTIVITASGRUP', 7);
+defined('JURNAL_UMUM') or define('JURNAL_UMUM', 8);
 
 global $systypes_array;
 $systypes_array = array (
@@ -28,6 +29,7 @@ $systypes_array = array (
     VOID => "Void Dokumen",
     SALDO_AWAL => "Saldo Awal",
     T_AKTIVITASGRUP => 'Aktivitas Grup',
+    JURNAL_UMUM => 'Jurnal Umum',
     );
 /**
  * This is the shortcut to Yii::app()

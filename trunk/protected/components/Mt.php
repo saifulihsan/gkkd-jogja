@@ -17,6 +17,16 @@ class Mt
         return $void;
     }
 
+    static function get_max_type_no($type){
+        $type_no = app()->db->createCommand()
+                ->select("IFNULL(MAX(mt_gl_trans.type_no),0)")
+                ->from("mt_gl_trans")
+                ->where('type=:type', array(':type' => $type))
+                ->queryScalar();
+        return $type_no;
+    }
+
+
 //---------------------------------------------- Anggaran --------------------------------------------------------------
     static function is_periode_anggaran_exist($bulan, $tahun)
     {
