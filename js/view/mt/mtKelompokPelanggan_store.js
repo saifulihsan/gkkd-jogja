@@ -3,12 +3,13 @@ jun.MtKelompokPelangganstore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         jun.MtKelompokPelangganstore.superclass.constructor.call(this, Ext.apply({
             storeId: 'MtKelompokPelangganStoreId',
-            url: 'Mahkotrans/MtKelompokPelanggan/?output=json',           
+            url: 'Mahkotrans/MtKelompokPelanggan/?output=json',
             root: 'results',
             totalProperty: 'total',
-            fields: [                
-                {name:'id_kelompok'},
-                
+            fields: [
+                {name: 'id_kelompok'},
+                {name: 'nama'},
+                {name: 'discont_persen'},
             ]
         }, cfg));
     }

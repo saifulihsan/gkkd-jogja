@@ -10,6 +10,8 @@
  * followed by relations of table "mt_kelompok_pelanggan" available as properties of the model.
  *
  * @property integer $id_kelompok
+ * @property string $nama
+ * @property double $discont_persen
  *
  * @property MtPinjamKendaraan[] $mtPinjamKendaraans
  */
@@ -24,12 +26,16 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'id_kelompok';
+		return 'nama';
 	}
 
 	public function rules() {
 		return array(
-			array('id_kelompok', 'safe', 'on'=>'search'),
+			array('nama', 'required'),
+			array('discont_persen', 'numerical'),
+			array('nama', 'length', 'max'=>50),
+			array('discont_persen', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_kelompok, nama, discont_persen', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +53,8 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 	public function attributeLabels() {
 		return array(
 			'id_kelompok' => Yii::t('app', 'Id Kelompok'),
+			'nama' => Yii::t('app', 'Nama'),
+			'discont_persen' => Yii::t('app', 'Discont Persen'),
 		);
 	}
 
@@ -54,6 +62,8 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id_kelompok', $this->id_kelompok);
+		$criteria->compare('nama', $this->nama, true);
+		$criteria->compare('discont_persen', $this->discont_persen);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

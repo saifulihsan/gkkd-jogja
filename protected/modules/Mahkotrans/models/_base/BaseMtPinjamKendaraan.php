@@ -20,14 +20,11 @@
  * @property integer $id_pelanggan
  * @property integer $id_kelompok
  * @property string $tgl_pinjam
- * @property string $jam_pinjam
  * @property integer $season
  * @property integer $sewa_bln
  * @property integer $sewa_hari
  * @property integer $sewa_jam
- * @property integer $driver
- * @property integer $bbm
- * @property string $cara_bayar
+ * @property string $trans_via
  * @property string $no_bukti_bayar
  * @property integer $id_driver
  * @property integer $id_mobil
@@ -40,13 +37,14 @@
  * @property double $disc
  * @property string $total
  * @property string $tgl_rencana_kembali
- * @property string $jam_rencana_kembali
+ * @property integer $users_id
  *
  * @property MtKembaliKendaraan[] $mtKembaliKendaraans
  * @property MtPelanggan $idPelanggan
  * @property MtKelompokPelanggan $idKelompok
  * @property MtDriver $idDriver
  * @property MtMobil $idMobil
+ * @property Users $users
  */
 abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 
@@ -65,15 +63,15 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('doc_ref, id_pelanggan, id_kelompok, id_driver, id_mobil', 'required'),
-			array('id_pelanggan, id_kelompok, season, sewa_bln, sewa_hari, sewa_jam, driver, bbm, id_driver, id_mobil', 'numerical', 'integerOnly'=>true),
+			array('id_pelanggan, id_kelompok, season, sewa_bln, sewa_hari, sewa_jam, id_driver, id_mobil, users_id', 'numerical', 'integerOnly'=>true),
 			array('disc', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
-			array('tanda_pengenal, no_identitas, jaminan, cara_bayar, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, total', 'length', 'max'=>30),
+			array('tanda_pengenal, no_identitas, jaminan, trans_via, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, total', 'length', 'max'=>30),
 			array('jaminan_desc', 'length', 'max'=>225),
 			array('no_bukti_bayar', 'length', 'max'=>50),
-			array('entry_time, trans_date, tgl_pinjam, jam_pinjam, tgl_rencana_kembali, jam_rencana_kembali', 'safe'),
-			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, jam_pinjam, season, sewa_bln, sewa_hari, sewa_jam, driver, bbm, cara_bayar, no_bukti_bayar, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, jam_rencana_kembali', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_pinjam, doc_ref, entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, id_pelanggan, id_kelompok, tgl_pinjam, jam_pinjam, season, sewa_bln, sewa_hari, sewa_jam, driver, bbm, cara_bayar, no_bukti_bayar, id_driver, id_mobil, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, jam_rencana_kembali', 'safe', 'on'=>'search'),
+			array('entry_time, trans_date, tgl_pinjam, tgl_rencana_kembali', 'safe'),
+			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_pinjam, doc_ref, entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, id_pelanggan, id_kelompok, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, id_mobil, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,6 +82,7 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 			'idKelompok' => array(self::BELONGS_TO, 'MtKelompokPelanggan', 'id_kelompok'),
 			'idDriver' => array(self::BELONGS_TO, 'MtDriver', 'id_driver'),
 			'idMobil' => array(self::BELONGS_TO, 'MtMobil', 'id_mobil'),
+			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
 		);
 	}
 
@@ -105,14 +104,11 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 			'id_pelanggan' => Yii::t('app', 'Id Pelanggan'),
 			'id_kelompok' => Yii::t('app', 'Id Kelompok'),
 			'tgl_pinjam' => Yii::t('app', 'Tgl Pinjam'),
-			'jam_pinjam' => Yii::t('app', 'Jam Pinjam'),
 			'season' => Yii::t('app', 'Season'),
 			'sewa_bln' => Yii::t('app', 'Sewa Bln'),
 			'sewa_hari' => Yii::t('app', 'Sewa Hari'),
 			'sewa_jam' => Yii::t('app', 'Sewa Jam'),
-			'driver' => Yii::t('app', 'Driver'),
-			'bbm' => Yii::t('app', 'Bbm'),
-			'cara_bayar' => Yii::t('app', 'Cara Bayar'),
+			'trans_via' => Yii::t('app', 'Trans Via'),
 			'no_bukti_bayar' => Yii::t('app', 'No Bukti Bayar'),
 			'id_driver' => Yii::t('app', 'Id Driver'),
 			'id_mobil' => Yii::t('app', 'Id Mobil'),
@@ -125,7 +121,7 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 			'disc' => Yii::t('app', 'Disc'),
 			'total' => Yii::t('app', 'Total'),
 			'tgl_rencana_kembali' => Yii::t('app', 'Tgl Rencana Kembali'),
-			'jam_rencana_kembali' => Yii::t('app', 'Jam Rencana Kembali'),
+			'users_id' => Yii::t('app', 'Users'),
 		);
 	}
 
@@ -143,14 +139,11 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		$criteria->compare('id_pelanggan', $this->id_pelanggan);
 		$criteria->compare('id_kelompok', $this->id_kelompok);
 		$criteria->compare('tgl_pinjam', $this->tgl_pinjam, true);
-		$criteria->compare('jam_pinjam', $this->jam_pinjam, true);
 		$criteria->compare('season', $this->season);
 		$criteria->compare('sewa_bln', $this->sewa_bln);
 		$criteria->compare('sewa_hari', $this->sewa_hari);
 		$criteria->compare('sewa_jam', $this->sewa_jam);
-		$criteria->compare('driver', $this->driver);
-		$criteria->compare('bbm', $this->bbm);
-		$criteria->compare('cara_bayar', $this->cara_bayar, true);
+		$criteria->compare('trans_via', $this->trans_via, true);
 		$criteria->compare('no_bukti_bayar', $this->no_bukti_bayar, true);
 		$criteria->compare('id_driver', $this->id_driver);
 		$criteria->compare('id_mobil', $this->id_mobil);
@@ -163,7 +156,7 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		$criteria->compare('disc', $this->disc);
 		$criteria->compare('total', $this->total, true);
 		$criteria->compare('tgl_rencana_kembali', $this->tgl_rencana_kembali, true);
-		$criteria->compare('jam_rencana_kembali', $this->jam_rencana_kembali, true);
+		$criteria->compare('users_id', $this->users_id);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

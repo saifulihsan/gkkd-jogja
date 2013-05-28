@@ -3,15 +3,14 @@ jun.MtDriverstore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         jun.MtDriverstore.superclass.constructor.call(this, Ext.apply({
             storeId: 'MtDriverStoreId',
-            url: 'Mahkotrans/MtDriver/?output=json',           
+            url: 'Mahkotrans/MtDriver/?output=json',
             root: 'results',
             totalProperty: 'total',
-            fields: [                
-                {name:'id_driver'},
-{name:'nama'},
-{name:'telp'},
-{name:'inactive'},
-                
+            fields: [
+                {name: 'id_driver'},
+                {name: 'nama'},
+                {name: 'telp'},
+                {name: 'inactive'},
             ]
         }, cfg));
     }
