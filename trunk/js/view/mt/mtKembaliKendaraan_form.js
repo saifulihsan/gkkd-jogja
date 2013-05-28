@@ -1,326 +1,923 @@
-jun.MtKembaliKendaraanWin = Ext.extend(Ext.Window, {
-    title: 'MtKembaliKendaraan',
-    modez: 1,
-    width: 400,
-    height: 300,
-    layout: 'form',
-    modal: true,
-    padding: 5,
-    closeForm: false,
-    initComponent: function() {
+jun.MtPengembalianWin = Ext.extend(Ext.Window, {
+    title:'Pengembalian Kendaraan',
+    modez:1,
+    id:'pah-win-pengembalian',
+    width:900,
+    height:570,
+    layout:'form',
+    modal:true,
+    padding:5,
+    closeForm:false,
+    resizable:false,
+    iswin:true,
+    initComponent:function () {
         this.items = [
             {
-                xtype: 'form',
-                frame: false,
-                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
-                id: 'form-MtKembaliKendaraan',
-                labelWidth: 100,
-                labelAlign: 'left',
-                layout: 'form',
-                ref: 'formz',
-                border: false,
-                items: [
-                    {
-                        xtype: 'combo',
-                        typeAhead: true,
-                        triggerAction: 'all',
-                        lazyRender: true,
-                        mode: 'local',
-                        fieldLabel: 'id_pinjam',
-                        store: jun.rztMtPinjamKendaraan,
-                        hiddenName: 'id_pinjam',
-                        hiddenValue: 'id_pinjam',
-                        valueField: 'id_pinjam',
-                        //displayField: 'MtPinjamKendaraan::model()->representingColumn()',
-                        displayField: 'doc_ref',
-                        //allowBlank:false,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'xdatefield',
-                        ref: '../trans_date',
-                        fieldLabel: 'trans_date',
-                        name: 'trans_date',
-                        id: 'trans_dateid',
-                        format: 'd M Y',
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'xdatefield',
-                        ref: '../tgl_kembali',
-                        fieldLabel: 'tgl_kembali',
-                        name: 'tgl_kembali',
-                        id: 'tgl_kembaliid',
-                        format: 'd M Y',
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'jam_kembali',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'jam_kembali',
-                        id: 'jam_kembaliid',
-                        ref: '../jam_kembali',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'extend_bln',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'extend_bln',
-                        id: 'extend_blnid',
-                        ref: '../extend_bln',
-                        maxLength: 11,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'extend_hari',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'extend_hari',
-                        id: 'extend_hariid',
-                        ref: '../extend_hari',
-                        maxLength: 11,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'extend_jam',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'extend_jam',
-                        id: 'extend_jamid',
-                        ref: '../extend_jam',
-                        maxLength: 11,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'overtime_jam',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'overtime_jam',
-                        id: 'overtime_jamid',
-                        ref: '../overtime_jam',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'pelunasan',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'pelunasan',
-                        id: 'pelunasanid',
-                        ref: '../pelunasan',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'ongkos_sewa',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'ongkos_sewa',
-                        id: 'ongkos_sewaid',
-                        ref: '../ongkos_sewa',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'ongkos_driver',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'ongkos_driver',
-                        id: 'ongkos_driverid',
-                        ref: '../ongkos_driver',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'ongkos_bbm',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'ongkos_bbm',
-                        id: 'ongkos_bbmid',
-                        ref: '../ongkos_bbm',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'total_ongkos',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'total_ongkos',
-                        id: 'total_ongkosid',
-                        ref: '../total_ongkos',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'dp',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'dp',
-                        id: 'dpid',
-                        ref: '../dp',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'sisa_tagihan',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'sisa_tagihan',
-                        id: 'sisa_tagihanid',
-                        ref: '../sisa_tagihan',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'disc',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'disc',
-                        id: 'discid',
-                        ref: '../disc',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'total',
-                        hideLabel: false,
-                        //hidden:true,
-                        name: 'total',
-                        id: 'totalid',
-                        ref: '../total',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                        anchor: '100%'
-                    },
+                xtype:'form',
+                frame:false,
+                bodyStyle:'background-color: #E4E4E4; padding: 10px',
+                id:'pah-form-Transfer-bank',
+                labelWidth:100,
+                labelAlign:'left',
+                layout:'absolute',
+                ref:'formz',
+                anchor:'100% 100%',
+                border:false,
+                items:[ 
+                            {
+                                xtype:'label',
+                                text:'No.Pinjam',
+                                x:5,
+                                y:5
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'no_pinjam',
+                                id:'no_pinjam',                    
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:100,
+                                y:2,
+                                height:20,
+                                width:200,
+                            },
+                            {
+                                xtype:'label',
+                                text:'Nama Konsumen',
+                                x:5,
+                                y:35
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'nama_konsumen',
+                                id:'nama_konsumen',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:100,
+                                y:32,
+                                height:20,
+                                width:200,
+                            },
+                            {
+                                xtype:'label',
+                                text:'Tanda Pengenal',
+                                x:5,
+                                y:65
+
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'tanda_pengenal',
+                                id:'tanda_pengenal',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:100,
+                                y:62,
+                                height:20,
+                                width:200,
+                            },   
+                            {
+                                xtype:'label',
+                                text:'Tanggal Transaksi',
+                                x:540,
+                                y:5
+                            },
+                            {
+                                xtype:'xdatefield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'tanggal_transaksi',
+                                id:'tanggal_transaksi',
+                                maxLength:40,
+                                //allowBlank: 1,
+                                x:660,
+                                y:2,
+                                height:20,
+                                width:200,
+                            },
+                            {
+                                xtype:'label',
+                                text:'Kelompok Konsumen',
+                                x:540,
+                                y:35
+                            },
+                            {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'kelompok_konsumen',
+                                hiddenValue:'konsumen_kel',
+                                valueField:'kelompok_konsumen',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:660,
+                                y:32,
+                                height:20,
+                                width:200,
+                            },
+                             {
+                                xtype:'label',
+                                text:'No Identitas',
+                                x:540,
+                                y:65
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'no_identitas',
+                                id:'no_identitas',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:62,
+                                height:20,
+                                width:200,
+                            },
+                            
+                             {
+                                xtype:'label',
+                                text:'Jaminan:',
+                                x:5,
+                                y:95
+                            },
+                            {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'jaminan',
+                                hiddenValue:'jaminan_kel',
+                                valueField:'jaminan',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:100,
+                                y:92,
+                                height:10,
+                                width:200,
+                            },
+                           
+                            {
+                                xtype:'textarea',
+                                name:'jaminan_lain',
+                                id:'jaminan_lain',
+                                height:'30',
+                                width:'400',
+                                x:100,
+                                y:122
+                         
+                            },
+                            
+                            
+                            {
+                                xtype:'label',
+                                text:'Season',
+                                x:540,
+                                y:95
+                                
+                            },
+                            {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'season',
+                                hiddenValue:'season_kel',
+                                valueField:'season',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:660,
+                                y:95,
+                                height:20,
+                                width:200,
+                         
+                            }, {
+                                xtype:'label',
+                                text:'Tanggal Pinjam',
+                                x:5,
+                                y:185
+                            },
+                            
+                            {
+                                xtype:'xdatefield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'tanggal_pinjam',
+                                id:'tanggal_pinjam',
+                                maxLength:40,
+                                //allowBlank: 1,
+                                x:100,
+                                y:182,
+                                height:20,
+                                width:100,
+                            },{
+                                xtype:'label',
+                                text:'Jam Pinjam',
+                                x:208,
+                                y:185
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'jampinjam',
+                                id:'jampinjam',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:280,
+                                y:182,
+                                height:20,
+                                width:50,
+                            }, {
+                                xtype:'label',
+                                text:'Lama Sewa',
+                                x:340,
+                                y:185
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'lama_bulan',
+                                id:'lama_bulan',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:410,
+                                y:182,
+                                height:20,
+                                width:50,
+                            },   {
+                                xtype:'label',
+                                text:'(bulan)',
+                                x:470,
+                                y:185
+                            }, {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'lama_hari',
+                                id:'lama_hari',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:520,
+                                y:182,
+                                height:20,
+                                width:50,
+                            },
+                              {
+                                xtype:'label',
+                                text:'(hari)',
+                                x:580,
+                                y:185
+                            },{
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'lama_jam',
+                                id:'lama_jam',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:620,
+                                y:182,
+                                height:20,
+                                width:50,
+                            },
+                              {
+                                xtype:'label',
+                                text:'(jam)',
+                                x:680,
+                                y:185
+                            },
+                            
+                            
+                            
+                                                        
+                            
+                            
+                             {
+                                xtype:'label',
+                                text:'Renc. Tgl Kembali',
+                                x:5,
+                                y:215
+                            },
+                            {
+                                xtype:'xdatefield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'rencana_tanggal_kembali',
+                                id:'rencana_tanggal_kembali',
+                                maxLength:40,
+                                //allowBlank: 1,
+                                x:100,
+                                y:212,
+                                height:20,
+                                width:100,
+                            },{
+                                xtype:'label',
+                                text:'Jam Kembali',
+                                x:208,
+                                y:215
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'rencanajamkembali',
+                                id:'rencanajamkembali',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:280,
+                                y:212,
+                                height:20,
+                                width:50,
+                            }, {
+                                xtype:'label',
+                                text:'Extend',
+                                x:340,
+                                y:215
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'extend_bulan',
+                                id:'extend_bulan',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:410,
+                                y:212,
+                                height:20,
+                                width:50,
+                            },   {
+                                xtype:'label',
+                                text:'(bulan)',
+                                x:470,
+                                y:215
+                            }, {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'extend_hari',
+                                id:'extend_hari',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:520,
+                                y:212,
+                                height:20,
+                                width:50,
+                            },
+                              {
+                                xtype:'label',
+                                text:'(hari)',
+                                x:580,
+                                y:215
+                            },{
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'extend_jam',
+                                id:'extend_jam',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:620,
+                                y:212,
+                                height:20,
+                                width:50,
+                            },
+                              {
+                                xtype:'label',
+                                text:'(jam)',
+                                x:680,
+                                y:215
+                            },
+                             
+                            {
+                                xtype:'label',
+                                text:'Tanggal Kembali',
+                                x:5,
+                                y:245
+                            },
+                            {
+                                xtype:'xdatefield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'tanggal_kembali',
+                                id:'tanggal_kembali',
+                                maxLength:40,
+                                //allowBlank: 1,
+                                x:100,
+                                y:242,
+                                height:20,
+                                width:100,
+                            },
+                            
+                             {
+                                xtype:'label',
+                                text:'Jam Kembali',
+                                x:208,
+                                y:245
+                            },
+                            {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'jam_kembali',
+                                id:'jam_kembali',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:280,
+                                y:242,
+                                height:20,
+                                width:50,
+                            },
+                            
+                            {
+                                xtype:'label',
+                                text:'Overtime',
+                                x:340,
+                                y:245
+                            },{
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'over_jam',
+                                id:'over_jam',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:410,
+                                y:242,
+                                height:20,
+                                width:50,
+                            },
+                              {
+                                xtype:'label',
+                                text:'(jam)',
+                                x:470,
+                                y:245
+                            },
+                            
+                            
+                            
+                              {
+                                xtype:'label',
+                                text:'ONGKOS SEWA',
+                                x:5,
+                                y:275
+                            },
+                              {
+                                xtype:'label',
+                                text:'No Polisi',
+                                x:5,
+                                y:305
+
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'nopolisi',
+                                id:'nopolisi',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:100,
+                                y:302,
+                                height:20,
+                                width:100,
+                            },
+                               {
+                                xtype:'label',
+                                text:'Jenis Mobil',
+                                x:210,
+                                y:305
+                            },
+                            
+                             {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'jenis_mobil',
+                                hiddenValue:'jenis_mobil_kel',
+                                valueField:'jenis_mobil',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:280,
+                                y:302,
+                                height:20,
+                                width:200,
+                            }, 
+                            
+                            
+                             {
+                                xtype:'label',
+                                text:'Driver',
+                                x:5,
+                                y:335
+                            },
+                            
+                             {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'driver',
+                                hiddenValue:'driver_kel',
+                                valueField:'driver',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:100,
+                                y:332,
+                                height:20,
+                                width:100,
+                            },{
+                                xtype:'label',
+                                text:'Nama Driver',
+                                x:210,
+                                y:335
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'namadriver',
+                                id:'namadriver',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:280,
+                                y:332,
+                                height:20,
+                                width:150,
+                            },{
+                                xtype:'label',
+                                text:'Bensin',
+                                x:5,
+                                y:365
+                            },
+                            
+                             {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'bensin',
+                                hiddenValue:'bensin_kel',
+                                valueField:'bensin',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:100,
+                                y:362,
+                                height:20,
+                                width:100,
+                            },{
+                                xtype:'label',
+                                text:'Cara Bayar',
+                                x:5,
+                                y:395
+                            },
+                            
+                             {
+                                xtype:'combo',
+                                typeAhead:true,
+                                triggerAction:'all',
+                                lazyRender:true,
+                                mode:'local',
+                                store:jun.rztMtChartTypes,
+                                hiddenName:'carabayar',
+                                hiddenValue:'carabayar_kel',
+                                valueField:'carabayar',
+                                forceSelection:true,
+                                displayField:'name',
+                                x:100,
+                                y:392,
+                                height:20,
+                                width:100,
+                            }
+                            ,{
+                                xtype:'label',
+                                text:'Bukti Transfer',
+                                x:210,
+                                y:395
+                            },
+                            
+                             {
+                                 xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'buktitransfer',
+                                id:'buktitransfer',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:290,
+                                y:392,
+                                height:20,
+                                width:150,
+                            },
+                             {
+                                xtype:'label',
+                                text:'Ongkos Sewa Mobil',
+                                x:540,
+                                y:245
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_sewa',
+                                id:'ongkos_sewa',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:242,
+                                height:20,
+                                width:200,
+                            },
+                            {
+                                xtype:'label',
+                                text:'Driver',
+                                x:540,
+                                y:275
+                            },
+                            
+                             {
+                                 xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_driver',
+                                id:'ongkos_driver',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:272,
+                                height:20,
+                                width:200,
+                            },
+                            
+                            {
+                                xtype:'label',
+                                text:'Bensin',
+                                x:540,
+                                y:305
+                            },
+                            
+                             {
+                                 xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_bensin',
+                                id:'ongkos_bensin',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:305,
+                                height:20,
+                                width:200,
+                            },
+                             {
+                                xtype:'label',
+                                text:'Total Ongkos Sewa',
+                                x:540,
+                                y:335
+                            },
+                            
+                             {
+                                 xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_totsewa',
+                                id:'ongkos_totsewa',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:332,
+                                height:20,
+                                width:200,
+                            },
+                            
+                              {
+                                xtype:'label',
+                                text:'discount',
+                                x:540,
+                                y:365
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_discount',
+                                id:'ongkos_discount',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:362,
+                                height:20,
+                                width:200,
+                            },  
+                            {
+                                xtype:'label',
+                                text:'Total All',
+                                x:540,
+                                y:395
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_all',
+                                id:'ongkos_all',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:392,
+                                height:20,
+                                width:200,
+                            },
+                             {
+                                xtype:'label',
+                                text:'DP',
+                                x:540,
+                                y:425
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_dp',
+                                id:'ongkos_dp',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:422,
+                                height:20,
+                                width:200,
+                            },
+                             {
+                                xtype:'label',
+                                text:'Sisa Tagihan',
+                                x:540,
+                                y:455
+                            },
+                            
+                             {
+                                xtype:'textfield',
+                                hideLabel:false,
+                                //hidden:true,
+                                name:'ongkos_sisa',
+                                id:'ongkos_sisa',                           
+                                maxLength:15,
+                                //allowBlank: ,
+                                x:660,
+                                y:452,
+                                height:20,
+                                width:200,
+                            },
+                            
+                         
+                
+                    
                 ]
-            }];
+            }
+        ];
         this.fbar = {
-            xtype: 'toolbar',
-            items: [
+            xtype:'toolbar',
+            items:[
                 {
-                    xtype: 'button',
-                    text: 'Simpan',
-                    hidden: false,
-                    ref: '../btnSave'
+                    xtype:'button',
+                    text:'Simpan',
+                    hidden:false,
+                    ref:'../btnSave'
                 },
                 {
-                    xtype: 'button',
-                    text: 'Simpan & Tutup',
-                    ref: '../btnSaveClose'
+                    xtype:'button',
+                    text:'Simpan & Tutup',
+                    ref:'../btnSaveClose'
                 },
                 {
-                    xtype: 'button',
-                    text: 'Batal',
-                    ref: '../btnCancel'
+                    xtype:'button',
+                    text:'Batal',
+                    ref:'../btnCancel'
                 }
             ]
         };
-        jun.MtKembaliKendaraanWin.superclass.initComponent.call(this);
-//        this.on('activate', this.onActivate, this);
+        jun.rztMtBankAccounts.reload();
+        jun.MtTranferBankWin.superclass.initComponent.call(this);
+        this.on('activate', this.onActivate, this);
+        //this.cmbBankAsal.on('select', this.oncmbBankAsalChange, this);
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
-        if (this.modez == 1 || this.modez == 2) {
-            this.btnSave.setVisible(false);
-        } else {
-            this.btnSave.setVisible(true);
-        }
+       // this.cmbBankAsal.on('focus', this.onLoadBank, this);
+      //  this.cmbBankTujuan.on('focus', this.onLoadBank, this);
+        this.on('close', this.onWinClose, this);
+
     },
-    btnDisabled: function(status) {
+    btnDisabled:function(status){
         this.btnSave.setDisabled(status);
         this.btnSaveClose.setDisabled(status);
     },
-    saveForm: function()
-    {
+    onWinClose:function () {
+        jun.rztMtBankAccounts.clearFilter();
+    },
+    onLoadBank:function () {
+        jun.rztMtBankAccounts.FilterData();
+    },
+    onActivate:function () {
+        this.btnSave.hidden = false;
+    },
+    oncmbBankAsalChange:function (cmb, newVal, oldVal) {
+        Ext.Ajax.request({
+            waitMsg:'Please Wait',
+            url:'Mahkotrans/MtBankTrans/GetBalance/',
+            params:{
+                id:this.cmbBankAsal.getValue(),
+            },
+            success:function (response) {
+                var response = Ext.decode(response.responseText);
+                Ext.getCmp('bank_bal_id').setValue(response.id);
+            },
+            failure:function (response) {
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
+    },
+    saveForm:function () {
         this.btnDisabled(true);
         var urlz;
-        if (this.modez == 1 || this.modez == 2) {
 
-            urlz = 'Mahkotrans/MtKembaliKendaraan/update/id/' + this.id;
-
-        } else {
-
-            urlz = 'Mahkotrans/MtKembaliKendaraan/create/';
-        }
-
-        Ext.getCmp('form-MtKembaliKendaraan').getForm().submit({
-            url: urlz,
-            timeOut: 1000,
-            scope: this,
-            success: function(f, a) {
-                jun.rztMtKembaliKendaraan.reload();
+        urlz = 'Mahkotrans/MtBankTrans/createtransfer/';
+        Ext.getCmp('pah-form-Transfer-bank').getForm().submit({
+            url:urlz,
+            /*
+             params:{
+             tglpeljlo: this.tglpeljlo,
+             jenpeljlo: this.jenpeljlo,
+             modez: this.modez
+             },*/
+            timeOut:1000,
+            scope:this,
+            success:function (f, a) {
                 var response = Ext.decode(a.response.responseText);
-                Ext.MessageBox.show({
-                    title: 'Info',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.INFO
-                });
-                if (this.modez == 0) {
-                    Ext.getCmp('form-MtKembaliKendaraan').getForm().reset();
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title:'Transfer',
+                        msg:response.msg,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.ERROR
+                    });
                     this.btnDisabled(false);
+                    return;
+                } else {
+                    Ext.MessageBox.show({
+                        title:'Transfer',
+                        msg:response.msg + "<br /> Ref. Dokumen : " + response.id,
+                        buttons:Ext.MessageBox.OK,
+                        icon:Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('pah-form-Transfer-bank').getForm().reset();
                 }
-                if (this.closeForm) {
-                    this.close();
-                }
+                jun.rztMtBankTrans.reload();
+                this.close();
             },
-            failure: function(f, a) {
-                var response = Ext.decode(a.response.responseText);
-                Ext.MessageBox.show({
-                    title: 'Warning',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.WARNING
-                });
+            failure:function (f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
                 this.btnDisabled(false);
             }
 
         });
-
     },
-    onbtnSaveCloseClick: function()
-    {
+    onbtnSaveCloseClick:function () {
         this.closeForm = true;
         this.saveForm(true);
     },
-    onbtnSaveclick: function()
-    {
+    onbtnSaveclick:function () {
         this.closeForm = false;
         this.saveForm(false);
     },
-    onbtnCancelclick: function() {
+    onbtnCancelclick:function () {
         this.close();
     }
 

@@ -79,15 +79,10 @@ class MenuTree {
                     text: 'Transaksi',
                     expanded: false,
                     children:[{
-                            text: 'Peminjaman Kendaraan',
-                            id: 'jun.MtPinjamanGrid',
+                            text: 'Sewa Kendaraan',
+                            id: 'jun.MtPinjamKendaraanGrid',
                             leaf: true
-                        },
-                         {
-                            text: 'Pengembalian Kendaraan',
-                            id: 'jun.MtPengembalianGrid',
-                            leaf: true
-                        },
+                        },                        
                         {
                             text: 'Kas Masuk',
                             id: 'jun.MtKasMasukGrid',
