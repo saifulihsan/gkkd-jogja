@@ -283,7 +283,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Ubah Peminjaman',
+                    text: 'Lihat Peminjaman',
                     ref: '../btnEdit'
                 },
                 {
@@ -296,11 +296,15 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
+        jun.rztMtPelanggan.reload();
+        jun.rztMtKelompokPelanggan.reload();
+        jun.rztMtMobil.reload();
+        jun.rztMtDriver.reload();
         jun.rztMtPinjamKendaraan.reload();
         jun.MtPinjamKendaraanGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.loadEditForm, this);
+        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow: function(sm, idx, r) {
@@ -310,6 +314,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
     },
     loadForm: function() {
         var form = new jun.MtPinjamanWin({modez: 0});
+        
         form.show();
     },
     loadEditForm: function() {
@@ -320,17 +325,35 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         }
         var idz = selectedz.json.id_pinjam;
         var form = new jun.MtPinjamanWin({modez: 1});
+        
+        form.show(this);
+        
+        form.formz.getForm().loadRecord(this.record);
+        var tgl_pinjam = Date.parseDate(this.record.data.tgl_pinjam, 'Y-n-j H:i:s');
+        form.tgl_pinjam.setValue(tgl_pinjam);
+        var tgl_kembali = Date.parseDate(this.record.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
+        form.rencana_tanggal_kembali.setValue(tgl_kembali);
+        var record = jun.getMobil(this.record.data.id_mobil);
+        form.jenis_mobil.setValue(record.data.jenis);
+    },
+    deleteRec: function() {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            return;
+        }
+        var idz = selectedz.json.id_pinjam;
+        var form = new jun.MtPengembalianWin({modez: 1});
 
-//        var jam_rencana_kembali = Time.parseTime(thid.record.data.jam_rencana_kembali);
-//        form.jam_kembali.setValue(jam_rencana_kembali);
         form.show(this);
 
         form.formz.getForm().loadRecord(this.record);
-        var time_pinjam = Date.parseDate(this.record.data.tgl_pinjam, 'Y-n-j H:i:s');
-        form.tgl_pinjam.setValue(time_pinjam);
-    },
-    deleteRec: function() {
-        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
+        var tgl_pinjam = Date.parseDate(this.record.data.tgl_pinjam, 'Y-n-j H:i:s');
+        form.tgl_pinjam.setValue(tgl_pinjam);
+        var tgl_kembali = Date.parseDate(this.record.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
+        form.rencana_tanggal_kembali.setValue(tgl_kembali);
+        var record = jun.getMobil(this.record.data.id_mobil);
+        form.jenis_mobil.setValue(record.data.jenis);
     },
     deleteRecYes: function(btn) {
 
