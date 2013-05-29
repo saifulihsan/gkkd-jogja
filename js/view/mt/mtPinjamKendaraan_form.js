@@ -33,10 +33,8 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                     {
                         xtype: 'textfield',
                         hideLabel: false,
-//                        value: 'MTPK000001',
                         name: 'doc_ref',
                         id: 'doc_refid',
-                        maxLength: 15,
                         readOnly: true,
                         ref: '../doc_ref',
                         x: 100,
@@ -185,8 +183,6 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
 
                     },
                     new jun.cmbSeason({
-//                        fieldLabel: 'Cara Bayar',
-//                        value: 0,
                         name: 'season',
                         ref: '../season',
                         allowBlank: false,
@@ -213,7 +209,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         y: 212,
                         height: 20,
                         width: 200,
-                    }, 
+                    },
 //                    {
 //                        xtype: 'label',
 //                        text: 'Jam',
@@ -283,7 +279,8 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         text: '(hari)',
                         x: 580,
                         y: 215
-                    }, {
+                    },
+                    {
                         xtype: 'spinnerfield',
                         hideLabel: false,
                         //hidden:true,
@@ -317,7 +314,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         xtype: 'xdatefield',
                         hideLabel: false,
                         format: 'd M Y H:i',
-                        submitFormat:'Y-m-d H:i',
+                        submitFormat: 'Y-m-d H:i',
                         name: 'tgl_rencana_kembali',
                         id: 'tgl_rencana_kembali',
                         maxLength: 40,
@@ -637,24 +634,23 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                     xtype: 'button',
                     text: 'Simpan',
                     hidden: false,
-                    ref: '../btnSave'
+                    ref: '../btnSave',
+                    id: 'save'
                 },
                 {
                     xtype: 'button',
                     text: 'Simpan & Tutup',
-                    ref: '../btnSaveClose'
+                    ref: '../btnSaveClose',
+                    id: 'saveClose'
                 },
                 {
                     xtype: 'button',
-                    text: 'Batal',
+                    text: 'Tutup',
                     ref: '../btnCancel'
                 }
             ]
         };
-        jun.rztMtPelanggan.reload();
-        jun.rztMtKelompokPelanggan.reload();
-        jun.rztMtMobil.reload();
-        jun.rztMtDriver.reload();
+
         jun.MtTranferBankWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
         this.sewa_jam.on('spin', this.onDurationChange, this);
@@ -672,7 +668,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         this.dp.on('change', this.calculateTotal, this);
         this.season.on('select', this.calculateTotal, this);
         this.id_kelompok.on('select', this.calculateTotal, this);
-        this.on('close', this.onWinClose, this);
+//        this.on('close', this.onWinClose, this);
 
     },
     calculateTotal: function() {
@@ -742,7 +738,11 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.setDisabled(status);
     },
     onActivate: function() {
-        this.btnSave.hidden = false;
+        if (this.modez === 0) {
+            this.btnSave.show();
+        } else {
+            this.btnDisabled(true);
+        }
     },
     saveForm: function() {
         this.btnDisabled(true);
@@ -799,6 +799,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         this.saveForm(false);
     },
     onbtnCancelclick: function() {
+        Ext.getCmp('from-MtPinjamanWin').getForm().reset();
         this.close();
     }
 
