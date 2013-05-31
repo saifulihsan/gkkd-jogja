@@ -354,44 +354,8 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         form.rencana_tanggal_kembali.setValue(tgl_kembali);
         var record = jun.getMobil(this.record.data.id_mobil);
         form.jenis_mobil.setValue(record.data.jenis);
+        form.no_bukti_bayar.setValue("");
+        form.trans_via.setValue("Tunai");
     },
-    deleteRecYes: function(btn) {
-
-        if (btn == 'no') {
-            return;
-        }
-
-        var record = this.sm.getSelected();
-
-        // Check is list selected
-        if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
-            return;
-        }
-
-        Ext.Ajax.request({
-            url: 'Mahkotrans/MtPinjamKendaraan/delete/id/' + record.json.id_pinjam,
-            method: 'POST',
-            success: function(f, a) {
-                jun.rztMtPinjamKendaraan.reload();
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Info',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.INFO
-                });
-            },
-            failure: function(f, a) {
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Warning',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.WARNING
-                });
-            }
-        });
-
-    }
+    
 })

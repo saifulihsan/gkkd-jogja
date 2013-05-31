@@ -437,6 +437,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         submitFormat: 'Y-m-d H:i',
                         name: 'tgl_kembali',
                         id: 'tgl_kembali',
+                        ref: '../tgl_kembali',
                         x: 100,
                         y: 242,
                         height: 20,
@@ -566,10 +567,10 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         id: 'nopolisi',
                         readOnly: true,
                         ref: '../jenis_mobil',
-                        readOnly: true,
-                                x: 280,
+                        x: 280,
                         y: 332,
-                        height: 20, width: 200,
+                        height: 20,
+                        width: 200,
                     },
                     {
                         xtype: 'label',
@@ -581,6 +582,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         fieldLabel: 'Cara Bayar',
                         value: 'Tunai',
                         name: 'trans_via',
+                        ref: '../trans_via',
                         x: 100,
                         y: 362,
                         height: 20,
@@ -647,9 +649,29 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype: 'label',
-                        text: 'Driver',
+                        text: 'Ongkos Extend',
                         x: 540,
                         y: 275
+                    },
+                    {
+                        xtype: 'numericfield',
+                        hideLabel: false,
+                        name: 'ongkos_extend',
+                        id: 'ongkos_extendid',
+                        ref: '../ongkos_extend',
+                        readOnly: true,
+                        maxLength: 30,
+                        value: 0,
+                        x: 660,
+                        y: 272,
+                        height: 20,
+                        width: 200,
+                    },
+                    {
+                        xtype: 'label',
+                        text: 'Driver',
+                        x: 540,
+                        y: 305
                     },
                     {
                         xtype: 'numericfield',
@@ -662,7 +684,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         value: 0,
                         allowBlank: false,
                         x: 660,
-                        y: 272,
+                        y: 302,
                         height: 20,
                         width: 200,
                     },
@@ -670,7 +692,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Bensin',
                         x: 540,
-                        y: 305
+                        y: 335
                     },
                     {
                         xtype: 'numericfield',
@@ -683,7 +705,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         value: 0,
                         allowBlank: false,
                         x: 660,
-                        y: 305,
+                        y: 332,
                         height: 20,
                         width: 200,
                     },
@@ -691,7 +713,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Total Ongkos Sewa',
                         x: 540,
-                        y: 335
+                        y: 365
                     },
                     {
                         xtype: 'numericfield',
@@ -704,7 +726,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         readOnly: true,
                         value: 0,
                         x: 660,
-                        y: 332,
+                        y: 362,
                         height: 20,
                         width: 200,
                     },
@@ -712,7 +734,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Diskon',
                         x: 540,
-                        y: 365
+                        y: 395
                     },
                     {
                         xtype: 'numericfield',
@@ -725,7 +747,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         readOnly: true,
                         value: 0,
                         x: 660,
-                        y: 362,
+                        y: 392,
                         height: 20,
                         width: 200,
                     },
@@ -733,7 +755,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Total All',
                         x: 540,
-                        y: 395
+                        y: 425
                     },
                     {
                         xtype: 'numericfield',
@@ -746,7 +768,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         readOnly: true,
                         value: 0,
                         x: 660,
-                        y: 392,
+                        y: 422,
                         height: 20,
                         width: 200,
                     },
@@ -754,7 +776,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'DP',
                         x: 540,
-                        y: 425
+                        y: 455
                     },
                     {
                         xtype: 'numericfield',
@@ -766,26 +788,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         maxLength: 30,
                         value: 0,
                         allowBlank: false,
-                        x: 660,
-                        y: 422,
-                        height: 20,
-                        width: 200,
-                    },
-                    {
-                        xtype: 'label',
-                        text: 'Sisa Tagihan',
-                        x: 540,
-                        y: 455
-                    },
-                    {
-                        xtype: 'numericfield',
-                        hideLabel: false,
-                        name: 'sisa_tagihan',
-                        id: 'sisa_tagihanid',
-                        ref: '../sisa_tagihan',
                         readOnly: true,
-                        maxLength: 30,
-                        value: 0,
                         x: 660,
                         y: 452,
                         height: 20,
@@ -834,14 +837,92 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
-        jun.rztMtBankAccounts.reload();
-        jun.MtTranferBankWin.superclass.initComponent.call(this);
+        jun.MtPengembalianWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
-
         this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+        this.tgl_kembali.on('change', this.onDurationChange, this);
+    },
+    calculateTotal: function() {
+        var id_mobil = this.nopol.getValue();
+        var id_kelompok = this.id_kelompok.getValue();
+        var sewa_bln = this.extend_bln.getValue();
+        var sewa_hari = this.extend_hari.getValue();
+        var sewa_jam = this.extend_jam.getValue();
+        var overtime = this.overtime_jam.getValue();
+        var season = this.season.getValue();
+        if (id_mobil === "" || id_kelompok === "")
+            return;
+        var mobil = jun.getMobil(id_mobil);
+        var kelompok = jun.getKelompokPelanggan(id_kelompok);
+        var disk_persen = parseFloat(kelompok.data.discont_persen) * 0.01;
+        var over_persen = parseFloat(kelompok.data.overtime) * 0.01;
+        var tarif_hari = season === 0 ? parseFloat(mobil.data.tarif_24) :
+                parseFloat(mobil.data.tarif_high_24);
+        var tarif_jam = season === 0 ? parseFloat(mobil.data.tarif_12) :
+                parseFloat(mobil.data.tarif_high_12);
+        var ong_pinjam = parseFloat(this.ongkos_sewa.getValue());
+        var ong_bln = parseFloat(mobil.data.tarif_bulanan) * parseFloat(sewa_bln);
+        var ong_hari = tarif_hari * parseFloat(sewa_hari);
+        var ong_jam = tarif_jam * parseFloat(sewa_jam);
+        var ong_over = tarif_hari * parseFloat(overtime);
+        var ong_sewa = ong_bln + ong_hari + ong_jam + ong_over;
+        this.ongkos_extend.setValue(ong_sewa);
+        var ong_driver = parseFloat(this.ongkos_driver.getValue());
+        var ong_bbm = parseFloat(this.ongkos_bbm.getValue());
+        var total_ong = ong_sewa + ong_pinjam + ong_driver + ong_bbm;
+        this.total_ongkos.setValue(total_ong);
+        var ong_disk = total_ong * disk_persen;
+        this.disc.setValue(ong_disk);
+        var total = total_ong - ong_disk;
+        this.total.setValue(total);
+        var dp = parseFloat(this.dp.getValue());
+        this.pelunasan.setValue(total - dp);
+    },
+    onDurationChange: function() {
+        var tgl_pinjam = this.tgl_pinjam.getValue();
+        var tgl_rencana = this.rencana_tanggal_kembali.getValue();
+        var tgl_kembali = this.tgl_kembali.getValue();
+        if (tgl_kembali === "")
+            return;
+        if (tgl_kembali.between(tgl_pinjam, tgl_rencana))
+            return;
+        Ext.Ajax.request({
+            url: 'Mahkotrans/mtKembaliKendaraan/DateDiff',
+            params: {
+                tgl_rencana: tgl_rencana.format('Y-m-d H:i:s'),
+                tgl_kembali: tgl_kembali.format('Y-m-d H:i:s'),
+            },
+            method: 'POST',
+            scope: this,
+            success: function(f, a) {
+                var response = Ext.decode(f.responseText);
+                if (response.status === true) {
+                    var sewa_month = parseInt(response.msg['Months']);
+                    var sewa_day = parseInt(response.msg['Days']);
+                    var sewa_hour = parseInt(response.msg['Hours']);
+                    var hour = 0;
+                    var over = 0;
 
+                    if (sewa_hour >= 12) {
+                        hour = 12;
+                        over = sewa_hour - 12;
+                    } else {
+                        over = sewa_hour;
+                    }
+
+                    Ext.getCmp('extend_blnid').setValue(sewa_month);
+                    Ext.getCmp('extend_hariid').setValue(sewa_day);
+                    Ext.getCmp('extend_jamid').setValue(hour);
+                    Ext.getCmp('overtime_jamid').setValue(over);
+                    this.calculateTotal();
+                }
+            },
+            failure: function(f, a) {
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
+            },
+        });
     },
     btnDisabled: function(status) {
         this.btnSave.setDisabled(status);
@@ -853,7 +934,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
     saveForm: function() {
         this.btnDisabled(true);
         var urlz;
-
         urlz = 'Mahkotrans/MtPinjamKendaraan/create';
         Ext.getCmp('from-MtPinjamanWin').getForm().submit({
             url: urlz,
