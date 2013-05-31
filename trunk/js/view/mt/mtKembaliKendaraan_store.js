@@ -21,7 +21,6 @@ jun.MtKembaliKendaraanstore = Ext.extend(Ext.data.JsonStore, {
                 {name: 'ongkos_bbm'},
                 {name: 'total_ongkos'},
                 {name: 'dp'},
-                {name: 'sisa_tagihan'},
                 {name: 'disc'},
                 {name: 'total'},
                 {name: 'users_id'},
@@ -29,6 +28,7 @@ jun.MtKembaliKendaraanstore = Ext.extend(Ext.data.JsonStore, {
                 {name: 'no_bukti_bayar'},
                 {name: 'notes'},
                 {name: 'is_void'},
+                {name: 'ongkos_extend'},
             ]
         }, cfg));
     }

@@ -23,7 +23,6 @@
  * @property string $ongkos_bbm
  * @property string $total_ongkos
  * @property string $dp
- * @property string $sisa_tagihan
  * @property string $disc
  * @property string $total
  * @property integer $users_id
@@ -31,6 +30,7 @@
  * @property string $no_bukti_bayar
  * @property string $notes
  * @property integer $is_void
+ * @property string $ongkos_extend
  *
  * @property MtPinjamKendaraan $idPinjam
  * @property Users $users
@@ -54,12 +54,12 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 			array('id_pinjam', 'required'),
 			array('id_pinjam, extend_bln, extend_hari, extend_jam, users_id, is_void', 'numerical', 'integerOnly'=>true),
 			array('overtime_jam', 'numerical'),
-			array('pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, trans_via', 'length', 'max'=>30),
+			array('pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, trans_via, ongkos_extend', 'length', 'max'=>30),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('notes', 'length', 'max'=>600),
 			array('trans_date, tgl_kembali', 'safe'),
-			array('trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_kembali, id_pinjam, trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void', 'safe', 'on'=>'search'),
+			array('trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_kembali, id_pinjam, trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,7 +91,6 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 			'ongkos_bbm' => Yii::t('app', 'Ongkos Bbm'),
 			'total_ongkos' => Yii::t('app', 'Total Ongkos'),
 			'dp' => Yii::t('app', 'Dp'),
-			'sisa_tagihan' => Yii::t('app', 'Sisa Tagihan'),
 			'disc' => Yii::t('app', 'Disc'),
 			'total' => Yii::t('app', 'Total'),
 			'users_id' => Yii::t('app', 'Users'),
@@ -99,6 +98,7 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 			'no_bukti_bayar' => Yii::t('app', 'No Bukti Bayar'),
 			'notes' => Yii::t('app', 'Notes'),
 			'is_void' => Yii::t('app', 'Is Void'),
+			'ongkos_extend' => Yii::t('app', 'Ongkos Extend'),
 		);
 	}
 
@@ -119,7 +119,6 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 		$criteria->compare('ongkos_bbm', $this->ongkos_bbm, true);
 		$criteria->compare('total_ongkos', $this->total_ongkos, true);
 		$criteria->compare('dp', $this->dp, true);
-		$criteria->compare('sisa_tagihan', $this->sisa_tagihan, true);
 		$criteria->compare('disc', $this->disc, true);
 		$criteria->compare('total', $this->total, true);
 		$criteria->compare('users_id', $this->users_id);
@@ -127,6 +126,7 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 		$criteria->compare('no_bukti_bayar', $this->no_bukti_bayar, true);
 		$criteria->compare('notes', $this->notes, true);
 		$criteria->compare('is_void', $this->is_void);
+		$criteria->compare('ongkos_extend', $this->ongkos_extend, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
