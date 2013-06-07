@@ -8,12 +8,26 @@ jun.MtKelompokPelangganGrid = Ext.extend(Ext.grid.GridPanel, {
     sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
     columns: [
         {
-            header: 'id_kelompok',
+            header: 'Nama',
             sortable: true,
             resizable: true,
-            dataIndex: 'id_kelompok',
-            width: 100
+            dataIndex: 'nama',
+            width: 100,
         },
+        {
+            header: 'Diskon (%)',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'discont_persen',
+            width: 100,
+            align: 'right',
+            renderer: Ext.util.Format.numberRenderer('0,0')
+        },
+        {
+            header: 'Status',
+            dataIndex: 'inactive',
+            renderer: jun.renderActive,
+        }
     ],
     initComponent: function() {
         this.store = jun.rztMtKelompokPelanggan;
@@ -32,7 +46,7 @@ jun.MtKelompokPelangganGrid = Ext.extend(Ext.grid.GridPanel, {
             items: [
                 {
                     xtype: 'button',
-                    text: 'Tambah',
+                    text: 'Tambah Kelompok Pelanggan',
                     ref: '../btnAdd'
                 },
                 {
@@ -40,24 +54,24 @@ jun.MtKelompokPelangganGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Ubah',
+                    text: 'Ubah Kelompok Pelanggan',
                     ref: '../btnEdit'
                 },
-                {
-                    xtype: 'tbseparator',
-                },
-                {
-                    xtype: 'button',
-                    text: 'Hapus',
-                    ref: '../btnDelete'
-                }
+//                {
+//                    xtype: 'tbseparator',
+//                },
+//                {
+//                    xtype: 'button',
+//                    text: 'Hapus',
+//                    ref: '../btnDelete'
+//                }
             ]
         };
         jun.rztMtKelompokPelanggan.reload();
         jun.MtKelompokPelangganGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow: function(sm, idx, r) {

@@ -22,7 +22,7 @@ jun.MtKelompokPelangganWin = Ext.extend(Ext.Window, {
                 items: [
                     {
                         xtype: 'textfield',
-                        fieldLabel: 'nama',
+                        fieldLabel: 'Nama',
                         hideLabel: false,
                         //hidden:true,
                         name: 'nama',
@@ -33,16 +33,18 @@ jun.MtKelompokPelangganWin = Ext.extend(Ext.Window, {
                         anchor: '100%'
                     },
                     {
-                        xtype: 'textfield',
-                        fieldLabel: 'discont_persen',
+                        xtype: 'spinnerfield',
+                        fieldLabel: 'Diskon (Persen)',
                         hideLabel: false,
                         //hidden:true,
                         name: 'discont_persen',
                         id: 'discont_persenid',
                         ref: '../discont_persen',
-                        maxLength: 30,
-                        //allowBlank: 1,
-                       anchor: '100%'
+                        maxLength: 3,
+                        minValue: 0,
+                        maxValue: 100,
+                        Value: 0,
+                        anchor: '100%'
                     },
                 ]
             }];

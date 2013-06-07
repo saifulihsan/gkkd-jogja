@@ -25,6 +25,10 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 border: false,
                 items: [
                     {
+                        xtype: 'hidden',
+                        name: 'id_pinjam'
+                    },
+                    {
                         xtype: 'label',
                         text: 'No. Pinjam',
                         x: 5,
@@ -832,7 +836,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Batal',
+                    text: 'Tutup',
                     ref: '../btnCancel'
                 }
             ]
@@ -851,22 +855,34 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         var sewa_hari = this.extend_hari.getValue();
         var sewa_jam = this.extend_jam.getValue();
         var overtime = this.overtime_jam.getValue();
-        var season = this.season.getValue();
+        var ong_pinjam = parseFloat(this.ongkos_sewa.getValue());
+        var season = parseFloat(this.season.getValue());
         if (id_mobil === "" || id_kelompok === "")
             return;
         var mobil = jun.getMobil(id_mobil);
         var kelompok = jun.getKelompokPelanggan(id_kelompok);
-        var disk_persen = parseFloat(kelompok.data.discont_persen) * 0.01;
-        var over_persen = parseFloat(kelompok.data.overtime) * 0.01;
-        var tarif_hari = season === 0 ? parseFloat(mobil.data.tarif_24) :
-                parseFloat(mobil.data.tarif_high_24);
-        var tarif_jam = season === 0 ? parseFloat(mobil.data.tarif_12) :
+        var other_rental = jun.getMtSysPrefs('kelompok_other_rental');
+        var is_other = kelompok.data.id_kelompok === other_rental.data.value;
+        var disk_persen = is_other ? 0 : parseFloat(kelompok.data.discont_persen) * 0.01;
+        var mobil_tarif_12 = is_other ? parseFloat(mobil.data.other_tarif_12) :
+                parseFloat(mobil.data.tarif_12);
+        var mobil_tarif_12_h = is_other ? parseFloat(mobil.data.other_tarif_high_12) :
                 parseFloat(mobil.data.tarif_high_12);
-        var ong_pinjam = parseFloat(this.ongkos_sewa.getValue());
-        var ong_bln = parseFloat(mobil.data.tarif_bulanan) * parseFloat(sewa_bln);
+        var mobil_tarif_24 = is_other ? parseFloat(mobil.data.other_tarif_24) :
+                parseFloat(mobil.data.tarif_24);
+        var mobil_tarif_24_h = is_other ? parseFloat(mobil.data.other_tarif_high_24) :
+                parseFloat(mobil.data.tarif_high_24);
+        var mobil_tarif_bulan = is_other ? parseFloat(mobil.data.other_tarif_bulanan) :
+                parseFloat(mobil.data.tarif_bulanan);
+        var mobil_tarif_overtime = is_other ? parseFloat(mobil.data.other_overtime) :
+                parseFloat(mobil.data.overtime);
+        var over_persen = mobil_tarif_overtime * 0.01;
+        var tarif_hari = season === 0 ? mobil_tarif_24 : mobil_tarif_24_h;
+        var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
+        var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);        
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
-        var ong_jam = tarif_jam * parseFloat(sewa_jam);
-        var ong_over = tarif_hari * parseFloat(overtime);
+        var ong_jam = parseFloat(sewa_jam) > 0 ? tarif_jam : 0;
+        var ong_over = (tarif_hari * over_persen) * parseFloat(overtime);
         var ong_sewa = ong_bln + ong_hari + ong_jam + ong_over;
         this.ongkos_extend.setValue(ong_sewa);
         var ong_driver = parseFloat(this.ongkos_driver.getValue());
@@ -887,7 +903,9 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         if (tgl_kembali === "")
             return;
         if (tgl_kembali.between(tgl_pinjam, tgl_rencana))
-            return;
+        {
+            tgl_kembali = tgl_rencana;
+        }
         Ext.Ajax.request({
             url: 'Mahkotrans/mtKembaliKendaraan/DateDiff',
             params: {
@@ -929,13 +947,19 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         this.btnSaveClose.setDisabled(status);
     },
     onActivate: function() {
-        this.btnSave.hidden = false;
+        if (this.modez === 0) {
+            this.btnSave.show();
+            this.btnSaveClose.show();
+        } else {
+            this.btnSave.hide();
+            this.btnSaveClose.hide();
+        }
     },
     saveForm: function() {
         this.btnDisabled(true);
         var urlz;
-        urlz = 'Mahkotrans/MtPinjamKendaraan/create';
-        Ext.getCmp('from-MtPinjamanWin').getForm().submit({
+        urlz = 'Mahkotrans/MtKembaliKendaraan/create';
+        Ext.getCmp('from-MtPengembalianWin').getForm().submit({
             url: urlz,
             /*
              params:{
@@ -963,7 +987,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         buttons: Ext.MessageBox.OK,
                         icon: Ext.MessageBox.INFO
                     });
-                    Ext.getCmp('from-MtPinjamanWin').getForm().reset();
+                    Ext.getCmp('from-MtPengembalianWin').getForm().reset();
                 }
                 jun.rztMtPinjamKendaraan.reload();
                 this.btnDisabled(false);

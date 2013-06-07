@@ -210,26 +210,6 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         height: 20,
                         width: 200,
                     },
-//                    {
-//                        xtype: 'label',
-//                        text: 'Jam',
-//                        x: 208,
-//                        y: 215
-//                    },
-//                    {
-//                        xtype: 'timefield',
-//                        hideLabel: false,
-//                        format: 'H:i',
-//                        name: 'jam_pinjam',
-//                        id: 'jam_pinjamid',
-//                        ref: '../jam_pinjam',
-//                        maxLength: 15,
-//                        allowBlank: false,
-//                        x: 250,
-//                        y: 212,
-//                        height: 20,
-//                        width: 80,
-//                    }, 
                     {
                         xtype: 'label',
                         text: 'Lama Sewa',
@@ -325,26 +305,6 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         height: 20,
                         width: 200,
                     },
-//                    {
-//                        xtype: 'label',
-//                        text: 'Jam',
-//                        x: 208,
-//                        y: 245
-//                    },
-//                    {
-//                        xtype: 'timefield',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'jam_rencana_kembali',
-//                        id: 'jam_rencana_kembali',
-//                        format: 'H:i',
-//                        readOnly: true,
-//                        ref: '../jam_kembali',
-//                        x: 250,
-//                        y: 242,
-//                        height: 20,
-//                        width: 80,
-//                    },
                     {
                         xtype: 'label',
                         text: 'ONGKOS SEWA',
@@ -677,19 +637,29 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         var sewa_bln = this.sewa_bln.getValue();
         var sewa_hari = this.sewa_hari.getValue();
         var sewa_jam = this.sewa_jam.getValue();
-        var season = this.season.getValue();
+        var season = parseFloat(this.season.getValue());
         if (id_mobil === "" || id_kelompok === "")
             return;
         var mobil = jun.getMobil(id_mobil);
         var kelompok = jun.getKelompokPelanggan(id_kelompok);
-        var disk_persen = parseFloat(kelompok.data.discont_persen) * 0.01;
-        var tarif_hari = season === 0 ? parseFloat(mobil.data.tarif_24) :
-                parseFloat(mobil.data.tarif_high_24);
-        var tarif_jam = season === 0 ? parseFloat(mobil.data.tarif_12) :
+        var other_rental = jun.getMtSysPrefs('kelompok_other_rental');
+        var is_other = kelompok.data.id_kelompok === other_rental.data.value;
+        var disk_persen = is_other ? 0 : parseFloat(kelompok.data.discont_persen) * 0.01;
+        var mobil_tarif_12 = is_other ? parseFloat(mobil.data.other_tarif_12) :
+                parseFloat(mobil.data.tarif_12);
+        var mobil_tarif_12_h = is_other ? parseFloat(mobil.data.other_tarif_high_12) :
                 parseFloat(mobil.data.tarif_high_12);
-        var ong_bln = parseFloat(mobil.data.tarif_bulanan) * parseFloat(sewa_bln);
+        var mobil_tarif_24 = is_other ? parseFloat(mobil.data.other_tarif_24) :
+                parseFloat(mobil.data.tarif_24);
+        var mobil_tarif_24_h = is_other ? parseFloat(mobil.data.other_tarif_high_24) :
+                parseFloat(mobil.data.tarif_high_24);
+        var mobil_tarif_bulan = is_other ? parseFloat(mobil.data.other_tarif_bulanan) :
+                parseFloat(mobil.data.tarif_bulanan);
+        var tarif_hari = season === 0 ? mobil_tarif_24 : mobil_tarif_24_h;
+        var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
+        var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
-        var ong_jam = tarif_jam * parseFloat(sewa_jam);
+        var ong_jam =  parseFloat(sewa_jam) > 0 ? tarif_jam : 0;
         var ong_sewa = ong_bln + ong_hari + ong_jam;
         this.ongkos_sewa.setValue(ong_sewa);
         var ong_driver = parseFloat(this.ongkos_driver.getValue());
@@ -740,8 +710,10 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
     onActivate: function() {
         if (this.modez === 0) {
             this.btnSave.show();
+            this.btnSaveClose.show();
         } else {
-            this.btnDisabled(true);
+            this.btnSave.hide();
+            this.btnSaveClose.hide();
         }
     },
     saveForm: function() {

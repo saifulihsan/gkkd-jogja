@@ -26,19 +26,40 @@ class MtKembaliKendaraanController extends GxController {
         $model = new MtKembaliKendaraan;
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
-            foreach ($_POST as $k => $v) {
-                $_POST['MtKembaliKendaraan'][$k] = $v;
-            }
-            $model->attributes = $_POST['MtKembaliKendaraan'];
-            $msg = "Data gagal disimpan";
-
-            if ($model->save()) {
-                $status = true;
-                $msg = "Data berhasil di simpan dengan id " . $model->id_kembali;
-            } else {
+            $status = false;
+            $msg = 'Peminjaman kendaraan berhasil disimpan.';
+            $transaction = app()->db->beginTransaction();
+            try {
+                $user = app()->user->getId();
+                foreach ($_POST as $k => $v) {
+                     if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' ||
+                            $k == 'ongkos_bbm' || $k == 'total_ongkos' ||
+                            $k == 'dp' || $k == 'ongkos_extend' || $k == 'disc' 
+                             || $k == 'total'  || $k == 'pelunasan') {
+                        $v = get_number($v);
+                    }
+                    $_POST['MtKembaliKendaraan'][$k] = $v;
+                }
+                $_POST['MtPinjamKendaraan']['entry_time'] = Now();
+                $_POST['MtPinjamKendaraan']['users_id'] = $user;
+                $model->attributes = $_POST['MtKembaliKendaraan'];
+                $msg = "Data gagal disimpan";
+                
+                if ($model->save()) {
+                    $status = true;
+                    $msg = "Data berhasil di simpan dengan id " . $model->id_kembali;
+                } else {
+                    $status = false;
+                }
+                $pinjam = $this->loadModel($model->id_pinjam, 'MtKembaliKendaraan');
+                $pinjam->is_back = 1;
+                $pinjam->save();
+                $transaction->commit();
+            } catch (Exception $ex) {
+                $transaction->rollback();
                 $status = false;
+                $msg = $ex;
             }
-
             echo CJSON::encode(array(
                 'success' => $status,
                 'msg' => $msg));

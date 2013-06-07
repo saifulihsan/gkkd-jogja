@@ -17,7 +17,10 @@ class MtMobilController extends GxController {
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 if ($k == 'tarif_12' || $k == 'tarif_24' || $k == 'tarif_high_12' 
-                        || $k == 'tarif_high_24' || $k == 'tarif_bulanan')
+                        || $k == 'tarif_high_24' || $k == 'tarif_bulanan' ||
+                        $k == 'other_tarif_12' || $k == 'other_tarif_24' || 
+                        $k == 'other_tarif_high_12' || $k == 'other_tarif_high_24' ||
+                        $k == 'other_tarif_bulanan')
                         $v = get_number($v);
                 $_POST['MtMobil'][$k] = $v;
             }
@@ -44,8 +47,11 @@ class MtMobilController extends GxController {
 
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
-                if ($k == 'tarif_12'  || $k == 'tarif_24'  || $k == 'tarif_high_12'  
-                        || $k == 'tarif_high_24'  || $k == 'tarif_bulanan') 
+                if ($k == 'tarif_12' || $k == 'tarif_24' || $k == 'tarif_high_12' 
+                        || $k == 'tarif_high_24' || $k == 'tarif_bulanan' ||
+                        $k == 'other_tarif_12' || $k == 'other_tarif_24' || 
+                        $k == 'other_tarif_high_12' || $k == 'other_tarif_high_24' ||
+                        $k == 'other_tarif_bulanan')
                     $v = get_number($v);
                 $_POST['MtMobil'][$k] = $v;
             }

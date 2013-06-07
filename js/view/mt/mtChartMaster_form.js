@@ -1,90 +1,86 @@
 jun.MtChartMasterWin = Ext.extend(Ext.Window, {
-    title: 'MtChartMaster',
-    modez:1,
-    width: 400,
-    height: 300,
+    title: 'Kode Rekening',
+    modez: 1,
+    width: 450,
+    height: 270,
     layout: 'form',
     modal: true,
     padding: 5,
-    closeForm: false,    
+    closeForm: false,
     initComponent: function() {
         this.items = [
             {
                 xtype: 'form',
                 frame: false,
                 bodyStyle: 'background-color: #E4E4E4; padding: 10px',
-                id:'form-MtChartMaster',
-                labelWidth: 100,
+                id: 'form-MtChartMaster',
+                labelWidth: 125,
                 labelAlign: 'left',
                 layout: 'form',
-                ref:'formz',
-                border:false,
+                ref: 'formz',
+                border: false,
                 items: [
-                                                                                     {
-                                    xtype: 'textfield',
-                                    fieldLabel: 'account_code2',
-                                    hideLabel:false,
-                                    //hidden:true,
-                                    name:'account_code2',
-                                    id:'account_code2id',
-                                    ref:'../account_code2',
-                                    maxLength: 15,
-                                    //allowBlank: ,
-                                    anchor: '100%'
-                                }, 
-                                                                     {
-                                    xtype: 'textfield',
-                                    fieldLabel: 'account_name',
-                                    hideLabel:false,
-                                    //hidden:true,
-                                    name:'account_name',
-                                    id:'account_nameid',
-                                    ref:'../account_name',
-                                    maxLength: 60,
-                                    //allowBlank: ,
-                                    anchor: '100%'
-                                }, 
-                                                                     {
-                            xtype: 'combo',
-                            typeAhead: true,
-                            triggerAction: 'all',
-                            lazyRender:true,
-                            mode: 'local',                            
-                            fieldLabel: 'account_type',
-                            store: jun.rztMtChartTypes,
-                            hiddenName:'account_type',
-                            hiddenValue:'account_type',
-                            valueField: 'id',
-                            //displayField: 'MtChartTypes::model()->representingColumn()',
-                            displayField: 'name',
-                            //allowBlank:false,
-                            anchor: '100%'
-                        }, 
-                                                                     {
-                                    xtype: 'textfield',
-                                    fieldLabel: 'status',
-                                    hideLabel:false,
-                                    //hidden:true,
-                                    name:'status',
-                                    id:'statusid',
-                                    ref:'../status',
-                                    maxLength: 1,
-                                    //allowBlank: ,
-                                    anchor: '100%'
-                                }, 
-                                                                     {
-                            xtype: 'textfield',
-                            fieldLabel: 'description',
-                            hideLabel:false,
-                            //hidden:true,
-                            name:'description',
-                            id:'descriptionid',
-                            ref:'../description',
-                            anchor: '100%'
-                            //allowBlank: 1
-                        }, 
-                                                   
-                  ]
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Kode Rekening',
+                        hideLabel: false,
+                        //hidden:true,
+                        name: 'account_code',
+                        id: 'account_codeid',
+                        ref: '../account_code2',
+                        maxLength: 15,
+                        //allowBlank: ,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Nama Rekening',
+                        hideLabel: false,
+                        //hidden:true,
+                        name: 'account_name',
+                        id: 'account_nameid',
+                        ref: '../account_name',
+                        maxLength: 60,
+                        //allowBlank: ,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'combo',
+                        typeAhead: true,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        fieldLabel: 'Kelompok Rekening',
+                        store: jun.rztMtChartTypes,
+                        hiddenName: 'account_type',
+                        hiddenValue: 'account_type',
+                        valueField: 'id',
+                        forceSelection: true,
+                        displayField: 'name',
+                        //allowBlank:false,
+                        anchor: '100%'
+                    },
+                    new jun.comboActive({
+                        fieldLabel: 'Status',
+                        hideLabel: false,
+                        width: 200,
+                        height: 20,
+                        name: 'status',
+                        ref: '../cmbActive',
+                        id: 'statusid'
+                    }),
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Deskripsi',
+                        hideLabel: false,
+                        //hidden:true,
+                        name: 'description',
+                        id: 'descriptionid',
+                        ref: '../description',
+                        anchor: '100%'
+                                //allowBlank: 1
+                    },
+                ]
             }];
         this.fbar = {
             xtype: 'toolbar',
@@ -93,7 +89,7 @@ jun.MtChartMasterWin = Ext.extend(Ext.Window, {
                     xtype: 'button',
                     text: 'Simpan',
                     hidden: false,
-                    ref:'../btnSave'
+                    ref: '../btnSave'
                 },
                 {
                     xtype: 'button',
@@ -103,7 +99,7 @@ jun.MtChartMasterWin = Ext.extend(Ext.Window, {
                 {
                     xtype: 'button',
                     text: 'Batal',
-                    ref:'../btnCancel'
+                    ref: '../btnCancel'
                 }
             ]
         };
@@ -118,74 +114,70 @@ jun.MtChartMasterWin = Ext.extend(Ext.Window, {
             this.btnSave.setVisible(true);
         }
     },
-
-    btnDisabled:function(status){
+    btnDisabled: function(status) {
         this.btnSave.setDisabled(status);
         this.btnSaveClose.setDisabled(status);
     },
-            
-    saveForm : function()
+    saveForm: function()
     {
         this.btnDisabled(true);
-            var urlz;
-            if(this.modez == 1 || this.modez== 2) {
-                    
-                    urlz= 'Mahkotrans/MtChartMaster/update/id/' + this.id;
-                    
-                } else {
-                    
-                    urlz= 'Mahkotrans/MtChartMaster/create/';
-                }
-             
-            Ext.getCmp('form-MtChartMaster').getForm().submit({
-                url:urlz,
-                timeOut: 1000,
-                scope: this,
-                success: function(f,a){
-                    jun.rztMtChartMaster.reload();
-                    var response = Ext.decode(a.response.responseText);
-                    Ext.MessageBox.show({
-                    title:'Info',
-                    msg:response.msg,
-                    buttons:Ext.MessageBox.OK,
-                    icon:Ext.MessageBox.INFO
-                    });
-                    if(this.modez == 0){
-                        Ext.getCmp('form-MtChartMaster').getForm().reset();
-                        this.btnDisabled(false);
-                    }
-                    if(this.closeForm){
-                        this.close();
-                    }
-                },
-                failure:function (f, a) {
-                    var response = Ext.decode(a.response.responseText);
-                    Ext.MessageBox.show({
-                    title:'Warning',
-                    msg:response.msg,
-                    buttons:Ext.MessageBox.OK,
-                    icon:Ext.MessageBox.WARNING
-                    });
+        var urlz;
+        if (this.modez == 1 || this.modez == 2) {
+
+            urlz = 'Mahkotrans/MtChartMaster/update/id/' + this.id;
+
+        } else {
+
+            urlz = 'Mahkotrans/MtChartMaster/create/';
+        }
+
+        Ext.getCmp('form-MtChartMaster').getForm().submit({
+            url: urlz,
+            timeOut: 1000,
+            scope: this,
+            success: function(f, a) {
+                jun.rztMtChartMaster.reload();
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title: 'Info',
+                    msg: response.msg,
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.INFO
+                });
+                if (this.modez == 0) {
+                    Ext.getCmp('form-MtChartMaster').getForm().reset();
                     this.btnDisabled(false);
                 }
+                if (this.closeForm) {
+                    this.close();
+                }
+            },
+            failure: function(f, a) {
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title: 'Warning',
+                    msg: response.msg,
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.WARNING
+                });
+                this.btnDisabled(false);
+            }
 
-            });
+        });
 
     },
-    
     onbtnSaveCloseClick: function()
     {
         this.closeForm = true;
         this.saveForm(true);
     },
-    
     onbtnSaveclick: function()
     {
         this.closeForm = false;
         this.saveForm(false);
     },
-    onbtnCancelclick: function(){
+    onbtnCancelclick: function() {
         this.close();
     }
-   
+
 });

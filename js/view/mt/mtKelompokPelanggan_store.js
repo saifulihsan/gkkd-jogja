@@ -10,6 +10,7 @@ jun.MtKelompokPelangganstore = Ext.extend(Ext.data.JsonStore, {
                 {name: 'id_kelompok'},
                 {name: 'nama'},
                 {name: 'discont_persen'},
+                {name: 'inactive'},
             ]
         }, cfg));
     }

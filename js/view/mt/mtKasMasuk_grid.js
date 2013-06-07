@@ -34,6 +34,7 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
             resizable: true,
             dataIndex: 'amount',
             width: 100,
+            align: 'right',
             renderer: Ext.util.Format.numberRenderer('0,0')
         },
         /*

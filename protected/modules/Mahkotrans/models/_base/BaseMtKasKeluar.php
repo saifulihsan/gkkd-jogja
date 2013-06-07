@@ -43,13 +43,13 @@ abstract class BaseMtKasKeluar extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('mt_account_code, mt_bank_accounts_id, users_id, id_mobil', 'required'),
+			array('mt_account_code, mt_bank_accounts_id, users_id', 'required'),
 			array('mt_bank_accounts_id, users_id, id_mobil', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('doc_ref, mt_account_code', 'length', 'max'=>15),
 			array('no_bukti, trans_via', 'length', 'max'=>45),
 			array('entry_time, trans_date, note', 'safe'),
-			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note, id_mobil', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('kas_keluar_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, mt_account_code, mt_bank_accounts_id, users_id, note, id_mobil', 'safe', 'on'=>'search'),
 		);
 	}

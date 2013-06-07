@@ -28,7 +28,13 @@ class MenuTree {
                   children:[{
                     text: 'File',
                     expanded: false,
-                    children:[{
+                    children:[
+                    {
+                            text: 'Setting',
+                            id: 'jun.MtSysPrefsWin',
+                            leaf: true
+                        },
+                        {
                             text: 'Eksport',
                             id: 'jun.NotaGrid',
                             leaf: true
@@ -82,7 +88,12 @@ class MenuTree {
                             text: 'Sewa Kendaraan',
                             id: 'jun.MtPinjamKendaraanGrid',
                             leaf: true
-                        },                        
+                        },      
+                        {
+                            text: 'Pengembalian Kendaraan',
+                            id: 'jun.MtKembaliKendaraanGrid',
+                            leaf: true
+                        },      
                         {
                             text: 'Kas Masuk',
                             id: 'jun.MtKasMasukGrid',
@@ -122,20 +133,12 @@ class MenuTree {
                             leaf: true
                         },
                         {
-                            text: 'Pendapatan',
-                            id: 'jun.MtReportPendapatanWin',
+                            text: 'Daftar Jurnal',
+                            id: 'jun.MtGlTransReportGrid',
                             leaf:true
                         },
-                        {
-                            text: 'Pengeluaran',
-                            id: 'jun.MtReportPengeluaranWin',
-                            leaf: true
-                        },
-                        {
-                            text: 'Pengeluaran Detil',
-                            id: 'jun.MtReportPengeluaranDetilWin',
-                            leaf: true
-                        },]
+                       
+                        ]
                     },
                     ]
                   },";

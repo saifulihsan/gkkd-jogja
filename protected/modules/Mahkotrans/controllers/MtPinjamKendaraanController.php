@@ -22,12 +22,12 @@ class MtPinjamKendaraanController extends GxController {
                 $docref = $ref->get_next_reference(PINJAM_KENDARAAN);
                 $user = app()->user->getId();
                 foreach ($_POST as $k => $v) {
-                    if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' || $k == 'ongkos_bbm' || $k == 'total_ongkos' || $k == 'dp' || $k == 'sisa_tagihan' || $k == 'disc' || $k == 'total') {
+                    if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' || 
+                            $k == 'ongkos_bbm' || $k == 'total_ongkos' ||
+                            $k == 'dp' || $k == 'sisa_tagihan' || $k == 'disc'
+                            || $k == 'total') {
                         $v = get_number($v);
                     }
-//                else if ($k == 'jam_kembali' || $k == 'jam_pinjam') {
-//                    $v = $v.":00";
-//                }
                     $_POST['MtPinjamKendaraan'][$k] = $v;
                 }
                 $_POST['MtPinjamKendaraan']['entry_time'] = Now();

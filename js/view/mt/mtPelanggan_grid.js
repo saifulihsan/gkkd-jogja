@@ -29,12 +29,10 @@ jun.MtPelangganGrid = Ext.extend(Ext.grid.GridPanel, {
             width: 100
         },
         {
-            header: 'status',
-            sortable: true,
-            resizable: true,
+            header: 'Status',
             dataIndex: 'inactive',
-            width: 100
-        },
+            renderer: jun.renderActive,
+        }
     ],
     initComponent: function() {
         this.store = jun.rztMtPelanggan;
