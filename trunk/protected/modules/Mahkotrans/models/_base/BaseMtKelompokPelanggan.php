@@ -12,6 +12,7 @@
  * @property integer $id_kelompok
  * @property string $nama
  * @property double $discont_persen
+ * @property integer $inactive
  *
  * @property MtPinjamKendaraan[] $mtPinjamKendaraans
  */
@@ -32,10 +33,11 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('nama', 'required'),
+			array('inactive', 'numerical', 'integerOnly'=>true),
 			array('discont_persen', 'numerical'),
 			array('nama', 'length', 'max'=>50),
-			array('discont_persen', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_kelompok, nama, discont_persen', 'safe', 'on'=>'search'),
+			array('discont_persen, inactive', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_kelompok, nama, discont_persen, inactive', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +57,7 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 			'id_kelompok' => Yii::t('app', 'Id Kelompok'),
 			'nama' => Yii::t('app', 'Nama'),
 			'discont_persen' => Yii::t('app', 'Discont Persen'),
+			'inactive' => Yii::t('app', 'Inactive'),
 		);
 	}
 
@@ -64,6 +67,7 @@ abstract class BaseMtKelompokPelanggan extends GxActiveRecord {
 		$criteria->compare('id_kelompok', $this->id_kelompok);
 		$criteria->compare('nama', $this->nama, true);
 		$criteria->compare('discont_persen', $this->discont_persen);
+		$criteria->compare('inactive', $this->inactive);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

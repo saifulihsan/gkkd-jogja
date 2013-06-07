@@ -59,7 +59,7 @@ jun.MtChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
             items: [
                 {
                     xtype: 'button',
-                    text: 'Tambah',
+                    text: 'Tambah Kode Rekening',
                     ref: '../btnAdd'
                 },
                 {
@@ -67,24 +67,24 @@ jun.MtChartMasterGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Ubah',
+                    text: 'Ubah Kode Rekening',
                     ref: '../btnEdit'
                 },
-                {
-                    xtype: 'tbseparator',
-                },
-                {
-                    xtype: 'button',
-                    text: 'Hapus',
-                    ref: '../btnDelete'
-                }
+//                {
+//                    xtype: 'tbseparator',
+//                },
+//                {
+//                    xtype: 'button',
+//                    text: 'Hapus',
+//                    ref: '../btnDelete'
+//                }
             ]
         };
         jun.rztMtChartMaster.reload();
         jun.MtChartMasterGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-        this.btnDelete.on('Click', this.deleteRec, this);
+//        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow: function(sm, idx, r) {

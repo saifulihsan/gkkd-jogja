@@ -17,9 +17,34 @@ jun.getMobil = function(val) {
     var index = store.find('id_mobil', val);
     return store.getAt(index);
 };
+jun.renderMtNopol = function(val, meta, record) {
+    var record = jun.getMobil(val);
+    return record.data.nopol;
+};
 jun.getKelompokPelanggan = function(val) {
     var store = jun.rztMtKelompokPelanggan;
     var index = store.find('id_kelompok', val);
+    return store.getAt(index);
+};
+jun.getMtSysPrefs = function(val) {
+    var store = jun.rztMtSysPrefs;
+    var index = store.find('name', val);
+    return store.getAt(index);
+};
+jun.renderMtPelanggan = function(val, meta, record) {
+    //jun.rztMtChartMaster.reload();
+    var store = jun.rztMtPelanggan;
+    var index = store.find('id_pelanggan', val);
+    var record = store.getAt(index);
+    return record.data.nama;
+};
+jun.renderMtKelompokPelanggan = function(val, meta, record) {
+    var record = jun.getKelompokPelanggan(val);
+    return record.data.nama;
+};
+jun.getMtPinjamKendaraan = function(val) {
+    var store = jun.rztMtPinjamKendaraan;
+    var index = store.find('id_pinjam', val);
     return store.getAt(index);
 };
 jun.tandaPengenal = new Ext.data.ArrayStore({
@@ -39,9 +64,6 @@ jun.comboTandaPengenal = Ext.extend(Ext.form.ComboBox, {
     mode: 'local',
     forceSelection: true,
     triggerAction: 'all',
-//    name: 'tanda_pengenal',
-//    hiddenName: 'tanda_pengenal',
-//    hiddenValue: 'tanda_pengenal',
     emptyText: 'Pilih tanda pengenal...',
     selectOnFocus: true,
     initComponent: function() {
@@ -49,11 +71,32 @@ jun.comboTandaPengenal = Ext.extend(Ext.form.ComboBox, {
         jun.comboActive.superclass.initComponent.call(this);
     }
 });
+jun.mtStatusMobilStore= new Ext.data.ArrayStore({
+    fields: ['statusVal', 'statusName'],
+    data: [
+        ['Pemilik', 'Pemilik'],
+        ['Rental Lain', 'Rental Lain']        
+    ]
+});
+jun.mtStatusMobil = Ext.extend(Ext.form.ComboBox, {
+    displayField: 'statusName',
+    valueField: 'statusVal',
+    typeAhead: true,
+    mode: 'local',
+    forceSelection: true,
+    triggerAction: 'all',
+    emptyText: 'Pilih status mobil...',
+    selectOnFocus: true,
+    initComponent: function() {
+        this.store = jun.mtStatusMobilStore;
+        jun.comboActive.superclass.initComponent.call(this);
+    }
+});
 jun.storeSeason = new Ext.data.ArrayStore({
     fields: ['seasonVal', 'seasonName'],
     data: [
         [0, 'Low Season'],
-        [1, 'High Season'],        
+        [1, 'High Season'],
     ]
 });
 jun.cmbSeason = Ext.extend(Ext.form.ComboBox, {

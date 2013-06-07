@@ -33,7 +33,9 @@ jun.MtKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
             sortable: true,
             resizable: true,
             dataIndex: 'amount',
-            width: 100
+            width: 100,
+            align: 'right',
+            renderer: Ext.util.Format.numberRenderer('0,0')
         },
         /*
          {

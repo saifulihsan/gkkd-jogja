@@ -57,36 +57,7 @@ jun.MtBankAccountsGrid = Ext.extend(Ext.grid.GridPanel, {
             dataIndex:'inactive',
             renderer:jun.renderActive,
         }
-        /*
-         {
-         header:'bank_curr_code',
-         sortable:true,
-         resizable:true,
-         dataIndex:'bank_curr_code',
-         width:100
-         },
-         {
-         header:'dflt_curr_act',
-         sortable:true,
-         resizable:true,
-         dataIndex:'dflt_curr_act',
-         width:100
-         },
-         {
-         header:'ending_reconcile_balance',
-         sortable:true,
-         resizable:true,
-         dataIndex:'ending_reconcile_balance',
-         width:100
-         },
-         {
-         header:'inactive',
-         sortable:true,
-         resizable:true,
-         dataIndex:'inactive',
-         width:100
-         },
-         */
+        
     ],
     initComponent:function () {
         this.store = jun.rztMtBankAccounts;

@@ -31,6 +31,7 @@
  * @property string $notes
  * @property integer $is_void
  * @property string $ongkos_extend
+ * @property string $entry_time
  *
  * @property MtPinjamKendaraan $idPinjam
  * @property Users $users
@@ -57,9 +58,9 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 			array('pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, trans_via, ongkos_extend', 'length', 'max'=>30),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('notes', 'length', 'max'=>600),
-			array('trans_date, tgl_kembali', 'safe'),
-			array('trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_kembali, id_pinjam, trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend', 'safe', 'on'=>'search'),
+			array('trans_date, tgl_kembali, entry_time', 'safe'),
+			array('trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend, entry_time', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_kembali, id_pinjam, trans_date, tgl_kembali, extend_bln, extend_hari, extend_jam, overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, users_id, trans_via, no_bukti_bayar, notes, is_void, ongkos_extend, entry_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +100,7 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 			'notes' => Yii::t('app', 'Notes'),
 			'is_void' => Yii::t('app', 'Is Void'),
 			'ongkos_extend' => Yii::t('app', 'Ongkos Extend'),
+			'entry_time' => Yii::t('app', 'Entry Time'),
 		);
 	}
 
@@ -127,6 +129,7 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 		$criteria->compare('notes', $this->notes, true);
 		$criteria->compare('is_void', $this->is_void);
 		$criteria->compare('ongkos_extend', $this->ongkos_extend, true);
+		$criteria->compare('entry_time', $this->entry_time, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
