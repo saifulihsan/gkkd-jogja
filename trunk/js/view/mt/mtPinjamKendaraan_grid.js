@@ -129,7 +129,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
-        
+
         jun.MtPinjamKendaraanGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
@@ -168,7 +168,12 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
     deleteRec: function() {
         var selectedz = this.sm.getSelected();
         if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda belum memilih mobil yang dipinjam.");
+            return;
+        }
+        if (this.record.data.is_back == '1')
+        {
+            Ext.MessageBox.alert("Warning", "Kendaraan sudah dikembalikan");
             return;
         }
         var idz = selectedz.json.id_pinjam;

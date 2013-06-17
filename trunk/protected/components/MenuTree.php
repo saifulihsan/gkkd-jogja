@@ -137,7 +137,11 @@ class MenuTree {
                             id: 'jun.MtGlTransReportGrid',
                             leaf:true
                         },
-                       
+                         {
+                            text: 'Daftar Jurnal Umum',
+                            id: 'jun.MtGeneralLedgerTransReportGrid',
+                            leaf:true
+                        },
                         ]
                     },
                     ]

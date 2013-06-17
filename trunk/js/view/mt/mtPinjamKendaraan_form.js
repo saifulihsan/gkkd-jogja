@@ -723,12 +723,6 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         urlz = 'Mahkotrans/MtPinjamKendaraan/create';
         Ext.getCmp('from-MtPinjamanWin').getForm().submit({
             url: urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut: 1000,
             scope: this,
             success: function(f, a) {

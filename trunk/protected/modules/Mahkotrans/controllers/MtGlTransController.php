@@ -2,11 +2,37 @@
 
 class MtGlTransController extends GxController {
 
-    public function actionView($id) {
-        $this->render('view',
-                array(
-            'model' => $this->loadModel($id, 'MtGlTrans'),
-        ));
+    public function actionView() {
+        global $systypes_array;
+        $from = $_POST['from_date'];
+        $to = $_POST['to_date'];
+        $row = Mt::get_ledger_trans($from, $to);
+        foreach ($row as $myrow) {
+            $arr['data'][] = array('tgl' => sql2date($myrow['tran_date']), 'type' => $systypes_array[$myrow['type']],
+                'type_no' => $myrow['type_no'],'ref' => $myrow['reference'], 'amount' => number_format($myrow['amount'],
+                        2), 'person' => $myrow['user_id']);
+        }
+        
+        echo CJSON::encode($arr);
+        Yii::app()->end();        
+    }
+    
+    public function actionViewJurnalUmum() {
+        global $systypes_array;
+        $from = $_POST['from_date'];
+        $to = $_POST['to_date'];
+        $row = Mt::get_general_ledger_trans($from, $to);
+        foreach ($row as $myrow) {
+            $arr['data'][] = array('type' => $systypes_array[$myrow['type']],
+                'type_no' => $myrow['type_no'], 'tgl' => sql2date($myrow['tran_date']),
+                'account' => $myrow['account'],
+                'debit' => $myrow['amount'] >= 0 ? number_format($myrow['amount'],2) : '',
+                'kredit' => $myrow['amount'] < 0 ? number_format(-$myrow['amount'],2) : ''
+                );
+        }
+
+        echo CJSON::encode($arr);
+        Yii::app()->end();
     }
 
     public function actionCreateJurnalUmum() {
@@ -25,8 +51,8 @@ class MtGlTransController extends GxController {
                 $jurnal_umum_id++;
                 foreach ($detils as $detil) {
                     $amount = $detil['debit'] > 0 ? $detil['debit'] : -$detil['kredit'];
-                    Mt::add_gl(JURNAL_UMUM, $jurnal_umum_id, $_POST['tran_date'],
-                            $docref, $detil['account'],"-", $amount, $user);
+                    Mt::add_gl(JURNAL_UMUM, $jurnal_umum_id, $_POST['tran_date'], $docref,
+                            $detil['account'], "-", $amount, $user);
                 }
                 $ref->save(JURNAL_UMUM, $jurnal_umum_id, $docref);
                 $transaction->commit();
@@ -41,7 +67,7 @@ class MtGlTransController extends GxController {
                 'id' => $docref,
                 'msg' => $msg));
             app()->end();
-        }        
+        }
     }
 
     public function actionCreate() {
@@ -97,22 +123,12 @@ class MtGlTransController extends GxController {
     public function actionDelete($id) {
         if (Yii::app()->request->isPostRequest) {
             $this->loadModel($id, 'MtGlTrans')->delete();
-            if (!Yii::app()->request->isAjaxRequest)
-                    $this->redirect(array('admin'));
+            if (!Yii::app()->request->isAjaxRequest) $this->redirect(array('admin'));
         }
         else
                 throw new CHttpException(400,
-            Yii::t('app',
-                    'Invalid request. Please do not repeat this request again.'));
+            Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
-
-    /*
-      public function actionAdmin() {
-      $dataProvider = new CActiveDataProvider('MtGlTrans');
-      $this->render('index', array(
-      'dataProvider' => $dataProvider,
-      ));
-      } */
 
     public function actionAdmin() {
         $model = new MtGlTrans('search');
@@ -147,8 +163,7 @@ class MtGlTransController extends GxController {
         } else {
             $model = new MtGlTrans('search');
             $model->unsetAttributes();
-            $this->render('admin',
-                    array(
+            $this->render('admin', array(
                 'model' => $model,
             ));
         }

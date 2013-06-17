@@ -32,10 +32,9 @@ class MtKembaliKendaraanController extends GxController {
             try {
                 $user = app()->user->getId();
                 foreach ($_POST as $k => $v) {
-                     if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' ||
+                    if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' ||
                             $k == 'ongkos_bbm' || $k == 'total_ongkos' ||
-                            $k == 'dp' || $k == 'ongkos_extend' || $k == 'disc' 
-                             || $k == 'total'  || $k == 'pelunasan') {
+                            $k == 'dp' || $k == 'ongkos_extend' || $k == 'disc' || $k == 'total' || $k == 'pelunasan') {
                         $v = get_number($v);
                     }
                     $_POST['MtKembaliKendaraan'][$k] = $v;
@@ -44,7 +43,7 @@ class MtKembaliKendaraanController extends GxController {
                 $_POST['MtPinjamKendaraan']['users_id'] = $user;
                 $model->attributes = $_POST['MtKembaliKendaraan'];
                 $msg = "Data gagal disimpan";
-                
+
                 if ($model->save()) {
                     $status = true;
                     $msg = "Data berhasil di simpan dengan id " . $model->id_kembali;
@@ -116,13 +115,11 @@ class MtKembaliKendaraanController extends GxController {
                 'success' => $status,
                 'msg' => $msg));
             Yii::app()->end();
-            if (!Yii::app()->request->isAjaxRequest)
-                    $this->redirect(array('admin'));
+            if (!Yii::app()->request->isAjaxRequest) $this->redirect(array('admin'));
         }
         else
                 throw new CHttpException(400,
-            Yii::t('app',
-                    'Invalid request. Please do not repeat this request again.'));
+            Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
 
     /*
@@ -137,8 +134,7 @@ class MtKembaliKendaraanController extends GxController {
         $model = new MtKembaliKendaraan('search');
         $model->unsetAttributes();
 
-        if (isset($_GET['MtKembaliKendaraan']))
-                $model->attributes = $_GET['MtKembaliKendaraan'];
+        if (isset($_GET['MtKembaliKendaraan'])) $model->attributes = $_GET['MtKembaliKendaraan'];
 
         $this->render('admin', array(
             'model' => $model,
@@ -159,15 +155,13 @@ class MtKembaliKendaraanController extends GxController {
         }
 //$model = new MtKembaliKendaraan('search');
 //$model->unsetAttributes();
-
+        $void = Mt::get_voided(KEMBALI_KENDARAAN);
         $criteria = new CDbCriteria();
-//$criteria->limit = $limit;
-//$criteria->offset = $start;
+        $criteria->addNotInCondition('id_kembali', $void);
         $model = MtKembaliKendaraan::model()->findAll($criteria);
         $total = MtKembaliKendaraan::model()->count($criteria);
 
-        if (isset($_GET['MtKembaliKendaraan']))
-                $model->attributes = $_GET['MtKembaliKendaraan'];
+        if (isset($_GET['MtKembaliKendaraan'])) $model->attributes = $_GET['MtKembaliKendaraan'];
 
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
@@ -175,15 +169,13 @@ class MtKembaliKendaraanController extends GxController {
             $model = new MtKembaliKendaraan('search');
             $model->unsetAttributes();
 
-            $this->render('admin',
-                    array(
+            $this->render('admin', array(
                 'model' => $model,
             ));
         }
     }
 
-    private function otherDiffDate($begin, $end = '2020-06-09 10:30:00',
-            $out_in_array = false) {
+    private function otherDiffDate($begin, $end = '2020-06-09 10:30:00', $out_in_array = false) {
         $intervalo = date_diff(date_create($begin), date_create($end));
         $out = $intervalo->format("Years:%Y,Months:%M,Days:%d,Hours:%H,Minutes:%i,Seconds:%s");
         if (!$out_in_array) return $out;

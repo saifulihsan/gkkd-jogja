@@ -63,17 +63,59 @@ class Mt
             ->queryScalar();
         return $total == null ? 0 : $total;
     }
+    
+    static function get_ledger_trans($from,$to){
+        $rows = Yii::app()->db->createCommand("SELECT
+            mt_gl_trans.tran_date,
+            mt_gl_trans.type,
+            mt_gl_trans.type_no,
+            refs.reference,
+            SUM(IF(mt_gl_trans.amount>0, mt_gl_trans.amount,0)) as amount,
+            users.user_id
+            FROM
+            mt_gl_trans
+            LEFT JOIN mt_refs as refs ON
+            (mt_gl_trans.type=refs.type AND mt_gl_trans.type_no=refs.type_no),users
+            WHERE mt_gl_trans.tran_date BETWEEN '$from' AND '$to'
+            GROUP BY mt_gl_trans.tran_date,mt_gl_trans.type,
+            mt_gl_trans.type_no,mt_gl_trans.users_id            
+            ")->queryAll();
+        return $rows;
+    }
+    
+    static function get_general_ledger_trans($from, $to){
+        $rows = Yii::app()->db->createCommand("SELECT
+            mt_gl_trans.type,
+            mt_gl_trans.type_no,
+            mt_gl_trans.tran_date,
+            CONCAT(mt_chart_master.account_code,' ',mt_chart_master.account_name) as account,
+            mt_gl_trans.amount
+            FROM
+            mt_gl_trans
+            INNER JOIN mt_chart_master ON mt_gl_trans.account = mt_chart_master.account_code
+            WHERE mt_gl_trans.tran_date BETWEEN '$from' AND '$to'
+            ")->queryAll();
+        return $rows;
+    }
 
     static function get_bank_trans_for_bank_account($bank_account, $from, $to)
     {
         $criteria = new CDbCriteria();
         if ($bank_account != null)
             $criteria->addCondition("bank_act =" . $bank_account);
-//        $criteria->addCondition("trans_date >= '$from'");
-//        $criteria->addCondition("trans_date <= '$to'");
         $criteria->addBetweenCondition("trans_date",$from,$to);
         $criteria->order = "trans_date, id";
         return MtBankTrans::model()->findAll($criteria);
+    }
+    
+    static function get_prefs($name) {
+        $criteria = new CDbCriteria();        
+        if ($name != null) 
+            $criteria->addCondition("name ='$name'");
+        else
+            return null;        
+        $prefs = MtSysPrefs::model()->find($criteria);
+        return $prefs->value;
     }
 
     static function is_bank_account($account_code)
@@ -263,111 +305,12 @@ class Mt
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_beban_aktivitas($start_date, $end_date)
-    {
-        $void = Mt::get_voided(AKTIVITAS);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas.aktivitas_id not in (".join(',',$void).")";
-        $query = Yii::app()->db->createCommand()
-            ->select("mt_sub_aktivitas.nama as sub_aktivitas,IFNULL(Sum(mt_aktivitas.amount),0) as total_beban")
-            ->from("mt_aktivitas")
-            ->rightJoin("mt_sub_aktivitas", "mt_aktivitas.mt_sub_aktivitas_id = mt_sub_aktivitas.id
-            AND mt_aktivitas.trans_date between :start and :end $void_st ",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->where("!mt_sub_aktivitas.inactive")
-            ->group("mt_sub_aktivitas.nama");
-        $rows = $query->queryAll();
-        return $rows;
-    }
+   
 
-    static function get_total_beban_aktivitas($start_date, $end_date)
-    {
-        $void = Mt::get_voided(AKTIVITAS);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas.aktivitas_id not in (".join(',',$void).")";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(mt_aktivitas.amount) as total_beban")
-            ->from("mt_aktivitas")
-            ->join("mt_sub_aktivitas", "mt_aktivitas.mt_sub_aktivitas_id = mt_sub_aktivitas.id")
-            ->where("mt_aktivitas.trans_date between :start and :end $void_st ",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->queryScalar();
-//            ->where("mt_aktivitas.trans_date between :start and :end",
-//            array(':start' => $start_date, ':end' => $end_date))
-        return $rows == null ? 0 : $rows;
-    }
 
-    static function get_beban_anak($start_date, $end_date, $anak_id)
-    {
-        $void = Mt::get_voided(AKTIVITAS);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas.aktivitas_id not in (".join(',',$void).")";
-        $per_anak = $anak_id == 'undefined' ? '' : "AND mt_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(mt_aktivitas.amount) as amount,jemaat.real_name")
-            ->from("mt_aktivitas")
-            ->rightJoin("mt_member", "mt_aktivitas.mt_member_id = mt_member.id and
-                mt_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
-            ->join("jemaat", "mt_member.jemaat_nij = jemaat.nij")
-            ->where("!mt_member.inactive")
-            ->group("jemaat.real_name")
-            ->queryAll();
-        return $rows;
-    }
 
-    static function get_total_beban_anak($start_date, $end_date, $anak_id)
-    {
-        $void = Mt::get_voided(AKTIVITAS);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas.aktivitas_id not in (".join(',',$void).")";
-        $per_anak = $anak_id == 'undefined' ? '' : "AND mt_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(mt_aktivitas.amount) as amount")
-            ->from("mt_aktivitas")
-            ->rightJoin("mt_member", "mt_aktivitas.mt_member_id = mt_member.id and
-                mt_aktivitas.trans_date between '$start_date' and '$end_date' $void_st ")
-            ->queryScalar();
-        return $rows == null ? 0 : $rows;
-    }
 
-    static function get_beban_grup($start_date, $end_date, $anak_id)
-    {
-        $void = Mt::get_voided(T_AKTIVITASGRUP);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
-        $per_anak = $anak_id == 'undefined' ? '' : "AND mt_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("IFNULL(Sum(mt_aktivitas_grup_trans.amount),0) as amount,mt_aktivitas_grup.name")
-            ->from("mt_aktivitas_grup_trans")
-            ->rightJoin("mt_aktivitas_grup", "mt_aktivitas_grup_trans.mt_aktivitas_grup_id = mt_aktivitas_grup.id and
-                mt_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
-            ->where("!mt_aktivitas_grup.inactive")
-            ->group("mt_aktivitas_grup.name")
-            ->queryAll();
-        return $rows;
-    }
-
-    static function get_total_beban_grup($start_date, $end_date, $anak_id)
-    {
-        $void = Mt::get_voided(T_AKTIVITASGRUP);
-//        $void = Mt::get_voided(7);
-        $void_st = '';
-        if(count($void)>0)
-            $void_st = "and mt_aktivitas_grup_trans.aktivitas_id not in (".join(',',$void).")";
-        $per_anak = $anak_id == 'undefined' ? '' : "AND mt_member.id = $anak_id";
-        $rows = Yii::app()->db->createCommand()
-            ->select("Sum(mt_aktivitas_grup_trans.amount) as amount")
-            ->from("mt_aktivitas_grup_trans")
-            ->rightJoin("mt_aktivitas_grup", "mt_aktivitas_grup_trans.mt_aktivitas_grup_id = mt_aktivitas_grup.id and
-                mt_aktivitas_grup_trans.trans_date between '$start_date' and '$end_date' $void_st")
-            ->queryScalar();
-        return $rows == null ? 0 : $rows;
-    }
+    
 
     static function get_detil_pendapatan($start_date, $end_date)
     {
@@ -396,30 +339,7 @@ class Mt
         return $rows == null ? 0 : $rows;
     }
 
-    static function get_realisasi_by_code($start_date, $end_date, $code)
-    {
-        $rows = Yii::app()->db->createCommand()
-            ->select("sum(a.amount) as total_realisasi")
-            ->from("mt_gl_trans a")
-            ->join("mt_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between :start and :end and b.account_code=:code",
-            array(':start' => $start_date, ':end' => $end_date, ':code' => $code))
-            ->queryScalar();
-        return $rows == null ? 0 : $rows;
-    }
-
-    static function get_anggaran_by_code($month, $year, $code)
-    {
-        $rows = Yii::app()->db->createCommand()
-            ->select("mt_anggaran_detil.amount AS anggaran")
-            ->from("mt_anggaran_detil")
-            ->join("mt_anggaran", "mt_anggaran.id = mt_anggaran_detil.mt_anggaran_id")
-            ->where("mt_anggaran.periode_bulan = :month AND mt_anggaran.periode_tahun = :year AND
-                mt_anggaran_detil.mt_chart_master_account_code = :code",
-            array(':month' => $month, ':year' => $year, ':code' => $code))
-            ->queryScalar();
-        return $rows == null ? 0 : $rows;
-    }
+ 
 
     static function get_penghuni_pondok($where=""){
          return app()->db->createCommand()

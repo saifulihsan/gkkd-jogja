@@ -28,14 +28,14 @@
  * @property string $no_bukti_bayar
  * @property integer $id_driver
  * @property integer $id_mobil
- * @property string $ongkos_sewa
- * @property string $ongkos_driver
- * @property string $ongkos_bbm
- * @property string $total_ongkos
- * @property string $dp
- * @property string $sisa_tagihan
+ * @property double $ongkos_sewa
+ * @property double $ongkos_driver
+ * @property double $ongkos_bbm
+ * @property double $total_ongkos
+ * @property double $dp
+ * @property double $sisa_tagihan
  * @property double $disc
- * @property string $total
+ * @property double $total
  * @property string $tgl_rencana_kembali
  * @property integer $users_id
  * @property integer $is_back
@@ -65,9 +65,9 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		return array(
 			array('doc_ref, id_pelanggan, id_kelompok, id_driver, id_mobil', 'required'),
 			array('id_pelanggan, id_kelompok, season, sewa_bln, sewa_hari, sewa_jam, id_driver, id_mobil, users_id, is_back', 'numerical', 'integerOnly'=>true),
-			array('disc', 'numerical'),
+			array('ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
-			array('tanda_pengenal, no_identitas, jaminan, trans_via, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, total', 'length', 'max'=>30),
+			array('tanda_pengenal, no_identitas, jaminan, trans_via', 'length', 'max'=>30),
 			array('jaminan_desc', 'length', 'max'=>225),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('entry_time, trans_date, tgl_pinjam, tgl_rencana_kembali', 'safe'),
@@ -149,14 +149,14 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		$criteria->compare('no_bukti_bayar', $this->no_bukti_bayar, true);
 		$criteria->compare('id_driver', $this->id_driver);
 		$criteria->compare('id_mobil', $this->id_mobil);
-		$criteria->compare('ongkos_sewa', $this->ongkos_sewa, true);
-		$criteria->compare('ongkos_driver', $this->ongkos_driver, true);
-		$criteria->compare('ongkos_bbm', $this->ongkos_bbm, true);
-		$criteria->compare('total_ongkos', $this->total_ongkos, true);
-		$criteria->compare('dp', $this->dp, true);
-		$criteria->compare('sisa_tagihan', $this->sisa_tagihan, true);
+		$criteria->compare('ongkos_sewa', $this->ongkos_sewa);
+		$criteria->compare('ongkos_driver', $this->ongkos_driver);
+		$criteria->compare('ongkos_bbm', $this->ongkos_bbm);
+		$criteria->compare('total_ongkos', $this->total_ongkos);
+		$criteria->compare('dp', $this->dp);
+		$criteria->compare('sisa_tagihan', $this->sisa_tagihan);
 		$criteria->compare('disc', $this->disc);
-		$criteria->compare('total', $this->total, true);
+		$criteria->compare('total', $this->total);
 		$criteria->compare('tgl_rencana_kembali', $this->tgl_rencana_kembali, true);
 		$criteria->compare('users_id', $this->users_id);
 		$criteria->compare('is_back', $this->is_back);
