@@ -21,29 +21,6 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                 ref: 'formz',
                 border: false,
                 items: [
-//                    {
-//                        xtype: 'textfield',
-//                        fieldLabel: 'Ref. Dokumen',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'type',
-//                        id: 'typeid',
-//                        ref: '../type',
-//                        maxLength: 6,
-//
-//                    },
-//                    {
-//                        xtype: 'textfield',
-//                        fieldLabel: 'type_no',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'type_no',
-//                        id: 'type_noid',
-//                        ref: '../type_no',
-//                        maxLength: 11,
-//                        //allowBlank: ,
-//                        anchor: '100%'
-//                    },
                     {
                         xtype: 'xdatefield',
                         ref: '../tran_date',
@@ -51,8 +28,6 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                         name: 'tran_date',
                         id: 'tran_dateid',
                         format: 'd M Y',
-                        //allowBlank: 1,
-//                        anchor: '100%'
                     },
                     new jun.MtGlTransGrid({
 //                        x: 5,
@@ -62,17 +37,6 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                         header: false,
                         //modez:this.modez
                     }),
-//                    {
-//                        xtype: 'textarea',
-//                        fieldLabel: 'Keterangan',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'memo_',
-//                        id: 'memo_id',
-//                        ref: '../memo_',
-//                        anchor: '100%'
-//                                //allowBlank:
-//                    },
                     {
                         xtype: 'numericfield',
                         fieldLabel: 'Total Debit',

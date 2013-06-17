@@ -5,7 +5,6 @@ class MtBankTransController extends GxController
     public function actionView()
     {
         global $systypes_array;
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $bfw = Mt::get_balance_before_for_bank_account($_POST['from_date'], $_POST['bank_act']);
         $arr['data'][] = array('type' => 'Saldo Awal - ' . sql2date($_POST['from_date']), 'ref' => '', 'tgl' => '',
             'debit' => $bfw >= 0 ? number_format($bfw, 2) : '', 'kredit' => $bfw < 0 ? number_format($bfw, 2) : '', 'neraca' => '', 'person' => '');

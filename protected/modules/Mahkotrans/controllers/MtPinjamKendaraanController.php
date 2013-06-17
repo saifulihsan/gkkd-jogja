@@ -17,15 +17,15 @@ class MtPinjamKendaraanController extends GxController {
             $status = false;
             $msg = 'Peminjaman kendaraan berhasil disimpan.';
             $transaction = app()->db->beginTransaction();
+            $id = -1;
             try {
                 $ref = new MtReferenceCom();
                 $docref = $ref->get_next_reference(PINJAM_KENDARAAN);
                 $user = app()->user->getId();
                 foreach ($_POST as $k => $v) {
-                    if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' || 
+                    if ($k == 'ongkos_sewa' || $k == 'ongkos_driver' ||
                             $k == 'ongkos_bbm' || $k == 'total_ongkos' ||
-                            $k == 'dp' || $k == 'sisa_tagihan' || $k == 'disc'
-                            || $k == 'total') {
+                            $k == 'dp' || $k == 'sisa_tagihan' || $k == 'disc' || $k == 'total') {
                         $v = get_number($v);
                     }
                     $_POST['MtPinjamKendaraan'][$k] = $v;
@@ -35,7 +35,6 @@ class MtPinjamKendaraanController extends GxController {
                 $_POST['MtPinjamKendaraan']['doc_ref'] = $docref;
                 $model->attributes = $_POST['MtPinjamKendaraan'];
                 $msg = "Data gagal disimpan";
-
                 if ($model->save()) {
                     $status = true;
                     $msg = "Data berhasil di simpan dengan id " . $model->id_pinjam;
@@ -43,7 +42,14 @@ class MtPinjamKendaraanController extends GxController {
                     $status = false;
                 }
                 $id = $docref;
+                $date = $model->trans_date;
                 $ref->save(PINJAM_KENDARAAN, $model->id_pinjam, $docref);
+                $bank_account = Mt::get_act_code_from_bank_act(Mt::get_prefs('akun_kas_ditangan'));
+                //debet kas - kredit pendapatan
+                Mt::add_gl(PINJAM_KENDARAAN, $model->id_pinjam, $date, $docref, $bank_account,
+                        '', $model->dp, $user);
+                Mt::add_gl(PINJAM_KENDARAAN, $model->id_pinjam, $date, $docref,Mt::get_prefs('akun_penjualan'), '-',
+                        -$model->dp, $user);                
                 $transaction->commit();
             } catch (Exception $ex) {
                 $transaction->rollback();
@@ -52,7 +58,9 @@ class MtPinjamKendaraanController extends GxController {
             }
             echo CJSON::encode(array(
                 'success' => $status,
-                'msg' => $msg));
+                'msg' => $msg,
+                'id' => $id
+                    ));
             Yii::app()->end();
         }
     }
@@ -106,13 +114,11 @@ class MtPinjamKendaraanController extends GxController {
                 'success' => $status,
                 'msg' => $msg));
             Yii::app()->end();
-            if (!Yii::app()->request->isAjaxRequest)
-                    $this->redirect(array('admin'));
+            if (!Yii::app()->request->isAjaxRequest) $this->redirect(array('admin'));
         }
         else
                 throw new CHttpException(400,
-            Yii::t('app',
-                    'Invalid request. Please do not repeat this request again.'));
+            Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
 
     /*
@@ -127,8 +133,7 @@ class MtPinjamKendaraanController extends GxController {
         $model = new MtPinjamKendaraan('search');
         $model->unsetAttributes();
 
-        if (isset($_GET['MtPinjamKendaraan']))
-                $model->attributes = $_GET['MtPinjamKendaraan'];
+        if (isset($_GET['MtPinjamKendaraan'])) $model->attributes = $_GET['MtPinjamKendaraan'];
 
         $this->render('admin', array(
             'model' => $model,
@@ -149,15 +154,13 @@ class MtPinjamKendaraanController extends GxController {
         }
 //$model = new MtPinjamKendaraan('search');
 //$model->unsetAttributes();
-
+        $void = Mt::get_voided(PINJAM_KENDARAAN);
         $criteria = new CDbCriteria();
-//$criteria->limit = $limit;
-//$criteria->offset = $start;
+        $criteria->addNotInCondition('id_pinjam', $void);
         $model = MtPinjamKendaraan::model()->findAll($criteria);
         $total = MtPinjamKendaraan::model()->count($criteria);
 
-        if (isset($_GET['MtPinjamKendaraan']))
-                $model->attributes = $_GET['MtPinjamKendaraan'];
+        if (isset($_GET['MtPinjamKendaraan'])) $model->attributes = $_GET['MtPinjamKendaraan'];
 
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);
@@ -165,8 +168,7 @@ class MtPinjamKendaraanController extends GxController {
             $model = new MtPinjamKendaraan('search');
             $model->unsetAttributes();
 
-            $this->render('admin',
-                    array(
+            $this->render('admin', array(
                 'model' => $model,
             ));
         }

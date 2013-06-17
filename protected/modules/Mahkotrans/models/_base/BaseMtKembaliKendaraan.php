@@ -17,20 +17,20 @@
  * @property integer $extend_hari
  * @property integer $extend_jam
  * @property double $overtime_jam
- * @property string $pelunasan
- * @property string $ongkos_sewa
- * @property string $ongkos_driver
- * @property string $ongkos_bbm
- * @property string $total_ongkos
- * @property string $dp
- * @property string $disc
- * @property string $total
+ * @property double $pelunasan
+ * @property double $ongkos_sewa
+ * @property double $ongkos_driver
+ * @property double $ongkos_bbm
+ * @property double $total_ongkos
+ * @property double $dp
+ * @property double $disc
+ * @property double $total
  * @property integer $users_id
  * @property string $trans_via
  * @property string $no_bukti_bayar
  * @property string $notes
  * @property integer $is_void
- * @property string $ongkos_extend
+ * @property double $ongkos_extend
  * @property string $entry_time
  *
  * @property MtPinjamKendaraan $idPinjam
@@ -54,8 +54,8 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 		return array(
 			array('id_pinjam', 'required'),
 			array('id_pinjam, extend_bln, extend_hari, extend_jam, users_id, is_void', 'numerical', 'integerOnly'=>true),
-			array('overtime_jam', 'numerical'),
-			array('pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, trans_via, ongkos_extend', 'length', 'max'=>30),
+			array('overtime_jam, pelunasan, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, disc, total, ongkos_extend', 'numerical'),
+			array('trans_via', 'length', 'max'=>30),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('notes', 'length', 'max'=>600),
 			array('trans_date, tgl_kembali, entry_time', 'safe'),
@@ -115,20 +115,20 @@ abstract class BaseMtKembaliKendaraan extends GxActiveRecord {
 		$criteria->compare('extend_hari', $this->extend_hari);
 		$criteria->compare('extend_jam', $this->extend_jam);
 		$criteria->compare('overtime_jam', $this->overtime_jam);
-		$criteria->compare('pelunasan', $this->pelunasan, true);
-		$criteria->compare('ongkos_sewa', $this->ongkos_sewa, true);
-		$criteria->compare('ongkos_driver', $this->ongkos_driver, true);
-		$criteria->compare('ongkos_bbm', $this->ongkos_bbm, true);
-		$criteria->compare('total_ongkos', $this->total_ongkos, true);
-		$criteria->compare('dp', $this->dp, true);
-		$criteria->compare('disc', $this->disc, true);
-		$criteria->compare('total', $this->total, true);
+		$criteria->compare('pelunasan', $this->pelunasan);
+		$criteria->compare('ongkos_sewa', $this->ongkos_sewa);
+		$criteria->compare('ongkos_driver', $this->ongkos_driver);
+		$criteria->compare('ongkos_bbm', $this->ongkos_bbm);
+		$criteria->compare('total_ongkos', $this->total_ongkos);
+		$criteria->compare('dp', $this->dp);
+		$criteria->compare('disc', $this->disc);
+		$criteria->compare('total', $this->total);
 		$criteria->compare('users_id', $this->users_id);
 		$criteria->compare('trans_via', $this->trans_via, true);
 		$criteria->compare('no_bukti_bayar', $this->no_bukti_bayar, true);
 		$criteria->compare('notes', $this->notes, true);
 		$criteria->compare('is_void', $this->is_void);
-		$criteria->compare('ongkos_extend', $this->ongkos_extend, true);
+		$criteria->compare('ongkos_extend', $this->ongkos_extend);
 		$criteria->compare('entry_time', $this->entry_time, true);
 
 		return new CActiveDataProvider(get_class($this), array(

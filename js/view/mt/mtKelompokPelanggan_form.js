@@ -1,8 +1,8 @@
 jun.MtKelompokPelangganWin = Ext.extend(Ext.Window, {
-    title: 'MtKelompokPelanggan',
+    title: 'Kelompok Pelanggan',
     modez: 1,
     width: 400,
-    height: 300,
+    height: 145,
     layout: 'form',
     modal: true,
     padding: 5,
@@ -12,7 +12,7 @@ jun.MtKelompokPelangganWin = Ext.extend(Ext.Window, {
             {
                 xtype: 'form',
                 frame: false,
-                bodyStyle: 'background-color: #DFE8F6; padding: 10px',
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
                 id: 'form-MtKelompokPelanggan',
                 labelWidth: 100,
                 labelAlign: 'left',
