@@ -145,9 +145,9 @@ class PahAktivitasGrupTransController extends GxController
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Aktivitas Grup $docref",
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Aktivitas Grup $docref",
                     $aktivitas->amount, $user);
-                Pah::add_gl(VOID, $void->id, $date, $docref, $act_sub, "VOID Aktivitas Grup $docref",
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub, "VOID Aktivitas Grup $docref",
                     -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;

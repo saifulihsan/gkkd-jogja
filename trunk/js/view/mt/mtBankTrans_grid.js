@@ -141,74 +141,113 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     store: jun.rztMtBankAccounts,
                     valueField: 'id',
                     displayField: 'bank_account_name',
-                }, {
+                    ref: '../bank_act'
+                },
+                {
                     xtype: 'tbseparator',
-                }, ' Dari : ', {
+                },
+                ' Dari : ',
+                {
                     xtype: 'datefield',
                     name: 'from_date_banktrans',
                     id: 'from_date_banktrans',
                     format: 'd/m/Y',
+                    ref: '../trans_date_mulai',
                     value: new Date()
-                }, {
+                },
+                {
                     xtype: 'tbseparator',
                 }, ' Sampai : ', {
                     xtype: 'datefield',
                     name: 'to_date_banktrans',
                     id: 'to_date_banktrans',
                     format: 'd/m/Y',
+                    ref: '../trans_date_sampai',
                     value: new Date()
-                }, {
+                },
+                {
                     xtype: 'tbseparator',
-                }, {
+                },
+                {
                     xtype: 'button',
+                    iconCls: 'silk13-application_view_list',
                     text: 'Tampilkan',
                     ref: '../btnRefresh'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-page_white_excel',
+                    text: 'Save to Excel',
+                    hidden: false,
+                    ref: '../btnSave'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-page_white_acrobat',
+                    text: 'Save to PDF',
+                    hidden: false,
+                    ref: '../btnPdf'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-printer',
+                    text: 'Print',
+                    hidden: false,
+                    ref: '../btnPrint'
                 },
             ]
         };
         jun.rztMtBankAccounts.reload();
         jun.MtBankTransGrid.superclass.initComponent.call(this);
         this.btnRefresh.on('click', this.onbtnRefreshClick, this);
+        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnPdf.on('click', this.onbtnPdfclick, this);
+        this.btnPrint.on('click', this.onbtnPrintclick, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
-    onbtnPrintClick: function() {
-        Ext.getCmp('form-MtChartTypes').getForm().submit({
-            url: 'Mahkotrans/MtBankTrans/print/',
-            timeOut: 1000,
-            scope: this,
-            success: function(f, a) {
-                jun.rztMtChartTypes.reload();
-                var response = Ext.decode(a.response.responseText);
-                if (this.closeForm) {
-                    this.close();
-                } else {
-                    if (response.data != undefined) {
-                        Ext.MessageBox.alert("Pelayanan", response.data.msg);
-                    }
-                    if (this.modez == 0) {
-                        Ext.getCmp('form-MtChartTypes').getForm().reset();
-                    }
-                }
-            },
-            failure: function(f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
-            }
-
-        });
-        Ext.Ajax.request({
-            waitMsg: 'Please Wait',
-            url: 'Mahkotrans/MtBankTrans/print/',
-            params: {
-                bank_act: Ext.getCmp('bank_act_banktrans').getValue(),
-                from_date: (new Date(Ext.getCmp('from_date_banktrans').getValue())).dateFormat('Y-m-d'),
-                to_date: (new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d'),
-            },
-            success: function(response) {
-            },
-            failure: function(response) {
-                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
-            }
-        });
+    onbtnPrintclick: function() {
+        var mulai = this.trans_date_mulai.getValue().format("Y-m-d");
+        var sampai = this.trans_date_sampai.getValue().format("Y-m-d");
+        var bank = this.bank_act.getValue();
+        var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');       
+        win.document.write("<html><title>Mutasi Kas per Rekening</title><body>" +
+                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasDiTangan'>" +
+                "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
+                "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+                "<input type='hidden' name='bank_act' value='" + bank + "'>" +
+                "<input type='hidden' name='format' value='html'>" +
+                "</form></body></html>");
+        win.document.close();
+        win.document.getElementById('form').submit();        
+    },
+    onbtnPdfclick: function() {
+        var mulai = this.trans_date_mulai.getValue().format("Y-m-d");
+        var sampai = this.trans_date_sampai.getValue().format("Y-m-d");
+        var win = window.open('', 'form', 'width=0,height=0,location=no,menubar=0,status=0,resizeable,scrollbars');
+        win.document.write("<html><title>Mutasi Kas per Rekening</title><body>" +
+                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasDiTangan'>" +
+                "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
+                "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+                "<input type='hidden' name='format' value='pdf'>" +
+                "</form></body></html>");
+        win.document.close();
+        win.document.getElementById('form').submit();
+        win.close();        
+    },
+    onbtnSaveclick: function() {
+        Ext.getCmp('form-MtReportMutasiWin').getForm().standardSubmit = true;
+        Ext.getCmp('form-MtReportMutasiWin').getForm().url = 'Mahkotrans/MtReport/MutasiKasDiTangan';
+        this.format.setValue('excel');
+        Ext.getCmp('form-MtReportMutasiWin').getForm().submit();
     },
     getrow: function(sm, idx, r) {
         this.record = r;

@@ -63,7 +63,7 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 
 	public function rules() {
 		return array(
-			array('doc_ref, id_pelanggan, id_kelompok, id_driver, id_mobil', 'required'),
+			array('doc_ref, id_pelanggan, id_kelompok, id_mobil', 'required'),
 			array('id_pelanggan, id_kelompok, season, sewa_bln, sewa_hari, sewa_jam, id_driver, id_mobil, users_id, is_back', 'numerical', 'integerOnly'=>true),
 			array('ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
@@ -71,7 +71,7 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 			array('jaminan_desc', 'length', 'max'=>225),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('entry_time, trans_date, tgl_pinjam, tgl_rencana_kembali', 'safe'),
-			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id_pinjam, doc_ref, entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, id_pelanggan, id_kelompok, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, id_mobil, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back', 'safe', 'on'=>'search'),
 		);
 	}

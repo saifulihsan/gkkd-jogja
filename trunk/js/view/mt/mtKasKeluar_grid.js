@@ -145,11 +145,13 @@ jun.MtKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.kas_keluar_id;
+        var id_mobilz = selectedz.json.id_mobil;
         Ext.Ajax.request({
 //
             url: 'Mahkotrans/MtKasKeluar/view/',
             params: {
                 id: idz,
+                id_mobil: id_mobilz
             },
             method: 'POST',
             success: function(f, a) {
@@ -183,45 +185,13 @@ jun.MtKasKeluarGrid = Ext.extend(Ext.grid.GridPanel, {
         });
     },
     deleteRec: function() {
-        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
-    },
-    deleteRecYes: function(btn) {
-
-        if (btn == 'no') {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih kas keluar.");
             return;
         }
-
-        var record = this.sm.getSelected();
-
-        // Check is list selected
-        if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
-            return;
-        }
-
-        Ext.Ajax.request({
-            url: 'Mahkotrans/MtKasKeluar/delete/id/' + record.json.kas_keluar_id,
-            method: 'POST',
-            success: function(f, a) {
-                jun.rztMtKasKeluar.reload();
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Info',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.INFO
-                });
-            },
-            failure: function(f, a) {
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Warning',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.WARNING
-                });
-            }
-        });
-
-    }
+        var idz = selectedz.json.kas_keluar_id;
+        var form = new jun.MtKasKeluarVoidWin({id: idz});
+        form.show(this);    
+    },    
 })

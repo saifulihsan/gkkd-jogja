@@ -6,27 +6,24 @@ class MtKasKeluarController extends GxController {
         if (!app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
-            $rows = app()->db->createCommand()
-                    ->select("mt_kas_keluar.doc_ref,
-                    mt_kas_keluar.no_bukti,
-                    mt_kas_keluar.amount,
-                    mt_kas_keluar.entry_time,
-                    mt_kas_keluar.trans_date,
-                    mt_kas_keluar.trans_via,
-                    mt_mobil.nopol,
-                    mt_bank_accounts.bank_account_name,
-                    mt_chart_master.account_code,
-                    mt_chart_master.description")
-                    ->from("mt_kas_keluar")
-                    ->join("mt_mobil",
-                            "mt_kas_keluar.id_mobil = mt_mobil.id_mobil")
-                    ->join("mt_bank_accounts",
-                            "mt_kas_keluar.mt_bank_accounts_id = mt_bank_accounts.id")
-                    ->join("mt_chart_master",
-                            "mt_kas_keluar.mt_account_code = mt_chart_master.account_code")
-                    ->where("mt_kas_keluar.kas_keluar_id = :id",
-                            array(':id' => $id))
-                    ->query();
+            $id_mobil = $_POST['id_mobil'];
+            $script = "SELECT
+                mt_kas_keluar.doc_ref,
+                mt_kas_keluar.no_bukti,
+                mt_kas_keluar.amount,
+                mt_kas_keluar.entry_time,
+                mt_kas_keluar.trans_date,
+                mt_kas_keluar.trans_via,";
+            $script .= $id_mobil == NULL ? "''," : "mt_mobil.nopol,";
+            $script .= "mt_bank_accounts.bank_account_name,
+                mt_chart_master.account_code,
+                mt_chart_master.description
+                FROM mt_kas_keluar ";
+            $script .= $id_mobil == NULL ? "" : "JOIN mt_mobil ON mt_kas_keluar.id_mobil = mt_mobil.id_mobil ";
+            $script .= "JOIN mt_bank_accounts ON mt_kas_keluar.mt_bank_accounts_id = mt_bank_accounts.id
+                JOIN mt_chart_master ON mt_kas_keluar.mt_account_code = mt_chart_master.account_code
+                WHERE mt_kas_keluar.kas_keluar_id = $id";
+            $rows = app()->db->createCommand($script)->query();
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
@@ -57,17 +54,19 @@ class MtKasKeluarController extends GxController {
                 $_POST['MtKasKeluar']['entry_time'] = Now();
                 $_POST['MtKasKeluar']['users_id'] = $user;
                 $_POST['MtKasKeluar']['doc_ref'] = $docref;
+                $_POST['MtKasKeluar']['id_mobil'] =
+                        is_integer($_POST['MtKasKeluar']['id_mobil']) ?
+                        $_POST['MtKasKeluar']['id_mobil'] : NULL;
                 $kas_keluar->attributes = $_POST['MtKasKeluar'];
                 $kas_keluar->save();
                 $id = $docref;
                 $ref->save(KAS_KELUAR, $kas_keluar->kas_keluar_id, $docref);
                 $bank_account = Mt::get_act_code_from_bank_act($kas_keluar->mt_bank_accounts_id);
                 //debet kode beban - kredit kas/bank
-                Mt::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date,
-                        $docref, $kas_keluar->mt_account_code,
-                        $kas_keluar->note, $kas_keluar->amount, $user);
-                Mt::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date,
-                        $docref, $bank_account, '-', -$kas_keluar->amount, $user);
+                Mt::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref,
+                        $kas_keluar->mt_account_code, $kas_keluar->note, $kas_keluar->amount, $user);
+                Mt::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref, $bank_account,
+                        '-', -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -119,7 +118,7 @@ class MtKasKeluarController extends GxController {
         ));
     }
 
-    public function actionDelete($id) {
+    public function actionDelete() {
         if (!app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
@@ -127,13 +126,11 @@ class MtKasKeluarController extends GxController {
             $status = false;
             $msg = 'Kas keluar berhasil divoid.';
             $user = app()->user->getId();
-            //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $transaction = app()->db->beginTransaction();
             try {
                 $kas_keluar = MtKasKeluar::model()->findByPk($id);
                 $date = $kas_keluar->trans_date;
                 $docref = $kas_keluar->doc_ref;
-//                $bank_account = $kas_masuk->pah_bank_accounts_id;
                 $void = new MtVoided;
                 $void->type = KAS_KELUAR;
                 $void->id = $id;
@@ -142,11 +139,9 @@ class MtKasKeluarController extends GxController {
                 $void->save();
                 $bank = MtBankAccounts::model()->findByPk($kas_keluar->mt_bank_accounts_id);
                 //void gl
-                Mt::add_gl(VOID, $void->id, $date, $docref,
-                        $bank->account_code, "VOID Kas Keluar $docref",
-                        $kas_keluar->amount, $user);
-                Mt::add_gl(VOID, $void->id, $date, $docref,
-                        $kas_keluar->mt_account_code,
+                Mt::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code,
+                        "VOID Kas Keluar $docref", $kas_keluar->amount, $user);
+                Mt::add_gl(VOID, $void->id_voided, $date, $docref, $kas_keluar->mt_account_code,
                         "VOID Kas Keluar $docref", -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
@@ -175,8 +170,7 @@ class MtKasKeluarController extends GxController {
         $model = new MtKasKeluar('search');
         $model->unsetAttributes();
 
-        if (isset($_GET['MtKasKeluar']))
-                $model->attributes = $_GET['MtKasKeluar'];
+        if (isset($_GET['MtKasKeluar'])) $model->attributes = $_GET['MtKasKeluar'];
 
         $this->render('admin', array(
             'model' => $model,
@@ -204,8 +198,7 @@ class MtKasKeluarController extends GxController {
         $model = MtKasKeluar::model()->findAll($criteria);
         $total = MtKasKeluar::model()->count($criteria);
 
-        if (isset($_GET['MtKasKeluar']))
-                $model->attributes = $_GET['MtKasKeluar'];
+        if (isset($_GET['MtKasKeluar'])) $model->attributes = $_GET['MtKasKeluar'];
 
         if (isset($_GET['output']) && $_GET['output'] == 'json') {
             $this->renderJson($model, $total);

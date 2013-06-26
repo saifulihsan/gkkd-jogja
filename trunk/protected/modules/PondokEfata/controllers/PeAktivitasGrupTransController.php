@@ -146,9 +146,9 @@ class PeAktivitasGrupTransController extends GxController
                 $act_sub = $aktivitas->peSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pe::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Aktivitas Grup $docref",
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Aktivitas Grup $docref",
                     $aktivitas->amount, $user);
-                Pe::add_gl(VOID, $void->id, $date, $docref, $act_sub, "VOID Aktivitas Grup $docref",
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub, "VOID Aktivitas Grup $docref",
                     -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;

@@ -31,18 +31,6 @@ jun.MtKasKeluarWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor: '100%'
                     },
-//                    {
-//                        xtype: 'textfield',
-//                        fieldLabel: 'Ref. Dokumen',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'doc_ref',
-//                        id: 'doc_refid',
-//                        ref: '../doc_ref',
-//                        maxLength: 15,
-//                        //allowBlank: 1,
-//                        anchor: '100%'
-//                    },
                     {
                         xtype: 'textfield',
                         fieldLabel: 'No. Bukti',
@@ -73,9 +61,7 @@ jun.MtKasKeluarWin = Ext.extend(Ext.Window, {
                         hiddenName: 'mt_bank_accounts_id',
                         hiddenValue: 'mt_bank_accounts_id',
                         valueField: 'id',
-                        //displayField: 'MtBankAccounts::model()->representingColumn()',
                         displayField: 'bank_account_name',
-                        //allowBlank:false,
                         anchor: '100%'
                     },
                     {
@@ -111,7 +97,7 @@ jun.MtKasKeluarWin = Ext.extend(Ext.Window, {
                         valueField: 'id_mobil',
                         //displayField: 'MtMobil::model()->representingColumn()',
                         displayField: 'nopol',
-                        //allowBlank:false,
+                        allowBlank:true,
                         anchor: '100%'
                     },
                     {
@@ -421,6 +407,116 @@ jun.MtKasKeluarShowWin = Ext.extend(Ext.Window, {
         };
         jun.MtKasKeluarShowWin.superclass.initComponent.call(this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    onbtnCancelclick: function() {
+        this.close();
+    }
+
+});
+jun.MtKasKeluarVoidWin = Ext.extend(Ext.Window, {
+    title: 'Void Kas Keluar',
+    modez: 1,
+    width: 300,
+    height: 150,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-MtKasKeluarVoid',
+                layout: 'absolute',
+                ref: 'formz',
+                border: false,
+                anchor: '100% 100%',
+                items: [
+                    {
+                        xtype: 'label',
+                        text: 'Alasan Void : ',
+                        x: 5,
+                        y: 5,
+                        width: 100
+                    },
+                    {
+                        xtype: 'textarea',
+                        fieldLabel: 'memo',
+                        ref: '../memo',
+                        //                        hideLabel:false,
+                        id: 'memo_id',
+                        name: 'memo_',
+                        x: 5,
+                        y: 25,
+                        anchor: '100% 100%',
+                    },
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype: 'toolbar',
+            items: [
+                {
+                    xtype: 'button',
+                    text: 'Proses',
+                    ref: '../btnProses'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Batal',
+                    ref: '../btnCancel'
+                }
+            ]
+
+        };
+        jun.MtKasKeluarVoidWin.superclass.initComponent.call(this);
+        this.btnProses.on('click', this.onbtnProsesclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    btnDisabled: function(status) {
+        this.btnProses.setDisabled(status);
+    },
+    onbtnProsesclick: function() {
+        this.btnDisabled(true);
+        var form = Ext.getCmp('form-MtKasKeluarVoid').getForm();
+        Ext.getCmp('form-MtKasKeluarVoid').getForm().submit({
+            url: 'Mahkotrans/MtKasKeluar/delete',
+            params: {
+                id: this.id,                
+            },
+            method: 'POST',
+            scope: this,
+            timeOut: 1000,
+            success: function(f, a) {
+                var response = Ext.decode(a.response.responseText);
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title: 'Kas Keluar',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    });
+                    this.btnDisabled(false);
+                    return;
+                } else {
+                    Ext.MessageBox.show({
+                        title: 'Kas Keluar',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-MtKasKeluarVoid').getForm().reset();
+                }
+                jun.rztMtKasKeluar.reload();
+                this.close();
+            },
+            failure: function(f, a) {
+                this.btnDisabled(false);
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
     },
     onbtnCancelclick: function() {
         this.close();

@@ -247,6 +247,36 @@ class Mt
         $model = MtBankTrans::model()->findAll($criteria);
         return $model;
     }
+    
+    static function get_lap_penjualam_per_mobil($nopol,$from, $to) {
+        $rows = Yii::app()->db->createCommand("SELECT
+            mt_pinjam_kendaraan.trans_date,
+            mt_pinjam_kendaraan.doc_ref,
+            mt_kembali_kendaraan.total,
+            mt_kembali_kendaraan.disc,
+            (mt_kembali_kendaraan.total - mt_kembali_kendaraan.disc) AS netto
+            FROM mt_pinjam_kendaraan
+            INNER JOIN mt_kembali_kendaraan ON mt_pinjam_kendaraan.id_pinjam = mt_kembali_kendaraan.id_pinjam
+            INNER JOIN mt_mobil ON mt_pinjam_kendaraan.id_mobil = mt_mobil.id_mobil
+            WHERE mt_mobil.id_mobil = $nopol AND (mt_kembali_kendaraan.trans_date BETWEEN '$from' AND '$to')
+            ")->queryAll();
+        return $rows;
+    }
+    
+    static function get_lap_penjualam_per_kelompok_konsumen($id_kelompok, $from, $to) {
+        $rows = Yii::app()->db->createCommand("SELECT
+        mt_pinjam_kendaraan.trans_date,
+        mt_pinjam_kendaraan.doc_ref,
+        mt_kembali_kendaraan.total,
+        mt_kembali_kendaraan.disc,
+        (mt_kembali_kendaraan.total - mt_kembali_kendaraan.disc) AS netto
+        FROM mt_pinjam_kendaraan
+        INNER JOIN mt_kembali_kendaraan ON mt_pinjam_kendaraan.id_pinjam = mt_kembali_kendaraan.id_pinjam
+        INNER JOIN mt_kelompok_pelanggan ON mt_pinjam_kendaraan.id_kelompok = mt_kelompok_pelanggan.id_kelompok
+        WHERE mt_kelompok_pelanggan.id_kelompok = $id_kelompok AND 
+            (mt_pinjam_kendaraan.trans_date BETWEEN '$from' AND '$to')")->queryAll();
+        return $rows;
+    }
 
     static function get_arr_kode_rekening_pengeluaran($code = ""){
         $criteria = new CDbCriteria();

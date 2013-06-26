@@ -142,10 +142,10 @@ class PeKasKeluarController extends GxController
                 $void->save();
                 $bank = PeBankAccounts::model()->findByPk($kas_keluar->pe_bank_accounts_id);
                 //void gl
-                Pe::add_gl(VOID, $void->id, $date, $docref,
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref,
                     $bank->account_code,
                     "VOID Kas Keluar $docref", $kas_keluar->amount, $user);
-                Pe::add_gl(VOID, $void->id, $date, $docref, $kas_keluar->pe_account_code, "VOID Kas Keluar $docref",
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $kas_keluar->pe_account_code, "VOID Kas Keluar $docref",
                     -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;

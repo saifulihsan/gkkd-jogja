@@ -142,6 +142,26 @@ class MenuTree {
                             id: 'jun.MtGeneralLedgerTransReportGrid',
                             leaf:true
                         },
+                        {
+                            text: 'Penjualan per Mobil',
+                            id: 'jun.MtPenjualanPerMobil',
+                            leaf: true
+                        },
+                        {
+                            text: 'Penjualan per Kelompok Konsumen',
+                            id: 'jun.MtPenjualanPerKelompokKonsumen',
+                            leaf: true
+                        },
+                        {
+                            text: 'Laba Rugi per Mobil',
+                            id: 'jun.MtLabaRugiPerMobil',
+                            leaf: true
+                        },
+                        {
+                            text: 'Laba Rugi Mahkotrans',
+                            id: 'jun.MtLabaRugiMahkotrans',
+                            leaf: true
+                        },
                         ]
                     },
                     ]

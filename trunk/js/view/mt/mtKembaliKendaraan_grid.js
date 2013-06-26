@@ -16,11 +16,10 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
             width: 100
         },
         {
-            header: 'id_pinjam',
+            header: 'Ref. Dokumen',
             sortable: true,
             resizable: true,
-            dataIndex: 'id_pinjam',
-            hidden: true,
+            dataIndex: 'doc_ref_kembali',
             width: 100
         },
         {
@@ -38,6 +37,15 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
             width: 100
         },
         {
+            header: 'Pelunasan',
+            sortable: true,
+            resizable: true,
+            dataIndex: 'pelunasan',
+            width: 100,
+            align: 'right',
+            renderer: Ext.util.Format.numberRenderer('0,0')
+        },
+        {
             header: 'Total',
             sortable: true,
             resizable: true,
@@ -46,8 +54,6 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
             align: 'right',
             renderer: Ext.util.Format.numberRenderer('0,0')
         },
-        
-
     ],
     initComponent: function() {
         jun.rztMtPelanggan.reload();
@@ -56,16 +62,6 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         jun.rztMtDriver.reload();
         jun.rztMtPinjamKendaraan.reload();
         this.store = jun.rztMtKembaliKendaraan;
-//        this.bbar = {
-//            items: [
-//           {
-//            xtype: 'paging',
-//            store: this.store,
-//            displayInfo: true,
-//            pageSize: 10
-//           }]
-//        };
-
         this.tbar = {
             xtype: 'toolbar',
             items: [
@@ -74,6 +70,22 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                     text: 'Lihat Pengembalian',
                     ref: '../btnAdd'
                 },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Void Pengembalian',
+                    ref: '../btnDelete'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Refresh',
+                    ref: '../btnRefresh'
+                }
 //                {
 //                    xtype: 'tbseparator',
 //                },
@@ -95,13 +107,16 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         jun.rztMtKembaliKendaraan.reload();
         jun.MtKembaliKendaraanGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
+        this.btnRefresh.on('Click', this.refreshData, this);
 //        this.btnEdit.on('Click', this.loadEditForm, this);
-//        this.btnDelete.on('Click', this.deleteRec, this);
+        this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+    },
+    refreshData: function() {
+        jun.rztMtKembaliKendaraan.reload();
     },
     getrow: function(sm, idx, r) {
         this.record = r;
-
         var selectedz = this.sm.getSelections();
     },
     loadForm: function() {
@@ -115,7 +130,7 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         form.show(this);
         var pinjam = jun.getMtPinjamKendaraan(this.record.data.id_pinjam);
         form.formz.getForm().loadRecord(pinjam);
-        form.formz.getForm().loadRecord(this.record);                
+        form.formz.getForm().loadRecord(this.record);
         var tgl_pinjam = Date.parseDate(pinjam.data.tgl_pinjam, 'Y-n-j H:i:s');
         form.tgl_pinjam.setValue(tgl_pinjam);
         var tgl_rencana_kembali = Date.parseDate(pinjam.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
@@ -126,12 +141,10 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         form.jenis_mobil.setValue(record.data.jenis);
     },
     loadEditForm: function() {
-
         var selectedz = this.sm.getSelected();
-
         //var dodol = this.store.getAt(0);
         if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda belum memilih mobil yang dikembalikan.");
             return;
         }
         var idz = selectedz.json.id_kembali;
@@ -140,45 +153,15 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         form.formz.getForm().loadRecord(this.record);
     },
     deleteRec: function() {
-        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
-    },
-    deleteRecYes: function(btn) {
-
-        if (btn == 'no') {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih mobil yang dikembalikan.");
             return;
-        }
-
-        var record = this.sm.getSelected();
-
-        // Check is list selected
-        if (record == "") {
-            Ext.MessageBox.alert("Warning", "Anda Belum Memilih Data");
-            return;
-        }
-
-        Ext.Ajax.request({
-            url: 'Mahkotrans/MtKembaliKendaraan/delete/id/' + record.json.id_kembali,
-            method: 'POST',
-            success: function(f, a) {
-                jun.rztMtKembaliKendaraan.reload();
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Info',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.INFO
-                });
-            },
-            failure: function(f, a) {
-                var response = Ext.decode(f.responseText);
-                Ext.MessageBox.show({
-                    title: 'Warning',
-                    msg: response.msg,
-                    buttons: Ext.MessageBox.OK,
-                    icon: Ext.MessageBox.WARNING
-                });
-            }
-        });
-
+        }       
+        var idz = selectedz.json.id_kembali;
+        var form = new jun.MtKembaliVoidWin({id: idz});
+        form.show(this);
+        
     }
+
 })

@@ -659,7 +659,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
         var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
-        var ong_jam =  parseFloat(sewa_jam) > 0 ? tarif_jam : 0;
+        var ong_jam = parseFloat(sewa_jam) > 0 ? tarif_jam : 0;
         var ong_sewa = ong_bln + ong_hari + ong_jam;
         this.ongkos_sewa.setValue(ong_sewa);
         var ong_driver = parseFloat(this.ongkos_driver.getValue());
@@ -674,7 +674,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         this.sisa_tagihan.setValue(total - dp);
     },
     onDriverChange: function() {
-        if (this.driver.getValue() === "") {
+        if (this.driver.getValue() === "" || this.driver.getValue() === null) {
             this.ongkos_driver.setValue(0);
         } else {
             var ong = parseFloat(this.ongkos_driver.getValue());
@@ -750,8 +750,10 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                 this.close();
             },
             failure: function(f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
                 this.btnDisabled(false);
+                if (a.failureType == "client")
+                    return;
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });
@@ -766,6 +768,119 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
     },
     onbtnCancelclick: function() {
         Ext.getCmp('from-MtPinjamanWin').getForm().reset();
+        this.close();
+    }
+
+});
+
+jun.MtPinjamVoidWin = Ext.extend(Ext.Window, {
+    title: 'Void Peminjaman',
+    modez: 1,
+    width: 300,
+    height: 150,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-MtPinjamVoid',
+                layout: 'absolute',
+                ref: 'formz',
+                border: false,
+                anchor: '100% 100%',
+                items: [
+                    {
+                        xtype: 'label',
+                        text: 'Alasan Void : ',
+                        x: 5,
+                        y: 5,
+                        width: 100
+                    },
+                    {
+                        xtype: 'textarea',
+                        fieldLabel: 'memo',
+                        ref: '../memo',
+                        //                        hideLabel:false,
+                        id: 'memo_id',
+                        name: 'memo_',
+                        x: 5,
+                        y: 25,
+                        anchor: '100% 100%',
+                    },
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype: 'toolbar',
+            items: [
+                {
+                    xtype: 'button',
+                    text: 'Proses',
+                    ref: '../btnProses'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Batal',
+                    ref: '../btnCancel'
+                }
+            ]
+
+        };
+        jun.MtPinjamVoidWin.superclass.initComponent.call(this);
+        this.btnProses.on('click', this.onbtnProsesclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    btnDisabled: function(status) {
+        this.btnProses.setDisabled(status);
+    },
+    onbtnProsesclick: function() {
+        this.btnDisabled(true);
+        var form = Ext.getCmp('form-MtPinjamVoid').getForm();
+        Ext.getCmp('form-MtPinjamVoid').getForm().submit({
+            url: 'Mahkotrans/mtPinjamKendaraan/delete',
+            params: {
+                id: this.id,
+            },
+            method: 'POST',
+            scope: this,
+            timeOut: 1000,
+            success: function(f, a) {
+                var response = Ext.decode(a.response.responseText);
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title: 'Pengembalian Kendaraan',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    });
+                    return;
+                } else {
+                    Ext.MessageBox.show({
+                        title: 'Pengembalian Kendaraan',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-MtPinjamVoid').getForm().reset();
+                }
+                this.btnDisabled(false);
+                jun.rztMtPinjamKendaraan.reload();
+                this.close();
+            },
+            failure: function(f, a) {
+                this.btnDisabled(false);
+                if (a.failureType == "client")
+                    return;
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
+    },
+    onbtnCancelclick: function() {
         this.close();
     }
 
