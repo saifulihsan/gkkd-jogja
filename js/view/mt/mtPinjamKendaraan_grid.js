@@ -93,15 +93,6 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         jun.rztMtPinjamKendaraan.reload();
         jun.rztMtSysPrefs.reload();
         this.store = jun.rztMtPinjamKendaraan;
-//        this.bbar = {
-//            items: [
-//           {
-//            xtype: 'paging',
-//            store: this.store,
-//            displayInfo: true,
-//            pageSize: 10
-//           }]
-//        };
 
         this.tbar = {
             xtype: 'toolbar',
@@ -124,8 +115,24 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                 },
                 {
                     xtype: 'button',
-                    text: 'Pengembalian',
+                    text: 'Void Peminjaman',
                     ref: '../btnDelete'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Pengembalian',
+                    ref: '../btnKembali'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Refresh',
+                    ref: '../btnRefresh'
                 }
             ]
         };
@@ -134,7 +141,12 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
         this.btnDelete.on('Click', this.deleteRec, this);
+        this.btnKembali.on('Click', this.kembaliForm, this);
+        this.btnRefresh.on('Click', this.refreshData, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+    },
+    refreshData: function() {
+        jun.rztMtPinjamKendaraan.reload();
     },
     getrow: function(sm, idx, r) {
         this.record = r;
@@ -154,6 +166,28 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         }
         var idz = selectedz.json.id_pinjam;
         var form = new jun.MtPinjamanWin({modez: 1});
+        form.show(this);
+        form.formz.getForm().loadRecord(this.record);
+        var tgl_pinjam = Date.parseDate(this.record.data.tgl_pinjam, 'Y-n-j H:i:s');
+        form.tgl_pinjam.setValue(tgl_pinjam);
+        var tgl_kembali = Date.parseDate(this.record.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
+        form.rencana_tanggal_kembali.setValue(tgl_kembali);
+        var record = jun.getMobil(this.record.data.id_mobil);
+        form.jenis_mobil.setValue(record.data.jenis);
+    },
+    kembaliForm: function() {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih mobil yang dipinjam.");
+            return;
+        }
+        if (this.record.data.is_back == '1')
+        {
+            Ext.MessageBox.alert("Warning", "Kendaraan sudah dikembalikan");
+            return;
+        }
+        var idz = selectedz.json.id_pinjam;
+        var form = new jun.MtPengembalianWin({modez: 0});
 
         form.show(this);
 
@@ -162,8 +196,11 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         form.tgl_pinjam.setValue(tgl_pinjam);
         var tgl_kembali = Date.parseDate(this.record.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
         form.rencana_tanggal_kembali.setValue(tgl_kembali);
+        form.trans_date.setValue(new Date());
         var record = jun.getMobil(this.record.data.id_mobil);
         form.jenis_mobil.setValue(record.data.jenis);
+        form.no_bukti_bayar.setValue("");
+        form.trans_via.setValue("Tunai");
     },
     deleteRec: function() {
         var selectedz = this.sm.getSelected();
@@ -177,18 +214,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.id_pinjam;
-        var form = new jun.MtPengembalianWin({modez: 1});
-
+        var form = new jun.MtPinjamVoidWin({id: idz});
         form.show(this);
-
-        form.formz.getForm().loadRecord(this.record);
-        var tgl_pinjam = Date.parseDate(this.record.data.tgl_pinjam, 'Y-n-j H:i:s');
-        form.tgl_pinjam.setValue(tgl_pinjam);
-        var tgl_kembali = Date.parseDate(this.record.data.tgl_rencana_kembali, 'Y-n-j H:i:s');
-        form.rencana_tanggal_kembali.setValue(tgl_kembali);
-        var record = jun.getMobil(this.record.data.id_mobil);
-        form.jenis_mobil.setValue(record.data.jenis);
-        form.no_bukti_bayar.setValue("");
-        form.trans_via.setValue("Tunai");
-    },
+    }
 })

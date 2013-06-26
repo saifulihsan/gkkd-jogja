@@ -91,9 +91,27 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                     }),
                     {
                         xtype: 'label',
-                        text: 'Tanggal Transaksi',
+                        text: 'No. Kembali',
                         x: 540,
                         y: 5
+                    },
+                    {
+                        xtype: 'textfield',
+                        hideLabel: false,
+                        name: 'doc_ref_kembali',
+                        id: 'doc_ref_kembaliid',
+                        readOnly: true,
+                        ref: '../doc_ref_kembali',
+                        x: 660,
+                        y: 2,
+                        height: 20,
+                        width: 200,
+                    },
+                    {
+                        xtype: 'label',
+                        text: 'Tanggal Transaksi',
+                        x: 540,
+                        y: 35
                     },
                     {
                         xtype: 'xdatefield',
@@ -104,7 +122,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         format: 'd M Y',
                         allowBlank: false,
                         x: 660,
-                        y: 2,
+                        y: 32,
                         height: 20,
                         width: 200,
                     },
@@ -112,7 +130,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Kelompok Konsumen',
                         x: 540,
-                        y: 35
+                        y: 65
                     },
                     {
                         xtype: 'combo',
@@ -131,7 +149,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         lastQuery: '',
                         readOnly: true,
                         x: 660,
-                        y: 32,
+                        y: 62,
                         height: 20,
                         width: 200,
                     },
@@ -139,7 +157,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'No. Identitas',
                         x: 540,
-                        y: 65
+                        y: 95
                     },
                     {
                         xtype: 'textfield',
@@ -151,7 +169,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         maxLength: 30,
                         readOnly: true,
                         x: 660,
-                        y: 62,
+                        y: 92,
                         height: 20,
                         width: 200,
                     },
@@ -189,7 +207,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         xtype: 'label',
                         text: 'Season',
                         x: 540,
-                        y: 95
+                        y: 125
 
                     },
                     new jun.cmbSeason({
@@ -198,7 +216,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         allowBlank: false,
                         readOnly: true,
                         x: 660,
-                        y: 92,
+                        y: 122,
                         height: 20,
                         width: 200,
                     }),
@@ -222,25 +240,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         height: 20,
                         width: 200,
                     },
-//                    {
-//                        xtype: 'label',
-//                        text: 'Jam Pinjam',
-//                        x: 208,
-//                        y: 185
-//                    },
-//                    {
-//                        xtype: 'textfield',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'jampinjam',
-//                        id: 'jampinjam',
-//                        maxLength: 15,
-//                        //allowBlank: ,
-//                        x: 280,
-//                        y: 182,
-//                        height: 20,
-//                        width: 50,
-//                    }, 
                     {
                         xtype: 'label',
                         text: 'Lama Sewa',
@@ -337,25 +336,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         height: 20,
                         width: 200,
                     },
-//                    {
-//                        xtype: 'label',
-//                        text: 'Jam Kembali',
-//                        x: 208,
-//                        y: 215
-//                    },
-//                    {
-//                        xtype: 'textfield',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'rencanajamkembali',
-//                        id: 'rencanajamkembali',
-//                        maxLength: 15,
-//                        //allowBlank: ,
-//                        x: 280,
-//                        y: 212,
-//                        height: 20,
-//                        width: 50,
-//                    }, 
                     {
                         xtype: 'label',
                         text: 'Extend',
@@ -442,30 +422,12 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         name: 'tgl_kembali',
                         id: 'tgl_kembali',
                         ref: '../tgl_kembali',
+                        allowBlank: false,
                         x: 100,
                         y: 242,
                         height: 20,
                         width: 200,
                     },
-//                    {
-//                        xtype: 'label',
-//                        text: 'Jam Kembali',
-//                        x: 208,
-//                        y: 245
-//                    },
-//                    {
-//                        xtype: 'textfield',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'jam_kembali',
-//                        id: 'jam_kembali',
-//                        maxLength: 15,
-//                        //allowBlank: ,
-//                        x: 280,
-//                        y: 242,
-//                        height: 20,
-//                        width: 50,
-//                    },
                     {
                         xtype: 'label',
                         text: 'Overtime',
@@ -481,7 +443,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         minValue: 0,
                         maxValue: 12,
                         value: 0,
-//                        incrementValue: 12,
                         allowBlank: false,
                         readOnly: true,
                         x: 410,
@@ -879,7 +840,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         var over_persen = mobil_tarif_overtime * 0.01;
         var tarif_hari = season === 0 ? mobil_tarif_24 : mobil_tarif_24_h;
         var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
-        var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);        
+        var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
         var ong_jam = parseFloat(sewa_jam) > 0 ? tarif_jam : 0;
         var ong_over = (tarif_hari * over_persen) * parseFloat(overtime);
@@ -938,6 +899,9 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 }
             },
             failure: function(f, a) {
+                this.btnDisabled(false);
+                if (a.failureType == "client")
+                    return;
                 Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             },
         });
@@ -961,12 +925,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         urlz = 'Mahkotrans/MtKembaliKendaraan/create';
         Ext.getCmp('from-MtPengembalianWin').getForm().submit({
             url: urlz,
-            /*
-             params:{
-             tglpeljlo: this.tglpeljlo,
-             jenpeljlo: this.jenpeljlo,
-             modez: this.modez
-             },*/
             timeOut: 1000,
             scope: this,
             success: function(f, a) {
@@ -994,8 +952,10 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 this.close();
             },
             failure: function(f, a) {
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
                 this.btnDisabled(false);
+                if (a.failureType == "client")
+                    return;
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");                
             }
 
         });
@@ -1007,6 +967,119 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
     onbtnSaveclick: function() {
         this.closeForm = false;
         this.saveForm(false);
+    },
+    onbtnCancelclick: function() {
+        this.close();
+    }
+
+});
+
+jun.MtKembaliVoidWin = Ext.extend(Ext.Window, {
+    title: 'Void Pengembalian',
+    modez: 1,
+    width: 300,
+    height: 150,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-MtKembaliVoid',
+                layout: 'absolute',
+                ref: 'formz',
+                border: false,
+                anchor: '100% 100%',
+                items: [
+                    {
+                        xtype: 'label',
+                        text: 'Alasan Void : ',
+                        x: 5,
+                        y: 5,
+                        width: 100
+                    },
+                    {
+                        xtype: 'textarea',
+                        fieldLabel: 'memo',
+                        ref: '../memo',
+                        //                        hideLabel:false,
+                        id: 'memo_id',
+                        name: 'memo_',
+                        x: 5,
+                        y: 25,
+                        anchor: '100% 100%',
+                    },
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype: 'toolbar',
+            items: [
+                {
+                    xtype: 'button',
+                    text: 'Proses',
+                    ref: '../btnProses'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Batal',
+                    ref: '../btnCancel'
+                }
+            ]
+
+        };
+        jun.MtKembaliVoidWin.superclass.initComponent.call(this);
+        this.btnProses.on('click', this.onbtnProsesclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    btnDisabled: function(status) {
+        this.btnProses.setDisabled(status);
+    },
+    onbtnProsesclick: function() {
+        this.btnDisabled(true);
+        var form = Ext.getCmp('form-MtKembaliVoid').getForm();
+        Ext.getCmp('form-MtKembaliVoid').getForm().submit({
+            url: 'Mahkotrans/mtKembaliKendaraan/delete',
+            params: {
+                id: this.id,
+            },
+            method: 'POST',
+            scope: this,
+            timeOut: 1000,
+            success: function(f, a) {
+                var response = Ext.decode(a.response.responseText);
+                if (response.success == false) {
+                    Ext.MessageBox.show({
+                        title: 'Pengembalian Kendaraan',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    });
+                    return;
+                } else {
+                    Ext.MessageBox.show({
+                        title: 'Pengembalian Kendaraan',
+                        msg: response.msg,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.INFO
+                    });
+                    Ext.getCmp('form-MtKembaliVoid').getForm().reset();
+                }
+                this.btnDisabled(false);
+                jun.rztMtKembaliKendaraan.reload();
+                this.close();
+            },
+            failure: function(f, a) {
+                this.btnDisabled(false);
+                if (a.failureType == "client")
+                    return;
+                Ext.MessageBox.alert('error', 'could not connect to the database. retry later');
+            }
+        });
     },
     onbtnCancelclick: function() {
         this.close();

@@ -138,7 +138,6 @@ class PeAktivitasController extends GxController
                 $aktivitas = PeAktivitas::model()->findByPk($id);
                 $date = $aktivitas->trans_date;
                 $docref = $aktivitas->doc_ref;
-//                $bank_account = $kas_masuk->pe_bank_accounts_id;
                 $void = new PeVoided;
                 $void->type = AKTIVITAS;
                 $void->id = $id;
@@ -149,9 +148,9 @@ class PeAktivitasController extends GxController
                 $act_sub = $aktivitas->peSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pe::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
                     $aktivitas->amount, $user);
-                Pe::add_gl(VOID, $void->id, $date, $docref, $act_sub, "VOID Aktivitas $docref",
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub, "VOID Aktivitas $docref",
                     -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;

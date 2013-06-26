@@ -30,6 +30,7 @@ jun.MtKembaliKendaraanstore = Ext.extend(Ext.data.JsonStore, {
 {name:'is_void'},
 {name:'ongkos_extend'},
 {name:'entry_time'},
+{name:'doc_ref_kembali'},
                 
             ]
         }, cfg));

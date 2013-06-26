@@ -13,21 +13,21 @@
  * @property string $nopol
  * @property string $jenis
  * @property integer $tahun
- * @property string $tarif_12
- * @property string $tarif_24
- * @property string $tarif_high_12
- * @property string $tarif_high_24
- * @property string $tarif_bulanan
+ * @property double $tarif_12
+ * @property double $tarif_24
+ * @property double $tarif_high_12
+ * @property double $tarif_high_24
+ * @property double $tarif_bulanan
  * @property double $overtime
  * @property double $discount_other_rental
  * @property string $status_pemilik
  * @property integer $inactive
- * @property string $other_tarif_12
- * @property string $other_tarif_24
- * @property string $other_tarif_high_12
- * @property string $other_tarif_high_24
- * @property string $other_tarif_bulanan
- * @property string $other_overtime
+ * @property double $other_tarif_12
+ * @property double $other_tarif_24
+ * @property double $other_tarif_high_12
+ * @property double $other_tarif_high_24
+ * @property double $other_tarif_bulanan
+ * @property double $other_overtime
  *
  * @property MtKasKeluar[] $mtKasKeluars
  * @property MtKasMasuk[] $mtKasMasuks
@@ -51,11 +51,10 @@ abstract class BaseMtMobil extends GxActiveRecord {
 		return array(
 			array('nopol', 'required'),
 			array('tahun, inactive', 'numerical', 'integerOnly'=>true),
-			array('overtime, discount_other_rental', 'numerical'),
+			array('tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental, other_tarif_12, other_tarif_24, other_tarif_high_12, other_tarif_high_24, other_tarif_bulanan, other_overtime', 'numerical'),
 			array('nopol', 'length', 'max'=>10),
 			array('jenis', 'length', 'max'=>50),
-			array('tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan', 'length', 'max'=>20),
-			array('status_pemilik, other_tarif_12, other_tarif_24, other_tarif_high_12, other_tarif_high_24, other_tarif_bulanan, other_overtime', 'length', 'max'=>30),
+			array('status_pemilik', 'length', 'max'=>30),
 			array('jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental, status_pemilik, inactive, other_tarif_12, other_tarif_24, other_tarif_high_12, other_tarif_high_24, other_tarif_bulanan, other_overtime', 'default', 'setOnEmpty' => true, 'value' => null),
 			array('id_mobil, nopol, jenis, tahun, tarif_12, tarif_24, tarif_high_12, tarif_high_24, tarif_bulanan, overtime, discount_other_rental, status_pemilik, inactive, other_tarif_12, other_tarif_24, other_tarif_high_12, other_tarif_high_24, other_tarif_bulanan, other_overtime', 'safe', 'on'=>'search'),
 		);
@@ -105,21 +104,21 @@ abstract class BaseMtMobil extends GxActiveRecord {
 		$criteria->compare('nopol', $this->nopol, true);
 		$criteria->compare('jenis', $this->jenis, true);
 		$criteria->compare('tahun', $this->tahun);
-		$criteria->compare('tarif_12', $this->tarif_12, true);
-		$criteria->compare('tarif_24', $this->tarif_24, true);
-		$criteria->compare('tarif_high_12', $this->tarif_high_12, true);
-		$criteria->compare('tarif_high_24', $this->tarif_high_24, true);
-		$criteria->compare('tarif_bulanan', $this->tarif_bulanan, true);
+		$criteria->compare('tarif_12', $this->tarif_12);
+		$criteria->compare('tarif_24', $this->tarif_24);
+		$criteria->compare('tarif_high_12', $this->tarif_high_12);
+		$criteria->compare('tarif_high_24', $this->tarif_high_24);
+		$criteria->compare('tarif_bulanan', $this->tarif_bulanan);
 		$criteria->compare('overtime', $this->overtime);
 		$criteria->compare('discount_other_rental', $this->discount_other_rental);
 		$criteria->compare('status_pemilik', $this->status_pemilik, true);
 		$criteria->compare('inactive', $this->inactive);
-		$criteria->compare('other_tarif_12', $this->other_tarif_12, true);
-		$criteria->compare('other_tarif_24', $this->other_tarif_24, true);
-		$criteria->compare('other_tarif_high_12', $this->other_tarif_high_12, true);
-		$criteria->compare('other_tarif_high_24', $this->other_tarif_high_24, true);
-		$criteria->compare('other_tarif_bulanan', $this->other_tarif_bulanan, true);
-		$criteria->compare('other_overtime', $this->other_overtime, true);
+		$criteria->compare('other_tarif_12', $this->other_tarif_12);
+		$criteria->compare('other_tarif_24', $this->other_tarif_24);
+		$criteria->compare('other_tarif_high_12', $this->other_tarif_high_12);
+		$criteria->compare('other_tarif_high_24', $this->other_tarif_high_24);
+		$criteria->compare('other_tarif_bulanan', $this->other_tarif_bulanan);
+		$criteria->compare('other_overtime', $this->other_overtime);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

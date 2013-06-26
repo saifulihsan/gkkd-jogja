@@ -94,13 +94,33 @@ class MtChartMasterController extends GxController {
             Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
 
-    /*
-      public function actionAdmin() {
-      $dataProvider = new CActiveDataProvider('MtChartMaster');
-      $this->render('index', array(
-      'dataProvider' => $dataProvider,
-      ));
-      } */
+    public function actionSetSaldoAwal() {
+        if (!Yii::app()->request->isAjaxRequest) return;
+        if (isset($_POST) && !empty($_POST)) {
+            $status = false;
+            $msg = 'Saldo Awal berhasil disimpan.';
+            $date = $_POST['trans_date'];
+            $user = Yii::app()->user->getId();
+            $id = Mt::get_next_trans_saldo_awal();
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                Mt::add_gl(SALDO_AWAL, $id, $date, "-", $_POST['account_code'], '-',
+                        get_number($_POST['amount']), $user);
+                $transaction->commit();
+                $status = true;
+            } catch (Exception $ex) {
+                $transaction->rollback();
+                $status = false;
+                $msg = $ex;
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'id' => $id,
+                'msg' => $msg
+            ));
+            Yii::app()->end();
+        }
+    }
 
     public function actionAdmin() {
         $model = new MtChartMaster('search');

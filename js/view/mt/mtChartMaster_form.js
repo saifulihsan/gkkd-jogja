@@ -181,3 +181,143 @@ jun.MtChartMasterWin = Ext.extend(Ext.Window, {
     }
 
 });
+jun.MtSaldoAwalWin = Ext.extend(Ext.Window, {
+    title: 'Saldo Awal',
+    modez: 1,
+    width: 350,
+    height: 170,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    iswin: true,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-MtSaldoAwal',
+                labelWidth: 125,
+                labelAlign: 'left',
+                layout: 'form',
+                ref: 'formz',
+                border: false,
+                items: [
+                    {
+                        xtype: 'xdatefield',
+                        ref: '../trans_date',
+                        fieldLabel: 'Tanggal Transaksi',
+                        name: 'trans_date',
+                        id: 'trans_dateid',
+                        format: 'd M Y',
+                        //allowBlank: 1,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'combo',
+                        typeAhead: true,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        fieldLabel: 'Kode Rekening',
+                        store: jun.rztMtChartMaster,
+                        hiddenName: 'account_code',
+                        hiddenValue: 'account_code',
+                        valueField: 'account_code',
+                        tpl: new Ext.XTemplate('<tpl for="."><div class="search-item">', '<h3><span">{account_code} - {account_name}</span></h3><br />{description}', '</div></tpl>'),
+                        matchFieldWidth: false,
+                        itemSelector: 'div.search-item',
+                        editable: true,
+                        listWidth: 300,
+                        displayField: 'account_code',
+                        forceSelection: true,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'numericfield',
+                        fieldLabel: 'Jumlah',
+                        hideLabel: false,
+                        //hidden:true,
+                        name: 'amount',
+                        id: 'amountid',
+                        ref: '../amount',
+                        maxLength: 30,
+                        //allowBlank: 1,
+                        anchor: '100%'
+                    },
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype: 'toolbar',
+            items: [
+                {
+                    xtype: 'button',
+                    text: 'Simpan',
+                    hidden: false,
+                    ref: '../btnSave'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Batal',
+                    ref: '../btnCancel'
+                }
+            ]
+        };
+        jun.rztMtChartMaster.reload();
+        jun.MtSaldoAwalWin.superclass.initComponent.call(this);
+        this.on('activate', this.onActivate, this);
+        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnCancel.on('click', this.onbtnCancelclick, this);
+    },
+    btnDisabled: function(status) {
+        this.btnSave.setDisabled(status);
+    },
+    onActivate: function() {
+        this.btnSave.hidden = false;
+    },
+    saveForm: function() {
+        this.btnDisabled(true);
+        Ext.getCmp('form-MtSaldoAwal').getForm().submit({
+            url: 'Mahkotrans/MtChartMaster/SetSaldoAwal/',
+            timeOut: 1000,
+            scope: this,
+            success: function(f, a) {
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title: 'Info',
+                    msg: response.msg,
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.INFO
+                });
+                Ext.getCmp('form-MtSaldoAwal').getForm().reset();
+                this.close();
+            },
+            failure: function(f, a) {
+                if (a.failureType == "client")
+                    return;
+                var response = Ext.decode(a.response.responseText);
+                Ext.MessageBox.show({
+                    title: 'Warning',
+                    msg: response.msg,
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.WARNING
+                });
+                this.btnDisabled(false);
+            }
+        });
+    },
+    onbtnSaveCloseClick: function() {
+        this.closeForm = true;
+        this.saveForm(true);
+    },
+    onbtnSaveclick: function() {
+        this.closeForm = false;
+        this.saveForm(false);
+    },
+    onbtnCancelclick: function() {
+        this.close();
+    }
+
+});

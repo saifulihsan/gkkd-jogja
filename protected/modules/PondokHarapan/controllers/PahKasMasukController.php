@@ -144,10 +144,10 @@ class PahKasMasukController extends GxController
                 $bank = PahBankAccounts::model()->findByPk($kas_masuk->pah_bank_accounts_id);
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //void gl
-                Pah::add_gl(VOID, $void->id, $date, $docref,
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
                     $act_donatur,
                     "VOID Kas Masuk $docref", $kas_masuk->amount, $user);
-                Pah::add_gl(VOID, $void->id, $date, $docref, $bank->account_code, "VOID Kas Masuk $docref",
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Kas Masuk $docref",
                     -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
