@@ -1,3 +1,132 @@
+jun.MtMutasiPerBank = Ext.extend(Ext.Window, {
+    title: 'Mutasi Kas Per Bank',
+    iconCls: 'silk13-report',
+    modez: 1,
+    width: 350,
+    height: 175,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    iswin: true,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-MtMutasiPerBank',
+                labelWidth: 100,
+                labelAlign: 'left',
+                layout: 'form',
+                ref: 'formz',
+                border: false,
+                items: [
+                    {
+                        xtype: 'combo',
+                        typeAhead: true,
+                        triggerAction: 'all',
+                        mode: 'local',
+                        fieldLabel: 'Ke Kas/Bank',
+                        store: jun.rztMtBankAccounts,
+                        hiddenName: 'bank_act',
+                        hiddenValue: 'bank_act',
+                        valueField: 'id',
+                        displayField: 'bank_account_name',
+                        allowBlank: false,
+                        anchor: '100%',
+                        ref: '../kas'
+                    },
+                    {
+                        xtype: 'xdatefield',
+                        ref: '../trans_date_mulai',
+                        fieldLabel: 'Dari Tanggal',
+                        name: 'trans_date_mulai',
+                        id: 'trans_date_mulaiid',
+                        format: 'd M Y',
+                        //allowBlank: 1,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'xdatefield',
+                        ref: '../trans_date_sampai',
+                        fieldLabel: 'Sampai Tanggal',
+                        name: 'trans_date_sampai',
+                        id: 'trans_date_sampaiid',
+                        format: 'd M Y',
+                        //allowBlank: 1,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'hidden', //should use the more standard hiddenfield
+                        name: 'format',
+                        ref: '../format'
+                    }
+                ]
+            }
+        ];
+        this.fbar = {
+            xtype: 'toolbar',
+            items: [
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-page_white_excel',
+                    text: 'Save to Excel',
+                    hidden: false,
+                    ref: '../btnSave'
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-page_white_acrobat',
+                    text: 'Save to PDF',
+                    hidden: false,
+                    ref: '../btnPdf'
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'silk13-printer',
+                    text: 'Print',
+                    hidden: false,
+                    ref: '../btnPrint'
+                }
+            ]
+        };
+        jun.rztMtBankAccounts.reload();
+        jun.MtMutasiPerBank.superclass.initComponent.call(this);
+        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnPdf.on('click', this.onbtnPdfclick, this);
+        this.btnPrint.on('click', this.onbtnPrintclick, this);
+    },
+    onbtnPrintclick: function() {
+        var mulai = this.trans_date_mulai.hiddenField.dom.value;
+        var sampai = this.trans_date_sampai.hiddenField.dom.value;
+        var kas = this.kas.getValue();
+        var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');
+        win.document.write("<html><title>Mutasi Kas Per Bank</title><body>" +
+                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasPerBank'>" +
+                "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
+                "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+                "<input type='hidden' name='bank_act' value='" + kas + "'>" +
+                "<input type='hidden' name='format' value='html'>" +
+                "</form></body></html>");
+        win.document.close();
+        win.document.getElementById('form').submit();
+    },
+    onbtnPdfclick: function() {
+        var form = Ext.getCmp('form-MtMutasiPerBank').getForm();
+        form.standardSubmit = true;
+        form.url = 'Mahkotrans/MtReport/MutasiKasPerBank';
+        this.format.setValue('pdf');
+        form.submit();
+    },
+    onbtnSaveclick: function() {
+        var form = Ext.getCmp('form-MtMutasiPerBank').getForm();
+        form.standardSubmit = true;
+        form.url = 'Mahkotrans/MtReport/MutasiKasPerBank';
+        this.format.setValue('excel');
+        form.submit();
+    }
+});
 jun.MtPenjualanPerMobil = Ext.extend(Ext.Window, {
     title: 'Penjualan per Mobil',
     iconCls: 'silk13-report',
@@ -63,7 +192,7 @@ jun.MtPenjualanPerMobil = Ext.extend(Ext.Window, {
                     {
                         xtype: 'hidden', //should use the more standard hiddenfield
                         name: 'format',
-                        ref: '../format',
+                        ref: '../format'
                     }
                 ]
             }
@@ -91,7 +220,7 @@ jun.MtPenjualanPerMobil = Ext.extend(Ext.Window, {
                     text: 'Print',
                     hidden: false,
                     ref: '../btnPrint'
-                },
+                }
             ]
         };
         jun.rztMtMobil.reload();
@@ -195,7 +324,7 @@ jun.MtPenjualanPerKelompokKonsumen = Ext.extend(Ext.Window, {
                     {
                         xtype: 'hidden', //should use the more standard hiddenfield
                         name: 'format',
-                        ref: '../format',
+                        ref: '../format'
                     }
                 ]
             }
@@ -223,7 +352,7 @@ jun.MtPenjualanPerKelompokKonsumen = Ext.extend(Ext.Window, {
                     text: 'Print',
                     hidden: false,
                     ref: '../btnPrint'
-                },
+                }
             ]
         };
         jun.rztMtKelompokPelanggan.reload();
@@ -327,7 +456,7 @@ jun.MtLabaRugiPerMobil = Ext.extend(Ext.Window, {
                     {
                         xtype: 'hidden', //should use the more standard hiddenfield
                         name: 'format',
-                        ref: '../format',
+                        ref: '../format'
                     }
                 ]
             }
@@ -355,7 +484,7 @@ jun.MtLabaRugiPerMobil = Ext.extend(Ext.Window, {
                     text: 'Print',
                     hidden: false,
                     ref: '../btnPrint'
-                },
+                }
             ]
         };
         jun.rztMtMobil.reload();
@@ -439,7 +568,7 @@ jun.MtLabaRugiMahkotrans = Ext.extend(Ext.Window, {
                     {
                         xtype: 'hidden', //should use the more standard hiddenfield
                         name: 'format',
-                        ref: '../format',
+                        ref: '../format'
                     }
                 ]
             }
@@ -467,7 +596,7 @@ jun.MtLabaRugiMahkotrans = Ext.extend(Ext.Window, {
                     text: 'Print',
                     hidden: false,
                     ref: '../btnPrint'
-                },
+                }
             ]
         };
         jun.rztMtMobil.reload();

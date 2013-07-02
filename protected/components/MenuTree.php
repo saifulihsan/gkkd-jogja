@@ -88,12 +88,12 @@ class MenuTree {
                             text: 'Sewa Kendaraan',
                             id: 'jun.MtPinjamKendaraanGrid',
                             leaf: true
-                        },      
+                        },
                         {
                             text: 'Pengembalian Kendaraan',
                             id: 'jun.MtKembaliKendaraanGrid',
                             leaf: true
-                        },      
+                        },
                         {
                             text: 'Kas Masuk',
                             id: 'jun.MtKasMasukGrid',
@@ -129,7 +129,7 @@ class MenuTree {
                     children:[
                         {
                             text: 'Mutasi Kas per Bank',
-                            id: 'jun.MtBankTransGrid',
+                            id: 'jun.MtMutasiPerBank',
                             leaf: true
                         },
                         {

@@ -3,34 +3,8 @@
 class MtBankTransController extends GxController
 {
     public function actionView()
-    {
-        global $systypes_array;
-        $bfw = Mt::get_balance_before_for_bank_account($_POST['from_date'], $_POST['bank_act']);
-        $arr['data'][] = array('type' => 'Saldo Awal - ' . sql2date($_POST['from_date']), 'ref' => '', 'tgl' => '',
-            'debit' => $bfw >= 0 ? number_format($bfw, 2) : '', 'kredit' => $bfw < 0 ? number_format($bfw, 2) : '', 'neraca' => '', 'person' => '');
-        $credit = $debit = 0;
-        $running_total = $bfw;
-        if ($bfw > 0)
-            $debit += $bfw;
-        else
-            $credit += $bfw;
-        $result = Mt::get_bank_trans_for_bank_account($_POST['bank_act'], $_POST['from_date'], $_POST['to_date']);
-        foreach ($result as $myrow) {
-            $running_total += $myrow->amount;
-            $jemaat = get_jemaat_from_user_id($myrow->users_id);
-            $arr['data'][] = array('type' => $systypes_array[$myrow->type], 'ref' => $myrow->ref, 'tgl' => sql2date($myrow->trans_date),
-                'debit' => $myrow->amount >= 0 ? number_format($myrow->amount, 2) : '',
-                'kredit' => $myrow->amount < 0 ? number_format(-$myrow->amount, 2) : '',
-                'neraca' => number_format($running_total, 2), 'person' => $jemaat->real_name);
-            if ($myrow->amount > 0)
-                $debit += $myrow->amount;
-            else
-                $credit += $myrow->amount;
-        }
-        $arr['data'][] = array('type' => 'Saldo Akhir - ' . sql2date($_POST['to_date']), 'ref' => '', 'tgl' => '',
-            'debit' => number_format($debit, 2), 'kredit' => number_format(-$credit, 2), 'neraca' => number_format($debit + $credit, 2),
-            'person' => '');
-        echo CJSON::encode($arr);
+    {        
+        echo CJSON::encode(Mt::get_bank_trans_view());
         Yii::app()->end();
     }
 

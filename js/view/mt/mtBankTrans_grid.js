@@ -13,7 +13,7 @@ jun.mtbankTransStore = new Ext.data.JsonStore({
     ],
     //data:[],
     autoLoad: false,
-    autoSave: false,
+    autoSave: false
 });
 jun.mtGlTransReportStore = new Ext.data.JsonStore({
     root: 'data',
@@ -29,7 +29,7 @@ jun.mtGlTransReportStore = new Ext.data.JsonStore({
     ],
     //data:[],
     autoLoad: false,
-    autoSave: false,
+    autoSave: false
 });
 jun.mtGeneralLedgerTransReportStore = new Ext.data.JsonStore({
     root: 'data',
@@ -41,10 +41,10 @@ jun.mtGeneralLedgerTransReportStore = new Ext.data.JsonStore({
         {name: 'tgl'},
         {name: 'account'},
         {name: 'debit'},
-        {name: 'kredit'},
+        {name: 'kredit'}
     ],
     autoLoad: false,
-    autoSave: false,
+    autoSave: false
 });
 jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     title: "Mutasi Kas per Bank",
@@ -66,17 +66,17 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             header: 'Type',
             //
             resizable: true,
-            dataIndex: 'type',
+            dataIndex: 'type'
         },
         {
-            header: 'Reference',
+            header: 'Ref. Dokumen',
             resizable: true,
-            dataIndex: 'ref',
+            dataIndex: 'ref'
         },
         {
             header: 'Tanggal',
             resizable: true,
-            dataIndex: 'tgl',
+            dataIndex: 'tgl'
         },
         {
             header: 'Debit',
@@ -91,7 +91,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             align: 'right'
         },
         {
-            header: 'Neraca',
+            header: 'Saldo',
             resizable: true,
             dataIndex: 'neraca',
             align: 'right'
@@ -100,6 +100,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             header: 'Person',
             resizable: true,
             dataIndex: 'person',
+            hidden:true
         }
     ],
     initComponent: function() {
@@ -124,13 +125,21 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
             options.params = {
                 bank_act: Ext.getCmp('bank_act_banktrans').getValue(),
                 from_date: (new Date(Ext.getCmp('from_date_banktrans').getValue())).dateFormat('Y-m-d'),
-                to_date: (new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d'),
+                to_date: (new Date(Ext.getCmp('to_date_banktrans').getValue())).dateFormat('Y-m-d')
             };
         });
         this.tbar = {
             xtype: 'toolbar',
             buttonAlign: 'center',
-            items: ['Akun Bank : ', {
+            items: [{
+            xtype: 'form',
+            items: [{
+                xtype: 'combo',
+                name: 'filefor',
+                labelWidth: 50
+                    }]
+            },'Akun Bank : ',
+            {
                     xtype: 'combo',
                     id: 'bank_act_banktrans',
                     typeAhead: true,
@@ -144,7 +153,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     ref: '../bank_act'
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 },
                 ' Dari : ',
                 {
@@ -156,7 +165,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 }, ' Sampai : ', {
                     xtype: 'datefield',
                     name: 'to_date_banktrans',
@@ -166,7 +175,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 },
                 {
                     xtype: 'button',
@@ -175,7 +184,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     ref: '../btnRefresh'
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 },
                 {
                     xtype: 'button',
@@ -185,7 +194,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     ref: '../btnSave'
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 },
                 {
                     xtype: 'button',
@@ -195,7 +204,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     ref: '../btnPdf'
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 },
                 {
                     xtype: 'button',
@@ -203,7 +212,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
                     text: 'Print',
                     hidden: false,
                     ref: '../btnPrint'
-                },
+                }
             ]
         };
         jun.rztMtBankAccounts.reload();
@@ -220,7 +229,7 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         var bank = this.bank_act.getValue();
         var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');       
         win.document.write("<html><title>Mutasi Kas per Rekening</title><body>" +
-                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasDiTangan'>" +
+                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasPerBank'>" +
                 "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
                 "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
                 "<input type='hidden' name='bank_act' value='" + bank + "'>" +
@@ -232,20 +241,23 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
     onbtnPdfclick: function() {
         var mulai = this.trans_date_mulai.getValue().format("Y-m-d");
         var sampai = this.trans_date_sampai.getValue().format("Y-m-d");
-        var win = window.open('', 'form', 'width=0,height=0,location=no,menubar=0,status=0,resizeable,scrollbars');
+        var bank = this.bank_act.getValue();
+        var win = window.open('', 'form', 'width=1,height=1,location=no,menubar=0,status=0,resizeable,scrollbars');
         win.document.write("<html><title>Mutasi Kas per Rekening</title><body>" +
-                "<form id='form' method='POST' action='Mahkotrans/MtReport/MutasiKasDiTangan'>" +
+                "<form id='form' method='POST'  onsubmit='self.close();' action='Mahkotrans/MtReport/MutasiKasPerBank'>" +
                 "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
                 "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+                "<input type='hidden' name='bank_act' value='" + bank + "'>" +
                 "<input type='hidden' name='format' value='pdf'>" +
-                "</form></body></html>");
+                "</form>" +
+                "</body></html>");
         win.document.close();
         win.document.getElementById('form').submit();
-        win.close();        
+        //win.close();        
     },
     onbtnSaveclick: function() {
         Ext.getCmp('form-MtReportMutasiWin').getForm().standardSubmit = true;
-        Ext.getCmp('form-MtReportMutasiWin').getForm().url = 'Mahkotrans/MtReport/MutasiKasDiTangan';
+        Ext.getCmp('form-MtReportMutasiWin').getForm().url = 'Mahkotrans/MtReport/MutasiKasPerBank';
         this.format.setValue('excel');
         Ext.getCmp('form-MtReportMutasiWin').getForm().submit();
     },
@@ -270,47 +282,47 @@ jun.MtBankTransGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.BankTransWin({modez: 1, id: idz});
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
-    },
+    }
 })
 jun.MtGlTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
     title: "Daftar Jurnal",
     id: 'docs-jun.MtGlTransReportGrid',
     iconCls: 'silk-grid',
     viewConfig: {
-        forceFit: true,
+        forceFit: true
     },
     sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
     columns: [
         {
             header: 'Tanggal',
             resizable: true,
-            dataIndex: 'tgl',
+            dataIndex: 'tgl'
         },
         {
             header: 'Tipe Transaksi',
             resizable: true,
-            dataIndex: 'type',
+            dataIndex: 'type'
         },
         {
             header: 'No. Transaksi',
             resizable: true,
-            dataIndex: 'type_no',
+            dataIndex: 'type_no'
         },
         {
             header: 'Ref. Dokumen',
             resizable: true,
-            dataIndex: 'ref',
+            dataIndex: 'ref'
         },
         {
             header: 'Total',
             resizable: true,
             dataIndex: 'amount',
-            align: 'right',
+            align: 'right'
         },
         {
             header: 'Person',
             resizable: true,
-            dataIndex: 'person',
+            dataIndex: 'person'
         }
     ],
     initComponent: function() {
@@ -334,7 +346,7 @@ jun.MtGlTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
             store.removeAll();
             options.params = {
                 from_date: (new Date(Ext.getCmp('from_date_mt_gltrans').getValue())).dateFormat('Y-m-d'),
-                to_date: (new Date(Ext.getCmp('to_date_mt_gltrans').getValue())).dateFormat('Y-m-d'),
+                to_date: (new Date(Ext.getCmp('to_date_mt_gltrans').getValue())).dateFormat('Y-m-d')
             };
         });
         this.tbar = {
@@ -349,7 +361,7 @@ jun.MtGlTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 }, ' Sampai : ', {
                     xtype: 'datefield',
                     name: 'to_date_mt_gltrans',
@@ -358,12 +370,12 @@ jun.MtGlTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 }, {
                     xtype: 'button',
                     text: 'Tampilkan',
                     ref: '../btnRefresh'
-                },
+                }
             ]
         };
 
@@ -392,49 +404,49 @@ jun.MtGlTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.BankTransWin({modez: 1, id: idz});
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
-    },
+    }
 })
 jun.MtGeneralLedgerTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
     title: "Daftar Jurnal Umum",
     id: 'docs-jun.MtGeneralLedgerTransReportGrid',
     iconCls: 'silk-grid',
     viewConfig: {
-        forceFit: true,
+        forceFit: true
     },
     sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
     columns: [
         {
             header: 'Tanggal',
             resizable: true,
-            dataIndex: 'tgl',
+            dataIndex: 'tgl'
         },
         {
             header: 'Tipe Transaksi',
             resizable: true,
-            dataIndex: 'type',
+            dataIndex: 'type'
         },
         {
             header: 'No. Transaksi',
             resizable: true,
-            dataIndex: 'type_no',
+            dataIndex: 'type_no'
         },
         {
             header: 'Account',
             resizable: true,
-            dataIndex: 'account',
+            dataIndex: 'account'
         },
         {
             header: 'Debit',
             resizable: true,
             dataIndex: 'debit',
-            align: 'right',
+            align: 'right'
         },
         {
             header: 'Kredit',
             resizable: true,
             dataIndex: 'kredit',
-            align: 'right',
-        },
+            align: 'right'
+        }
     ],
     initComponent: function() {
         this.store = jun.mtGeneralLedgerTransReportStore;
@@ -457,7 +469,7 @@ jun.MtGeneralLedgerTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
             store.removeAll();
             options.params = {
                 from_date: (new Date(Ext.getCmp('from_date_mt_GeneralLedgertrans').getValue())).dateFormat('Y-m-d'),
-                to_date: (new Date(Ext.getCmp('to_date_mt_GeneralLedgertrans').getValue())).dateFormat('Y-m-d'),
+                to_date: (new Date(Ext.getCmp('to_date_mt_GeneralLedgertrans').getValue())).dateFormat('Y-m-d')
             };
         });
         this.tbar = {
@@ -472,7 +484,7 @@ jun.MtGeneralLedgerTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 }, ' Sampai : ', {
                     xtype: 'datefield',
                     name: 'to_date_mt_GeneralLedgertrans',
@@ -481,12 +493,12 @@ jun.MtGeneralLedgerTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
                     value: new Date()
                 },
                 {
-                    xtype: 'tbseparator',
+                    xtype: 'tbseparator'
                 }, {
                     xtype: 'button',
                     text: 'Tampilkan',
                     ref: '../btnRefresh'
-                },
+                }
             ]
         };
 
@@ -515,5 +527,5 @@ jun.MtGeneralLedgerTransReportGrid = Ext.extend(Ext.grid.GridPanel, {
         var form = new jun.BankTransWin({modez: 1, id: idz});
         form.show(this);
         form.formz.getForm().loadRecord(this.record);
-    },
+    }
 })
