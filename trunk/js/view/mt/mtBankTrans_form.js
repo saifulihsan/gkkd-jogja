@@ -56,7 +56,7 @@ jun.MtTranferBankWin = Ext.extend(Ext.Window, {
                                 id:'bank_bal_id',
                                 readOnly:true,
                                 ref:'../../lblBankBal',
-                                anchor:'100%',
+                                anchor:'100%'
                                 //                                cls: 'x-form-item',
                                 //                                style:'text-align:right;margin:3px;',
                                 //disable: true,
@@ -100,7 +100,7 @@ jun.MtTranferBankWin = Ext.extend(Ext.Window, {
                                 maxLength:20,
                                 //allowBlank: 1,
                                 anchor:'100%'
-                            },
+                            }
                             //{
 //                                xtype:'numericfield',
 //                                fieldLabel:'Biaya Bank',
@@ -185,7 +185,7 @@ jun.MtTranferBankWin = Ext.extend(Ext.Window, {
             waitMsg:'Please Wait',
             url:'Mahkotrans/MtBankTrans/GetBalance/',
             params:{
-                id:this.cmbBankAsal.getValue(),
+                id:this.cmbBankAsal.getValue()
             },
             success:function (response) {
                 var response = Ext.decode(response.responseText);

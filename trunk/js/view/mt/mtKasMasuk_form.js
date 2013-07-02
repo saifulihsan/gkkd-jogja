@@ -31,18 +31,6 @@ jun.MtKasMasukWin = Ext.extend(Ext.Window, {
                         //allowBlank: 1,
                         anchor: '100%'
                     },
-//                    {
-//                        xtype: 'textfield',
-//                        fieldLabel: 'Ref. Dokumen',
-//                        hideLabel: false,
-//                        //hidden:true,
-//                        name: 'doc_ref',
-//                        id: 'doc_refid',
-//                        ref: '../doc_ref',
-//                        maxLength: 15,
-//                        //allowBlank: 1,
-//                        anchor: '100%'
-//                    },
                     {
                         xtype: 'textfield',
                         fieldLabel: 'No. Bukti',
@@ -86,7 +74,6 @@ jun.MtKasMasukWin = Ext.extend(Ext.Window, {
                         xtype: 'combo',
                         typeAhead: true,
                         triggerAction: 'all',
-//                        lazyRender: true,
                         mode: 'local',
                         fieldLabel: 'Ke Kas/Bank',
                         store: jun.rztMtBankAccounts,

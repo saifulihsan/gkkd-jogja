@@ -6,28 +6,23 @@
  */
 class Mt
 {
-//------------------------------------------------ Void ----------------------------------------------------------------
+    //------------------------------------------------ Void ----------------------------------------------------------------
     static function get_voided($type)
     {
-        $void = Yii::app()->db->createCommand()
-            ->select('id')
-            ->from('mt_voided')
-            ->where('type=:type', array(':type' => $type))
-            ->queryColumn();
+        $void = Yii::app()->db->createCommand()->select('id')->from('mt_voided')->where('type=:type',
+            array(':type' => $type))->queryColumn();
         return $void;
     }
 
-    static function get_max_type_no($type){
-        $type_no = app()->db->createCommand()
-                ->select("IFNULL(MAX(mt_gl_trans.type_no),0)")
-                ->from("mt_gl_trans")
-                ->where('type=:type', array(':type' => $type))
-                ->queryScalar();
+    static function get_max_type_no($type)
+    {
+        $type_no = app()->db->createCommand()->select("IFNULL(MAX(mt_gl_trans.type_no),0)")->
+            from("mt_gl_trans")->where('type=:type', array(':type' => $type))->queryScalar();
         return $type_no;
     }
 
 
-//---------------------------------------------- Anggaran --------------------------------------------------------------
+    //---------------------------------------------- Anggaran --------------------------------------------------------------
     static function is_periode_anggaran_exist($bulan, $tahun)
     {
         $criteria = new CDbCriteria();
@@ -37,7 +32,7 @@ class Mt
         return $result > 0;
     }
 
-//--------------------------------------------- Bank Trans -------------------------------------------------------------
+    //--------------------------------------------- Bank Trans -------------------------------------------------------------
     static function get_next_trans_no_bank_trans()
     {
         $db = MtBankTrans::model()->getDbConnection();
@@ -59,12 +54,12 @@ class Mt
         $bank_act = $bank_account == null ? '' : "bank_act=$bank_account AND";
         $db = MtBankTrans::model()->getDbConnection();
         $total = $db->createCommand("SELECT SUM(amount)
-        FROM mt_bank_trans where $bank_act trans_date < '$from'")
-            ->queryScalar();
+        FROM mt_bank_trans where $bank_act trans_date < '$from'")->queryScalar();
         return $total == null ? 0 : $total;
     }
-    
-    static function get_ledger_trans($from,$to){
+
+    static function get_ledger_trans($from, $to)
+    {
         $rows = Yii::app()->db->createCommand("SELECT
             mt_gl_trans.tran_date,
             mt_gl_trans.type,
@@ -78,12 +73,13 @@ class Mt
             (mt_gl_trans.type=refs.type AND mt_gl_trans.type_no=refs.type_no),users
             WHERE mt_gl_trans.tran_date BETWEEN '$from' AND '$to'
             GROUP BY mt_gl_trans.tran_date,mt_gl_trans.type,
-            mt_gl_trans.type_no,mt_gl_trans.users_id            
+            mt_gl_trans.type_no,mt_gl_trans.users_id
             ")->queryAll();
         return $rows;
     }
-    
-    static function get_general_ledger_trans($from, $to){
+
+    static function get_general_ledger_trans($from, $to)
+    {
         $rows = Yii::app()->db->createCommand("SELECT
             mt_gl_trans.type,
             mt_gl_trans.type_no,
@@ -98,22 +94,70 @@ class Mt
         return $rows;
     }
 
+    static function get_bank_trans_view()
+    {
+        global $systypes_array;
+        $bfw = Mt::get_balance_before_for_bank_account($_POST['trans_date_mulai'], $_POST['bank_act']);
+        $arr['data'][] = array(
+            'type' => 'Saldo Awal - ' . sql2date($_POST['trans_date_mulai']),
+            'ref' => '',
+            'tgl' => '',
+            'debit' => $bfw >= 0 ? number_format($bfw, 2) : '',
+            'kredit' => $bfw < 0 ? number_format($bfw, 2) : '',
+            'neraca' => '',
+            'person' => '');
+        $credit = $debit = 0;
+        $running_total = $bfw;
+        if ($bfw > 0)
+            $debit += $bfw;
+        else
+            $credit += $bfw;
+        $result = Mt::get_bank_trans_for_bank_account($_POST['bank_act'], $_POST['trans_date_mulai'],
+            $_POST['trans_date_sampai']);
+        foreach ($result as $myrow) {
+            $running_total += $myrow->amount;
+            $jemaat = get_jemaat_from_user_id($myrow->users_id);
+            $arr['data'][] = array(
+                'type' => $systypes_array[$myrow->type],
+                'ref' => $myrow->ref,
+                'tgl' => sql2date($myrow->trans_date),
+                'debit' => $myrow->amount >= 0 ? number_format($myrow->amount, 2) : '',
+                'kredit' => $myrow->amount < 0 ? number_format(-$myrow->amount, 2) : '',
+                'neraca' => number_format($running_total, 2),
+                'person' => $jemaat->real_name);
+            if ($myrow->amount > 0)
+                $debit += $myrow->amount;
+            else
+                $credit += $myrow->amount;
+        }
+        $arr['data'][] = array(
+            'type' => 'Saldo Akhir - ' . sql2date($_POST['trans_date_sampai']),
+            'ref' => '',
+            'tgl' => '',
+            'debit' => $running_total >= 0 ? number_format($running_total, 2) : '',
+            'kredit' => $running_total < 0 ? number_format(-$running_total, 2) : '',
+            'neraca' => '',//number_format($debit + $credit, 2),
+            'person' => '');
+        return $arr;
+    }
+
     static function get_bank_trans_for_bank_account($bank_account, $from, $to)
     {
         $criteria = new CDbCriteria();
         if ($bank_account != null)
             $criteria->addCondition("bank_act =" . $bank_account);
-        $criteria->addBetweenCondition("trans_date",$from,$to);
+        $criteria->addBetweenCondition("trans_date", $from, $to);
         $criteria->order = "trans_date, id";
         return MtBankTrans::model()->findAll($criteria);
     }
-    
-    static function get_prefs($name) {
-        $criteria = new CDbCriteria();        
-        if ($name != null) 
+
+    static function get_prefs($name)
+    {
+        $criteria = new CDbCriteria();
+        if ($name != null)
             $criteria->addCondition("name ='$name'");
         else
-            return null;        
+            return null;
         $prefs = MtSysPrefs::model()->find($criteria);
         return $prefs->value;
     }
@@ -138,7 +182,8 @@ class Mt
             return false;
     }
 
-    static function add_bank_trans($type, $trans_no, $bank_act, $ref, $date_, $amount, $person_id)
+    static function add_bank_trans($type, $trans_no, $bank_act, $ref, $date_, $amount,
+        $person_id)
     {
         $bank_trans = new MtBankTrans;
         $bank_trans->type = $type;
@@ -151,24 +196,21 @@ class Mt
         $bank_trans->save();
     }
 
-//--------------------------------------------- Gl Trans ---------------------------------------------------------------
+    //--------------------------------------------- Gl Trans ---------------------------------------------------------------
     static function get_sql_for_journal_inquiry($from, $to)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("gl_trans.tran_date,gl_trans.type,refs.reference,Sum(IF(amount>0, amount,0)) AS amount,
-                comments.memo_,gl_trans.person_id,gl_trans.type_no")
-            ->from('gl_trans')
-            ->join('comments', 'gl_trans.type = comments.type AND gl_trans.type_no = comments.type_no')
-            ->Join('refs', 'gl_trans.type = refs.type AND gl_trans.type_no = refs.type_no')
-            ->where("gl_trans.amount!=0 and gl_trans.tran_date >= '$from'
-		        AND gl_trans.tran_date <= '$to'")
-            ->group('gl_trans.type, gl_trans.type_no')
-            ->order('tran_date desc')
-            ->queryAll();
+        $rows = Yii::app()->db->createCommand()->select("gl_trans.tran_date,gl_trans.type,refs.reference,Sum(IF(amount>0, amount,0)) AS amount,
+                comments.memo_,gl_trans.person_id,gl_trans.type_no")->from('gl_trans')->
+            join('comments', 'gl_trans.type = comments.type AND gl_trans.type_no = comments.type_no')->
+            Join('refs', 'gl_trans.type = refs.type AND gl_trans.type_no = refs.type_no')->
+            where("gl_trans.amount!=0 and gl_trans.tran_date >= '$from'
+		        AND gl_trans.tran_date <= '$to'")->group('gl_trans.type, gl_trans.type_no')->
+            order('tran_date desc')->queryAll();
         return $rows;
     }
 
-    static function add_gl($type, $trans_id, $date_, $ref, $account, $memo_, $amount, $person_id)
+    static function add_gl($type, $trans_id, $date_, $ref, $account, $memo_, $amount,
+        $person_id)
     {
         $is_bank_to = Mt::is_bank_account($account);
         Mt::add_gl_trans($type, $trans_id, $date_, $account, $memo_, $amount, $person_id);
@@ -176,10 +218,11 @@ class Mt
             Mt::add_bank_trans($type, $trans_id, $is_bank_to, $ref, $date_, $amount, $person_id);
         }
         Mt::add_comments($type, $trans_id, $date_, $memo_);
-//        return $trans_id;
+        //        return $trans_id;
     }
 
-    static function add_gl_trans($type, $trans_id, $date_, $account, $memo_, $amount, $person_id)
+    static function add_gl_trans($type, $trans_id, $date_, $account, $memo_, $amount,
+        $person_id)
     {
         $gl_trans = new MtGlTrans;
         $gl_trans->type = $type;
@@ -193,7 +236,7 @@ class Mt
         return $amount;
     }
 
-//--------------------------------------------- Comments ---------------------------------------------------------------
+    //--------------------------------------------- Comments ---------------------------------------------------------------
     static function get_comments($type, $type_no)
     {
         $criteria = new CDbCriteria();
@@ -218,7 +261,8 @@ class Mt
     {
         if ($date_ == null) {
             Mt::delete_comments($type, $id);
-            Mt::add_comments($type, $id, Yii::app()->dateFormatter->format('yyyy-MM-dd', time()), $memo_);
+            Mt::add_comments($type, $id, Yii::app()->dateFormatter->format('yyyy-MM-dd',
+                time()), $memo_);
         } else {
             $criteria = new CDbCriteria();
             $criteria->addCondition("type=" . $type);
@@ -239,7 +283,7 @@ class Mt
         $comment->delete();
     }
 
-//---------------------------------------------- Report ----------------------------------------------------------------
+    //---------------------------------------------- Report ----------------------------------------------------------------
     static function get_mutasi_kas_ditangan($start_date, $end_date)
     {
         $criteria = new CDbCriteria();
@@ -247,8 +291,9 @@ class Mt
         $model = MtBankTrans::model()->findAll($criteria);
         return $model;
     }
-    
-    static function get_lap_penjualam_per_mobil($nopol,$from, $to) {
+
+    static function get_lap_penjualam_per_mobil($nopol, $from, $to)
+    {
         $rows = Yii::app()->db->createCommand("SELECT
             mt_pinjam_kendaraan.trans_date,
             mt_pinjam_kendaraan.doc_ref,
@@ -262,8 +307,9 @@ class Mt
             ")->queryAll();
         return $rows;
     }
-    
-    static function get_lap_penjualam_per_kelompok_konsumen($id_kelompok, $from, $to) {
+
+    static function get_lap_penjualam_per_kelompok_konsumen($id_kelompok, $from, $to)
+    {
         $rows = Yii::app()->db->createCommand("SELECT
         mt_pinjam_kendaraan.trans_date,
         mt_pinjam_kendaraan.doc_ref,
@@ -273,19 +319,21 @@ class Mt
         FROM mt_pinjam_kendaraan
         INNER JOIN mt_kembali_kendaraan ON mt_pinjam_kendaraan.id_pinjam = mt_kembali_kendaraan.id_pinjam
         INNER JOIN mt_kelompok_pelanggan ON mt_pinjam_kendaraan.id_kelompok = mt_kelompok_pelanggan.id_kelompok
-        WHERE mt_kelompok_pelanggan.id_kelompok = $id_kelompok AND 
-            (mt_pinjam_kendaraan.trans_date BETWEEN '$from' AND '$to')")->queryAll();
+        WHERE mt_kelompok_pelanggan.id_kelompok = $id_kelompok AND
+            (mt_pinjam_kendaraan.trans_date BETWEEN '$from' AND '$to')")->
+            queryAll();
         return $rows;
     }
 
-    static function get_arr_kode_rekening_pengeluaran($code = ""){
+    static function get_arr_kode_rekening_pengeluaran($code = "")
+    {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("account_type='".MtPrefs::TypeCostAct()."'");
-        if($code != "account_code" && $code != "")
+        $criteria->addCondition("account_type='" . MtPrefs::TypeCostAct() . "'");
+        if ($code != "account_code" && $code != "")
             $criteria->addCondition("account_code='$code'");
         $model = MtChartMaster::model()->findAll($criteria);
         $daftar = array();
-        foreach($model as $coderek){
+        foreach ($model as $coderek) {
             $daftar[$coderek['account_code']] = $coderek['account_name'];
         }
         return $daftar;
@@ -293,91 +341,72 @@ class Mt
 
     static function get_pengeluaran_detil_kode_rekening($start_date, $end_date, $code)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("a.tran_date,a.memo_,IF(a.amount > 0,a.amount,'') as debit,IF(a.amount < 0,-a.amount,'') as kredit")
-            ->from("mt_gl_trans a")
-            ->rightJoin("mt_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
-            ->leftJoin('mt_voided c',"a.type_no=c.id AND c.type=a.type")
-            ->where("b.account_code=:code and a.type != :type and ISNULL(c.date_)",array('code'=>$code,'type'=>VOID))
+        $rows = Yii::app()->db->createCommand()->select("a.tran_date,a.memo_,IF(a.amount > 0,a.amount,'') as debit,IF(a.amount < 0,-a.amount,'') as kredit")->
+            from("mt_gl_trans a")->rightJoin("mt_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end", array(
+            ':start' => $start_date,
+            ':end' => $end_date))->leftJoin('mt_voided c',
+            "a.type_no=c.id AND c.type=a.type")->where("b.account_code=:code and a.type != :type and ISNULL(c.date_)",
+            array('code' => $code, 'type' => VOID))
             //->where("b.account_code=:code",array('code'=>$code))
-            ->order("a.tran_date")
-            ->queryAll();
+            ->order("a.tran_date")->queryAll();
         return $rows;
     }
 
     static function get_pengeluaran_per_kode_rekening($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("b.account_code,b.account_name as nama_rekening,IFNULL(sum(a.amount),0) as total_beban")
-            ->from("mt_gl_trans a")
-            ->rightJoin("mt_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end",
-            array(':start' => $start_date, ':end' => $end_date))
-            ->where("b.account_type=:type and !b.inactive",
-            array(':type' => MtPrefs::TypeCostAct()))
-            ->group("b.account_name")
-            ->order("b.account_code")
-            ->queryAll();
+        $rows = Yii::app()->db->createCommand()->select("b.account_code,b.account_name as nama_rekening,IFNULL(sum(a.amount),0) as total_beban")->
+            from("mt_gl_trans a")->rightJoin("mt_chart_master b", "a.account=b.account_code
+            AND a.tran_date between :start and :end", array(':start' => $start_date,
+                ':end' => $end_date))->where("b.account_type=:type and !b.inactive", array(':type' =>
+                MtPrefs::TypeCostAct()))->group("b.account_name")->order("b.account_code")->
+            queryAll();
         return $rows;
     }
 
     static function get_total_pengeluaran($start_date, $end_date, $code = "")
     {
         $kode = $code == "" ? "" : "and b.account_code = '$code'";
-        $rows = Yii::app()->db->createCommand()
-            ->select("sum(a.amount) as total_beban")
-            ->from("mt_gl_trans a")
-            ->join("mt_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between :start and :end and b.account_type=:type $kode",
-            array(':start' => $start_date, ':end' => $end_date, ':type' => MtPrefs::TypeCostAct()))
-            ->queryScalar();
+        $rows = Yii::app()->db->createCommand()->select("sum(a.amount) as total_beban")->
+            from("mt_gl_trans a")->join("mt_chart_master b", "a.account=b.account_code")->
+            where("a.tran_date between :start and :end and b.account_type=:type $kode",
+            array(
+            ':start' => $start_date,
+            ':end' => $end_date,
+            ':type' => MtPrefs::TypeCostAct()))->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
-   
-
-
-
-
-    
 
     static function get_detil_pendapatan($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("b.account_name as nama_rekening,IFNULL(-sum(a.amount),0) as total_pendapatan")
-            ->from("mt_gl_trans a")
-            ->rightJoin("mt_chart_master b", "a.account=b.account_code and 
-                a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
-            ->where("b.account_type=:type and !b.inactive", array(':type' => MtPrefs::TypePendapatanAct()))
-            ->group("b.account_name")
-            ->order("b.account_code")
-            ->queryAll();
+        $rows = Yii::app()->db->createCommand()->select("b.account_name as nama_rekening,IFNULL(-sum(a.amount),0) as total_pendapatan")->
+            from("mt_gl_trans a")->rightJoin("mt_chart_master b",
+            "a.account=b.account_code and
+                a.tran_date between :start and :end", array(':start' => $start_date,
+                ':end' => $end_date))->where("b.account_type=:type and !b.inactive", array(':type' =>
+                MtPrefs::TypePendapatanAct()))->group("b.account_name")->order("b.account_code")->
+            queryAll();
         return $rows;
     }
 
     static function get_total_pendapatan($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()
-            ->select("-sum(a.amount) as total_pendapatan")
-            ->from("mt_gl_trans a")
-            ->join("mt_chart_master b", "a.account=b.account_code")
-            ->where("a.tran_date between :start and :end and b.account_type=:type",
-            array(':start' => $start_date, ':end' => $end_date, ':type' => MtPrefs::TypePendapatanAct()))
-            ->order("b.account_code")
-            ->queryScalar();
+        $rows = Yii::app()->db->createCommand()->select("-sum(a.amount) as total_pendapatan")->
+            from("mt_gl_trans a")->join("mt_chart_master b", "a.account=b.account_code")->
+            where("a.tran_date between :start and :end and b.account_type=:type", array(
+            ':start' => $start_date,
+            ':end' => $end_date,
+            ':type' => MtPrefs::TypePendapatanAct()))->order("b.account_code")->queryScalar();
         return $rows == null ? 0 : $rows;
     }
 
- 
 
-    static function get_penghuni_pondok($where=""){
-         return app()->db->createCommand()
-             ->from("jemaat")
-             ->join("mt_member","jemaat.nij = mt_member.jemaat_nij")
-             ->where("mt_member.inactive = 0 $where")
-             ->order("jemaat.real_name asc")
-             ->queryAll();
+    static function get_penghuni_pondok($where = "")
+    {
+        return app()->db->createCommand()->from("jemaat")->join("mt_member",
+            "jemaat.nij = mt_member.jemaat_nij")->where("mt_member.inactive = 0 $where")->
+            order("jemaat.real_name asc")->queryAll();
     }
 
     static function get_chart_master_beban()
