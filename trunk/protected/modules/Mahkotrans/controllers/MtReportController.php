@@ -298,19 +298,42 @@ class MtReportController extends GxController
             $format = $_POST['format'];
             $start_date = $_POST['trans_date_mulai'];
             $end_date = $_POST['trans_date_sampai'];
+            $id_mobil = $_POST['id_mobil'];
+            $mobil = $this->loadModel($id_mobil, 'MtMobil');
+            $nopol = $mobil->nopol;
             $start = 1;
-            $file_name = 'PenjualanPerMobil';
-            $worksheet_name = 'Penjualan per Mobil';
+            $file_name = 'LabaRugiMobil';
+            $worksheet_name = 'Laba Rugi per Mobil';
             $objPHPExcel = new PHPExcel();
-            $this->header($objPHPExcel, $start, $worksheet_name, "PENJUALAN PER MOBIL");
-            //            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")
-            //                    ->setCellValue("A$start",
-            //                            "PERIODE: " . sql2long_date($start_date) . " - " . sql2long_date($end_date))
-            //                    ->getStyle("A$start")->getFont()->setSize(12)->setBold(true);
-            //            $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
-            //            $start++;
-            //            $start++;
-            //            $start_body = $start;
+            $this->header($objPHPExcel, $start, $worksheet_name, "LABA RUGI PER MOBIL");
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "Nopol " . $nopol)->getStyle("A$start")->getFont()->
+                setSize(12)->setBold(true);
+            $start++;
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "Dari tanggal " . sql2long_date($start_date) .
+                " sampai tanggal " . sql2long_date($end_date))->getStyle("A$start")->getFont()->
+                setSize(12)->setBold(true);
+            $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
+            $start++;
+            $start++;
+            $start_body = $start;
+            // 4100 Pendapatan Sewa
+            $pen_sewa = $this->loadModel('4100', 'MtChartMaster');
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:C$start")->
+            setCellValue("A$start", $pen_sewa->account_name);
+            $tot_pen_sewa = Mt::get_sum_account_trans('4100', null, $start_date, $end_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($tot_pen_sewa < 0 ? "E$start" : "D$start",
+            		$tot_pen_sewa < 0 ? -$tot_pen_sewa : $tot_pen_sewa);
+            $start++;
+            // 4100 Pendapatan Sewa
+            $pen_sewa = $this->loadModel('4100', 'MtChartMaster');
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:C$start")->
+            setCellValue("A$start", $pen_sewa->account_name);
+            $tot_pen_sewa = Mt::get_sum_account_trans('4100', null, $start_date, $end_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($tot_pen_sewa < 0 ? "E$start" : "D$start",
+            		$tot_pen_sewa < 0 ? -$tot_pen_sewa : $tot_pen_sewa);
+            $start++;
             //            $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Nama Rekening")
             //                    ->setCellValue("B$start", "Total Beban")->setCellValue("C$start", "%")->getStyle("A$start:C$start")
             //                    ->getFont()->setBold(true);
@@ -351,7 +374,7 @@ class MtReportController extends GxController
             //            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
             //            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
             //            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
-            $this->footer($objPHPExcel, $start, $file_name, $format, "Penjualan per Mobil");
+            $this->footer($objPHPExcel, $start, $file_name, $format, $worksheet_name);
             Yii::app()->end();
         }
     }

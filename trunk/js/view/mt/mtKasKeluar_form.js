@@ -95,7 +95,6 @@ jun.MtKasKeluarWin = Ext.extend(Ext.Window, {
                         hiddenName: 'id_mobil',
                         hiddenValue: 'id_mobil',
                         valueField: 'id_mobil',
-                        //displayField: 'MtMobil::model()->representingColumn()',
                         displayField: 'nopol',
                         allowBlank:true,
                         anchor: '100%'

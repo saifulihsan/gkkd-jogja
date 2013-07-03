@@ -17,8 +17,10 @@
  * @property string $memo_
  * @property double $amount
  * @property integer $users_id
+ * @property integer $id_mobil
  *
  * @property MtChartMaster $account0
+ * @property MtMobil $idMobil
  */
 abstract class BaseMtGlTrans extends GxActiveRecord {
 
@@ -37,18 +39,19 @@ abstract class BaseMtGlTrans extends GxActiveRecord {
 	public function rules() {
 		return array(
 			array('type_no, memo_, users_id', 'required'),
-			array('type, type_no, users_id', 'numerical', 'integerOnly'=>true),
+			array('type, type_no, users_id, id_mobil', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('account', 'length', 'max'=>15),
 			array('tran_date', 'safe'),
-			array('type, tran_date, account, amount', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('counter, type, type_no, tran_date, account, memo_, amount, users_id', 'safe', 'on'=>'search'),
+			array('type, tran_date, account, amount, id_mobil', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('counter, type, type_no, tran_date, account, memo_, amount, users_id, id_mobil', 'safe', 'on'=>'search'),
 		);
 	}
 
 	public function relations() {
 		return array(
 			'account0' => array(self::BELONGS_TO, 'MtChartMaster', 'account'),
+			'idMobil' => array(self::BELONGS_TO, 'MtMobil', 'id_mobil'),
 		);
 	}
 
@@ -67,6 +70,7 @@ abstract class BaseMtGlTrans extends GxActiveRecord {
 			'memo_' => Yii::t('app', 'Memo'),
 			'amount' => Yii::t('app', 'Amount'),
 			'users_id' => Yii::t('app', 'Users'),
+			'id_mobil' => Yii::t('app', 'Id Mobil'),
 		);
 	}
 
@@ -81,6 +85,7 @@ abstract class BaseMtGlTrans extends GxActiveRecord {
 		$criteria->compare('memo_', $this->memo_, true);
 		$criteria->compare('amount', $this->amount);
 		$criteria->compare('users_id', $this->users_id);
+		$criteria->compare('id_mobil', $this->id_mobil);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

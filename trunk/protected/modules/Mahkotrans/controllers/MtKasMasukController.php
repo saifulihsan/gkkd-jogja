@@ -65,9 +65,9 @@ class MtKasMasukController extends GxController {
                 $act_donatur = $kas_masuk->account_code;
                 //debet kode kas/bank - kredit pendapatan
                 Mt::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account, '-',
-                        $kas_masuk->amount, $user);
+                        $kas_masuk->amount, $user,$kas_masuk->id_mobil);
                 Mt::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $act_donatur,
-                        $kas_masuk->note, -$kas_masuk->amount, $user);
+                        $kas_masuk->note, -$kas_masuk->amount, $user,$kas_masuk->id_mobil);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -142,9 +142,9 @@ class MtKasMasukController extends GxController {
                 $act_donatur = $kas_masuk->account_code;
                 //void gl
                 Mt::add_gl(VOID, $void->id_voided, $date, $docref, $act_donatur, "VOID Kas Masuk $docref",
-                        $kas_masuk->amount, $user);
+                        $kas_masuk->amount, $user,$kas_masuk->id_mobil);
                 Mt::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code,
-                        "VOID Kas Masuk $docref", -$kas_masuk->amount, $user);
+                        "VOID Kas Masuk $docref", -$kas_masuk->amount, $user,$kas_masuk->id_mobil);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
