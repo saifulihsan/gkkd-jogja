@@ -3,7 +3,7 @@
 class MtBankTransController extends GxController
 {
     public function actionView()
-    {        
+    {
         echo CJSON::encode(Mt::get_bank_trans_view());
         Yii::app()->end();
     }
@@ -63,9 +63,9 @@ class MtBankTransController extends GxController
                 $user = Yii::app()->user->getId();
                 //debet kode bank tujuan - kredit kode bank asal
                 Mt::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_tujuan,
-                    $memo, $amount, $user);
+                    $memo, $amount, $user, null);
                 Mt::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_asal, $memo, -$amount,
-                    $user);
+                    $user, null);
                 $ref->save(BANKTRANSFER, $trans_no, $docref);
                 $id = $docref;
                 $transaction->commit();
@@ -83,13 +83,6 @@ class MtBankTransController extends GxController
             Yii::app()->end();
         }
     }
-
-//    public function actionPrint(){
-//        echo "<html><head></head>
-//        <body onLoad='alert();'>
-//        Teeeeeeeeeeesstttt
-//        </body></html>";
-//    }
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id, 'MtBankTrans');

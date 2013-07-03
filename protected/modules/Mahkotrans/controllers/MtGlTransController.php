@@ -12,11 +12,11 @@ class MtGlTransController extends GxController {
                 'type_no' => $myrow['type_no'],'ref' => $myrow['reference'], 'amount' => number_format($myrow['amount'],
                         2), 'person' => $myrow['user_id']);
         }
-        
+
         echo CJSON::encode($arr);
-        Yii::app()->end();        
+        Yii::app()->end();
     }
-    
+
     public function actionViewJurnalUmum() {
         global $systypes_array;
         $from = $_POST['from_date'];
@@ -52,7 +52,7 @@ class MtGlTransController extends GxController {
                 foreach ($detils as $detil) {
                     $amount = $detil['debit'] > 0 ? $detil['debit'] : -$detil['kredit'];
                     Mt::add_gl(JURNAL_UMUM, $jurnal_umum_id, $_POST['tran_date'], $docref,
-                            $detil['account'], "-", $amount, $user);
+                            $detil['account'], "-", $amount, $user,$detil['id_mobil']);
                 }
                 $ref->save(JURNAL_UMUM, $jurnal_umum_id, $docref);
                 $transaction->commit();

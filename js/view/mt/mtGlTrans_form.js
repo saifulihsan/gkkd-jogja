@@ -27,14 +27,14 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                         fieldLabel: 'Tanggal Transaksi',
                         name: 'tran_date',
                         id: 'tran_dateid',
-                        format: 'd M Y',
+                        format: 'd M Y'
                     },
                     new jun.MtGlTransGrid({
 //                        x: 5,
 //                        y: 122,
                         height: 285,
                         frameHeader: false,
-                        header: false,
+                        header: false
                         //modez:this.modez
                     }),
                     {
@@ -44,7 +44,7 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                         name: 'tot_debit',
                         id: 'tot_debit_id',
                         readOnly: true,
-                        ref: '../TotDebit',
+                        ref: '../TotDebit'
                     },
                     {
                         xtype: 'numericfield',
@@ -53,8 +53,8 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
                         name: 'tot_kredit',
                         id: 'tot_kredit_id',
                         readOnly: true,
-                        ref: '../TotKredit',
-                    },
+                        ref: '../TotKredit'
+                    }
                 ]
             }
         ];
@@ -109,7 +109,7 @@ jun.MtGlTransWin = Ext.extend(Ext.Window, {
         Ext.getCmp('form-MtGlTrans').getForm().submit({
             url: "Mahkotrans/MtGlTrans/CreateJurnalUmum?output=json",
             params: {
-                detil: Ext.encode(Ext.pluck(jun.rztMtGlTrans.data.items, 'data')),
+                detil: Ext.encode(Ext.pluck(jun.rztMtGlTrans.data.items, 'data'))
             },
             timeOut: 1000,
             scope: this,
@@ -172,7 +172,7 @@ jun.MtGlTransDetilWin = Ext.extend(Ext.Window, {
     title: 'Alokasi',
     modez: 1,
     width: 335,
-    height: 140,
+    height: 165,
     layout: 'form',
     modal: true,
     padding: 5,
@@ -213,17 +213,32 @@ jun.MtGlTransDetilWin = Ext.extend(Ext.Window, {
                         lastQuery: ''
                     },
                     {
+                        xtype: 'combo',
+                        ref: '../mobil',
+                        typeAhead: true,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        fieldLabel: 'No. Polisi',
+                        store: jun.rztMtMobil,
+                        hiddenName: 'id_mobil',
+                        hiddenValue: 'id_mobil',
+                        valueField: 'id_mobil',
+                        displayField: 'nopol',
+                        allowBlank:true,
+                        anchor: '100%'
+                    },
+                    {
                         xtype: 'numericfield',
                         fieldLabel: 'Jumlah',
                         hideLabel: false,
-                        //hidden:true,
                         name: 'amount',
                         id: 'amountid',
                         ref: '../amount',
                         maxLength: 30,
                         value: 0,
                         anchor: '100%'
-                    },
+                    }
                 ]
             }
         ];
@@ -248,6 +263,7 @@ jun.MtGlTransDetilWin = Ext.extend(Ext.Window, {
                 }
             ]
         };
+        jun.rztMtMobil.reload();
         jun.rztMtChartMaster.reload();
         jun.MtGlTransDetilWin.superclass.initComponent.call(this);
         this.on('activate', this.onActivate, this);
@@ -286,7 +302,8 @@ jun.MtGlTransDetilWin = Ext.extend(Ext.Window, {
         var e = new detil({
             account: this.cmbkode.value,
             debit: this.debit ? parseFloat(this.amount.value) : 0,
-            kredit: this.debit ? 0 : parseFloat(this.amount.value)
+            kredit: this.debit ? 0 : parseFloat(this.amount.value),
+            id_mobil: this.mobil.value
         });
 
         jun.rztMtGlTrans.insert(jun.rztMtGlTrans.getCount(), e);

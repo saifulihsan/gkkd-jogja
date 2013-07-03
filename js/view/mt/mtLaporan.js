@@ -496,11 +496,13 @@ jun.MtLabaRugiPerMobil = Ext.extend(Ext.Window, {
     onbtnPrintclick: function() {
         var mulai = this.trans_date_mulai.hiddenField.dom.value;
         var sampai = this.trans_date_sampai.hiddenField.dom.value;
+        var mobil = this.nopol.getValue();
         var win = window.open('', 'form', 'width=800,height=600,location=no,menubar=0,status=0,resizeable,scrollbars');
         win.document.write("<html><title>Laba Rugi per Mobil</title><body>" +
                 "<form id='form' method='POST' action='Mahkotrans/MtReport/LabaRugiPerMobil'>" +
                 "<input type='hidden' name='trans_date_mulai' value='" + mulai + "'>" +
                 "<input type='hidden' name='trans_date_sampai' value='" + sampai + "'>" +
+                "<input type='hidden' name='id_mobil' value='" + mobil + "'>" +
                 "<input type='hidden' name='format' value='html'>" +
                 "</form></body></html>");
         win.document.close();
@@ -522,7 +524,7 @@ jun.MtLabaRugiPerMobil = Ext.extend(Ext.Window, {
     }
 });
 jun.MtLabaRugiMahkotrans = Ext.extend(Ext.Window, {
-    title: 'Laba Rugi per Mobil',
+    title: 'Laba Rugi Mahkotrans',
     iconCls: 'silk13-report',
     modez: 1,
     width: 350,
