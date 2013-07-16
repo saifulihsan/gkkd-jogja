@@ -71,11 +71,11 @@ jun.comboTandaPengenal = Ext.extend(Ext.form.ComboBox, {
         jun.comboActive.superclass.initComponent.call(this);
     }
 });
-jun.mtStatusMobilStore= new Ext.data.ArrayStore({
+jun.mtStatusMobilStore = new Ext.data.ArrayStore({
     fields: ['statusVal', 'statusName'],
     data: [
         ['Pemilik', 'Pemilik'],
-        ['Rental Lain', 'Rental Lain']        
+        ['Rental Lain', 'Rental Lain']
     ]
 });
 jun.mtStatusMobil = Ext.extend(Ext.form.ComboBox, {

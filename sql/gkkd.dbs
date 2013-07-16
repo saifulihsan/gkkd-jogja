@@ -2057,7 +2057,6 @@
 		<entity schema="gkkd" name="pe_sys_types" color="c0d4f3" x="1470" y="255" />
 	</layout>
 	<layout id="Layout4727585" name="Group_mt" show_relation_columns="y" >
-		<entity schema="gkkd" name="mt_voided" color="c0d4f3" x="255" y="1200" />
 		<entity schema="gkkd" name="mt_sys_prefs" color="c0d4f3" x="270" y="180" />
 		<entity schema="gkkd" name="mt_sys_types" color="c0d4f3" x="45" y="990" />
 		<entity schema="gkkd" name="mt_comments" color="c0d4f3" x="75" y="495" />
@@ -2077,5 +2076,6 @@
 		<entity schema="gkkd" name="mt_mobil" color="c0d4f3" x="915" y="60" />
 		<entity schema="gkkd" name="mt_gl_trans" color="c0d4f3" x="960" y="435" />
 		<entity schema="gkkd" name="mt_refs" color="c0d4f3" x="690" y="1305" />
+		<entity schema="gkkd" name="mt_voided" color="c0d4f3" x="255" y="1200" />
 	</layout>
 </project>
