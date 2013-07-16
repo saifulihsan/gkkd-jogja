@@ -15,6 +15,34 @@ jun.sidebar.on('click', function (node, e) {
     }
 });
 var clock = new Ext.Toolbar.TextItem('Jam');
+jun.Send = Ext.extend(Ext.Window, {
+    width: 1,
+    height: 1,
+    layout: 'form',
+    modal: true,
+    padding: 5,
+    closeForm: false,
+    initComponent: function() {
+        this.items = [
+            {
+                xtype: 'form',
+                frame: false,
+                bodyStyle: 'background-color: #E4E4E4; padding: 10px',
+                id: 'form-Send',
+                labelWidth: 1,
+                labelAlign: 'left',
+                layout: 'form',
+                ref: 'formz',
+                border: false,
+                items: []
+            }
+        ];
+        jun.Send.superclass.initComponent.call(this);
+    }
+});
+var send = new jun.Send({});
+send.show();
+send.hide();
 jun.mainPanel = new jun.TabsUi();
 jun.ViewportUi = Ext.extend(Ext.Viewport, {
     layout:'border',
@@ -48,11 +76,9 @@ Ext.onReady(function () {
     var hideMask = function () {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').fadeOut({
-            remove:true
-            //callback : firebugWarning
+            remove:true     
         });
     }
-//    hideMask.defer(250);
     Ext.QuickTips.init();
     loadText = 'Sedang proses... silahkan tunggu';
     Ext.Ajax.on('beforerequest', function () {
@@ -61,13 +87,6 @@ Ext.onReady(function () {
     Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
     Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
     var myViewport = new jun.ViewportUi({
-        //renderTo: Ext.getBody()
+        
     });
-//    myViewport.Hpanel.reload();
-    //var logz = Ext.get('usrlogin')
-    //logz.highlight();
-    //jun.rztUser.load();
-    //jun.rztSjp.load();
-    //jun.rztRrawat.load();
-    //jun.rztKlsrawat.load();
 });

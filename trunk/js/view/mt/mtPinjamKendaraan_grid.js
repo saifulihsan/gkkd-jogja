@@ -133,6 +133,14 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                     xtype: 'button',
                     text: 'Refresh',
                     ref: '../btnRefresh'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Print',
+                    ref: '../btnPrint'
                 }
             ]
         };
@@ -143,7 +151,27 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         this.btnDelete.on('Click', this.deleteRec, this);
         this.btnKembali.on('Click', this.kembaliForm, this);
         this.btnRefresh.on('Click', this.refreshData, this);
+        this.btnPrint.on('Click', this.print, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+    },
+    print: function() {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih data peminjaman!");
+            return;
+        }
+        var idz = selectedz.json.id_pinjam;
+        window.open("Mahkotrans/MtPinjamKendaraan/print/id/"+idz, "_blank");
+//        var simple = new jun.MtSend({});
+//        simple.show();
+//        simple.hide();
+//        Ext.getCmp('form-Send').getForm().submit({
+//            standardSubmit : true,
+//            url : 'Mahkotrans/MtPinjamKendaraan/print',
+//            params: {
+//                id: idz,
+//            },
+//        });             
     },
     refreshData: function() {
         jun.rztMtPinjamKendaraan.reload();
@@ -161,7 +189,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
     loadEditForm: function() {
         var selectedz = this.sm.getSelected();
         if (selectedz == "") {
-            Ext.MessageBox.alert("Warning", "Anda belum memilih Jenis Pelayanan");
+            Ext.MessageBox.alert("Warning", "Anda belum memilih data peminjaman!");
             return;
         }
         var idz = selectedz.json.id_pinjam;

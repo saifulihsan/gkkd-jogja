@@ -546,7 +546,7 @@ jun.MtLabaRugiMahkotrans = Ext.extend(Ext.Window, {
                 layout: 'form',
                 ref: 'formz',
                 border: false,
-                items: [                   
+                items: [
                     {
                         xtype: 'xdatefield',
                         ref: '../trans_date_mulai',
@@ -635,3 +635,5 @@ jun.MtLabaRugiMahkotrans = Ext.extend(Ext.Window, {
         form.submit();
     }
 });
+
+
