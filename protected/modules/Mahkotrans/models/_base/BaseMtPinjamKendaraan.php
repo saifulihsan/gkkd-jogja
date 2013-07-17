@@ -39,6 +39,9 @@
  * @property string $tgl_rencana_kembali
  * @property integer $users_id
  * @property integer $is_back
+ * @property double $trf_bulan
+ * @property double $trf_hari
+ * @property double $trf_jam
  *
  * @property MtKembaliKendaraan[] $mtKembaliKendaraans
  * @property MtPelanggan $idPelanggan
@@ -65,14 +68,14 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		return array(
 			array('doc_ref, id_pelanggan, id_kelompok, id_mobil', 'required'),
 			array('id_pelanggan, id_kelompok, season, sewa_bln, sewa_hari, sewa_jam, id_driver, id_mobil, users_id, is_back', 'numerical', 'integerOnly'=>true),
-			array('ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total', 'numerical'),
+			array('ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, trf_bulan, trf_hari, trf_jam', 'numerical'),
 			array('doc_ref', 'length', 'max'=>15),
 			array('tanda_pengenal, no_identitas, jaminan, trans_via', 'length', 'max'=>30),
 			array('jaminan_desc', 'length', 'max'=>225),
 			array('no_bukti_bayar', 'length', 'max'=>50),
 			array('entry_time, trans_date, tgl_pinjam, tgl_rencana_kembali', 'safe'),
-			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_pinjam, doc_ref, entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, id_pelanggan, id_kelompok, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, id_mobil, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back', 'safe', 'on'=>'search'),
+			array('entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back, trf_bulan, trf_hari, trf_jam', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('id_pinjam, doc_ref, entry_time, trans_date, tanda_pengenal, no_identitas, jaminan, jaminan_desc, id_pelanggan, id_kelompok, tgl_pinjam, season, sewa_bln, sewa_hari, sewa_jam, trans_via, no_bukti_bayar, id_driver, id_mobil, ongkos_sewa, ongkos_driver, ongkos_bbm, total_ongkos, dp, sisa_tagihan, disc, total, tgl_rencana_kembali, users_id, is_back, trf_bulan, trf_hari, trf_jam', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -124,6 +127,9 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 			'tgl_rencana_kembali' => Yii::t('app', 'Tgl Rencana Kembali'),
 			'users_id' => Yii::t('app', 'Users'),
 			'is_back' => Yii::t('app', 'Is Back'),
+			'trf_bulan' => Yii::t('app', 'Trf Bulan'),
+			'trf_hari' => Yii::t('app', 'Trf Hari'),
+			'trf_jam' => Yii::t('app', 'Trf Jam'),
 		);
 	}
 
@@ -160,6 +166,9 @@ abstract class BaseMtPinjamKendaraan extends GxActiveRecord {
 		$criteria->compare('tgl_rencana_kembali', $this->tgl_rencana_kembali, true);
 		$criteria->compare('users_id', $this->users_id);
 		$criteria->compare('is_back', $this->is_back);
+		$criteria->compare('trf_bulan', $this->trf_bulan);
+		$criteria->compare('trf_hari', $this->trf_hari);
+		$criteria->compare('trf_jam', $this->trf_jam);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,

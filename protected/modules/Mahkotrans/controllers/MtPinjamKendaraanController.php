@@ -217,12 +217,7 @@ class MtPinjamKendaraanController extends GxController {
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
         $objPHPExcel->setActiveSheetIndex(0)->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::
                 PAPERSIZE_A4);
-        $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setLeft(0.1 / 2.54);
-        $objPHPExcel->setActiveSheetIndex(0)->getPageMargins()->setRight(0.1 / 2.54);
-//            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-//                    setCellValue("A$start", $report_title)->getStyle("A$start")->getFont()->setSize(18)->
-//                    setBold(true);
-//            $start++;
+        $start_body = $start;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(16)->
                 setBold(true);
@@ -233,108 +228,256 @@ class MtPinjamKendaraanController extends GxController {
                         "Vila Seturan Indah Blok D 10 Yogyakarta")
                 ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
         $start++;
-
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
                 ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+        $styleArray = array('borders' => array('bottom' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_THIN)));
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
+                applyFromArray($styleArray);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PENYEWAAN")
-                ->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Nomor")->setCellValue("B$start",
-                        $pinjam->doc_ref)
+                        ": ".$pinjam->doc_ref)
                 ->setCellValue("D$start", "Tanggal")->setCellValue("E$start",
-                        $pinjam->trans_date);
+                ": " .$pinjam->trans_date);
         $start++;
-         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Nama Konsumen")->setCellValue("B$start",
-                        $pinjam->idPelanggan->nama)
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Nama Konsumen")->setCellValue("B$start",
+                        ": " .$pinjam->idPelanggan->nama)
                 ->setCellValue("D$start", "Kelompok Konsumen")->setCellValue("E$start",
-                        $pinjam->idKelompok->nama);
+                ": " .$pinjam->idKelompok->nama);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
                         "Tanda Pengenal")->setCellValue("B$start",
-                        $pinjam->tanda_pengenal)
+                        ": " .$pinjam->tanda_pengenal)
                 ->setCellValue("D$start", "No. Identitas")->setCellValue("E$start",
-                        $pinjam->no_identitas);
+                ": " .$pinjam->no_identitas);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                        "Jaminan")->mergeCells("B$start:G$start")->setCellValue("B$start",
-                        $pinjam->jaminan.", ".$pinjam->jaminan_desc) ;
+                "Jaminan")->mergeCells("B$start:G$start")->setCellValue("B$start",
+                ": " .$pinjam->jaminan . ", " . $pinjam->jaminan_desc);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                        "Tanggal/Jam Pinjam")->setCellValue("B$start",
-                        $pinjam->tgl_pinjam)
-                ->setCellValue("D$start", "Tanggal/Jam Selesai")->setCellValue("E$start",
-                        $pinjam->tgl_rencana_kembali);
+                        "Tanggal / Jam Pinjam")->setCellValue("B$start",
+                        ": " .$pinjam->tgl_pinjam)
+                ->setCellValue("D$start", "Tanggal / Jam Selesai")->setCellValue("E$start",
+                ": " .$pinjam->tgl_rencana_kembali);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                        "Nopol/Jenis Mobil")->setCellValue("B$start",
-                        $pinjam->tanda_pengenal)
+                        "Nopol / Jenis Mobil")->setCellValue("B$start",
+                        ": " .$pinjam->idMobil->nopol . " / " . $pinjam->idMobil->jenis)
                 ->setCellValue("D$start", "Season")->setCellValue("E$start",
-                        $pinjam->season == 0 ? "Low" : "High");
+                $pinjam->season == 0 ? ": Low" : ": High");
         $start++;
+        $styleArray = array('borders' => array('bottom' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_DASHED)));
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PERHITUNGAN ONGKOS SEWA")
-                ->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
-//            $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
-//            $start++;
-//            $start++;
-        $start_body = $start;
-//            $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Type")->setCellValue("B$start",
-//                            "Ref. Dokumen")->setCellValue("C$start", "Tanggal")->setCellValue("D$start",
-//                            "Debit")->setCellValue("E$start", "Kredit")->setCellValue("F$start",
-//                            "Saldo")->getStyle("A$start:F$start")
-//                    ->getFont()->setBold(true);
-//            $start++;
-//            $arr = Mt::get_bank_trans_view();
-//            foreach ($arr['data'] as $row) {
-//                $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-//                                $row['type'])->
-//                        setCellValue("B$start", $row['ref'])->setCellValue("C$start",
-//                                sql2date($row['tgl']))->
-//                        setCellValue("D$start", $row['debit'])->setCellValue("E$start",
-//                                $row['kredit'])->
-//                        setCellValue("F$start", $row['neraca']);
-//                $start++;
-//            }
-        $end_body = $start - 1;
-//            $styleArray = array('borders' => array('allborders' => array('style' =>
-//                        PHPExcel_Style_Border::BORDER_THIN)));
-//            $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:F$end_body")->
-//                    applyFromArray($styleArray);
-        $start_row = $start_body + 1;
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("D$start_body:F$end_body")->
-                getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("A")->setAutoSize(true);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("B")->setAutoSize(true);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("C")->setAutoSize(true);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("D")->setAutoSize(true);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("E")->setAutoSize(true);
-//            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension("F")->setAutoSize(true);
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
         $start++;
-//            $jemaat = get_jemaat_from_user_id(Yii::app()->user->getId());
-//            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-//                    setCellValue("A$start",
-//                            "Dicetak oleh: " . $jemaat->real_name);
-//            $start++;
-//            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-//                    setCellValue("A$start",
-//                            "Pada tanggal " . get_date_today('dd/MM/yyyy') . " jam " .
-//                            get_time_now());
+        $start_body = $start;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Nama Item")->setCellValue("C$start", "Jumlah")
+                ->setCellValue("D$start", "Tarif")->setCellValue("G$start",
+                "Total")->getStyle("B$start:G$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Mobil")
+                ->setCellValue("B$start", "Per Bulan")
+                ->setCellValue("C$start",
+                        $pinjam->sewa_bln)->setCellValue("D$start",
+                        $pinjam->trf_bulan)
+                ->setCellValue("G$start", $pinjam->sewa_bln * $pinjam->trf_bulan);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",$pinjam->sewa_hari)
+                ->setCellValue("B$start", "Per Hari")
+                ->setCellValue("D$start",$pinjam->trf_hari)
+                ->setCellValue("G$start", $pinjam->sewa_hari * $pinjam->trf_hari);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",$pinjam->sewa_jam)
+                ->setCellValue("B$start", "Per 12 Jam")
+                ->setCellValue("D$start",$pinjam->trf_jam)
+                ->setCellValue("G$start", $pinjam->sewa_jam * $pinjam->trf_jam);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                "Lembar 1 : Untuk Konsumen")->setCellValue("C$start", "Total Sewa")->setCellValue("G$start",
+                $pinjam->ongkos_sewa);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Driver")->setCellValue("G$start",
+                $pinjam->ongkos_driver);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Bensin")
+                ->setCellValue("G$start", $pinjam->ongkos_bbm);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
+                        "Total")
+                ->setCellValue("G$start", $pinjam->total_ongkos);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Diskon")
+                ->setCellValue("G$start", $pinjam->disc);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("C$start:F$start")
+                ->setCellValue("C$start",
+                        "DP " . $pinjam->trans_via . " / No. Bukti : " . $pinjam->no_bukti_bayar)
+                ->setCellValue("G$start", $pinjam->dp);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
+                        "Sisa Tagihan")
+                ->setCellValue("G$start", $pinjam->sisa_tagihan);
+        $end_body = $start - 1;
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("C$start_body:G$start")->
+                getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);
+        
+//=================================================================================================================
+            
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start",
+                        "Vila Seturan Indah Blok D 10 Yogyakarta")
+                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
+                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+        $styleArray = array('borders' => array('bottom' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_THIN)));
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "PENYEWAAN")
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Nomor")->setCellValue("B$start",
+                        ": " . $pinjam->doc_ref)
+                ->setCellValue("D$start", "Tanggal")->setCellValue("E$start",
+                ": " . $pinjam->trans_date);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Nama Konsumen")->setCellValue("B$start",
+                        ": " . $pinjam->idPelanggan->nama)
+                ->setCellValue("D$start", "Kelompok Konsumen")->setCellValue("E$start",
+                ": " . $pinjam->idKelompok->nama);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Tanda Pengenal")->setCellValue("B$start",
+                        ": " . $pinjam->tanda_pengenal)
+                ->setCellValue("D$start", "No. Identitas")->setCellValue("E$start",
+                ": " . $pinjam->no_identitas);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Jaminan")->mergeCells("B$start:G$start")->setCellValue("B$start",
+                ": " . $pinjam->jaminan . ", " . $pinjam->jaminan_desc);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Tanggal / Jam Pinjam")->setCellValue("B$start",
+                        ": " . $pinjam->tgl_pinjam)
+                ->setCellValue("D$start", "Tanggal / Jam Selesai")->setCellValue("E$start",
+                ": " . $pinjam->tgl_rencana_kembali);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Nopol / Jenis Mobil")->setCellValue("B$start",
+                        ": " . $pinjam->idMobil->nopol . " / " . $pinjam->idMobil->jenis)
+                ->setCellValue("D$start", "Season")->setCellValue("E$start",
+                $pinjam->season == 0 ? ": Low" : ": High");
+        $start++;
+        $styleArray = array('borders' => array('bottom' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_DASHED)));
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "PERHITUNGAN ONGKOS SEWA")
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $start++;
+        $start_body = $start;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                        "Nama Item")->setCellValue("C$start", "Jumlah")
+                ->setCellValue("D$start", "Tarif")->setCellValue("G$start",
+                "Total")->getStyle("B$start:G$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start", "Mobil")
+                ->setCellValue("B$start", "Per Bulan")
+                ->setCellValue("C$start", $pinjam->sewa_bln)->setCellValue("D$start",
+                        $pinjam->trf_bulan)
+                ->setCellValue("G$start", $pinjam->sewa_bln * $pinjam->trf_bulan);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
+                        $pinjam->sewa_hari)
+                ->setCellValue("B$start", "Per Hari")
+                ->setCellValue("D$start", $pinjam->trf_hari)
+                ->setCellValue("G$start", $pinjam->sewa_hari * $pinjam->trf_hari);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
+                        $pinjam->sewa_jam)
+                ->setCellValue("B$start", "Per 12 Jam")
+                ->setCellValue("D$start", $pinjam->trf_jam)
+                ->setCellValue("G$start", $pinjam->sewa_jam * $pinjam->trf_jam);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                "Lembar 2 : Untuk Arsip")->setCellValue("C$start",
+                "Total Sewa")->setCellValue("G$start", $pinjam->ongkos_sewa);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Driver")->setCellValue("G$start",
+                $pinjam->ongkos_driver);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Bensin")
+                ->setCellValue("G$start", $pinjam->ongkos_bbm);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Total")
+                ->setCellValue("G$start", $pinjam->total_ongkos);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start", "Diskon")
+                ->setCellValue("G$start", $pinjam->disc);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("C$start:F$start")
+                ->setCellValue("C$start",
+                        "DP " . $pinjam->trans_via . " / No. Bukti : " . $pinjam->no_bukti_bayar)
+                ->setCellValue("G$start", $pinjam->dp);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
+                        "Sisa Tagihan")
+                ->setCellValue("G$start", $pinjam->sisa_tagihan);
+        $end_body = $start - 1;
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("C$start_body:G$start")->
+                getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);        
         ob_end_clean();
         ob_start();
         $objPHPExcel->getActiveSheet()->setShowGridlines(false);
-        $mPDF1 = Yii::app()->ePdf->mpdf();
-        $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4');
+        $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4', 0, '', 5, 5, 6, 0, 0, 0, 'P');
         $objWriter = new PHPExcel_Writer_HTML($objPHPExcel);
-        $header = $objWriter->generateHTMLHeader(true);
-        $html = $header . $objWriter->generateStyles(true) . $objWriter->
-                        generateSheetData() . $objWriter->generateHTMLFooter();
-
+        $html =  $objWriter->generateStyles(true) . $objWriter->
+                        generateSheetData();
         $mPDF1->WriteHTML($html);
-        $mPDF1->Output('MutasiKasDitangan.pdf', 'D');
+        $mPDF1->Output($file_name, 'D');
         Yii::app()->end();
-//        }
     }
 }
