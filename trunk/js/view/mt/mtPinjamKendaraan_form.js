@@ -584,6 +584,20 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         height: 20,
                         width: 200,
                     },
+                    {
+                        xtype: 'hidden',
+                        name: 'trf_bulan',
+                        ref: '../trf_bulan',
+                    },
+                    {
+                        xtype: 'hidden',
+                        name: 'trf_hari',
+                        ref: '../trf_hari',
+                    }, {
+                        xtype: 'hidden',
+                        name: 'trf_jam',
+                        ref: '../trf_jam',
+                    }
                 ]
             }
         ];
@@ -657,6 +671,9 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                 parseFloat(mobil.data.tarif_bulanan);
         var tarif_hari = season === 0 ? mobil_tarif_24 : mobil_tarif_24_h;
         var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
+        this.trf_bulan.setValue(mobil_tarif_bulan);       
+        this.trf_hari.setValue(tarif_hari);        
+        this.trf_jam.setValue(tarif_jam);        
         var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
         var ong_jam = parseFloat(sewa_jam) > 0 ? tarif_jam : 0;

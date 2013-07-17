@@ -193,6 +193,10 @@ function percent_format($value, $decimal = 0) {
     return number_format($value * 100, $decimal) . '%';
 }
 
+function curr_format($value, $decimal = 0){
+    return "Rp".number_format($value * 100, $decimal);
+}
+
 function acc_format($value, $decimal = 0) {
     $normalize = $value < 0 ? -$value : $value;
     $print = number_format($normalize, $decimal);

@@ -37,6 +37,9 @@ jun.MtPinjamKendaraanstore = Ext.extend(Ext.data.JsonStore, {
                 {name: 'tgl_rencana_kembali'},
                 {name: 'users_id'},
                 {name: 'is_back'},
+                {name: 'trf_bulan'},
+                {name: 'trf_hari'},
+                {name: 'trf_jam'},
             ]
         }, cfg));
     }
