@@ -161,17 +161,7 @@ jun.MtPinjamKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var idz = selectedz.json.id_pinjam;
-        window.open("Mahkotrans/MtPinjamKendaraan/print/id/"+idz, "_blank");
-//        var simple = new jun.MtSend({});
-//        simple.show();
-//        simple.hide();
-//        Ext.getCmp('form-Send').getForm().submit({
-//            standardSubmit : true,
-//            url : 'Mahkotrans/MtPinjamKendaraan/print',
-//            params: {
-//                id: idz,
-//            },
-//        });             
+        window.open("Mahkotrans/MtPinjamKendaraan/print/id/"+idz, "_blank");         
     },
     refreshData: function() {
         jun.rztMtPinjamKendaraan.reload();

@@ -484,7 +484,6 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         allowBlank: true,
                         emptyText: 'Non Driver',
                         ref: '../driver',
-                        readOnly: true,
                         x: 100,
                         y: 302,
                         height: 20,
@@ -808,6 +807,22 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
         this.btnSave.on('click', this.onbtnSaveclick, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.tgl_kembali.on('change', this.onDurationChange, this);
+        this.ongkos_driver.on('change', this.onDurationChange, this);
+        this.ongkos_bbm.on('change', this.onDurationChange, this);
+        this.driver.on('change', this.onDriverChange, this);
+        this.ongkos_driver.on('change', this.onDriverChange, this);
+        this.ongkos_bbm.on('change', this.calculateTotal, this);
+    },
+    onDriverChange: function() {
+        if (this.driver.getValue() === "" || this.driver.getValue() === null) {
+            this.ongkos_driver.setValue(0);
+        } else {
+            var ong = parseFloat(this.ongkos_driver.getValue());
+            if (ong < 75000) {
+                this.ongkos_driver.setValue(75000);
+            }
+        }
+        this.calculateTotal();
     },
     calculateTotal: function() {
         var id_mobil = this.nopol.getValue();
@@ -955,7 +970,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                 this.btnDisabled(false);
                 if (a.failureType == "client")
                     return;
-                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");                
+                Ext.MessageBox.alert("Error", "Can't Communicate With The Server");
             }
 
         });

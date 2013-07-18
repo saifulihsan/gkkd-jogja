@@ -333,6 +333,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         allowBlank: true,
                         emptyText: 'Non Driver',
                         ref: '../driver',
+                        readOnly: true,
                         x: 100,
                         y: 302,
                         height: 20,
@@ -597,6 +598,10 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         xtype: 'hidden',
                         name: 'trf_jam',
                         ref: '../trf_jam',
+                    }, {
+                        xtype: 'hidden',
+                        name: 'trf_over_persen',
+                        ref: '../trf_over_persen',
                     }
                 ]
             }
@@ -669,11 +674,13 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                 parseFloat(mobil.data.tarif_high_24);
         var mobil_tarif_bulan = is_other ? parseFloat(mobil.data.other_tarif_bulanan) :
                 parseFloat(mobil.data.tarif_bulanan);
+        var over = is_other ? parseFloat(mobil.data.other_overtime) : parseFloat(mobil.data.overtime);
         var tarif_hari = season === 0 ? mobil_tarif_24 : mobil_tarif_24_h;
         var tarif_jam = season === 0 ? mobil_tarif_12 : mobil_tarif_12_h;
-        this.trf_bulan.setValue(mobil_tarif_bulan);       
-        this.trf_hari.setValue(tarif_hari);        
-        this.trf_jam.setValue(tarif_jam);        
+        this.trf_bulan.setValue(mobil_tarif_bulan);
+        this.trf_hari.setValue(tarif_hari);
+        this.trf_jam.setValue(tarif_jam);
+        this.trf_over_persen.setValue(tarif_hari * (over / 100));
         var ong_bln = mobil_tarif_bulan * parseFloat(sewa_bln);
         var ong_hari = tarif_hari * parseFloat(sewa_hari);
         var ong_jam = parseFloat(sewa_jam) > 0 ? tarif_jam : 0;

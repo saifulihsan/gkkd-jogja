@@ -439,6 +439,7 @@
 			<column name="trf_bulan" type="DOUBLE" jt="8" />
 			<column name="trf_hari" type="DOUBLE" jt="8" />
 			<column name="trf_jam" type="DOUBLE" jt="8" />
+			<column name="trf_over_persen" type="DOUBLE" jt="8" />
 			<index name="pk_mt_pinjam_kendaraan" unique="PRIMARY_KEY" >
 				<column name="id_pinjam" />
 			</index>
@@ -2071,7 +2072,6 @@
 		<entity schema="gkkd" name="mt_bank_accounts" color="c0d4f3" x="795" y="975" />
 		<entity schema="gkkd" name="mt_kelompok_pelanggan" color="c0d4f3" x="780" y="405" />
 		<entity schema="gkkd" name="mt_pelanggan" color="c0d4f3" x="105" y="300" />
-		<entity schema="gkkd" name="mt_kembali_kendaraan" color="c0d4f3" x="645" y="675" />
 		<entity schema="gkkd" name="mt_kas_masuk" color="c0d4f3" x="675" y="105" />
 		<entity schema="gkkd" name="mt_kas_keluar" color="c0d4f3" x="465" y="180" />
 		<entity schema="gkkd" name="mt_bank_trans" color="c0d4f3" x="255" y="285" />
@@ -2080,5 +2080,6 @@
 		<entity schema="gkkd" name="mt_refs" color="c0d4f3" x="690" y="1305" />
 		<entity schema="gkkd" name="mt_voided" color="c0d4f3" x="255" y="1200" />
 		<entity schema="gkkd" name="mt_pinjam_kendaraan" color="c0d4f3" x="420" y="450" />
+		<entity schema="gkkd" name="mt_kembali_kendaraan" color="c0d4f3" x="645" y="675" />
 	</layout>
 </project>
