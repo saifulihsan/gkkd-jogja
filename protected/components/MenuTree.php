@@ -114,6 +114,12 @@ class MenuTree {
                             id: 'jun.MtGlTransWin',
                             leaf: true
                         },";
+        
+//                        {
+//            text: 'Daftar Jurnal',
+//            id: 'jun.MtGlTransReportGrid',
+//            leaf:true
+//        },
         $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
                         {
                             text: 'Set Saldo Awal',
@@ -131,12 +137,7 @@ class MenuTree {
                             text: 'Mutasi Kas per Bank',
                             id: 'jun.MtMutasiPerBank',
                             leaf: true
-                        },
-                        {
-                            text: 'Daftar Jurnal',
-                            id: 'jun.MtGlTransReportGrid',
-                            leaf:true
-                        },
+                        },        
                          {
                             text: 'Daftar Jurnal Umum',
                             id: 'jun.MtGeneralLedgerTransReportGrid',

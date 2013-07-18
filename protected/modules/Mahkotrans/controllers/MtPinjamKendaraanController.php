@@ -263,9 +263,9 @@ class MtPinjamKendaraanController extends GxController {
                 ": " .$pinjam->jaminan . ", " . $pinjam->jaminan_desc);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                        "Tanggal / Jam Pinjam")->setCellValue("B$start",
+                        "Pinjam")->setCellValue("B$start",
                         ": " .$pinjam->tgl_pinjam)
-                ->setCellValue("D$start", "Tanggal / Jam Selesai")->setCellValue("E$start",
+                ->setCellValue("D$start", "Rencana Kembali")->setCellValue("E$start",
                 ": " .$pinjam->tgl_rencana_kembali);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
@@ -396,9 +396,9 @@ class MtPinjamKendaraanController extends GxController {
                 ": " . $pinjam->jaminan . ", " . $pinjam->jaminan_desc);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                        "Tanggal / Jam Pinjam")->setCellValue("B$start",
+                        "Pinjam")->setCellValue("B$start",
                         ": " . $pinjam->tgl_pinjam)
-                ->setCellValue("D$start", "Tanggal / Jam Selesai")->setCellValue("E$start",
+                ->setCellValue("D$start", "Rencana Kembali")->setCellValue("E$start",
                 ": " . $pinjam->tgl_rencana_kembali);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",

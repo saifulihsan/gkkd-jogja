@@ -85,32 +85,33 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
                     xtype: 'button',
                     text: 'Refresh',
                     ref: '../btnRefresh'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Print',
+                    ref: '../btnPrint'
                 }
-//                {
-//                    xtype: 'tbseparator',
-//                },
-//                {
-//                    xtype: 'button',
-//                    text: 'Ubah',
-//                    ref: '../btnEdit'
-//                },
-//                {
-//                    xtype: 'tbseparator',
-//                },
-//                {
-//                    xtype: 'button',
-//                    text: 'Hapus',
-//                    ref: '../btnDelete'
-//                }
             ]
         };
         jun.rztMtKembaliKendaraan.reload();
         jun.MtKembaliKendaraanGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnRefresh.on('Click', this.refreshData, this);
-//        this.btnEdit.on('Click', this.loadEditForm, this);
+        this.btnPrint.on('Click', this.print, this);
         this.btnDelete.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+    },
+    print: function() {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih data pengembalian!");
+            return;
+        }
+        var idz = selectedz.json.id_kembali;
+        window.open("Mahkotrans/MtKembaliKendaraan/print/id/" + idz, "_blank");
     },
     refreshData: function() {
         jun.rztMtKembaliKendaraan.reload();
@@ -157,11 +158,11 @@ jun.MtKembaliKendaraanGrid = Ext.extend(Ext.grid.GridPanel, {
         if (selectedz == "") {
             Ext.MessageBox.alert("Warning", "Anda belum memilih mobil yang dikembalikan.");
             return;
-        }       
+        }
         var idz = selectedz.json.id_kembali;
         var form = new jun.MtKembaliVoidWin({id: idz});
         form.show(this);
-        
+
     }
 
 })
