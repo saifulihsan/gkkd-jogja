@@ -194,7 +194,7 @@ jun.MtPengembalianWin = Ext.extend(Ext.Window, {
                         name: 'jaminan_desc',
                         id: 'jaminan_descid',
                         ref: '../jaminan_desc',
-                        maxLength: 225,
+                        maxLength: 90,
                         allowBlank: false,
                         readOnly: true,
                         height: '55',

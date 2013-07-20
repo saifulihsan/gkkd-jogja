@@ -198,6 +198,11 @@ jun.MtTranferBankWin = Ext.extend(Ext.Window, {
     },
     saveForm:function () {
         this.btnDisabled(true);
+        if(this.cmbBankAsal.getValue() == this.cmbBankTujuan.getValue()){
+            Ext.MessageBox.alert("Error", "Bank tujuan tidak boleh sama dengan bank asal!");
+            this.btnDisabled(false);
+            return;
+        }
         var urlz;
 
         urlz = 'Mahkotrans/MtBankTrans/createtransfer/';
