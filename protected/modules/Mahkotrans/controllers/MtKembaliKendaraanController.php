@@ -272,18 +272,17 @@ class MtKembaliKendaraanController extends GxController {
                 PAPERSIZE_A4);
         $start_body = $start;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
+                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
         $start++;
         $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start",
                         "Vila Seturan Indah Blok D 10 Yogyakarta")
-                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+                ->getStyle("A$start")->getFont()->setSize(11);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
-                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+                ->getStyle("A$start")->getFont()->setSize(11);
         $styleArray = array('borders' => array('bottom' => array('style' =>
                     PHPExcel_Style_Border::BORDER_THIN)));
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
@@ -292,7 +291,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PENGEMBALIAN KENDARAAN")
                 ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
                         "Nomor Sewa / Kembali")->setCellValue("B$start",
@@ -332,7 +331,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PERHITUNGAN ONGKOS SEWA")
                 ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
         $start++;
         $start_body = $start;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
@@ -373,7 +372,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
                 applyFromArray($styleArray);
         $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->setCellValue("A$start",
                 "Lembar 1 : Untuk Konsumen")->setCellValue("C$start",
                 "Total Extend")->setCellValue("G$start", $pinjam->ongkos_extend);
         $start++;
@@ -400,7 +399,27 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
                         "Pelunasan")
                 ->setCellValue("G$start", $pinjam->pelunasan);
-        $end_body = $start - 1;
+//        $start++;
+//        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+//                setCellValue("A$start", "  ");
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->
+                setCellValue("A$start", "Penyewa,")->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
+                setCellValue("D$start", "Managemen Mahkotrans,")->getStyle("D$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->getStyle("A$start")->
+                applyFromArray($styleArray);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->getStyle("D$start")->
+                applyFromArray($styleArray);
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("C$start_body:G$start")->
                 getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);
 
@@ -408,25 +427,20 @@ class MtKembaliKendaraanController extends GxController {
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
+                setBold(true);      
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
+                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
         $start++;
         $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start",
                         "Vila Seturan Indah Blok D 10 Yogyakarta")
-                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+                ->getStyle("A$start")->getFont()->setSize(11);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
-                ->getStyle("A$start")->getFont()->setSize(11)->setBold(true);
+                ->getStyle("A$start")->getFont()->setSize(11);
         $styleArray = array('borders' => array('bottom' => array('style' =>
                     PHPExcel_Style_Border::BORDER_THIN)));
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
@@ -435,7 +449,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PENGEMBALIAN KENDARAAN")
                 ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
                         "Nomor Sewa / Kembali")->setCellValue("B$start",
@@ -475,7 +489,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "PERHITUNGAN ONGKOS SEWA")
                 ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(14)->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
         $start++;
         $start_body = $start;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
@@ -516,7 +530,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start:G$start")->
                 applyFromArray($styleArray);
         $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->setCellValue("A$start",
                 "Lembar 2 : Untuk Arsip")->setCellValue("C$start",
                 "Total Extend")->setCellValue("G$start", $pinjam->ongkos_extend);
         $start++;
@@ -543,7 +557,27 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("C$start",
                         "Pelunasan")
                 ->setCellValue("G$start", $pinjam->pelunasan);
-        $end_body = $start - 1;
+//        $start++;
+//        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+//                setCellValue("A$start", "  ");
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->
+                setCellValue("A$start", "Penyewa,")->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
+                setCellValue("D$start", "Managemen Mahkotrans,")->getStyle("D$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:B$start")->getStyle("A$start")->
+                applyFromArray($styleArray);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->getStyle("D$start")->
+                applyFromArray($styleArray);
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("C$start_body:G$start")->
                 getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_ACCOUNTING);
         ob_end_clean();

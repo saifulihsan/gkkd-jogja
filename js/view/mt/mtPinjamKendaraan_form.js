@@ -167,7 +167,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         name: 'jaminan_desc',
                         id: 'jaminan_descid',
                         ref: '../jaminan_desc',
-                        maxLength: 225,
+                        maxLength: 90,
                         allowBlank: false,
                         height: '70',
                         width: '400',
@@ -476,6 +476,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                         maxLength: 30,
                         value: 0,
                         allowBlank: false,
+                        readOnly: true,
                         x: 660,
                         y: 305,
                         height: 20,
@@ -525,7 +526,7 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype: 'label',
-                        text: 'Total All',
+                        text: 'Total Semua',
                         x: 540,
                         y: 395
                     },
@@ -637,8 +638,8 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
         this.sewa_bln.on('spin', this.onDurationChange, this);
         this.tgl_pinjam.on('select', this.onDurationChange, this);
 //        this.jam_pinjam.on('select', this.onDurationChange, this);
-        this.btnSaveClose.on('click', this.onbtnSaveCloseClick, this);
-        this.btnSave.on('click', this.onbtnSaveclick, this);
+        this.btnSaveClose.on('click', this.konfirmSave, this);
+        this.btnSave.on('click', this.konfirmSave, this);
         this.btnCancel.on('click', this.onbtnCancelclick, this);
         this.nopol.on('select', this.onNopolChange, this);
         this.driver.on('change', this.onDriverChange, this);
@@ -740,7 +741,23 @@ jun.MtPinjamanWin = Ext.extend(Ext.Window, {
             this.btnSaveClose.hide();
         }
     },
-    saveForm: function() {
+    konfirmSave: function() {
+        if (parseFloat(this.sisa_tagihan.getValue()) < 0)
+        {
+            Ext.MessageBox.alert('Error', 'DP tidak bisa lebih dari total semua!');
+            this.dp.setValue(0);
+            return;
+        }
+        var dp = parseFloat(this.dp.getValue());
+        if (dp === 0) {
+            Ext.MessageBox.confirm('Konfirmasi', 'Apakah anda yakin tidak ada uang muka?', this.saveForm, this);
+        }
+        this.saveForm('yes');
+    },
+    saveForm: function(btn) {
+        if (btn == 'no') {
+            return;
+        }
         this.btnDisabled(true);
         var urlz;
 

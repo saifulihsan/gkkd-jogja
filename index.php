@@ -28,5 +28,6 @@ class Yii extends YiiBase {
     }
 
 }
-
+//<script src="js/ext340/ext-all-debug-w-comments.js">
 Yii::createWebApplication($config)->run();
+?>
