@@ -24,7 +24,7 @@ jun.MtKasKeluarWin = Ext.extend(Ext.Window, {
                     {
                         xtype: 'xdatefield',
                         ref: '../trans_date',
-                        fieldLabel: 'Tanggal Transaksi',
+                        fieldLabel: 'Tgl Transaksi',
                         name: 'trans_date',
                         id: 'trans_dateid',
                         format: 'd M Y',
