@@ -22,10 +22,10 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
             width: 100
         },
         {
-            header: 'No. Bukti',
+            header: 'Terima Dari',
             sortable: true,
             resizable: true,
-            dataIndex: 'no_bukti',
+            dataIndex: 'dari',
             width: 100
         },
         {
@@ -118,6 +118,14 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                     xtype: 'button',
                     text: 'Void Kas Masuk',
                     ref: '../btnDelete'
+                },
+                {
+                    xtype: 'tbseparator',
+                },
+                {
+                    xtype: 'button',
+                    text: 'Print',
+                    ref: '../btnPrint'
                 }
             ]
         };
@@ -126,7 +134,17 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
         this.btnDelete.on('Click', this.deleteRec, this);
+        this.btnPrint.on('Click', this.print, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
+    },
+    print: function() {
+        var selectedz = this.sm.getSelected();
+        if (selectedz == "") {
+            Ext.MessageBox.alert("Warning", "Anda belum memilih data kas masuk!");
+            return;
+        }
+        var idz = selectedz.json.kas_masuk_id;
+        window.open("Mahkotrans/MtKasMasuk/print/id/" + idz, "_blank");
     },
     getrow: function(sm, idx, r) {
         this.record = r;
@@ -169,7 +187,7 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
                 var form = new jun.MtKasMasukShowWin({modez: 1, id: idz});
                 form.txtRef.text = data.doc_ref;
                 form.trans_entry.text = data.entry_time;
-                form.no_bukti.text = data.no_bukti;
+                form.dari.text = data.dari;
                 form.trans_date.text = data.trans_date;
                 form.kas.text = data.bank_account_name;
                 form.mobil.text = data.nopol;
@@ -189,10 +207,9 @@ jun.MtKasMasukGrid = Ext.extend(Ext.grid.GridPanel, {
         if (selectedz == "") {
             Ext.MessageBox.alert("Warning", "Anda belum memilih kas masuk.");
             return;
-        }       
+        }
         var idz = selectedz.json.kas_masuk_id;
         var form = new jun.MtKasMasukVoidWin({id: idz});
         form.show(this);
     },
-    
 })

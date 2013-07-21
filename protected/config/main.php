@@ -5,6 +5,7 @@ return array(
     'name' => 'Sistem Informasi GKKD',
     'theme' => 'extjs',
     'preload' => array('log'),
+    'sourceLanguage' => 'id',
     'import' => array(
         'application.models.*',
         'application.modules.general.models.*',

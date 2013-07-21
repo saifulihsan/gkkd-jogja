@@ -2,15 +2,15 @@
 <project name="MySql" id="Project4727497" database="MySql" >
 	<schema name="gkkd" catalogname="gkkd" defo="y" >
 		<table name="jemaat" >
-			<column name="nij" type="VARCHAR" length="20" jt="12" mandatory="y" />
-			<column name="real_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="nij" type="VARCHAR" length="20" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="real_name" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="phone" type="VARCHAR" length="30" jt="12" mandatory="y" >
+			<column name="phone" type="VARCHAR" length="30" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="email" type="VARCHAR" length="100" jt="12" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="alamat" type="TEXT" length="65535" jt="-1" />
@@ -25,24 +25,24 @@
 			</index>
 		</table>
 		<table name="mt_bank_accounts" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="bank_address" type="TINYTEXT" length="255" jt="-1" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<column name="bank_phone" type="VARCHAR" length="50" jt="12" />
@@ -59,21 +59,21 @@
 			<index name="account_code_0" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_mt_bank_accounts" to_schema="gkkd" to_table="mt_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_bank_accounts" to_schema="gkkd" to_table="mt_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="mt_bank_trans" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="type" type="SMALLINT" length="5" jt="5" />
 			<column name="trans_no" type="INT" length="10" jt="4" />
-			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
 			<column name="ref" type="VARCHAR" length="40" jt="12" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_mt_bank_trans" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -92,20 +92,20 @@
 			<index name="idx_mt_bank_trans_0" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_mt_bank_trans" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_bank_trans" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="bank_act" pk="id" />
 			</fk>
-			<fk name="fk_mt_bank_trans_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_bank_trans_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="mt_chart_class" >
-			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" />
-			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="ctype" type="TINYINT" length="3" jt="-6" mandatory="y" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="ctype" type="TINYINT" length="3" jt="-6" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_chart_class" unique="PRIMARY_KEY" >
@@ -113,19 +113,19 @@
 			</index>
 		</table>
 		<table name="mt_chart_master" >
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<column name="description" type="TEXT" length="65535" jt="-1" />
@@ -135,22 +135,22 @@
 			<index name="idx_mt_chart_master" unique="NORMAL" >
 				<column name="account_type" />
 			</index>
-			<fk name="fk_mt_chart_master" to_schema="gkkd" to_table="mt_chart_types" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_chart_master" to_schema="gkkd" to_table="mt_chart_types" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_type" pk="id" />
 			</fk>
 		</table>
 		<table name="mt_chart_types" >
-			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" />
-			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" >
+			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;-1&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_chart_types" unique="PRIMARY_KEY" >
@@ -159,16 +159,16 @@
 			<index name="idx_mt_chart_types" unique="NORMAL" >
 				<column name="class_id" />
 			</index>
-			<fk name="fk_mt_chart_types" to_schema="gkkd" to_table="mt_chart_class" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_chart_types" to_schema="gkkd" to_table="mt_chart_class" delete_action="cascade" update_action="cascade" >
 				<fk_column name="class_id" pk="cid" />
 			</fk>
 		</table>
 		<table name="mt_comments" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="date_" type="DATE" length="10" jt="91" >
@@ -187,10 +187,10 @@
 			</index>
 		</table>
 		<table name="mt_driver" >
-			<column name="id_driver" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="id_driver" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="telp" type="VARCHAR" length="30" jt="12" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_driver" unique="PRIMARY_KEY" >
@@ -199,22 +199,22 @@
 			<storage><![CDATA[engine=InnoDB]]></storage>
 		</table>
 		<table name="mt_gl_trans" >
-			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<comment><![CDATA[aslinya bigint16]]></comment>
 			</column>
 			<column name="tran_date" type="DATE" length="10" jt="91" />
-			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="id_mobil" type="INT" jt="4" />
 			<index name="pk_mt_gl_trans" unique="PRIMARY_KEY" >
 				<column name="counter" />
@@ -234,7 +234,7 @@
 			<index name="idx_mt_gl_trans_0" unique="NORMAL" >
 				<column name="id_mobil" />
 			</index>
-			<fk name="fk_mt_gl_trans" to_schema="gkkd" to_table="mt_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_gl_trans" to_schema="gkkd" to_table="mt_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account" pk="account_code" />
 			</fk>
 			<fk name="fk_mt_gl_trans_1" to_schema="gkkd" to_table="mt_mobil" >
@@ -242,16 +242,16 @@
 			</fk>
 		</table>
 		<table name="mt_kas_keluar" >
-			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="mt_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
-			<column name="mt_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="mt_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="mt_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="65535" jt="-1" />
 			<column name="id_mobil" type="INT" jt="4" />
 			<index name="pk_mt_kas_keluar" unique="PRIMARY_KEY" >
@@ -269,13 +269,13 @@
 			<index name="idx_mt_kas_keluar" unique="NORMAL" >
 				<column name="id_mobil" />
 			</index>
-			<fk name="fk_mt_kas_keluar_0" to_schema="gkkd" to_table="mt_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_kas_keluar_0" to_schema="gkkd" to_table="mt_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="mt_account_code" pk="account_code" />
 			</fk>
-			<fk name="fk_mt_kas_keluar_1" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_kas_keluar_1" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="mt_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_mt_kas_keluar_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_kas_keluar_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 			<fk name="fk_mt_kas_keluar_2" to_schema="gkkd" to_table="mt_mobil" >
@@ -283,20 +283,21 @@
 			</fk>
 		</table>
 		<table name="mt_kas_masuk" >
-			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="mt_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="mt_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="65535" jt="-1" />
 			<column name="id_mobil" type="INT" jt="4" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
+			<column name="dari" type="VARCHAR" length="30" jt="12" mandatory="y" regexp_nulls="0" />
 			<index name="pk_mt_kas_masuk" unique="PRIMARY_KEY" >
 				<column name="kas_masuk_id" />
 			</index>
@@ -312,10 +313,10 @@
 			<index name="idx_mt_kas_masuk_0" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_mt_kas_masuk_0" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_kas_masuk_0" to_schema="gkkd" to_table="mt_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="mt_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_mt_kas_masuk_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_kas_masuk_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 			<fk name="fk_mt_kas_masuk_1" to_schema="gkkd" to_table="mt_mobil" >
@@ -326,10 +327,10 @@
 			</fk>
 		</table>
 		<table name="mt_kelompok_pelanggan" >
-			<column name="id_kelompok" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="id_kelompok" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="discont_persen" type="DOUBLE" jt="8" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_kelompok_0" unique="PRIMARY_KEY" >
@@ -337,10 +338,56 @@
 			</index>
 			<storage><![CDATA[engine=InnoDB]]></storage>
 		</table>
+		<table name="mt_kembali_kendaraan" >
+			<column name="id_kembali" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="id_pinjam" type="INT" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="trans_date" type="DATE" jt="91" />
+			<column name="tgl_kembali" type="DATETIME" jt="93" />
+			<column name="extend_bln" type="INT" jt="4" />
+			<column name="extend_hari" type="INT" jt="4" />
+			<column name="extend_jam" type="INT" jt="4" />
+			<column name="overtime_jam" type="DOUBLE" jt="8" />
+			<column name="pelunasan" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="ongkos_sewa" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="ongkos_driver" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="ongkos_bbm" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="total_ongkos" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="dp" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="disc" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="total" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="users_id" type="SMALLINT" jt="5" />
+			<column name="trans_via" type="VARCHAR" length="30" jt="12" />
+			<column name="no_bukti_bayar" type="VARCHAR" length="50" jt="12" />
+			<column name="notes" type="VARCHAR" length="600" jt="12" />
+			<column name="is_void" type="TINYINT" jt="-6" mandatory="y" regexp_nulls="0" >
+				<defo>0</defo>
+				<comment><![CDATA[0 = tidak
+1 = ya]]></comment>
+			</column>
+			<column name="ongkos_extend" type="DOUBLE" length="30" decimal="2" jt="8" />
+			<column name="entry_time" type="DATETIME" jt="93" />
+			<column name="doc_ref_kembali" type="VARCHAR" length="15" jt="12" />
+			<index name="pk_mt_kembali_kendaraan" unique="PRIMARY_KEY" >
+				<column name="id_kembali" />
+			</index>
+			<index name="idx_mt_kembali_kendaraan" unique="NORMAL" >
+				<column name="id_pinjam" />
+			</index>
+			<index name="idx_mt_kembali_kendaraan_0" unique="NORMAL" >
+				<column name="users_id" />
+			</index>
+			<fk name="fk_mt_kembali_kendaraan" to_schema="gkkd" to_table="mt_pinjam_kendaraan" delete_action="cascade" update_action="cascade" >
+				<fk_column name="id_pinjam" pk="id_pinjam" />
+			</fk>
+			<fk name="fk_mt_kembali_kendaraan_users" to_schema="gkkd" to_table="users" >
+				<fk_column name="users_id" pk="id" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
 		<table name="mt_member" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_member" unique="PRIMARY_KEY" >
@@ -349,13 +396,13 @@
 			<index name="fk_pah_member_jemaat1_idx_0" unique="NORMAL" >
 				<column name="jemaat_nij" />
 			</index>
-			<fk name="fk_mt_member" to_schema="gkkd" to_table="jemaat" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_mt_member" to_schema="gkkd" to_table="jemaat" delete_action="cascade" update_action="cascade" >
 				<fk_column name="jemaat_nij" pk="nij" />
 			</fk>
 		</table>
 		<table name="mt_mobil" >
-			<column name="id_mobil" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="nopol" type="VARCHAR" length="10" jt="12" mandatory="y" />
+			<column name="id_mobil" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="nopol" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="jenis" type="VARCHAR" length="50" jt="12" />
 			<column name="tahun" type="INT" jt="4" />
 			<column name="tarif_12" type="DOUBLE" length="20" decimal="2" jt="8" />
@@ -366,7 +413,7 @@
 			<column name="overtime" type="DOUBLE" jt="8" />
 			<column name="discount_other_rental" type="DOUBLE" jt="8" />
 			<column name="status_pemilik" type="VARCHAR" length="30" jt="12" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<column name="other_tarif_12" type="DOUBLE" length="30" decimal="2" jt="8" />
@@ -380,11 +427,11 @@
 			</index>
 		</table>
 		<table name="mt_pelanggan" >
-			<column name="id_pelanggan" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="id_pelanggan" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="nama" type="VARCHAR" length="50" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="no_tlp" type="VARCHAR" length="30" jt="12" />
 			<column name="alamat" type="VARCHAR" length="225" jt="12" />
-			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" length="1" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_mt_pelanggan" unique="PRIMARY_KEY" >
@@ -393,18 +440,18 @@
 			<storage><![CDATA[engine=InnoDB]]></storage>
 		</table>
 		<table name="mt_pinjam_kendaraan" >
-			<column name="id_pinjam" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="doc_ref" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="id_pinjam" type="INT" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="doc_ref" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="entry_time" type="DATETIME" jt="93" />
 			<column name="trans_date" type="DATE" jt="91" />
 			<column name="tanda_pengenal" type="VARCHAR" length="30" jt="12" />
 			<column name="no_identitas" type="VARCHAR" length="30" jt="12" />
 			<column name="jaminan" type="VARCHAR" length="30" jt="12" />
 			<column name="jaminan_desc" type="VARCHAR" length="225" jt="12" />
-			<column name="id_pelanggan" type="INT" jt="4" mandatory="y" />
-			<column name="id_kelompok" type="INT" jt="4" mandatory="y" />
+			<column name="id_pelanggan" type="INT" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="id_kelompok" type="INT" jt="4" mandatory="y" regexp_nulls="0" />
 			<column name="tgl_pinjam" type="DATETIME" jt="93" />
-			<column name="season" type="TINYINT" jt="-6" mandatory="y" >
+			<column name="season" type="TINYINT" jt="-6" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 				<comment><![CDATA[0 = low
 1 = high]]></comment>
@@ -416,7 +463,7 @@
 			<column name="trans_via" type="VARCHAR" length="30" jt="12" />
 			<column name="no_bukti_bayar" type="VARCHAR" length="50" jt="12" />
 			<column name="id_driver" type="INT" jt="4" />
-			<column name="id_mobil" type="INT" jt="4" mandatory="y" />
+			<column name="id_mobil" type="INT" jt="4" mandatory="y" regexp_nulls="0" />
 			<column name="ongkos_sewa" type="DOUBLE" length="30" decimal="2" jt="8" />
 			<column name="ongkos_driver" type="DOUBLE" length="30" decimal="2" jt="8" />
 			<column name="ongkos_bbm" type="DOUBLE" length="30" decimal="2" jt="8" />
@@ -431,7 +478,7 @@
 				<comment><![CDATA[setelah diskon]]></comment>
 			</column>
 			<column name="users_id" type="SMALLINT" jt="5" />
-			<column name="is_back" type="TINYINT" jt="-6" mandatory="y" >
+			<column name="is_back" type="TINYINT" jt="-6" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 				<comment><![CDATA[0 = belum
 1 = sudah]]></comment>
@@ -476,14 +523,14 @@
 			<storage><![CDATA[engine=InnoDB]]></storage>
 		</table>
 		<table name="mt_refs" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_mt_refs" unique="PRIMARY_KEY" >
@@ -498,7 +545,7 @@
 			</index>
 		</table>
 		<table name="mt_sys_prefs" >
-			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" >
+			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="value" type="TINYTEXT" length="255" jt="-1" />
@@ -507,13 +554,13 @@
 			</index>
 		</table>
 		<table name="mt_sys_types" >
-			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
-			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_mt_sys_types" unique="PRIMARY_KEY" >
@@ -521,17 +568,17 @@
 			</index>
 		</table>
 		<table name="mt_voided" >
-			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="type" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" >
+			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0000-00-00&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
 			<index name="pk_mt_voided" unique="PRIMARY_KEY" >
 				<column name="id_voided" />
 			</index>
@@ -541,18 +588,18 @@
 			</index>
 		</table>
 		<table name="pah_aktivitas" >
-			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pah_member_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pah_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pah_member_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pah_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_aktivitas" unique="PRIMARY_KEY" >
 				<column name="aktivitas_id" />
@@ -572,27 +619,27 @@
 			<index name="fk_pah_aktivitas_users1_idx" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pah_aktivitas_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_pah_member1" to_schema="gkkd" to_table="pah_member" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_member1" to_schema="gkkd" to_table="pah_member" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_member_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_pah_sub_aktivitas1" to_schema="gkkd" to_table="pah_sub_aktivitas" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_sub_aktivitas1" to_schema="gkkd" to_table="pah_sub_aktivitas" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_sub_aktivitas_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_pah_suppliers1" to_schema="gkkd" to_table="pah_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_suppliers1" to_schema="gkkd" to_table="pah_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_suppliers_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_users1" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_users1" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_aktivitas_grup" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="name" type="VARCHAR" length="50" jt="12" />
 			<column name="notes" type="TEXT" length="65535" jt="-1" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_aktivitas_grup" unique="PRIMARY_KEY" >
@@ -600,18 +647,18 @@
 			</index>
 		</table>
 		<table name="pah_aktivitas_grup_trans" >
-			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pah_aktivitas_grup_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pah_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" />
+			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pah_aktivitas_grup_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pah_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_aktivitas_grup_trans" unique="PRIMARY_KEY" >
 				<column name="aktivitas_id" />
@@ -631,24 +678,24 @@
 			<index name="fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1_idx" unique="NORMAL" >
 				<column name="pah_sub_aktivitas_id" />
 			</index>
-			<fk name="fk_pah_aktivitas_grup_trans_pah_aktivitas_grup1" to_schema="gkkd" to_table="pah_aktivitas_grup" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_grup_trans_pah_aktivitas_grup1" to_schema="gkkd" to_table="pah_aktivitas_grup" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_aktivitas_grup_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1" to_schema="gkkd" to_table="pah_sub_aktivitas" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1" to_schema="gkkd" to_table="pah_sub_aktivitas" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_sub_aktivitas_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_pah_bank_accounts10" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_bank_accounts10" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_pah_suppliers10" to_schema="gkkd" to_table="pah_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_pah_suppliers10" to_schema="gkkd" to_table="pah_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_suppliers_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pah_aktivitas_users10" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_aktivitas_users10" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_anggaran" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="periode_bulan" type="SMALLINT" length="5" jt="5" />
 			<column name="periode_tahun" type="SMALLINT" length="5" jt="5" />
@@ -656,22 +703,22 @@
 			<column name="lock" type="BIT" jt="-7" >
 				<defo>0</defo>
 			</column>
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_anggaran" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 			<index name="fk_pah_anggaran_users1_idx" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pah_anggaran_users1" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_anggaran_users1" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_anggaran_detil" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="pah_anggaran_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="pah_anggaran_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
-			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_anggaran_detil" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -681,41 +728,41 @@
 			<index name="fk_pah_anggaran_detil_pah_chart_master1_idx" unique="NORMAL" >
 				<column name="pah_chart_master_account_code" />
 			</index>
-			<fk name="fk_pah_anggaran_detil_pah_anggaran1" to_schema="gkkd" to_table="pah_anggaran" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_anggaran_detil_pah_anggaran1" to_schema="gkkd" to_table="pah_anggaran" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_anggaran_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_anggaran_detil_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_anggaran_detil_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_chart_master_account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pah_bank_accounts" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="bank_address" type="TINYTEXT" length="255" jt="-1" />
-			<column name="bank_curr_code" type="CHAR" length="3" jt="1" mandatory="y" >
+			<column name="bank_curr_code" type="CHAR" length="3" jt="1" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="dflt_curr_act" type="BIT" jt="-7" mandatory="y" >
+			<column name="dflt_curr_act" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="ending_reconcile_balance" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="ending_reconcile_balance" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="bank_phone" type="VARCHAR" length="50" jt="12" />
@@ -732,22 +779,22 @@
 			<index name="account_code" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="bank_accounts_ibfk_1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="bank_accounts_ibfk_1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pah_bank_trans" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="type" type="SMALLINT" length="5" jt="5" />
 			<column name="trans_no" type="INT" length="10" jt="4" />
-			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
 			<column name="ref" type="VARCHAR" length="40" jt="12" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="reconciled" type="DATE" length="10" jt="91" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_bank_trans" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -767,19 +814,19 @@
 				<column name="bank_act" />
 				<column name="trans_date" />
 			</index>
-			<fk name="bank_trans_ibfk_1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="bank_trans_ibfk_1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="bank_act" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_chart_class" >
-			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" />
-			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="ctype" type="BIT" jt="-7" mandatory="y" >
+			<column name="ctype" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_chart_class" unique="PRIMARY_KEY" >
@@ -787,19 +834,19 @@
 			</index>
 		</table>
 		<table name="pah_chart_master" >
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="description" type="TEXT" length="65535" jt="-1" />
@@ -813,22 +860,22 @@
 				<column name="account_type" />
 				<column name="account_code" />
 			</index>
-			<fk name="chart_master_ibfk_1" to_schema="gkkd" to_table="pah_chart_types" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="chart_master_ibfk_1" to_schema="gkkd" to_table="pah_chart_types" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_type" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_chart_types" >
-			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" />
-			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" >
+			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;-1&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_chart_types" unique="PRIMARY_KEY" >
@@ -840,16 +887,16 @@
 			<index name="class_id" unique="NORMAL" >
 				<column name="class_id" />
 			</index>
-			<fk name="chart_types_ibfk_1" to_schema="gkkd" to_table="pah_chart_class" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="chart_types_ibfk_1" to_schema="gkkd" to_table="pah_chart_class" delete_action="cascade" update_action="cascade" >
 				<fk_column name="class_id" pk="cid" />
 			</fk>
 		</table>
 		<table name="pah_comments" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="date_" type="DATE" length="10" jt="91" >
@@ -868,41 +915,41 @@
 			</index>
 		</table>
 		<table name="pah_donatur" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="name" type="VARCHAR" length="50" jt="12" />
 			<column name="phone" type="VARCHAR" length="30" jt="12" />
 			<column name="alamat" type="TINYTEXT" length="255" jt="-1" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_donatur" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 			<index name="fk_pah_donatur_pah_chart_master1_idx" unique="NORMAL" >
 				<column name="pah_chart_master_account_code" />
 			</index>
-			<fk name="fk_pah_donatur_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_donatur_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_chart_master_account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pah_gl_trans" >
-			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<comment><![CDATA[aslinya bigint16]]></comment>
 			</column>
 			<column name="tran_date" type="DATE" length="10" jt="91" />
-			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_gl_trans" unique="PRIMARY_KEY" >
 				<column name="counter" />
 			</index>
@@ -920,22 +967,22 @@
 			<index name="gl_trans_ibfk_4" unique="NORMAL" >
 				<column name="type_no" />
 			</index>
-			<fk name="gl_trans_ibfk_1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="gl_trans_ibfk_1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pah_kas_keluar" >
-			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
-			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pah_suppliers_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pah_chart_master_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_kas_keluar" unique="PRIMARY_KEY" >
 				<column name="kas_keluar_id" />
@@ -952,30 +999,30 @@
 			<index name="fk_pah_kas_keluar_users1_idx" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pah_kas_keluar_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_keluar_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_kas_keluar_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_keluar_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_chart_master_account_code" pk="account_code" />
 			</fk>
-			<fk name="fk_pah_kas_keluar_pah_suppliers1" to_schema="gkkd" to_table="pah_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_keluar_pah_suppliers1" to_schema="gkkd" to_table="pah_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_suppliers_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pah_kas_keluar_users1" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_keluar_users1" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_kas_masuk" >
-			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pah_donatur_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pah_donatur_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pah_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" jt="-1" />
 			<index name="pk_pah_kas_masuk" unique="PRIMARY_KEY" >
 				<column name="kas_masuk_id" />
@@ -989,18 +1036,18 @@
 			<index name="fk_pah_kas_masuk_users1_idx" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pah_kas_masuk_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_masuk_pah_bank_accounts1" to_schema="gkkd" to_table="pah_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_kas_masuk_pah_donatur1" to_schema="gkkd" to_table="pah_donatur" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_masuk_pah_donatur1" to_schema="gkkd" to_table="pah_donatur" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pah_donatur_id" pk="id" />
 			</fk>
-			<fk name="fk_pah_kas_masuk_users1" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_kas_masuk_users1" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pah_lampiran" >
-			<column name="id_lampiran" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id_lampiran" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="nama" type="VARCHAR" length="100" jt="12" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="keterangan" type="TEXT" length="65535" jt="-1" />
@@ -1012,9 +1059,9 @@
 			</index>
 		</table>
 		<table name="pah_member" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_member" unique="PRIMARY_KEY" >
@@ -1023,19 +1070,19 @@
 			<index name="fk_pah_member_jemaat1_idx" unique="NORMAL" >
 				<column name="jemaat_nij" />
 			</index>
-			<fk name="fk_pah_member_jemaat1" to_schema="gkkd" to_table="jemaat" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_member_jemaat1" to_schema="gkkd" to_table="jemaat" delete_action="cascade" update_action="cascade" >
 				<fk_column name="jemaat_nij" pk="nij" />
 			</fk>
 		</table>
 		<table name="pah_refs" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_pah_refs" unique="PRIMARY_KEY" >
@@ -1050,11 +1097,11 @@
 			</index>
 		</table>
 		<table name="pah_sub_aktivitas" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="nama" type="VARCHAR" length="50" jt="12" />
 			<column name="desc" type="TEXT" length="65535" jt="-1" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_sub_aktivitas" unique="PRIMARY_KEY" >
@@ -1063,51 +1110,51 @@
 			<index name="fk_pah_sub_aktivitas_pah_chart_master1_idx" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_pah_sub_aktivitas_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pah_sub_aktivitas_pah_chart_master1" to_schema="gkkd" to_table="pah_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pah_suppliers" >
-			<column name="supplier_id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="supp_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="supplier_id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="supp_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="supp_ref" type="VARCHAR" length="30" jt="12" mandatory="y" >
+			<column name="supp_ref" type="VARCHAR" length="30" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="address" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="mail_address" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="gst_no" type="VARCHAR" length="25" jt="12" mandatory="y" >
+			<column name="address" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="mail_address" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="gst_no" type="VARCHAR" length="25" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="contact" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="contact" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="supp_account_no" type="VARCHAR" length="40" jt="12" mandatory="y" >
+			<column name="supp_account_no" type="VARCHAR" length="40" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="website" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="website" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_account" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_account" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="curr_code" type="CHAR" length="3" jt="1" />
 			<column name="payment_terms" type="INT" length="10" jt="4" />
-			<column name="credit_limit" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="credit_limit" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="purchase_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="purchase_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="payable_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="payable_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="payment_discount_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="payment_discount_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="notes" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="notes" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_pah_suppliers" unique="PRIMARY_KEY" >
@@ -1118,7 +1165,7 @@
 			</index>
 		</table>
 		<table name="pah_sys_prefs" >
-			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" >
+			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="value" type="TINYTEXT" length="255" jt="-1" />
@@ -1127,13 +1174,13 @@
 			</index>
 		</table>
 		<table name="pah_sys_types" >
-			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
-			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_pah_sys_types" unique="PRIMARY_KEY" >
@@ -1141,17 +1188,17 @@
 			</index>
 		</table>
 		<table name="pah_voided" >
-			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="type" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" >
+			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0000-00-00&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_voided" unique="PRIMARY_KEY" >
 				<column name="id_voided" />
 			</index>
@@ -1161,18 +1208,18 @@
 			</index>
 		</table>
 		<table name="pe_aktivitas" >
-			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pe_member_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pe_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pe_member_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pe_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_aktivitas_0" unique="PRIMARY_KEY" >
 				<column name="aktivitas_id" />
@@ -1192,27 +1239,27 @@
 			<index name="fk_pah_aktivitas_users1_idx_1" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pe_aktivitas" to_schema="gkkd" to_table="pe_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas" to_schema="gkkd" to_table="pe_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_1" to_schema="gkkd" to_table="pe_member" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_1" to_schema="gkkd" to_table="pe_member" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_member_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_2" to_schema="gkkd" to_table="pe_sub_aktivitas" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_2" to_schema="gkkd" to_table="pe_sub_aktivitas" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_sub_aktivitas_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_aktivitas_grup" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="name" type="VARCHAR" length="50" jt="12" />
 			<column name="notes" type="TEXT" length="65535" jt="-1" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_aktivitas_grup_0" unique="PRIMARY_KEY" >
@@ -1220,18 +1267,18 @@
 			</index>
 		</table>
 		<table name="pe_aktivitas_grup_trans" >
-			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="aktivitas_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pe_aktivitas_grup_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pe_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" />
+			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pe_aktivitas_grup_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pe_sub_aktivitas_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_aktivitas_grup_trans_0" unique="PRIMARY_KEY" >
 				<column name="aktivitas_id" />
@@ -1251,44 +1298,44 @@
 			<index name="fk_pah_aktivitas_grup_trans_pah_sub_aktivitas1_idx_0" unique="NORMAL" >
 				<column name="pe_sub_aktivitas_id" />
 			</index>
-			<fk name="fk_pe_aktivitas_grup_trans" to_schema="gkkd" to_table="pe_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_grup_trans" to_schema="gkkd" to_table="pe_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_grup_trans_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_grup_trans_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_grup_trans_1" to_schema="gkkd" to_table="pe_aktivitas_grup" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_grup_trans_1" to_schema="gkkd" to_table="pe_aktivitas_grup" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_aktivitas_grup_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_grup_trans_2" to_schema="gkkd" to_table="pe_sub_aktivitas" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_grup_trans_2" to_schema="gkkd" to_table="pe_sub_aktivitas" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_sub_aktivitas_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_aktivitas_grup_trans_3" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_aktivitas_grup_trans_3" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_anggaran" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="periode_bulan" type="SMALLINT" length="5" jt="5" />
 			<column name="periode_tahun" type="SMALLINT" length="5" jt="5" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_anggaran_0" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 			<index name="fk_pah_anggaran_users1_idx_0" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pe_anggaran" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_anggaran" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_anggaran_detil" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="anggaran_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="anggaran_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_anggaran_detil_0" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -1298,41 +1345,41 @@
 			<index name="idx_pe_anggaran_detil" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_pe_anggaran_detil" to_schema="gkkd" to_table="pe_anggaran" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_anggaran_detil" to_schema="gkkd" to_table="pe_anggaran" delete_action="cascade" update_action="cascade" >
 				<fk_column name="anggaran_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_anggaran_detil_0" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_anggaran_detil_0" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pe_bank_accounts" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="account_type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="bank_account_number" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="bank_address" type="TINYTEXT" length="255" jt="-1" />
-			<column name="bank_curr_code" type="CHAR" length="3" jt="1" mandatory="y" >
+			<column name="bank_curr_code" type="CHAR" length="3" jt="1" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="dflt_curr_act" type="BIT" jt="-7" mandatory="y" >
+			<column name="dflt_curr_act" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
-			<column name="ending_reconcile_balance" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="ending_reconcile_balance" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<column name="bank_phone" type="VARCHAR" length="50" jt="12" />
@@ -1349,22 +1396,22 @@
 			<index name="account_code_0" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_pe_bank_accounts" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_bank_accounts" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pe_bank_trans" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="type" type="SMALLINT" length="5" jt="5" />
 			<column name="trans_no" type="INT" length="10" jt="4" />
-			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="bank_act" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
 			<column name="ref" type="VARCHAR" length="40" jt="12" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="reconciled" type="DATE" length="10" jt="91" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_bank_trans_0" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -1390,22 +1437,22 @@
 			<index name="idx_pe_bank_trans_0" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pe_bank_trans" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_bank_trans" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="bank_act" pk="id" />
 			</fk>
-			<fk name="fk_pe_bank_trans_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_bank_trans_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_chart_class" >
-			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" />
-			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="cid" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="class_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="ctype" type="BIT" jt="-7" mandatory="y" >
+			<column name="ctype" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_chart_class_0" unique="PRIMARY_KEY" >
@@ -1413,19 +1460,19 @@
 			</index>
 		</table>
 		<table name="pe_chart_master" >
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account_code2" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="account_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="account_type" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<column name="description" type="TEXT" length="65535" jt="-1" />
@@ -1435,22 +1482,22 @@
 			<index name="idx_pe_chart_master" unique="NORMAL" >
 				<column name="account_type" />
 			</index>
-			<fk name="fk_pe_chart_master" to_schema="gkkd" to_table="pe_chart_types" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_chart_master" to_schema="gkkd" to_table="pe_chart_types" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_type" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_chart_types" >
-			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" />
-			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="id" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" >
+			<column name="class_id" type="VARCHAR" length="3" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" >
+			<column name="parent" type="VARCHAR" length="10" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;-1&#039;</defo>
 			</column>
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_chart_types_0" unique="PRIMARY_KEY" >
@@ -1459,16 +1506,16 @@
 			<index name="idx_pe_chart_types" unique="NORMAL" >
 				<column name="class_id" />
 			</index>
-			<fk name="fk_pe_chart_types" to_schema="gkkd" to_table="pe_chart_class" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_chart_types" to_schema="gkkd" to_table="pe_chart_class" delete_action="cascade" update_action="cascade" >
 				<fk_column name="class_id" pk="cid" />
 			</fk>
 		</table>
 		<table name="pe_comments" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<column name="date_" type="DATE" length="10" jt="91" >
@@ -1487,41 +1534,41 @@
 			</index>
 		</table>
 		<table name="pe_donatur" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="name" type="VARCHAR" length="50" jt="12" />
 			<column name="phone" type="VARCHAR" length="30" jt="12" />
 			<column name="alamat" type="TINYTEXT" length="255" jt="-1" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
-			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_donatur_0" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 			<index name="fk_pah_donatur_pah_chart_master1_idx_0" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_pe_donatur" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_donatur" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pe_gl_trans" >
-			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="counter" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<comment><![CDATA[aslinya bigint16]]></comment>
 			</column>
 			<column name="tran_date" type="DATE" length="10" jt="91" />
-			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="amount" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_gl_trans_0" unique="PRIMARY_KEY" >
 				<column name="counter" />
 			</index>
@@ -1537,22 +1584,22 @@
 			<index name="idx_tran_date" unique="NORMAL" >
 				<column name="tran_date" />
 			</index>
-			<fk name="fk_pe_gl_trans" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_gl_trans" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pe_kas_keluar" >
-			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_keluar_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" />
-			<column name="pe_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" />
-			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pe_supplier_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
+			<column name="pe_account_code" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_kas_keluar_0" unique="PRIMARY_KEY" >
 				<column name="kas_keluar_id" />
@@ -1569,30 +1616,30 @@
 			<index name="fk_pah_kas_keluar_users1_idx_0" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pe_kas_keluar" to_schema="gkkd" to_table="pe_suppliers" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_keluar" to_schema="gkkd" to_table="pe_suppliers" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_supplier_id" pk="supplier_id" />
 			</fk>
-			<fk name="fk_pe_kas_keluar_0" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_keluar_0" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_account_code" pk="account_code" />
 			</fk>
-			<fk name="fk_pe_kas_keluar_1" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_keluar_1" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_kas_keluar_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_keluar_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_kas_masuk" >
-			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="kas_masuk_id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="doc_ref" type="VARCHAR" length="15" jt="12" />
 			<column name="no_bukti" type="VARCHAR" length="45" jt="12" />
 			<column name="amount" type="DOUBLE" length="22" jt="8" />
 			<column name="entry_time" type="DATETIME" length="19" jt="93" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="trans_via" type="VARCHAR" length="45" jt="12" />
-			<column name="pe_donatur_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
-			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" />
+			<column name="pe_donatur_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="pe_bank_accounts_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
+			<column name="users_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" />
 			<column name="note" type="TEXT" length="600" jt="-1" />
 			<index name="pk_pah_kas_masuk_0" unique="PRIMARY_KEY" >
 				<column name="kas_masuk_id" />
@@ -1606,18 +1653,18 @@
 			<index name="fk_pah_kas_masuk_users1_idx_0" unique="NORMAL" >
 				<column name="users_id" />
 			</index>
-			<fk name="fk_pe_kas_masuk" to_schema="gkkd" to_table="pe_donatur" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_masuk" to_schema="gkkd" to_table="pe_donatur" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_donatur_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_kas_masuk_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_masuk_0" to_schema="gkkd" to_table="pe_bank_accounts" delete_action="cascade" update_action="cascade" >
 				<fk_column name="pe_bank_accounts_id" pk="id" />
 			</fk>
-			<fk name="fk_pe_kas_masuk_users" to_schema="gkkd" to_table="users" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_kas_masuk_users" to_schema="gkkd" to_table="users" delete_action="cascade" update_action="cascade" >
 				<fk_column name="users_id" pk="id" />
 			</fk>
 		</table>
 		<table name="pe_lampiran" >
-			<column name="id_lampiran" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
+			<column name="id_lampiran" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="nama" type="VARCHAR" length="100" jt="12" />
 			<column name="trans_date" type="DATE" length="10" jt="91" />
 			<column name="keterangan" type="TEXT" length="65535" jt="-1" />
@@ -1629,9 +1676,9 @@
 			</index>
 		</table>
 		<table name="pe_member" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="jemaat_nij" type="VARCHAR" length="20" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_member_0" unique="PRIMARY_KEY" >
@@ -1640,19 +1687,19 @@
 			<index name="fk_pah_member_jemaat1_idx_0" unique="NORMAL" >
 				<column name="jemaat_nij" />
 			</index>
-			<fk name="fk_pe_member" to_schema="gkkd" to_table="jemaat" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_member" to_schema="gkkd" to_table="jemaat" delete_action="cascade" update_action="cascade" >
 				<fk_column name="jemaat_nij" pk="nij" />
 			</fk>
 		</table>
 		<table name="pe_refs" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_pah_refs_0" unique="PRIMARY_KEY" >
@@ -1667,11 +1714,11 @@
 			</index>
 		</table>
 		<table name="pe_sub_aktivitas" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
 			<column name="nama" type="VARCHAR" length="50" jt="12" />
 			<column name="desc_" type="TEXT" length="65535" jt="-1" />
 			<column name="account_code" type="VARCHAR" length="15" jt="12" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_sub_aktivitas_0" unique="PRIMARY_KEY" >
@@ -1680,51 +1727,51 @@
 			<index name="fk_pah_sub_aktivitas_pah_chart_master1_idx_0" unique="NORMAL" >
 				<column name="account_code" />
 			</index>
-			<fk name="fk_pe_sub_aktivitas" to_schema="gkkd" to_table="pe_chart_master" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_pe_sub_aktivitas" to_schema="gkkd" to_table="pe_chart_master" delete_action="cascade" update_action="cascade" >
 				<fk_column name="account_code" pk="account_code" />
 			</fk>
 		</table>
 		<table name="pe_suppliers" >
-			<column name="supplier_id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="supp_name" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="supplier_id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="supp_name" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="supp_ref" type="VARCHAR" length="30" jt="12" mandatory="y" >
+			<column name="supp_ref" type="VARCHAR" length="30" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="address" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="mail_address" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="gst_no" type="VARCHAR" length="25" jt="12" mandatory="y" >
+			<column name="address" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="mail_address" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="gst_no" type="VARCHAR" length="25" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="contact" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="contact" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="supp_account_no" type="VARCHAR" length="40" jt="12" mandatory="y" >
+			<column name="supp_account_no" type="VARCHAR" length="40" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="website" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="website" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="bank_account" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="bank_account" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="curr_code" type="CHAR" length="3" jt="1" />
 			<column name="payment_terms" type="INT" length="10" jt="4" />
-			<column name="credit_limit" type="DOUBLE" length="22" jt="8" mandatory="y" >
+			<column name="credit_limit" type="DOUBLE" length="22" jt="8" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="purchase_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="purchase_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="payable_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="payable_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="payment_discount_account" type="VARCHAR" length="15" jt="12" mandatory="y" >
+			<column name="payment_discount_account" type="VARCHAR" length="15" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="notes" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="notes" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>b&#039;0&#039;</defo>
 			</column>
 			<index name="pk_pah_suppliers_0" unique="PRIMARY_KEY" >
@@ -1735,7 +1782,7 @@
 			</index>
 		</table>
 		<table name="pe_sys_prefs" >
-			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" >
+			<column name="name" type="VARCHAR" length="35" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="value" type="TINYTEXT" length="255" jt="-1" />
@@ -1744,13 +1791,13 @@
 			</index>
 		</table>
 		<table name="pe_sys_types" >
-			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" >
+			<column name="type_id" type="SMALLINT" length="5" jt="5" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="type_no" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>1</defo>
 			</column>
-			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="next_reference" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<index name="pk_pah_sys_types_0" unique="PRIMARY_KEY" >
@@ -1758,17 +1805,17 @@
 			</index>
 		</table>
 		<table name="pe_voided" >
-			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="type" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id_voided" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="type" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" >
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" >
+			<column name="date_" type="DATE" length="10" jt="91" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;0000-00-00&#039;</defo>
 			</column>
-			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" />
+			<column name="memo_" type="TINYTEXT" length="255" jt="-1" mandatory="y" regexp_nulls="0" />
 			<index name="pk_pah_voided_0" unique="PRIMARY_KEY" >
 				<column name="id_voided" />
 			</index>
@@ -1778,12 +1825,12 @@
 			</index>
 		</table>
 		<table name="security_roles" >
-			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" />
-			<column name="role" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<column name="id" type="INT" length="10" jt="4" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="role" type="VARCHAR" length="30" jt="12" mandatory="y" regexp_nulls="0" />
 			<column name="description" type="VARCHAR" length="50" jt="12" />
 			<column name="sections" type="TEXT" length="65535" jt="-1" />
 			<column name="areas" type="TEXT" length="65535" jt="-1" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
 			<index name="pk_security_roles" unique="PRIMARY_KEY" >
@@ -1794,19 +1841,19 @@
 			</index>
 		</table>
 		<table name="users" >
-			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" />
-			<column name="user_id" type="VARCHAR" length="60" jt="12" mandatory="y" >
+			<column name="id" type="SMALLINT" length="5" jt="5" mandatory="y" autoincrement="y" regexp_nulls="0" />
+			<column name="user_id" type="VARCHAR" length="60" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
-			<column name="password" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="password" type="VARCHAR" length="100" jt="12" mandatory="y" regexp_nulls="0" >
 				<defo>&#039;&#039;</defo>
 			</column>
 			<column name="last_visit_date" type="DATETIME" length="19" jt="93" />
-			<column name="inactive" type="BIT" jt="-7" mandatory="y" >
+			<column name="inactive" type="BIT" jt="-7" mandatory="y" regexp_nulls="0" >
 				<defo>0</defo>
 			</column>
-			<column name="nij" type="VARCHAR" length="20" jt="12" mandatory="y" />
-			<column name="security_roles_id" type="INT" length="10" jt="4" mandatory="y" />
+			<column name="nij" type="VARCHAR" length="20" jt="12" mandatory="y" regexp_nulls="0" />
+			<column name="security_roles_id" type="INT" length="10" jt="4" mandatory="y" regexp_nulls="0" />
 			<index name="pk_users" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -1819,61 +1866,85 @@
 			<index name="fk_users_security_roles1_idx" unique="NORMAL" >
 				<column name="security_roles_id" />
 			</index>
-			<fk name="fk_users_jemaat1" to_schema="gkkd" to_table="jemaat" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_users_jemaat1" to_schema="gkkd" to_table="jemaat" delete_action="cascade" update_action="cascade" >
 				<fk_column name="nij" pk="nij" />
 			</fk>
-			<fk name="fk_users_security_roles1" to_schema="gkkd" to_table="security_roles" delete_action="CASCADE" update_action="CASCADE" >
+			<fk name="fk_users_security_roles1" to_schema="gkkd" to_table="security_roles" delete_action="cascade" update_action="cascade" >
 				<fk_column name="security_roles_id" pk="id" />
 			</fk>
 		</table>
-		<table name="mt_kembali_kendaraan" >
-			<column name="id_kembali" type="INT" jt="4" mandatory="y" autoincrement="y" />
-			<column name="id_pinjam" type="INT" jt="4" mandatory="y" />
-			<column name="trans_date" type="DATE" jt="91" />
-			<column name="tgl_kembali" type="DATETIME" jt="93" />
-			<column name="extend_bln" type="INT" jt="4" />
-			<column name="extend_hari" type="INT" jt="4" />
-			<column name="extend_jam" type="INT" jt="4" />
-			<column name="overtime_jam" type="DOUBLE" jt="8" />
-			<column name="pelunasan" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="ongkos_sewa" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="ongkos_driver" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="ongkos_bbm" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="total_ongkos" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="dp" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="disc" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="total" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="users_id" type="SMALLINT" jt="5" />
-			<column name="trans_via" type="VARCHAR" length="30" jt="12" />
-			<column name="no_bukti_bayar" type="VARCHAR" length="50" jt="12" />
-			<column name="notes" type="VARCHAR" length="600" jt="12" />
-			<column name="is_void" type="TINYINT" jt="-6" mandatory="y" >
-				<defo>0</defo>
-				<comment><![CDATA[0 = tidak
-1 = ya]]></comment>
-			</column>
-			<column name="ongkos_extend" type="DOUBLE" length="30" decimal="2" jt="8" />
-			<column name="entry_time" type="DATETIME" jt="93" />
-			<column name="doc_ref_kembali" type="VARCHAR" length="15" jt="12" />
-			<index name="pk_mt_kembali_kendaraan" unique="PRIMARY_KEY" >
-				<column name="id_kembali" />
-			</index>
-			<index name="idx_mt_kembali_kendaraan" unique="NORMAL" >
-				<column name="id_pinjam" />
-			</index>
-			<index name="idx_mt_kembali_kendaraan_0" unique="NORMAL" >
-				<column name="users_id" />
-			</index>
-			<fk name="fk_mt_kembali_kendaraan" to_schema="gkkd" to_table="mt_pinjam_kendaraan" delete_action="CASCADE" update_action="CASCADE" >
-				<fk_column name="id_pinjam" pk="id_pinjam" />
-			</fk>
-			<fk name="fk_mt_kembali_kendaraan_users" to_schema="gkkd" to_table="users" >
-				<fk_column name="users_id" pk="id" />
-			</fk>
-			<storage><![CDATA[engine=InnoDB]]></storage>
-		</table>
 	</schema>
 	<connector name="MySql" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.23-bin.jar" host="localhost" port="3306" instance="gkkd" user="root" passwd="cm9vdA==" schema_mapping="" />
+	<layout id="Layout4727585" name="Group_mt" show_relation_columns="y" >
+		<entity schema="gkkd" name="mt_sys_types" color="c0d4f3" x="45" y="1005" />
+		<entity schema="gkkd" name="mt_comments" color="c0d4f3" x="75" y="510" />
+		<entity schema="gkkd" name="mt_member" color="c0d4f3" x="855" y="1275" />
+		<entity schema="gkkd" name="mt_chart_types" color="c0d4f3" x="75" y="705" />
+		<entity schema="gkkd" name="mt_chart_master" color="c0d4f3" x="255" y="1005" />
+		<entity schema="gkkd" name="mt_driver" color="c0d4f3" x="855" y="630" />
+		<entity schema="gkkd" name="mt_bank_accounts" color="c0d4f3" x="795" y="990" />
+		<entity schema="gkkd" name="mt_kelompok_pelanggan" color="c0d4f3" x="780" y="420" />
+		<entity schema="gkkd" name="mt_pelanggan" color="c0d4f3" x="105" y="315" />
+		<entity schema="gkkd" name="mt_kas_keluar" color="c0d4f3" x="465" y="195" />
+		<entity schema="gkkd" name="mt_bank_trans" color="c0d4f3" x="255" y="300" />
+		<entity schema="gkkd" name="mt_mobil" color="c0d4f3" x="915" y="75" />
+		<entity schema="gkkd" name="mt_gl_trans" color="c0d4f3" x="960" y="450" />
+		<entity schema="gkkd" name="mt_refs" color="c0d4f3" x="690" y="1320" />
+		<entity schema="gkkd" name="mt_voided" color="c0d4f3" x="255" y="1215" />
+		<entity schema="gkkd" name="mt_pinjam_kendaraan" color="c0d4f3" x="420" y="465" />
+		<entity schema="gkkd" name="mt_kembali_kendaraan" color="c0d4f3" x="645" y="690" />
+		<entity schema="gkkd" name="mt_sys_prefs" color="c0d4f3" x="270" y="60" />
+		<entity schema="gkkd" name="mt_chart_class" color="c0d4f3" x="465" y="1200" />
+		<entity schema="gkkd" name="mt_kas_masuk" color="c0d4f3" x="675" y="120" />
+	</layout>
+	<layout id="Layout4727572" name="Group_pah" show_relation_columns="y" >
+		<entity schema="gkkd" name="pah_voided" color="c0d4f3" x="1020" y="360" />
+		<entity schema="gkkd" name="pah_refs" color="c0d4f3" x="1020" y="195" />
+		<entity schema="gkkd" name="pah_comments" color="c0d4f3" x="870" y="195" />
+		<entity schema="gkkd" name="pah_lampiran" color="c0d4f3" x="705" y="195" />
+		<entity schema="gkkd" name="pah_sys_prefs" color="c0d4f3" x="870" y="75" />
+		<entity schema="gkkd" name="pah_sys_types" color="c0d4f3" x="1020" y="60" />
+		<entity schema="gkkd" name="pah_chart_class" color="c0d4f3" x="315" y="780" />
+		<entity schema="gkkd" name="pah_chart_types" color="c0d4f3" x="165" y="780" />
+		<entity schema="gkkd" name="pah_chart_master" color="c0d4f3" x="495" y="780" />
+		<entity schema="gkkd" name="pah_gl_trans" color="c0d4f3" x="315" y="570" />
+		<entity schema="gkkd" name="pah_sub_aktivitas" color="c0d4f3" x="315" y="945" />
+		<entity schema="gkkd" name="pah_anggaran" color="c0d4f3" x="495" y="585" />
+		<entity schema="gkkd" name="pah_anggaran_detil" color="c0d4f3" x="45" y="630" />
+		<entity schema="gkkd" name="pah_bank_accounts" color="c0d4f3" x="705" y="750" />
+		<entity schema="gkkd" name="pah_aktivitas_grup" color="c0d4f3" x="765" y="600" />
+		<entity schema="gkkd" name="pah_donatur" color="c0d4f3" x="945" y="570" />
+		<entity schema="gkkd" name="pah_bank_trans" color="c0d4f3" x="1185" y="750" />
+		<entity schema="gkkd" name="pah_suppliers" color="c0d4f3" x="945" y="750" />
+		<entity schema="gkkd" name="pah_member" color="c0d4f3" x="1575" y="765" />
+		<entity schema="gkkd" name="pah_kas_masuk" color="c0d4f3" x="1185" y="1110" />
+		<entity schema="gkkd" name="pah_kas_keluar" color="c0d4f3" x="1440" y="1005" />
+	</layout>
+	<layout id="Layout4727573" name="Group_pe" show_relation_columns="y" >
+		<entity schema="gkkd" name="pe_kas_keluar" color="c0d4f3" x="735" y="1770" />
+		<entity schema="gkkd" name="pe_kas_masuk" color="c0d4f3" x="1155" y="1770" />
+		<entity schema="gkkd" name="pe_aktivitas_grup_trans" color="c0d4f3" x="945" y="1485" />
+		<entity schema="gkkd" name="pe_aktivitas" color="c0d4f3" x="945" y="1770" />
+		<entity schema="gkkd" name="pe_anggaran" color="c0d4f3" x="1605" y="1485" />
+		<entity schema="gkkd" name="pe_chart_class" color="c0d4f3" x="1785" y="1665" />
+		<entity schema="gkkd" name="pe_anggaran_detil" color="c0d4f3" x="1470" y="1665" />
+		<entity schema="gkkd" name="pe_chart_master" color="c0d4f3" x="1785" y="1485" />
+		<entity schema="gkkd" name="pe_bank_accounts" color="c0d4f3" x="465" y="240" />
+		<entity schema="gkkd" name="pe_donatur" color="c0d4f3" x="300" y="240" />
+		<entity schema="gkkd" name="pe_bank_trans" color="c0d4f3" x="1155" y="1545" />
+		<entity schema="gkkd" name="pe_aktivitas_grup" color="c0d4f3" x="300" y="90" />
+		<entity schema="gkkd" name="pe_member" color="c0d4f3" x="465" y="105" />
+		<entity schema="gkkd" name="pe_suppliers" color="c0d4f3" x="45" y="240" />
+		<entity schema="gkkd" name="pe_gl_trans" color="c0d4f3" x="1965" y="1665" />
+		<entity schema="gkkd" name="pe_sub_aktivitas" color="c0d4f3" x="1785" y="1815" />
+		<entity schema="gkkd" name="pe_chart_types" color="c0d4f3" x="1635" y="1665" />
+		<entity schema="gkkd" name="pe_refs" color="c0d4f3" x="1800" y="255" />
+		<entity schema="gkkd" name="pe_sys_prefs" color="c0d4f3" x="1650" y="120" />
+		<entity schema="gkkd" name="pe_lampiran" color="c0d4f3" x="1800" y="60" />
+		<entity schema="gkkd" name="pe_voided" color="c0d4f3" x="1800" y="420" />
+		<entity schema="gkkd" name="pe_comments" color="c0d4f3" x="1650" y="255" />
+		<entity schema="gkkd" name="pe_sys_types" color="c0d4f3" x="1470" y="255" />
+	</layout>
 	<layout id="Layout4727561" name="gkkd" show_relation_columns="y" >
 		<entity schema="gkkd" name="security_roles" color="c0d4f3" x="1695" y="180" />
 		<entity schema="gkkd" name="pah_voided" color="c0d4f3" x="1020" y="840" />
@@ -2011,75 +2082,5 @@
 			<entity schema="gkkd" name="mt_sys_types" />
 			<entity schema="gkkd" name="mt_voided" />
 		</group>
-	</layout>
-	<layout id="Layout4727572" name="Group_pah" show_relation_columns="y" >
-		<entity schema="gkkd" name="pah_voided" color="c0d4f3" x="1020" y="360" />
-		<entity schema="gkkd" name="pah_refs" color="c0d4f3" x="1020" y="195" />
-		<entity schema="gkkd" name="pah_comments" color="c0d4f3" x="870" y="195" />
-		<entity schema="gkkd" name="pah_lampiran" color="c0d4f3" x="705" y="195" />
-		<entity schema="gkkd" name="pah_sys_prefs" color="c0d4f3" x="870" y="75" />
-		<entity schema="gkkd" name="pah_sys_types" color="c0d4f3" x="1020" y="60" />
-		<entity schema="gkkd" name="pah_chart_class" color="c0d4f3" x="315" y="780" />
-		<entity schema="gkkd" name="pah_chart_types" color="c0d4f3" x="165" y="780" />
-		<entity schema="gkkd" name="pah_chart_master" color="c0d4f3" x="495" y="780" />
-		<entity schema="gkkd" name="pah_gl_trans" color="c0d4f3" x="315" y="570" />
-		<entity schema="gkkd" name="pah_sub_aktivitas" color="c0d4f3" x="315" y="945" />
-		<entity schema="gkkd" name="pah_anggaran" color="c0d4f3" x="495" y="585" />
-		<entity schema="gkkd" name="pah_anggaran_detil" color="c0d4f3" x="45" y="630" />
-		<entity schema="gkkd" name="pah_bank_accounts" color="c0d4f3" x="705" y="750" />
-		<entity schema="gkkd" name="pah_aktivitas_grup" color="c0d4f3" x="765" y="600" />
-		<entity schema="gkkd" name="pah_donatur" color="c0d4f3" x="945" y="570" />
-		<entity schema="gkkd" name="pah_bank_trans" color="c0d4f3" x="1185" y="750" />
-		<entity schema="gkkd" name="pah_suppliers" color="c0d4f3" x="945" y="750" />
-		<entity schema="gkkd" name="pah_member" color="c0d4f3" x="1575" y="765" />
-		<entity schema="gkkd" name="pah_kas_masuk" color="c0d4f3" x="1185" y="1110" />
-		<entity schema="gkkd" name="pah_kas_keluar" color="c0d4f3" x="1440" y="1005" />
-	</layout>
-	<layout id="Layout4727573" name="Group_pe" show_relation_columns="y" >
-		<entity schema="gkkd" name="pe_kas_keluar" color="c0d4f3" x="735" y="1770" />
-		<entity schema="gkkd" name="pe_kas_masuk" color="c0d4f3" x="1155" y="1770" />
-		<entity schema="gkkd" name="pe_aktivitas_grup_trans" color="c0d4f3" x="945" y="1485" />
-		<entity schema="gkkd" name="pe_aktivitas" color="c0d4f3" x="945" y="1770" />
-		<entity schema="gkkd" name="pe_anggaran" color="c0d4f3" x="1605" y="1485" />
-		<entity schema="gkkd" name="pe_chart_class" color="c0d4f3" x="1785" y="1665" />
-		<entity schema="gkkd" name="pe_anggaran_detil" color="c0d4f3" x="1470" y="1665" />
-		<entity schema="gkkd" name="pe_chart_master" color="c0d4f3" x="1785" y="1485" />
-		<entity schema="gkkd" name="pe_bank_accounts" color="c0d4f3" x="465" y="240" />
-		<entity schema="gkkd" name="pe_donatur" color="c0d4f3" x="300" y="240" />
-		<entity schema="gkkd" name="pe_bank_trans" color="c0d4f3" x="1155" y="1545" />
-		<entity schema="gkkd" name="pe_aktivitas_grup" color="c0d4f3" x="300" y="90" />
-		<entity schema="gkkd" name="pe_member" color="c0d4f3" x="465" y="105" />
-		<entity schema="gkkd" name="pe_suppliers" color="c0d4f3" x="45" y="240" />
-		<entity schema="gkkd" name="pe_gl_trans" color="c0d4f3" x="1965" y="1665" />
-		<entity schema="gkkd" name="pe_sub_aktivitas" color="c0d4f3" x="1785" y="1815" />
-		<entity schema="gkkd" name="pe_chart_types" color="c0d4f3" x="1635" y="1665" />
-		<entity schema="gkkd" name="pe_refs" color="c0d4f3" x="1800" y="255" />
-		<entity schema="gkkd" name="pe_sys_prefs" color="c0d4f3" x="1650" y="120" />
-		<entity schema="gkkd" name="pe_lampiran" color="c0d4f3" x="1800" y="60" />
-		<entity schema="gkkd" name="pe_voided" color="c0d4f3" x="1800" y="420" />
-		<entity schema="gkkd" name="pe_comments" color="c0d4f3" x="1650" y="255" />
-		<entity schema="gkkd" name="pe_sys_types" color="c0d4f3" x="1470" y="255" />
-	</layout>
-	<layout id="Layout4727585" name="Group_mt" show_relation_columns="y" >
-		<entity schema="gkkd" name="mt_sys_prefs" color="c0d4f3" x="270" y="180" />
-		<entity schema="gkkd" name="mt_sys_types" color="c0d4f3" x="45" y="990" />
-		<entity schema="gkkd" name="mt_comments" color="c0d4f3" x="75" y="495" />
-		<entity schema="gkkd" name="mt_member" color="c0d4f3" x="855" y="1260" />
-		<entity schema="gkkd" name="mt_chart_class" color="c0d4f3" x="465" y="990" />
-		<entity schema="gkkd" name="mt_chart_types" color="c0d4f3" x="75" y="690" />
-		<entity schema="gkkd" name="mt_chart_master" color="c0d4f3" x="255" y="990" />
-		<entity schema="gkkd" name="mt_driver" color="c0d4f3" x="855" y="615" />
-		<entity schema="gkkd" name="mt_bank_accounts" color="c0d4f3" x="795" y="975" />
-		<entity schema="gkkd" name="mt_kelompok_pelanggan" color="c0d4f3" x="780" y="405" />
-		<entity schema="gkkd" name="mt_pelanggan" color="c0d4f3" x="105" y="300" />
-		<entity schema="gkkd" name="mt_kas_masuk" color="c0d4f3" x="675" y="105" />
-		<entity schema="gkkd" name="mt_kas_keluar" color="c0d4f3" x="465" y="180" />
-		<entity schema="gkkd" name="mt_bank_trans" color="c0d4f3" x="255" y="285" />
-		<entity schema="gkkd" name="mt_mobil" color="c0d4f3" x="915" y="60" />
-		<entity schema="gkkd" name="mt_gl_trans" color="c0d4f3" x="960" y="435" />
-		<entity schema="gkkd" name="mt_refs" color="c0d4f3" x="690" y="1305" />
-		<entity schema="gkkd" name="mt_voided" color="c0d4f3" x="255" y="1200" />
-		<entity schema="gkkd" name="mt_pinjam_kendaraan" color="c0d4f3" x="420" y="450" />
-		<entity schema="gkkd" name="mt_kembali_kendaraan" color="c0d4f3" x="645" y="675" />
 	</layout>
 </project>

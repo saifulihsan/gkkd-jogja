@@ -24,7 +24,7 @@ jun.MtKasMasukWin = Ext.extend(Ext.Window, {
                     {
                         xtype: 'xdatefield',
                         ref: '../trans_date',
-                        fieldLabel: 'Tanggal Transaksi',
+                        fieldLabel: 'Tgl Transaksi',
                         name: 'trans_date',
                         id: 'trans_dateid',
                         format: 'd M Y',
@@ -33,16 +33,16 @@ jun.MtKasMasukWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype: 'textfield',
-                        fieldLabel: 'No. Bukti',
+                        fieldLabel: 'Terima Dari',
                         hideLabel: false,
                         //hidden:true,
-                        name: 'no_bukti',
-                        id: 'no_buktiid',
-                        ref: '../no_bukti',
-                        maxLength: 45,
+                        name: 'dari',
+                        id: 'dariid',
+                        ref: '../dari',
+                        maxLength: 30,
                         //allowBlank: 1,
                         anchor: '100%'
-                    },
+                    },                   
                     new jun.comboPayment({
                         fieldLabel: 'Cara Bayar',
                         value: 'Tunai',
@@ -281,7 +281,7 @@ jun.MtKasMasukShowWin = Ext.extend(Ext.Window, {
                     },
                     {
                         xtype: 'label',
-                        text: 'No. Bukti : ',
+                        text: 'Terima Dari : ',
                         x: 5,
                         y: 25,
                         width: 100,
@@ -290,7 +290,7 @@ jun.MtKasMasukShowWin = Ext.extend(Ext.Window, {
                     {
                         xtype: 'label',
                         text: '',
-                        ref: '../no_bukti',
+                        ref: '../dari',
                         x: 100,
                         y: 25
                     },

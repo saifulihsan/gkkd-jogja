@@ -19,6 +19,7 @@ jun.MtKasMasukstore = Ext.extend(Ext.data.JsonStore, {
                 {name: 'note'},
                 {name: 'id_mobil'},
                 {name: 'account_code'},
+                {name: 'dari'},
             ]
         }, cfg));
     }

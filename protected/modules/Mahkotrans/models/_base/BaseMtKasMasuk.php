@@ -21,6 +21,7 @@
  * @property string $note
  * @property integer $id_mobil
  * @property string $account_code
+ * @property string $dari
  *
  * @property MtChartMaster $accountCode
  * @property MtBankAccounts $mtBankAccounts
@@ -38,19 +39,20 @@ abstract class BaseMtKasMasuk extends GxActiveRecord {
 	}
 
 	public static function representingColumn() {
-		return 'doc_ref';
+		return 'dari';
 	}
 
 	public function rules() {
 		return array(
-			array('mt_bank_accounts_id, users_id', 'required'),
+			array('mt_bank_accounts_id, users_id, dari', 'required'),
 			array('mt_bank_accounts_id, users_id, id_mobil', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('doc_ref, account_code', 'length', 'max'=>15),
 			array('no_bukti, trans_via', 'length', 'max'=>45),
+			array('dari', 'length', 'max'=>30),
 			array('entry_time, trans_date, note', 'safe'),
 			array('doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, note, id_mobil, account_code', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('kas_masuk_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, mt_bank_accounts_id, users_id, note, id_mobil, account_code', 'safe', 'on'=>'search'),
+			array('kas_masuk_id, doc_ref, no_bukti, amount, entry_time, trans_date, trans_via, mt_bank_accounts_id, users_id, note, id_mobil, account_code, dari', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -82,6 +84,7 @@ abstract class BaseMtKasMasuk extends GxActiveRecord {
 			'note' => Yii::t('app', 'Note'),
 			'id_mobil' => Yii::t('app', 'Id Mobil'),
 			'account_code' => Yii::t('app', 'Account Code'),
+			'dari' => Yii::t('app', 'Dari'),
 		);
 	}
 
@@ -100,6 +103,7 @@ abstract class BaseMtKasMasuk extends GxActiveRecord {
 		$criteria->compare('note', $this->note, true);
 		$criteria->compare('id_mobil', $this->id_mobil);
 		$criteria->compare('account_code', $this->account_code);
+		$criteria->compare('dari', $this->dari, true);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
