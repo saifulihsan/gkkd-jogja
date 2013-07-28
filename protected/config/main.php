@@ -4,7 +4,7 @@ return array(
     'basePath' => dirname(__file__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Sistem Informasi GKKD',
     'theme' => 'extjs',
-    'preload' => array('log'),
+//    'preload' => array('log'),
     'sourceLanguage' => 'id',
     'import' => array(
         'application.models.*',
@@ -19,13 +19,13 @@ return array(
         'application.vendors.*'
     ),
     'modules' => array(
-        'gii' => array(
-            'class' => 'system.gii.GiiModule',
-            'password' => 'admin',
-            'ipFilters' => array('127.0.0.1', '::1'),
-            'generatorPaths' => array('ext.giix-core',
-            ),
-        ),
+//        'gii' => array(
+//            'class' => 'system.gii.GiiModule',
+//            'password' => 'admin',
+//            'ipFilters' => array('127.0.0.1', '::1'),
+//            'generatorPaths' => array('ext.giix-core',
+//            ),
+//        ),
         'general',
         'PondokHarapan',
         'PondokEfata',
@@ -56,14 +56,14 @@ return array(
         ),
         'errorHandler' => array(
             'errorAction' => 'site/error',),
-        'log' => array(
-            'class' => 'CLogRouter',
-            'routes' => array(array(
-                    'class' => 'CWebLogRoute',
-                    'levels' => 'error, warning',
-                ),
-            ),
-        ),
+//        'log' => array(
+//            'class' => 'CLogRouter',
+//            'routes' => array(array(
+//                    'class' => 'CWebLogRoute',
+//                    'levels' => 'error, warning',
+//                ),
+//            ),
+//        ),
         'ePdf' => array(
             'class' => 'ext.yii-pdf.EYiiPdf',
             'params' => array(

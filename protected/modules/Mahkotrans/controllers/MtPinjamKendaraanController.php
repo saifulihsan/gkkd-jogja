@@ -210,6 +210,7 @@ class MtPinjamKendaraanController extends GxController {
 //        if (isset($_POST) && !empty($_POST)) {
         $pinjam = $this->loadModel($id, 'MtPinjamKendaraan');
 //        $pinjam = new MtPinjamKendaraan;
+        $image = dirname(Yii::app()->getBasePath()).'/images/mahkotrans.png';
         $start = 1;
         $file_name = 'PinjamKendaraan' . $pinjam->doc_ref;
         $worksheet_name = 'Pinjam Kendaraan ' . $pinjam->doc_ref;
@@ -217,19 +218,30 @@ class MtPinjamKendaraanController extends GxController {
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->setActiveSheetIndex(0)->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::
                 PAPERSIZE_A4);
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $objDrawing->setPath($image);
+        $objDrawing->setHeight(30);
+        $objDrawing1 = clone $objDrawing;
         $start_body = $start;
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objDrawing1->setWorksheet($objPHPExcel->getActiveSheet());
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objDrawing1->setCoordinates("A$start");
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
+        
         $start++;
         $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start",
-                        "Vila Seturan Indah Blok D 10 Yogyakarta")
-                ->getStyle("A$start")->getFont()->setSize(11);
+                        "Villa Seturan Indah Blok D-10 Depok Sleman Yogyakarta 55281")
+                ->getStyle("A$start")->getFont()->setSize(6);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
-                ->getStyle("A$start")->getFont()->setSize(11);
+                setCellValue("A$start", "Telp. (0274) 7439982, 085292750055, 087838488822")
+                ->getStyle("A$start")->getFont()->setSize(6);
         $styleArray = array('borders' => array('bottom' => array('style' =>
                     PHPExcel_Style_Border::BORDER_THIN)));
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
@@ -365,18 +377,20 @@ class MtPinjamKendaraanController extends GxController {
                 setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(14)->
                 setBold(true);
         $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+        $objDrawing->setCoordinates("A$start");
+       $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
+        
         $start++;
         $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start",
-                        "Vila Seturan Indah Blok D 10 Yogyakarta")
-                ->getStyle("A$start")->getFont()->setSize(11);
+                        "Villa Seturan Indah Blok D-10 Depok Sleman Yogyakarta 55281")
+                ->getStyle("A$start")->getFont()->setSize(6);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "Telp : 0274 487039 Fax : 0274 487370")
-                ->getStyle("A$start")->getFont()->setSize(11);
+                setCellValue("A$start", "Telp. (0274) 7439982, 085292750055, 087838488822")
+                ->getStyle("A$start")->getFont()->setSize(6);
         $styleArray = array('borders' => array('bottom' => array('style' =>
                     PHPExcel_Style_Border::BORDER_THIN)));
         $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
@@ -510,6 +524,8 @@ class MtPinjamKendaraanController extends GxController {
         $objWriter = new PHPExcel_Writer_HTML($objPHPExcel);
         $html =  $objWriter->generateStyles(true) . $objWriter->
                         generateSheetData();
+        $html = str_replace('.'.$image, app()->getBaseUrl(true).'/images/mahkotrans.png', $html);
+//        echo $html;
         $mPDF1->WriteHTML($html);
         $mPDF1->Output($file_name, 'D');
         Yii::app()->end();
