@@ -99,15 +99,15 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
                     text:'Reset Password',
                     ref:'../btnEdit'
                 },
-//                {
-//                    xtype:'tbseparator',
-//                },
-//                {
-//                    xtype:'button',
-//                    iconCls: 'asp-user2_delete',
-//                    text:'Hapus Delete',
-//                    ref:'../btnDelete'
-//                }
+                {
+                    xtype:'tbseparator',
+                },
+                {
+                    xtype:'button',
+                    iconCls: 'asp-user2_delete',
+                    text:'Ubah Security Role',
+                    ref:'../btnSecurityRole'
+                }
             ]
         };
         jun.rztJemaat.reload();
@@ -115,7 +115,7 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
         jun.UsersGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
         this.btnEdit.on('Click', this.loadEditForm, this);
-//        this.btnDelete.on('Click', this.deleteRec, this);
+        this.btnSecurityRole.on('Click', this.deleteRec, this);
         this.getSelectionModel().on('rowselect', this.getrow, this);
     },
     getrow:function (sm, idx, r) {
@@ -137,7 +137,15 @@ jun.UsersGrid = Ext.extend(Ext.grid.GridPanel, {
         Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin mereset password user ini?', this.deleteRecYes, this);
     },
     deleteRec:function () {
-        Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
+        //Ext.MessageBox.confirm('Pertanyaan', 'Apakah anda yakin ingin menghapus data ini?', this.deleteRecYes, this);
+        var record = this.sm.getSelected();
+        if (record == "") {
+            Ext.MessageBox.alert("Warning", "Anda Belum Memilih User");
+            return;
+        }
+        var form = new jun.UbahSecurity({modez: 0});        
+        form.show();
+        form.formz.getForm().loadRecord(this.record);
     },
     deleteRecYes:function (btn) {
         if (btn == 'no') {

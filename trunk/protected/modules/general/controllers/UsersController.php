@@ -116,6 +116,26 @@ class UsersController extends GxController
             Yii::app()->end();
         }
     }
+    
+    public function actionUpdateRole() {
+        if (!Yii::app()->request->isAjaxRequest) return;
+        if (isset($_POST) && !empty($_POST)) {
+            $id = $_POST['id'];
+            $role = $_POST['security_roles_id'];
+            $model = $this->loadModel($id, 'Users');
+            $msg = "Security role berhasil di ubah.";
+            $status = true;
+            $model->security_roles_id = $role;
+            if (!$model->save()) {
+                $status = false;
+                $msg = "Security role gagal di ubah.";
+            }
+            echo CJSON::encode(array(
+                'success' => $status,
+                'msg' => $msg));
+            Yii::app()->end();
+        }
+    }
 
     public function actionDelete($id)
     {
