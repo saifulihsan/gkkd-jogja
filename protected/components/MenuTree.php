@@ -29,12 +29,12 @@ class MenuTree {
                     text: 'File',
                     expanded: false,
                     children:[";
-        $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
-                        {
-                            text: 'Setting',
-                            id: 'jun.MtSysPrefsWin',
-                            leaf: true
-                        }," : "";
+//       $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "
+//                        {
+//                            text: 'Setting',
+//                            id: 'jun.MtSysPrefsWin',
+//                            leaf: true
+//                        }," : "";
          $menu .= "{
                             text: 'Eksport',
                             id: 'jun.NotaGrid',
@@ -68,13 +68,13 @@ class MenuTree {
                             text: 'Kas dan Bank',
                             id: 'jun.MtBankAccountsGrid',
                             leaf: true
-                        },";
-         $menu .= in_array(ADMINISTRATOR, $this->security_role) ? "{
+                        },
+                        {
                             text: 'Mobil',
                             id: 'jun.MtMobilGrid',
                             leaf: true
-                        }," : "";
-        $menu .= "{
+                        },
+                        {
                             text: 'Driver',
                             id: 'jun.MtDriverGrid',
                             leaf: true
