@@ -71,7 +71,7 @@ jun.PeAnggaranDetilGrid = Ext.extend(Ext.grid.GridPanel, {
                 }
             ]
         };
-        jun.rztPeAnggaranDetil.reload();
+//        jun.rztPeAnggaranDetil.reload();
         jun.PeAnggaranDetilGrid.superclass.initComponent.call(this);
         this.btnAdd.on('Click', this.loadForm, this);
 //        this.btnEdit.on('Click', this.loadEditForm, this);

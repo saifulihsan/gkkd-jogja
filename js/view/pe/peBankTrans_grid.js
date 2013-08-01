@@ -179,7 +179,7 @@ jun.pebankTransStore = new Ext.data.JsonStore({
     root:'data',
     storeId:'pebankTransStore',
     //scope:jun.NotaDtlGrid,
-    url:'PondokEfata/PebankTrans/view',
+    url:'PondokEfata/PeBankTrans/view',
     //idProperty: 'item_id',
     fields:[
         {name:'type'},

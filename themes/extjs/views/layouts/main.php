@@ -24,7 +24,7 @@
     <body>
         <script type="text/javascript"
         src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/adapter/ext/ext-base.js"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all-debug-w-comments.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/sidebar.js"></script>
         <? if (Yii::app()->user->isGuest && !strstr($_SERVER['REQUEST_URI'],
                         "site/login")) {
