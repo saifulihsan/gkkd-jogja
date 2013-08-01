@@ -3,7 +3,9 @@ jun.PeAnggaranDetilstore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         jun.PeAnggaranDetilstore.superclass.constructor.call(this, Ext.apply({
             storeId:'PeAnggaranDetilStoreId',
-            url:'PondokEfata/PeAnggaranDetil/?output=json',
+//            url:'PondokEfata/PeAnggaranDetil/?output=json',
+            autoLoad: false,
+            autoSave: false,
             root:'results',
             totalProperty:'total',
             fields:[
