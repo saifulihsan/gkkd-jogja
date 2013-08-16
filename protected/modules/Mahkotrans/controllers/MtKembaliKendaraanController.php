@@ -167,15 +167,14 @@ class MtKembaliKendaraanController extends GxController {
                         Mt::add_gl(VOID, $void->id_voided, $date, $docref,
                                 Mt::get_prefs('akun_pendapatan_sewa'),
                                 "VOID Pengembalian Kendaraan $docref",
-                                $model->total, $user,
-                                $model->idPinjam->id_mobil);
+                                $model->total, $user, $model->idPinjam->id_mobil);
                         if ($model->disc > 0) {
                             Mt::add_gl(VOID, $void->id_voided, $date, $docref,
                                     Mt::get_prefs('akun_diskon'),
                                     "VOID Pengembalian Kendaraan $docref",
                                     -$model->disc, $user,
                                     $model->idPinjam->id_mobil);
-                        }                      
+                        }
                     }
                     $pinjam = $this->loadModel($model->id_pinjam,
                             'MtPinjamKendaraan');
@@ -225,25 +224,21 @@ class MtKembaliKendaraanController extends GxController {
         } else {
             $start = 0;
         }
-        // $model = new MtKembaliKendaraan('search');
-        // $model->unsetAttributes();
         $void = Mt::get_voided(KEMBALI_KENDARAAN);
         $criteria = new CDbCriteria();
+        $param = array();
+        $criteria = new CDbCriteria();
+        if (isset($_POST['doc_ref_kembali'])) {
+            $criteria->addCondition("doc_ref_kembali like :doc_ref_kembali");
+            $param[':doc_ref_kembali'] = "%" . $_POST['doc_ref_kembali'] . "%";
+        }
         $criteria->addNotInCondition('id_kembali', $void);
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $model = MtKembaliKendaraan::model()->findAll($criteria);
         $total = MtKembaliKendaraan::model()->count($criteria);
-        if (isset($_GET['MtKembaliKendaraan']))
-                $model->attributes = $_GET['MtKembaliKendaraan'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new MtKembaliKendaraan('search');
-            $model->unsetAttributes();
-            $this->render('admin',
-                    array(
-                'model' => $model
-            ));
-        }
+        $this->renderJson($model, $total);        
     }
     private function otherDiffDate($begin, $end, $out_in_array = false) {
         $intervalo = date_diff(date_create($begin), date_create($end));
@@ -271,7 +266,7 @@ class MtKembaliKendaraanController extends GxController {
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->setActiveSheetIndex(0)->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::
                 PAPERSIZE_A4);
-         $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
         $objDrawing->setPath($image);
@@ -440,7 +435,7 @@ class MtKembaliKendaraanController extends GxController {
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);      
+                setBold(true);
         $start++;
         $objDrawing->setCoordinates("A$start");
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->

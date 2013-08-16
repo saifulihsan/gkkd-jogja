@@ -8,8 +8,8 @@ class GeneralModule extends CWebModule
         // you may place code here to customize the module or the application
         // import the module-level models and components
         $this->setImport(array(
-            'general.models.*',
-            'general.components.*',
+//            'general.models.*',
+//            'general.components.*',
         ));
     }
 

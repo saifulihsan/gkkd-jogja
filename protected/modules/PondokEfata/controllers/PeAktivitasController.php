@@ -1,15 +1,11 @@
 <?php
-
-class PeAktivitasController extends GxController
-{
-    public function actionView()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+class PeAktivitasController extends GxController {
+    public function actionView() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $rows = Yii::app()->db->createCommand()
-                ->select("pe_aktivitas.doc_ref,
+                    ->select("pe_aktivitas.doc_ref,
                     pe_aktivitas.no_bukti,
                     pe_aktivitas.amount,
                     pe_aktivitas.entry_time,
@@ -21,15 +17,21 @@ class PeAktivitasController extends GxController
                     pe_bank_accounts.bank_account_name,
                     jemaat.real_name,
                     pe_sub_aktivitas.nama")
-                ->from("pe_aktivitas")
-                ->join("pe_suppliers", "pe_aktivitas.pe_supplier_id = pe_suppliers.supplier_id")
-                ->join("pe_bank_accounts", "pe_aktivitas.pe_bank_accounts_id = pe_bank_accounts.id")
-                ->join("pe_member", "pe_aktivitas.pe_member_id = pe_member.id")
-                ->join("jemaat", "pe_member.jemaat_nij = jemaat.nij")
-                ->join("pe_sub_aktivitas", "pe_aktivitas.pe_sub_aktivitas_id = pe_sub_aktivitas.id")
-                ->join("pe_chart_master", "pe_sub_aktivitas.account_code = pe_chart_master.account_code")
-                ->where("pe_aktivitas.aktivitas_id = :id", array(':id' => $id))
-                ->query();
+                    ->from("pe_aktivitas")
+                    ->join("pe_suppliers",
+                            "pe_aktivitas.pe_supplier_id = pe_suppliers.supplier_id")
+                    ->join("pe_bank_accounts",
+                            "pe_aktivitas.pe_bank_accounts_id = pe_bank_accounts.id")
+                    ->join("pe_member",
+                            "pe_aktivitas.pe_member_id = pe_member.id")
+                    ->join("jemaat", "pe_member.jemaat_nij = jemaat.nij")
+                    ->join("pe_sub_aktivitas",
+                            "pe_aktivitas.pe_sub_aktivitas_id = pe_sub_aktivitas.id")
+                    ->join("pe_chart_master",
+                            "pe_sub_aktivitas.account_code = pe_chart_master.account_code")
+                    ->where("pe_aktivitas.aktivitas_id = :id",
+                            array(':id' => $id))
+                    ->query();
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
@@ -40,11 +42,8 @@ class PeAktivitasController extends GxController
 //            'model' => $this->loadModel($id, 'PeAktivitas'),
 //        ));
     }
-
-    public function actionCreate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
@@ -57,8 +56,7 @@ class PeAktivitasController extends GxController
                 $docref = $ref->get_next_reference(AKTIVITAS);
                 $aktivitas = new PeAktivitas;
                 foreach ($_POST as $k => $v) {
-                    if ($k == 'amount')
-                        $v = get_number($v);
+                    if ($k == 'amount') $v = get_number($v);
                     $_POST['PeAktivitas'][$k] = $v;
                 }
                 $date = $_POST['PeAktivitas']['trans_date'];
@@ -72,10 +70,10 @@ class PeAktivitasController extends GxController
                 $bank_account = Pe::get_act_code_from_bank_act($aktivitas->pe_bank_accounts_id);
                 $act_sub = $aktivitas->peSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
-                Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
-                    $aktivitas->note, $aktivitas->amount, $user);
-                Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account, '-', -$aktivitas->amount,
-                    $user);
+                Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref,
+                        $act_sub, $aktivitas->note, $aktivitas->amount, $user);
+                Pe::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref,
+                        $bank_account, '-', -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -91,9 +89,7 @@ class PeAktivitasController extends GxController
             Yii::app()->end();
         }
     }
-
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->loadModel($id, 'PeAktivitas');
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
@@ -121,11 +117,8 @@ class PeAktivitasController extends GxController
             'model' => $model,
         ));
     }
-
-    public function actionDelete()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionDelete() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
@@ -148,10 +141,11 @@ class PeAktivitasController extends GxController
                 $act_sub = $aktivitas->peSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
-                    $aktivitas->amount, $user);
-                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub, "VOID Aktivitas $docref",
-                    -$aktivitas->amount, $user);
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref,
+                        $bank->account_code, "VOID Aktivitas $docref",
+                        $aktivitas->amount, $user);
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub,
+                        "VOID Aktivitas $docref", -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -173,27 +167,23 @@ class PeAktivitasController extends GxController
 //            throw new CHttpException(400,
 //                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('PeAktivitas');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
     public function actionAdmin() {
-    $dataProvider = new CActiveDataProvider('PeAktivitas');
-    $this->render('index', array(
-    'dataProvider' => $dataProvider,
-    ));
-    }*/
-    public function actionAdmin()
-    {
         $model = new PeAktivitas('search');
         $model->unsetAttributes();
         if (isset($_GET['PeAktivitas']))
-            $model->attributes = $_GET['PeAktivitas'];
+                $model->attributes = $_GET['PeAktivitas'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -204,26 +194,31 @@ class PeAktivitasController extends GxController
         } else {
             $start = 0;
         }
-//$model = new PeAktivitas('search');
-//$model->unsetAttributes();
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        $param = array();
         $void = Pe::get_voided(AKTIVITAS);
         $criteria = new CDbCriteria();
-//$criteria->limit = $limit;
-//$criteria->offset = $start;
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $criteria->addNotInCondition('aktivitas_id', $void);
         $model = PeAktivitas::model()->findAll($criteria);
         $total = PeAktivitas::model()->count($criteria);
-        if (isset($_GET['PeAktivitas']))
-            $model->attributes = $_GET['PeAktivitas'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PeAktivitas('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

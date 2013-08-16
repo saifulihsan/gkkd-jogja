@@ -106,38 +106,47 @@ class MtPelangganController extends GxController {
         ));
     }
     public function actionIndex() {
-        if (isset($_POST['limit'])) {
-            $limit = $_POST['limit'];
+        if (isset($_POST['mode']) && $_POST['mode'] == 'all') {
+            $model = MtPelanggan::model()->findAll();
+            $total = MtPelanggan::model()->count();
         } else {
-            $limit = 23;
+            if (isset($_POST['limit'])) {
+                $limit = $_POST['limit'];
+            } else {
+                $limit = 20;
+            }
+
+            if (isset($_POST['start'])) {
+                $start = $_POST['start'];
+            } else {
+                $start = 0;
+            }
+
+            $param = array();
+            $criteria = new CDbCriteria();
+            if (isset($_POST['nama'])) {
+                $criteria->addCondition("nama like :nama");
+                $param[':nama'] = "%" . $_POST['nama'] . "%";
+            }
+            if (isset($_POST['no_tlp'])) {
+                $criteria->addCondition("no_tlp like :no_tlp");
+                $param[':no_tlp'] = "%" . $_POST['no_tlp'] . "%";
+            }
+            if (isset($_POST['alamat'])) {
+                $criteria->addCondition("alamat like :alamat");
+                $param[':alamat'] = "%" . $_POST['alamat'] . "%";
+            }
+            if (isset($_POST['inactive']) && $_POST['inactive'] != -1) {
+                $criteria->addCondition("inactive = :inactive");
+                $param[':inactive'] = $_POST['inactive'];
+            }
+            $criteria->params = $param;
+            $criteria->limit = $limit;
+            $criteria->offset = $start;
+
+            $model = MtPelanggan::model()->findAll($criteria);
+            $total = MtPelanggan::model()->count($criteria);
         }
-
-        if (isset($_POST['start'])) {
-            $start = $_POST['start'];
-        } else {
-            $start = 0;
-        }
-//$model = new MtPelanggan('search');
-//$model->unsetAttributes();
-
-        $criteria = new CDbCriteria();
-$criteria->limit = $limit;
-$criteria->offset = $start;
-        $model = MtPelanggan::model()->findAll($criteria);
-        $total = MtPelanggan::model()->count($criteria);
-
-        if (isset($_GET['MtPelanggan']))
-                $model->attributes = $_GET['MtPelanggan'];
-
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new MtPelanggan('search');
-            $model->unsetAttributes();
-
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

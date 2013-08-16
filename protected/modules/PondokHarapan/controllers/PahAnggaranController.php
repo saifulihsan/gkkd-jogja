@@ -1,18 +1,13 @@
 <?php
-
-class PahAnggaranController extends GxController
-{
-    public function actionView($id)
-    {
-		$this->render('view', array(
-			'model' => $this->loadModel($id, 'PahAnggaran'),
-		));
+class PahAnggaranController extends GxController {
+    public function actionView($id) {
+        $this->render('view',
+                array(
+            'model' => $this->loadModel($id, 'PahAnggaran'),
+        ));
     }
-
-    public function actionGetSaldo()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionGetSaldo() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $bulan = $_POST['bulan'];
             $tahun = $_POST['tahun'];
@@ -27,7 +22,7 @@ class PahAnggaranController extends GxController
             $start_date = $periode['start'];
             $end_date = $periode['end'];
             $sisa_anggaran = Pah::get_balance_before_for_bank_account($tahun . "-" . $bulan . "-1");
-            $total_saldo = Pah::get_total_pendapatan($start_date, $end_date);//Pah::get_balance_before_for_bank_account($tahun . "-" . ($bulan + 1) . "-1");
+            $total_saldo = Pah::get_total_pendapatan($start_date, $end_date); //Pah::get_balance_before_for_bank_account($tahun . "-" . ($bulan + 1) . "-1");
             $saldo_skrg = $total_saldo + $sisa_anggaran;
             echo CJSON::encode(array(
                 'success' => true,
@@ -38,11 +33,8 @@ class PahAnggaranController extends GxController
             Yii::app()->end();
         }
     }
-
-    public function actionIsPeriodeExist()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionIsPeriodeExist() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $bulan = $_POST['bulan'];
             $tahun = $_POST['tahun'];
@@ -65,11 +57,8 @@ class PahAnggaranController extends GxController
             }
         }
     }
-
-    public function actionCreate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
@@ -87,7 +76,8 @@ class PahAnggaranController extends GxController
                 $_POST['PahAnggaran']['periode_bulan'] = $bulan;
                 $_POST['PahAnggaran']['periode_tahun'] = $tahun;
                 $_POST['PahAnggaran']['lock'] = 0;
-                $_POST['PahAnggaran']['trans_date'] = Yii::app()->dateFormatter->format('yyyy-MM-dd', time());
+                $_POST['PahAnggaran']['trans_date'] = Yii::app()->dateFormatter->format('yyyy-MM-dd',
+                        time());
                 $_POST['PahAnggaran']['users_id'] = Yii::app()->user->getId();
                 $anggaran->attributes = $_POST['PahAnggaran'];
                 $result = $anggaran->save();
@@ -120,11 +110,8 @@ class PahAnggaranController extends GxController
             Yii::app()->end();
         }
     }
-
-    public function actionUpdate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionUpdate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
@@ -137,9 +124,11 @@ class PahAnggaranController extends GxController
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $anggaran = PahAnggaran::model()->findByPk($id);
-                PahAnggaranDetil::model()->deleteAll('pah_anggaran_id = ?', array($id));
+                PahAnggaranDetil::model()->deleteAll('pah_anggaran_id = ?',
+                        array($id));
                 $docref = $anggaran->doc_ref;
-                $anggaran->trans_date = Yii::app()->dateFormatter->format('yyyy-MM-dd', time());
+                $anggaran->trans_date = Yii::app()->dateFormatter->format('yyyy-MM-dd',
+                        time());
                 $anggaran->users_id = Yii::app()->user->getId();
                 $result = $anggaran->save();
                 $err = $anggaran->getErrors();
@@ -192,9 +181,7 @@ class PahAnggaranController extends GxController
             'model' => $model,
         ));
     }
-
-    public function actionDelete()
-    {
+    public function actionDelete() {
         if (Yii::app()->request->isPostRequest) {
             if (isset($_POST) && !empty($_POST)) {
                 $id = $_POST['id_anggaran'];
@@ -202,31 +189,29 @@ class PahAnggaranController extends GxController
 //			if (!Yii::app()->request->isAjaxRequest)
 //				$this->redirect(array('admin'));
             }
-        } else
-            throw new CHttpException(400,
-                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+        }
+        else
+                throw new CHttpException(400,
+            Yii::t('app',
+                    'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
-        public function actionAdmin() {
-            $dataProvider = new CActiveDataProvider('PahAnggaran');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
-        }*/
-    public function actionAdmin()
-    {
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('PahAnggaran');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
+    public function actionAdmin() {
         $model = new PahAnggaran('search');
         $model->unsetAttributes();
         if (isset($_GET['PahAnggaran']))
-            $model->attributes = $_GET['PahAnggaran'];
+                $model->attributes = $_GET['PahAnggaran'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -237,21 +222,29 @@ class PahAnggaranController extends GxController
         } else {
             $start = 0;
         }
+        $param = array();
         $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['periode_bulan'])) {
+            $criteria->addCondition("periode_bulan = :periode_bulan");
+            $param[':periode_bulan'] = $_POST['periode_bulan'];
+        }
+        if (isset($_POST['periode_tahun'])) {
+            $criteria->addCondition("periode_tahun = :periode_tahun");
+            $param[':periode_tahun'] = $_POST['periode_tahun'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        $criteria->params = $param;
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
         $model = PahAnggaran::model()->findAll($criteria);
         $total = PahAnggaran::model()->count($criteria);
-        if (isset($_GET['PahAnggaran']))
-            $model->attributes = $_GET['PahAnggaran'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahAnggaran('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

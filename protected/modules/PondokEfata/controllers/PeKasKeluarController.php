@@ -1,15 +1,11 @@
 <?php
-
-class PeKasKeluarController extends GxController
-{
-    public function actionView()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+class PeKasKeluarController extends GxController {
+    public function actionView() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $rows = Yii::app()->db->createCommand()
-                ->select("pe_kas_keluar.doc_ref,
+                    ->select("pe_kas_keluar.doc_ref,
                     pe_kas_keluar.no_bukti,
                     pe_kas_keluar.amount,
                     pe_kas_keluar.entry_time,
@@ -19,27 +15,28 @@ class PeKasKeluarController extends GxController
                     pe_bank_accounts.bank_account_name,
                     pe_chart_master.account_code,
                     pe_chart_master.description")
-                ->from("pe_kas_keluar")
-                ->join("pe_suppliers", "pe_kas_keluar.pe_supplier_id = pe_suppliers.supplier_id")
-                ->join("pe_bank_accounts", "pe_kas_keluar.pe_bank_accounts_id = pe_bank_accounts.id")
-                ->join("pe_chart_master", "pe_kas_keluar.pe_account_code = pe_chart_master.account_code")
-                ->where("pe_kas_keluar.kas_keluar_id = :id", array(':id' => $id))
-                ->query();
+                    ->from("pe_kas_keluar")
+                    ->join("pe_suppliers",
+                            "pe_kas_keluar.pe_supplier_id = pe_suppliers.supplier_id")
+                    ->join("pe_bank_accounts",
+                            "pe_kas_keluar.pe_bank_accounts_id = pe_bank_accounts.id")
+                    ->join("pe_chart_master",
+                            "pe_kas_keluar.pe_account_code = pe_chart_master.account_code")
+                    ->where("pe_kas_keluar.kas_keluar_id = :id",
+                            array(':id' => $id))
+                    ->query();
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
-        ));
+            ));
             Yii::app()->end();
-    }
+        }
 //        $this->render('view', array(
 //            'model' => $this->loadModel($id, 'PeKasKeluar'),
 //        ));
     }
-
-    public function actionCreate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas keluar berhasil disimpan.';
@@ -52,11 +49,10 @@ class PeKasKeluarController extends GxController
                 $ref = new PeReferenceCom();
                 $docref = $ref->get_next_reference(KAS_KELUAR);
                 $kas_keluar = new PeKasKeluar;
-            foreach ($_POST as $k => $v) {
-                    if ($k == 'amount')
-                        $v = get_number($v);
+                foreach ($_POST as $k => $v) {
+                    if ($k == 'amount') $v = get_number($v);
                     $_POST['PeKasKeluar'][$k] = $v;
-            }
+                }
                 $date = $_POST['PeKasKeluar']['trans_date'];
                 $_POST['PeKasKeluar']['entry_time'] = Now();
                 $_POST['PeKasKeluar']['users_id'] = $user;
@@ -67,10 +63,11 @@ class PeKasKeluarController extends GxController
                 $ref->save(KAS_KELUAR, $kas_keluar->kas_keluar_id, $docref);
                 $bank_account = Pe::get_act_code_from_bank_act($kas_keluar->pe_bank_accounts_id);
                 //debet kode beban - kredit kas/bank
-                Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref,
-                    $kas_keluar->pe_account_code, $kas_keluar->note, $kas_keluar->amount, $user);
-                Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date, $docref, $bank_account,
-                    '-', -$kas_keluar->amount, $user);
+                Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date,
+                        $docref, $kas_keluar->pe_account_code,
+                        $kas_keluar->note, $kas_keluar->amount, $user);
+                Pe::add_gl(KAS_KELUAR, $kas_keluar->kas_keluar_id, $date,
+                        $docref, $bank_account, '-', -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -79,22 +76,21 @@ class PeKasKeluarController extends GxController
                 $msg = $ex;
             }
         }
-            echo CJSON::encode(array(
-                'success' => $status,
+        echo CJSON::encode(array(
+            'success' => $status,
             'id' => $id,
             'msg' => $msg
         ));
-            Yii::app()->end();
-        }
-
-    public function actionUpdate($id)
-    {
+        Yii::app()->end();
+    }
+    public function actionUpdate($id) {
         $model = $this->loadModel($id, 'PeKasKeluar');
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PeKasKeluar'][$k] = $v;
             }
-            $_POST['PeKasKeluar']['entry_time'] = Yii::app()->dateFormatter->format('yyyy-MM-dd', time());
+            $_POST['PeKasKeluar']['entry_time'] = Yii::app()->dateFormatter->format('yyyy-MM-dd',
+                    time());
             $_POST['PeKasKeluar']['users_id'] = Yii::app()->user->getId();
             $_POST['PeKasKeluar']['doc_ref'] = '';
             $model->attributes = $_POST['PeKasKeluar'];
@@ -116,11 +112,8 @@ class PeKasKeluarController extends GxController
             'model' => $model,
         ));
     }
-
-    public function actionDelete()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionDelete() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
@@ -143,10 +136,11 @@ class PeKasKeluarController extends GxController
                 $bank = PeBankAccounts::model()->findByPk($kas_keluar->pe_bank_accounts_id);
                 //void gl
                 Pe::add_gl(VOID, $void->id_voided, $date, $docref,
-                    $bank->account_code,
-                    "VOID Kas Keluar $docref", $kas_keluar->amount, $user);
-                Pe::add_gl(VOID, $void->id_voided, $date, $docref, $kas_keluar->pe_account_code, "VOID Kas Keluar $docref",
-                    -$kas_keluar->amount, $user);
+                        $bank->account_code, "VOID Kas Keluar $docref",
+                        $kas_keluar->amount, $user);
+                Pe::add_gl(VOID, $void->id_voided, $date, $docref,
+                        $kas_keluar->pe_account_code, "VOID Kas Keluar $docref",
+                        -$kas_keluar->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -155,10 +149,10 @@ class PeKasKeluarController extends GxController
                 $msg = $ex;
             }
         }
-            echo CJSON::encode(array(
-                'success' => $status,
-                'msg' => $msg));
-            Yii::app()->end();
+        echo CJSON::encode(array(
+            'success' => $status,
+            'msg' => $msg));
+        Yii::app()->end();
 //        if (Yii::app()->request->isPostRequest) {
 //            $this->loadModel($id, 'PeKasKeluar')->delete();
 //
@@ -168,27 +162,24 @@ class PeKasKeluarController extends GxController
 //            throw new CHttpException(400,
 //                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('PeKasKeluar');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
     public function actionAdmin() {
-         $dataProvider = new CActiveDataProvider('PeKasKeluar');
-    $this->render('index', array(
-    'dataProvider' => $dataProvider,
-    ));
-    }*/
-    public function actionAdmin()
-    {
         $model = new PeKasKeluar('search');
         $model->unsetAttributes();
         if (isset($_GET['PeKasKeluar']))
-            $model->attributes = $_GET['PeKasKeluar'];
+                $model->attributes = $_GET['PeKasKeluar'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
+    public function actionIndex() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -199,26 +190,35 @@ class PeKasKeluarController extends GxController
         } else {
             $start = 0;
         }
-//$model = new PeKasKeluar('search');
-//$model->unsetAttributes();
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
         $void = Pe::get_voided(KAS_KELUAR);
+        $param = array();
         $criteria = new CDbCriteria();
-//$criteria->limit = $limit;
-//$criteria->offset = $start;
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        if (isset($_POST['pe_account_code'])) {
+            $criteria->addCondition("pe_account_code = :pe_account_code");
+            $param[':pe_account_code'] = substr($_POST['pe_account_code'], 0, 10);
+        }
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $criteria->addNotInCondition('kas_keluar_id', $void);
         $model = PeKasKeluar::model()->findAll($criteria);
         $total = PeKasKeluar::model()->count($criteria);
-        if (isset($_GET['PeKasKeluar']))
-            $model->attributes = $_GET['PeKasKeluar'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PeKasKeluar('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

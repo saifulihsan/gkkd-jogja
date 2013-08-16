@@ -1,15 +1,11 @@
 <?php
-
-class PahAktivitasController extends GxController
-{
-    public function actionView()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+class PahAktivitasController extends GxController {
+    public function actionView() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $rows = Yii::app()->db->createCommand()
-                ->select("pah_aktivitas.doc_ref,
+                    ->select("pah_aktivitas.doc_ref,
                     pah_aktivitas.no_bukti,
                     pah_aktivitas.amount,
                     pah_aktivitas.entry_time,
@@ -21,15 +17,21 @@ class PahAktivitasController extends GxController
                     pah_bank_accounts.bank_account_name,
                     jemaat.real_name,
                     pah_sub_aktivitas.nama")
-                ->from("pah_aktivitas")
-                ->join("pah_suppliers", "pah_aktivitas.pah_suppliers_supplier_id = pah_suppliers.supplier_id")
-                ->join("pah_bank_accounts", "pah_aktivitas.pah_bank_accounts_id = pah_bank_accounts.id")
-                ->join("pah_member", "pah_aktivitas.pah_member_id = pah_member.id")
-                ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
-                ->join("pah_sub_aktivitas", "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
-                ->join("pah_chart_master", "pah_sub_aktivitas.account_code = pah_chart_master.account_code")
-                ->where("pah_aktivitas.aktivitas_id = :id", array(':id' => $id))
-                ->query();
+                    ->from("pah_aktivitas")
+                    ->join("pah_suppliers",
+                            "pah_aktivitas.pah_suppliers_supplier_id = pah_suppliers.supplier_id")
+                    ->join("pah_bank_accounts",
+                            "pah_aktivitas.pah_bank_accounts_id = pah_bank_accounts.id")
+                    ->join("pah_member",
+                            "pah_aktivitas.pah_member_id = pah_member.id")
+                    ->join("jemaat", "pah_member.jemaat_nij = jemaat.nij")
+                    ->join("pah_sub_aktivitas",
+                            "pah_aktivitas.pah_sub_aktivitas_id = pah_sub_aktivitas.id")
+                    ->join("pah_chart_master",
+                            "pah_sub_aktivitas.account_code = pah_chart_master.account_code")
+                    ->where("pah_aktivitas.aktivitas_id = :id",
+                            array(':id' => $id))
+                    ->query();
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
@@ -40,11 +42,8 @@ class PahAktivitasController extends GxController
 //            'model' => $this->loadModel($id, 'PahAktivitas'),
 //        ));
     }
-
-    public function actionCreate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Anggaran berhasil disimpan.';
@@ -58,8 +57,7 @@ class PahAktivitasController extends GxController
                 $docref = $ref->get_next_reference(AKTIVITAS);
                 $aktivitas = new PahAktivitas;
                 foreach ($_POST as $k => $v) {
-                    if ($k == 'amount')
-                        $v = get_number($v);
+                    if ($k == 'amount') $v = get_number($v);
                     $_POST['PahAktivitas'][$k] = $v;
                 }
                 $date = $_POST['PahAktivitas']['trans_date'];
@@ -73,10 +71,10 @@ class PahAktivitasController extends GxController
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
-                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $act_sub,
-                    $aktivitas->note, $aktivitas->amount, $user);
-                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref, $bank_account,
-                    '-', -$aktivitas->amount,$user);
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref,
+                        $act_sub, $aktivitas->note, $aktivitas->amount, $user);
+                Pah::add_gl(AKTIVITAS, $aktivitas->aktivitas_id, $date, $docref,
+                        $bank_account, '-', -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -92,9 +90,7 @@ class PahAktivitasController extends GxController
             Yii::app()->end();
         }
     }
-
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->loadModel($id, 'PahAktivitas');
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
@@ -119,11 +115,8 @@ class PahAktivitasController extends GxController
             'model' => $model,
         ));
     }
-
-    public function actionDelete()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionDelete() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
@@ -147,10 +140,11 @@ class PahAktivitasController extends GxController
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Aktivitas $docref",
-                    $aktivitas->amount, $user);
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub, "VOID Aktivitas $docref",
-                    -$aktivitas->amount, $user);
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
+                        $bank->account_code, "VOID Aktivitas $docref",
+                        $aktivitas->amount, $user);
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub,
+                        "VOID Aktivitas $docref", -$aktivitas->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -173,27 +167,23 @@ class PahAktivitasController extends GxController
 //            throw new CHttpException(400,
 //                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
-     public function actionAdmin() {
-         $dataProvider = new CActiveDataProvider('PahAktivitas');
-         $this->render('index', array(
-             'dataProvider' => $dataProvider,
-         ));
-     }*/
-    public function actionAdmin()
-    {
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('PahAktivitas');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
+    public function actionAdmin() {
         $model = new PahAktivitas('search');
         $model->unsetAttributes();
         if (isset($_GET['PahAktivitas']))
-            $model->attributes = $_GET['PahAktivitas'];
+                $model->attributes = $_GET['PahAktivitas'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -204,26 +194,31 @@ class PahAktivitasController extends GxController
         } else {
             $start = 0;
         }
-        //$model = new PahAktivitas('search');
-        //$model->unsetAttributes();
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        $param = array();
         $void = Pah::get_voided(AKTIVITAS);
         $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $criteria->addNotInCondition('aktivitas_id', $void);
         $model = PahAktivitas::model()->findAll($criteria);
         $total = PahAktivitas::model()->count($criteria);
-        if (isset($_GET['PahAktivitas']))
-            $model->attributes = $_GET['PahAktivitas'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahAktivitas('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

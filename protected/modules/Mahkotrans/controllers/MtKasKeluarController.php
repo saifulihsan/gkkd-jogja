@@ -178,23 +178,31 @@ class MtKasKeluarController extends GxController {
         } else {
             $start = 0;
         }
-        // $model = new MtKasKeluar('search');
-        // $model->unsetAttributes();
+        $param = array();
         $void = Mt::get_voided(KAS_KELUAR);
         $criteria = new CDbCriteria();
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
         $criteria->addNotInCondition('kas_keluar_id', $void);
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $model = MtKasKeluar::model()->findAll($criteria);
         $total = MtKasKeluar::model()->count($criteria);
-        if (isset($_GET['MtKasKeluar']))
-                $model->attributes = $_GET['MtKasKeluar'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new MtKasKeluar('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

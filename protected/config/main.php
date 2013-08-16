@@ -1,17 +1,13 @@
 <?php
-
 return array(
     'basePath' => dirname(__file__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Sistem Informasi GKKD',
     'theme' => 'extjs',
-//    'preload' => array('log'),
+//        'preload' => array('log'),
     'sourceLanguage' => 'id',
     'import' => array(
         'application.models.*',
         'application.modules.general.models.*',
-        'application.modules.PondokHarapan.models.*',
-        'application.modules.PondokEfata.models.*',
-        'application.modules.Mahkotrans.models.*',
         'application.components.*',
         'ext.giix-components.*',
         'application.extensions.PasswordHash',
@@ -33,12 +29,14 @@ return array(
     ),
     'components' => array(
         'user' => array(
-            'loginUrl' => array(''),
+            'loginUrl' => array('site/login'),
             'allowAutoLogin' => true,),
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
             'rules' => array(
+//                '/' => 'site/index',
+//                '<action:(contact|login|logout)>/*' => 'site/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -55,7 +53,7 @@ return array(
             'charset' => 'utf8',
         ),
         'errorHandler' => array(
-            'errorAction' => 'site/error',),
+            'errorAction' => '',),
 //        'log' => array(
 //            'class' => 'CLogRouter',
 //            'routes' => array(array(
@@ -83,13 +81,15 @@ return array(
     ),
     'params' => array(
         'adminEmail' => 'webmaster@example.com',
+        'system_title' => 'Sistem Informasi Gereja Kristen Kemah Daud Yogyakarta',
+        'system_subtitle' => 'Villa Seturan Indah Bl D/10, Caturnunggal, Depok Yogyakarta 55281',
         'phpass' => array(
             'iteration_count_log2' => 8,
             'portable_hashes' => false,
         ),
     ),
-    'behaviors' => array(
-        'onBeginRequest' => array('class' => 'application.components.RequireLogin'
-        )
-    ),
+//    'behaviors' => array(
+//        'onBeginRequest' => array('class' => 'application.components.RequireLogin'
+//        )
+//    ),
 );
