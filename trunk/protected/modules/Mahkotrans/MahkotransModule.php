@@ -10,7 +10,7 @@ class MahkotransModule extends CWebModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'Mahkotrans.models.*',
-			'Mahkotrans.components.*',
+//			'Mahkotrans.components.*',
 		));
 	}
 

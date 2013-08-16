@@ -9,7 +9,7 @@ class PondokHarapanModule extends CWebModule
         // import the module-level models and components
         $this->setImport(array(
             'PondokHarapan.models.*',
-            'PondokHarapan.components.*',
+//            'PondokHarapan.components.*',
         ));
     }
 

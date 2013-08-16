@@ -323,7 +323,9 @@ class Pe
 
     static function get_total_pendapatan($start_date, $end_date)
     {
-        $rows = Yii::app()->db->createCommand()->select("-sum(a.amount) as total_pendapatan")->from("pe_gl_trans a")
+        $rows = Yii::app()->db->createCommand()
+                ->select("-sum(a.amount) as total_pendapatan")
+                ->from("pe_gl_trans a")
             ->join("pe_chart_master b", "a.account=b.account_code")
             ->where("a.tran_date between :start and :end and b.account_type=:type",
             array(':start' => $start_date, ':end' => $end_date, ':type' => PePrefs::TypePendapatanAct()))

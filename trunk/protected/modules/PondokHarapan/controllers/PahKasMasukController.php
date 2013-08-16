@@ -1,15 +1,11 @@
 <?php
-
-class PahKasMasukController extends GxController
-{
-    public function actionView()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+class PahKasMasukController extends GxController {
+    public function actionView() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $rows = Yii::app()->db->createCommand()
-                ->select("pah_kas_masuk.doc_ref,
+                    ->select("pah_kas_masuk.doc_ref,
                     pah_kas_masuk.no_bukti,
                     pah_kas_masuk.amount,
                     pah_kas_masuk.entry_time,
@@ -19,12 +15,16 @@ class PahKasMasukController extends GxController
                     pah_bank_accounts.bank_account_name,
                     pah_chart_master.account_code,
                     pah_chart_master.description")
-                ->from("pah_kas_masuk")
-                ->join("pah_donatur", "pah_kas_masuk.pah_donatur_id = pah_donatur.id")
-                ->join("pah_bank_accounts", "pah_kas_masuk.pah_bank_accounts_id = pah_bank_accounts.id")
-                ->join("pah_chart_master", "pah_donatur.pah_chart_master_account_code = pah_chart_master.account_code")
-                ->where("pah_kas_masuk.kas_masuk_id = :id", array(':id' => $id))
-                ->query();
+                    ->from("pah_kas_masuk")
+                    ->join("pah_donatur",
+                            "pah_kas_masuk.pah_donatur_id = pah_donatur.id")
+                    ->join("pah_bank_accounts",
+                            "pah_kas_masuk.pah_bank_accounts_id = pah_bank_accounts.id")
+                    ->join("pah_chart_master",
+                            "pah_donatur.pah_chart_master_account_code = pah_chart_master.account_code")
+                    ->where("pah_kas_masuk.kas_masuk_id = :id",
+                            array(':id' => $id))
+                    ->query();
             echo CJSON::encode(array(
                 'success' => true,
                 'data' => $rows
@@ -35,11 +35,8 @@ class PahKasMasukController extends GxController
 //            'model' => $this->loadModel($id, 'PahKasMasuk'),
 //        ));
     }
-
-    public function actionCreate()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionCreate() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $status = false;
             $msg = 'Kas masuk berhasil disimpan.';
@@ -53,8 +50,7 @@ class PahKasMasukController extends GxController
                 $docref = $ref->get_next_reference(KAS_MASUK);
                 $kas_masuk = new PahKasMasuk;
                 foreach ($_POST as $k => $v) {
-                    if ($k == 'amount')
-                        $v = get_number($v);
+                    if ($k == 'amount') $v = get_number($v);
                     $_POST['PahKasMasuk'][$k] = $v;
                 }
                 $date = $_POST['PahKasMasuk']['trans_date'];
@@ -68,10 +64,11 @@ class PahKasMasukController extends GxController
                 $bank_account = Pah::get_act_code_from_bank_act($kas_masuk->pah_bank_accounts_id);
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //debet kode kas/bank - kredit pendapatan
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $bank_account,
-                    '-', $kas_masuk->amount,$user);
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref, $act_donatur,
-                    $kas_masuk->note, -$kas_masuk->amount, $user);
+                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
+                        $bank_account, '-', $kas_masuk->amount, $user);
+                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
+                        $act_donatur, $kas_masuk->note, -$kas_masuk->amount,
+                        $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -87,15 +84,14 @@ class PahKasMasukController extends GxController
         ));
         Yii::app()->end();
     }
-
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->loadModel($id, 'PahKasMasuk');
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
                 $_POST['PahKasMasuk'][$k] = $v;
             }
-            $_POST['PahKasMasuk']['entry_time'] = Yii::app()->dateFormatter->format('yyyy-MM-dd', time());
+            $_POST['PahKasMasuk']['entry_time'] = Yii::app()->dateFormatter->format('yyyy-MM-dd',
+                    time());
             $_POST['PahKasMasuk']['users_id'] = Yii::app()->user->getId();
             $_POST['PahKasMasuk']['doc_ref'] = '';
             $model->attributes = $_POST['PahKasMasuk'];
@@ -117,11 +113,8 @@ class PahKasMasukController extends GxController
             'model' => $model,
         ));
     }
-
-    public function actionDelete()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionDelete() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
@@ -145,10 +138,11 @@ class PahKasMasukController extends GxController
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //void gl
                 Pah::add_gl(VOID, $void->id_voided, $date, $docref,
-                    $act_donatur,
-                    "VOID Kas Masuk $docref", $kas_masuk->amount, $user);
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $bank->account_code, "VOID Kas Masuk $docref",
-                    -$kas_masuk->amount, $user);
+                        $act_donatur, "VOID Kas Masuk $docref",
+                        $kas_masuk->amount, $user);
+                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
+                        $bank->account_code, "VOID Kas Masuk $docref",
+                        -$kas_masuk->amount, $user);
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -170,27 +164,23 @@ class PahKasMasukController extends GxController
 //            throw new CHttpException(400,
 //                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
-     public function actionAdmin() {
-         $dataProvider = new CActiveDataProvider('PahKasMasuk');
-         $this->render('index', array(
-             'dataProvider' => $dataProvider,
-         ));
-     }*/
-    public function actionAdmin()
-    {
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('PahKasMasuk');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
+    public function actionAdmin() {
         $model = new PahKasMasuk('search');
         $model->unsetAttributes();
         if (isset($_GET['PahKasMasuk']))
-            $model->attributes = $_GET['PahKasMasuk'];
+                $model->attributes = $_GET['PahKasMasuk'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
@@ -201,27 +191,32 @@ class PahKasMasukController extends GxController
         } else {
             $start = 0;
         }
-        //$model = new PahKasMasuk('search');
-        //$model->unsetAttributes();
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+
         $void = Pah::get_voided(KAS_MASUK);
-        //$arr = array(1,2);
+        $param = array();
         $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $criteria->addNotInCondition('kas_masuk_id', $void);
         $model = PahKasMasuk::model()->findAll($criteria);
         $total = PahKasMasuk::model()->count($criteria);
-        if (isset($_GET['PahKasMasuk']))
-            $model->attributes = $_GET['PahKasMasuk'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahKasMasuk('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

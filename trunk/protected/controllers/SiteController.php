@@ -2,6 +2,14 @@
 
 class SiteController extends Controller
 {
+//    public function accessRules() {
+//        return array(
+//            array('allow',
+//                'users' => array('*'),
+//                'actions' => array('login'),
+//            )           
+//        );
+//    }
     /**
      * Declares class-based actions.
      */
@@ -27,6 +35,7 @@ class SiteController extends Controller
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
+        $this->layout = 'main';
         $this->render('index');
     }
 
@@ -106,23 +115,31 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        $model = new LoginForm;
-        $loginUsername = isset($_POST["loginUsername"]) ? $_POST["loginUsername"] : "";
-        $loginPassword = isset($_POST["loginPassword"]) ? $_POST["loginPassword"] : "";
-        if ($loginUsername != "")
-        {
-            //$model->attributes = $_POST['LoginForm'];
-            $model->username = $loginUsername;
-            $model->password = $loginPassword;
-            // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $model->login())
-                echo "{success: true}";
-            else
-                echo "{success: false, errors: { reason: 'Login failed. Try again.' }}";
+        if (!Yii::app()->request->isAjaxRequest){
+            $this->layout = 'login';
+            $this->render('login');
+        }else{
+            $model = new LoginForm;
+            $loginUsername = isset($_POST["loginUsername"]) ? $_POST["loginUsername"]
+                        : "";
+            $loginPassword = isset($_POST["loginPassword"]) ? $_POST["loginPassword"]
+                        : "";
+            if ($loginUsername != "") {
+                //$model->attributes = $_POST['LoginForm'];
+                $model->username = $loginUsername;
+                $model->password = $loginPassword;
+                // validate user input and redirect to the previous page if valid
+                if ($model->validate() && $model->login())
+                        echo "{success: true}";
+                else
+                        echo "{success: false, errors: { reason: 'Login failed. Try again.' }}";
+            }
+            else {
+                echo "{success: false, errors: { reason: 'Login failed. Try again' }}";
+            }
         }
-        else{
-            echo "{success: false, errors: { reason: 'Login failed. Try again' }}";
-        }
+        
+        
 
         //$loginUsername = "f";
         //if ($loginUsername == "f")

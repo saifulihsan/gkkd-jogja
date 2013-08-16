@@ -200,24 +200,35 @@ class PahKasKeluarController extends GxController
         } else {
             $start = 0;
         }
-        //$model = new PahKasKeluar('search');
-        //$model->unsetAttributes();
-        //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
+        $param = array();
         $void = Pah::get_voided(KAS_KELUAR);
         $criteria = new CDbCriteria();
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['no_bukti'])) {
+            $criteria->addCondition("no_bukti like :no_bukti");
+            $param[':no_bukti'] = "%" . $_POST['no_bukti'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
+        if (isset($_POST['pah_chart_master_account_code'])) {
+            $criteria->addCondition("pah_chart_master_account_code = :pah_chart_master_account_code");
+            $param[':pah_chart_master_account_code'] = substr($_POST['pah_chart_master_account_code'], 0, 10);
+        }
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $criteria->addNotInCondition('kas_keluar_id', $void);
         $model = PahKasKeluar::model()->findAll($criteria);
         $total = PahKasKeluar::model()->count($criteria);
-        if (isset($_GET['PahKasKeluar']))
-            $model->attributes = $_GET['PahKasKeluar'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahKasKeluar('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

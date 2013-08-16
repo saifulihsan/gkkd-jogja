@@ -188,33 +188,39 @@ class MtKasMasukController extends GxController {
         } else {
             $start = 0;
         }
+        $param = array();
         $void = Mt::get_voided(KAS_MASUK);
         $criteria = new CDbCriteria();
+        if (isset($_POST['doc_ref'])) {
+            $criteria->addCondition("doc_ref like :doc_ref");
+            $param[':doc_ref'] = "%" . $_POST['doc_ref'] . "%";
+        }
+        if (isset($_POST['dari'])) {
+            $criteria->addCondition("dari like :dari");
+            $param[':dari'] = "%" . $_POST['dari'] . "%";
+        }
+        if (isset($_POST['amount'])) {
+            $criteria->addCondition("amount = :amount");
+            $param[':amount'] = $_POST['amount'];
+        }
+        if (isset($_POST['trans_date'])) {
+            $criteria->addCondition("trans_date = :trans_date");
+            $param[':trans_date'] = substr($_POST['trans_date'], 0, 10);
+        }
         $criteria->addNotInCondition('kas_masuk_id', $void);
+        $criteria->limit = $limit;
+        $criteria->offset = $start;
+        $criteria->params = $param;
         $model = MtKasMasuk::model()->findAll($criteria);
         $total = MtKasMasuk::model()->count($criteria);
-
-        if (isset($_GET['MtKasMasuk']))
-                $model->attributes = $_GET['MtKasMasuk'];
-
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new MtKasMasuk('search');
-            $model->unsetAttributes();
-
-            $this->render('admin',
-                    array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
     public function actionPrint($id) {
         if (Yii::app()->request->isAjaxRequest) return;
 //        if (isset($_POST) && !empty($_POST)) {
         $kas_masuk = $this->loadModel($id, 'MtKasMasuk');
 //        $pinjam = new MtPinjamKendaraan;
-        $image = dirname(Yii::app()->getBasePath()).'/images/mahkotrans.png';
+        $image = dirname(Yii::app()->getBasePath()) . '/images/mahkotrans.png';
         $start = 1;
         $file_name = 'KasMasuk' . $kas_masuk->doc_ref;
         $worksheet_name = 'Kas Masuk ' . $kas_masuk->doc_ref;
@@ -222,127 +228,19 @@ class MtKasMasukController extends GxController {
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->setActiveSheetIndex(0)->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::
                 PAPERSIZE_A4);
-         $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
         $objDrawing->setPath($image);
         $objDrawing->setHeight(30);
         $objDrawing1 = clone $objDrawing;
-        $start_body = $start;        
+        $start_body = $start;
         $objPHPExcel->setActiveSheetIndex(0);
         $objDrawing1->setWorksheet($objPHPExcel->getActiveSheet());
         $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
         $objDrawing1->setCoordinates("A$start");
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);        
-        $start++;
-        $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start",
-                        "Villa Seturan Indah Blok D-10 Depok Sleman Yogyakarta 55281")
-                ->getStyle("A$start")->getFont()->setSize(6);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "Telp. (0274) 7439982, 085292750055, 087838488822")
-                ->getStyle("A$start")->getFont()->setSize(6);
-        $styleArray = array('borders' => array('bottom' => array('style' =>
-                    PHPExcel_Style_Border::BORDER_THIN)));
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
-                applyFromArray($styleArray);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "KUITANSI")
-                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
-        $start++;        
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")
-                ->setCellValue("A$start", "No : " . $kas_masuk->doc_ref)
-                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->
-                setCellValue("B$start",
-                "                                                                                          ")
-                ->getStyle("B$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                "Telah terima dari");
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
-                ': '.$kas_masuk->dari);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                "Sebagai pembayaran");
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
-                ': '.$kas_masuk->note);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
-                "Uang sejumlah");
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
-                ': Rp ' . number_format($kas_masuk->amount,2));
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
-                setCellValue("D$start", "Yogyakarta, ".  get_date_today('dd MMMM yyyy'))->getStyle("D$start")->getAlignment()
-                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
-                setCellValue("D$start", "Staf Mahkotrans")->getStyle("D$start")->getAlignment()
-                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        
-
-//=================================================================================================================
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
-                setBold(true);
-        $start++;
-        $objDrawing->setCoordinates("A$start");
-       $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
                 setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
-        
         $start++;
         $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
@@ -351,7 +249,8 @@ class MtKasMasukController extends GxController {
                 ->getStyle("A$start")->getFont()->setSize(6);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
-                setCellValue("A$start", "Telp. (0274) 7439982, 085292750055, 087838488822")
+                setCellValue("A$start",
+                        "Telp. (0274) 7439982, 085292750055, 087838488822")
                 ->getStyle("A$start")->getFont()->setSize(6);
         $styleArray = array('borders' => array('bottom' => array('style' =>
                     PHPExcel_Style_Border::BORDER_THIN)));
@@ -397,7 +296,8 @@ class MtKasMasukController extends GxController {
                 setBold(true);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
-                setCellValue("D$start", "Yogyakarta, "  . get_date_today('dd MMMM yyyy'))->getStyle("D$start")->getAlignment()
+                setCellValue("D$start",
+                        "Yogyakarta, " . get_date_today('dd MMMM yyyy'))->getStyle("D$start")->getAlignment()
                 ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $start++;
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
@@ -411,7 +311,117 @@ class MtKasMasukController extends GxController {
         $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
                 setCellValue("D$start", "Staf Mahkotrans")->getStyle("D$start")->getAlignment()
                 ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        
+
+
+//=================================================================================================================
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objDrawing->setCoordinates("A$start");
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "MAHKOTRANS")->getStyle("A$start")->getFont()->setSize(14);
+
+        $start++;
+        $objPHPExcel->getActiveSheet()->setTitle($worksheet_name);
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start",
+                        "Villa Seturan Indah Blok D-10 Depok Sleman Yogyakarta 55281")
+                ->getStyle("A$start")->getFont()->setSize(6);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start",
+                        "Telp. (0274) 7439982, 085292750055, 087838488822")
+                ->getStyle("A$start")->getFont()->setSize(6);
+        $styleArray = array('borders' => array('bottom' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_THIN)));
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start_body:G$start")->
+                applyFromArray($styleArray);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "KUITANSI")
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle("A$start")->getFont()->setSize(12);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")
+                ->setCellValue("A$start", "No : " . $kas_masuk->doc_ref)
+                ->getStyle("A$start")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->
+                setCellValue("B$start",
+                        "                                                                                          ")
+                ->getStyle("B$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                "Telah terima dari");
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
+                ': ' . $kas_masuk->dari);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                "Sebagai pembayaran");
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
+                ': ' . $kas_masuk->note);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$start",
+                "Uang sejumlah");
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("B$start:G$start")->setCellValue("B$start",
+                ': Rp ' . number_format($kas_masuk->amount, 2));
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
+                setCellValue("D$start",
+                        "Yogyakarta, " . get_date_today('dd MMMM yyyy'))->getStyle("D$start")->getAlignment()
+                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("A$start:G$start")->
+                setCellValue("A$start", "  ")->getStyle("A$start")->getFont()->setSize(16)->
+                setBold(true);
+        $start++;
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("D$start:G$start")->
+                setCellValue("D$start", "Staf Mahkotrans")->getStyle("D$start")->getAlignment()
+                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
         ob_end_clean();
         ob_start();
         $objPHPExcel->getActiveSheet()->setShowGridlines(false);
@@ -419,7 +429,8 @@ class MtKasMasukController extends GxController {
         $objWriter = new PHPExcel_Writer_HTML($objPHPExcel);
         $html = $objWriter->generateStyles(true) . $objWriter->
                         generateSheetData();
-        $html = str_replace('.'.$image, app()->getBaseUrl(true).'/images/mahkotrans.png', $html);
+        $html = str_replace('.' . $image,
+                app()->getBaseUrl(true) . '/images/mahkotrans.png', $html);
         $mPDF1->WriteHTML($html);
         $mPDF1->Output($file_name, 'D');
         Yii::app()->end();

@@ -9,7 +9,7 @@ class PondokEfataModule extends CWebModule
         // import the module-level models and components
         $this->setImport(array(
             'PondokEfata.models.*',
-            'PondokEfata.components.*',
+//            'PondokEfata.components.*',
         ));
     }
 

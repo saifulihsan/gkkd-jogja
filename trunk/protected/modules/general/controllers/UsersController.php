@@ -1,23 +1,19 @@
 <?php
-
-class UsersController extends GxController
-{
-    public function actionView($id)
-    {
-        $this->render('view', array(
+class UsersController extends GxController {
+    public function actionView($id) {
+        $this->render('view',
+                array(
             'model' => $this->loadModel($id, 'Users'),
         ));
     }
-
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Users;
         if (isset($_POST) && !empty($_POST)) {
             foreach ($_POST as $k => $v) {
-                if ($k == "password") {
-                    $crypt = new bCrypt();
-                    $v = $crypt->hash($v);
-                }
+//                if ($k == "password") {
+//                    $crypt = new bCrypt();
+//                    $v = $crypt->hash($v);
+//                }
                 $_POST['Users'][$k] = $v;
             }
             $model->attributes = $_POST['Users'];
@@ -39,18 +35,14 @@ class UsersController extends GxController
         }
         $this->render('create', array('model' => $model));
     }
-
-    public function actionUpdate($id)
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionUpdate($id) {
+        if (!Yii::app()->request->isAjaxRequest) return;
         $model = $this->loadModel($id, 'Users');
-        $newpass = generatePassword();
-        $crypt = new bCrypt();
-        $v = $crypt->hash($newpass);
-        $msg = "Password berhasil di reset. Info login yang baru.<br />Username : $model->user_id<br />
-            Password : $newpass";
-        $model->password = $v;
+//        $newpass = generatePassword();
+//        $crypt = new bCrypt();
+//        $v = $crypt->hash($newpass);
+        $msg = "Password berhasil di reset. Info login yang baru.<br />Username : $model->user_id";
+        $model->password = $_POST['password'];
         if ($model->save()) {
             $status = true;
         } else {
@@ -87,11 +79,8 @@ class UsersController extends GxController
 //            'model' => $model,
 //        ));
     }
-
-    public function actionUpdatePass()
-    {
-        if (!Yii::app()->request->isAjaxRequest)
-            return;
+    public function actionUpdatePass() {
+        if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
             $passold = $_POST['passwordold'];
             $passnew = $_POST['password'];
@@ -99,9 +88,9 @@ class UsersController extends GxController
             $msg = "Password lama salah. Untuk mengganti password, password lama harus benar.";
             $status = false;
             if (bCrypt::verify($passold, $model->password)) {
-                $crypt = new bCrypt();
-                $pass = $crypt->hash($passnew);
-                $model->password = $pass;
+//                $crypt = new bCrypt();
+//                $pass = $crypt->hash($passnew);
+                $model->password = $passnew;
                 if ($model->save()) {
                     $status = true;
                     $msg = "Password berhasil diganti.";
@@ -116,7 +105,6 @@ class UsersController extends GxController
             Yii::app()->end();
         }
     }
-    
     public function actionUpdateRole() {
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
@@ -136,9 +124,7 @@ class UsersController extends GxController
             Yii::app()->end();
         }
     }
-
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $msg = "User dengan id " . $model->id . " berhasil di hapus.";
         $status = true;
         if (Yii::app()->request->isPostRequest) {
@@ -153,59 +139,49 @@ class UsersController extends GxController
                 'msg' => $msg));
             Yii::app()->end();
             if (!Yii::app()->request->isAjaxRequest)
-                $this->redirect(array('admin'));
-        } else
-            throw new CHttpException(400,
-                Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+                    $this->redirect(array('admin'));
+        }
+        else
+                throw new CHttpException(400,
+            Yii::t('app',
+                    'Invalid request. Please do not repeat this request again.'));
     }
-
     /*
-        public function actionAdmin() {
-            $dataProvider = new CActiveDataProvider('Users');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
-        }*/
-    public function actionAdmin()
-    {
+      public function actionAdmin() {
+      $dataProvider = new CActiveDataProvider('Users');
+      $this->render('index', array(
+      'dataProvider' => $dataProvider,
+      ));
+      } */
+    public function actionAdmin() {
         $model = new Users('search');
         $model->unsetAttributes();
-        if (isset($_GET['Users']))
-            $model->attributes = $_GET['Users'];
+        if (isset($_GET['Users'])) $model->attributes = $_GET['Users'];
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
-    public function actionIndex()
-    {
-        if (isset($_POST['limit'])) {
-            $limit = $_POST['limit'];
+    public function actionIndex() {
+        if (isset($_POST['mode']) && $_POST['mode'] == 'all') {
+            $model = Users::model()->findAll();
+            $total = Users::model()->count();
         } else {
-            $limit = 20;
+            if (isset($_POST['limit'])) {
+                $limit = $_POST['limit'];
+            } else {
+                $limit = 20;
+            }
+            if (isset($_POST['start'])) {
+                $start = $_POST['start'];
+            } else {
+                $start = 0;
+            }
+            $criteria = new CDbCriteria();
+            $criteria->limit = $limit;
+            $criteria->offset = $start;
+            $model = Users::model()->findAll($criteria);
+            $total = Users::model()->count($criteria);
         }
-        if (isset($_POST['start'])) {
-            $start = $_POST['start'];
-        } else {
-            $start = 0;
-        }
-        //$model = new Users('search');
-        //$model->unsetAttributes();
-        $criteria = new CDbCriteria();
-//        $criteria->limit = $limit;
-//        $criteria->offset = $start;
-        $model = Users::model()->findAll($criteria);
-        $total = Users::model()->count($criteria);
-        if (isset($_GET['Users']))
-            $model->attributes = $_GET['Users'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new Users('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+        $this->renderJson($model, $total);
     }
 }

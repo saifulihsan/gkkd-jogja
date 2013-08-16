@@ -25,65 +25,33 @@
         <script type="text/javascript"
         src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/adapter/ext/ext-base.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/ext-all.js"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/sidebar.js"></script>
-        <? if (Yii::app()->user->isGuest && !strstr($_SERVER['REQUEST_URI'],
-                        "site/login")) {
-            ?>
-            <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/view/login.js"></script>
-            <?
-        } else {
-            ?>
-            <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib.js"></script>
-            <script type="text/javascript"
-            src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/ux/TableGrid.js"></script>
-            <?
-            $templatePath = './js/view/pah/';
+        <script>
+            Ext.namespace('jun');
+            var SYSTEM_TITLE = '<?= app()->params['system_title']; ?>';
+            var SYSTEM_SUBTITLE = '<?= app()->params['system_subtitle']; ?>';
+        </script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib.min.js"></script>                  
+        <script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/js/ext340/examples/ux/TableGrid.js"></script>
+        <?
+        $dir = array('/js/view/pah/', '/js/view/pe/', '/js/view/mt/',
+            '/js/view/');
+        foreach ($dir as $path) {
+            $templatePath = dirname(Yii::app()->basePath) . $path;
             $files = scandir($templatePath);
             foreach ($files as $file) {
                 if (is_file($templatePath . '/' . $file)) {
-                    //if ($file == 'login.js') continue;
                     ?>
-                    <script type="text/javascript" src="<?php echo($templatePath . $file); ?>"></script>
+                    <script type="text/javascript" src="<?php echo(bu() . $path . $file); ?>"></script>
                     <?
                 }
             }
-
-            $templatePath = './js/view/pe/';
-            $files = scandir($templatePath);
-            foreach ($files as $file) {
-                if (is_file($templatePath . '/' . $file)) {
-                    //if ($file == 'login.js') continue;
-                    ?>
-                    <script type="text/javascript" src="<?php echo($templatePath . $file); ?>"></script>
-                    <?
-                }
-            }
-
-            $templatePath = './js/view/mt/';
-            $files = scandir($templatePath);
-            foreach ($files as $file) {
-                if (is_file($templatePath . '/' . $file)) {
-                    //if ($file == 'login.js') continue;
-                    ?>
-                    <script type="text/javascript" src="<?php echo($templatePath . $file); ?>"></script>
-                    <?
-                }
-            }
-
-            $templatePath = './js/view/';
-            $files = scandir($templatePath);
-            foreach ($files as $file) {
-                if (is_file($templatePath . '/' . $file)) {
-                    if ($file == 'login.js') continue;
-                    ?>
-                    <script type="text/javascript" src="<?php echo($templatePath . $file); ?>"></script>
-                    <?
-                }
-            }
-            ?>
-
-            <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/mainpanel.js"></script>
-            <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/app.js"></script>
-<? } ?>
+        }
+        ?>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/mainpanel.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/app.js"></script>
+<?php echo $content; ?>
+        <script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/js/sha512.js"></script>
     </body>
 </html>
