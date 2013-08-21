@@ -104,7 +104,7 @@ class PeAnggaranDetilController extends GxController
         ));
     }
 
-    public function actionIndex($id)
+    public function actionIndex()
     {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
@@ -121,7 +121,6 @@ class PeAnggaranDetilController extends GxController
         $criteria = new CDbCriteria();
 //$criteria->limit = $limit;
 //$criteria->offset = $start;
-        $criteria->addCondition("anggaran_id =" . $id);
         $model = PeAnggaranDetil::model()->findAll($criteria);
         $total = PeAnggaranDetil::model()->count($criteria);
         if (isset($_GET['PeAnggaranDetil']))
