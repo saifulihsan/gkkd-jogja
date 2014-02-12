@@ -19,12 +19,15 @@ class PahChartMasterController extends GxController
             $model->attributes = $_POST['PahChartMaster'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->account_code
                 ));
                 Yii::app()->end();
@@ -45,12 +48,15 @@ class PahChartMasterController extends GxController
             $model->attributes = $_POST['PahChartMaster'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->account_code
                 ));
                 Yii::app()->end();
@@ -120,7 +126,8 @@ class PahChartMasterController extends GxController
             $date = $_POST['trans_date'];
             $user = Yii::app()->user->getId();
             $id = Pah::get_next_trans_saldo_awal();
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 Pah::add_gl(SALDO_AWAL, $id, $date, "-", $_POST['pah_chart_master_account_code'],
                     '-', get_number($_POST['amount']), $user);

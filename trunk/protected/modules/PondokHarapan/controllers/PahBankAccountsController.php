@@ -39,6 +39,7 @@ class PahBankAccountsController extends GxController
             $model->attributes = $_POST['PahBankAccounts'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
                 $status = false;
                 $msg = "Bank account gagal dibuat.";
@@ -68,6 +69,7 @@ class PahBankAccountsController extends GxController
             $msg = "Data Jemaat dengan nomer induk " . $model->id . " berhasil di ubah.";
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
                 $status = false;
                 $msg = "Data Jemaat dengan nomer induk " . $model->id . " gagal di ubah.";

@@ -47,7 +47,8 @@ class PahKasKeluarController extends GxController
             $user = Yii::app()->user->getId();
             $id = -1;
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $ref = new PahReferenceCom();
                 $docref = $ref->get_next_reference(KAS_KELUAR);
@@ -62,7 +63,8 @@ class PahKasKeluarController extends GxController
                 $_POST['PahKasKeluar']['users_id'] = $user;
                 $_POST['PahKasKeluar']['doc_ref'] = $docref;
                 $kas_keluar->attributes = $_POST['PahKasKeluar'];
-                $kas_keluar->save();
+                if (!$kas_keluar->save())
+                    throw new Exception("Gagal menyimpan kas keluar.");
                 $id = $docref;
                 $ref->save(KAS_KELUAR, $kas_keluar->kas_keluar_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($kas_keluar->pah_bank_accounts_id);
@@ -100,12 +102,15 @@ class PahKasKeluarController extends GxController
             $model->attributes = $_POST['PahKasKeluar'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->kas_keluar_id));
                 Yii::app()->end();
             } else {
@@ -128,7 +133,8 @@ class PahKasKeluarController extends GxController
             $msg = 'Kas keluar berhasil divoid.';
             $user = Yii::app()->user->getId();
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $kas_keluar = PahKasKeluar::model()->findByPk($id);
                 $date = $kas_keluar->trans_date;
@@ -139,7 +145,8 @@ class PahKasKeluarController extends GxController
                 $void->id = $id;
                 $void->date_ = $date;
                 $void->memo_ = $memo_;
-                $void->save();
+                if (!$void->save())
+                    throw new Exception("Gagal menyimpan void.");
                 $bank = PahBankAccounts::model()->findByPk($kas_keluar->pah_bank_accounts_id);
                 //void gl
                 Pah::add_gl(VOID, $void->id_voided, $date, $docref,

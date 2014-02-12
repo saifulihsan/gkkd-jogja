@@ -67,7 +67,8 @@ class PahAnggaranController extends GxController {
             $tahun = $_POST['periode_tahun'];
             $detils = CJSON::decode($_POST['detil']);
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $anggaran = new PahAnggaran;
                 $ref = new PahReferenceCom();
@@ -80,17 +81,16 @@ class PahAnggaranController extends GxController {
                         time());
                 $_POST['PahAnggaran']['users_id'] = Yii::app()->user->getId();
                 $anggaran->attributes = $_POST['PahAnggaran'];
-                $result = $anggaran->save();
-                $err = $anggaran->getErrors();
+                if (!$anggaran->save())
+                    throw new Exception("Gagal menyimpan anggaran.");
                 foreach ($detils as $detil) {
                     $anggaran_detil = new PahAnggaranDetil;
                     $_POST['PahAnggaranDetil']['pah_chart_master_account_code'] = $detil['pah_chart_master_account_code'];
                     $_POST['PahAnggaranDetil']['amount'] = $detil['amount'];
                     $_POST['PahAnggaranDetil']['pah_anggaran_id'] = $anggaran->id;
                     $anggaran_detil->attributes = $_POST['PahAnggaranDetil'];
-                    //  $ag_detil[] = $anggaran_detil;
-                    $anggaran_detil->save();
-                    $err_ang = $anggaran_detil->getErrors();
+                    if (!$anggaran_detil->save())
+                        throw new Exception("Gagal menyimpan detil anggaran.");
                 }
                 //$anggaran->pahAnggaranDetils = $ag_detil;
                 $ref->save(ANGGARAN, $anggaran->id, $docref);
@@ -121,7 +121,8 @@ class PahAnggaranController extends GxController {
             $detils = CJSON::decode($_POST['detil']);
             $id = $_POST['id'];
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $anggaran = PahAnggaran::model()->findByPk($id);
                 PahAnggaranDetil::model()->deleteAll('pah_anggaran_id = ?',
@@ -130,16 +131,16 @@ class PahAnggaranController extends GxController {
                 $anggaran->trans_date = Yii::app()->dateFormatter->format('yyyy-MM-dd',
                         time());
                 $anggaran->users_id = Yii::app()->user->getId();
-                $result = $anggaran->save();
-                $err = $anggaran->getErrors();
+                if (!$anggaran->save())
+                    throw new Exception("Gagal menyimpan anggaran.");
                 foreach ($detils as $detil) {
                     $anggaran_detil = new PahAnggaranDetil;
                     $_POST['PahAnggaranDetil']['pah_chart_master_account_code'] = $detil['pah_chart_master_account_code'];
                     $_POST['PahAnggaranDetil']['amount'] = $detil['amount'];
                     $_POST['PahAnggaranDetil']['pah_anggaran_id'] = $anggaran->id;
                     $anggaran_detil->attributes = $_POST['PahAnggaranDetil'];
-                    $anggaran_detil->save();
-                    $err_ang = $anggaran_detil->getErrors();
+                    if (!$anggaran_detil->save())
+                        throw new Exception("Gagal menyimpan detil anggaran.");
                 }
                 $transaction->commit();
                 $status = true;
@@ -165,12 +166,15 @@ class PahAnggaranController extends GxController {
             $model->attributes = $_POST['PahAnggaran'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id));
                 Yii::app()->end();
             } else {

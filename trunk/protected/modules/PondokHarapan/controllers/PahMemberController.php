@@ -19,12 +19,15 @@ class PahMemberController extends GxController
             $model->attributes = $_POST['PahMember'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id));
                 Yii::app()->end();
             } else {
@@ -44,12 +47,15 @@ class PahMemberController extends GxController
             $model->attributes = $_POST['PahMember'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id));
                 Yii::app()->end();
             } else {
@@ -151,16 +157,16 @@ class PahMemberController extends GxController
         //$this->renderJson($rows,1);
         echo CJSON::encode($result);
         Yii::app()->end();
-        if (isset($_GET['PahMember']))
-            $model->attributes = $_GET['PahMember'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PahMember('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+//        if (isset($_GET['PahMember']))
+//            $model->attributes = $_GET['PahMember'];
+//        if (isset($_GET['output']) && $_GET['output'] == 'json') {
+//            $this->renderJson($model, $total);
+//        } else {
+//            $model = new PahMember('search');
+//            $model->unsetAttributes();
+//            $this->render('admin', array(
+//                'model' => $model,
+//            ));
+//        }
     }
 }

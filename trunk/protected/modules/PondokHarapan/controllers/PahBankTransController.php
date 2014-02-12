@@ -80,7 +80,8 @@ class PahBankTransController extends GxController
                 ));
                 Yii::app()->end();
             }
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $ref = new PahReferenceCom();
                 $docref = $ref->get_next_reference(BANKTRANSFER);
@@ -127,12 +128,15 @@ class PahBankTransController extends GxController
             $model->attributes = $_POST['PahBankTrans'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id
                 ));
                 Yii::app()->end();
