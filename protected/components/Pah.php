@@ -96,7 +96,8 @@ class Pah
         $bank_trans->trans_date = $date_;
         $bank_trans->amount = $amount;
         $bank_trans->users_id = $person_id;
-        $bank_trans->save();
+        if (!$bank_trans->save())
+            throw new Exception("Gagal menyimpan transaksi bank.");
     }
 
 //--------------------------------------------- Gl Trans ---------------------------------------------------------------
@@ -137,7 +138,8 @@ class Pah
         $gl_trans->memo_ = $memo_;
         $gl_trans->users_id = $person_id;
         $gl_trans->amount = $amount;
-        $gl_trans->save();
+        if (!$gl_trans->save())
+            throw new Exception("Gagal menyimpan transaksi jurnal.");
         return $amount;
     }
 
@@ -158,7 +160,8 @@ class Pah
             $comment->type_no = $type_no;
             $comment->date_ = $date_;
             $comment->memo_ = $memo_;
-            $comment->save();
+            if (!$comment->save())
+                throw new Exception("Gagal menyimpan keterangan.");
         }
     }
 
@@ -170,11 +173,12 @@ class Pah
         } else {
             $criteria = new CDbCriteria();
             $criteria->addCondition("type=" . $type);
-            $criteria->addCondition("id=" . $type_no);
-            $criteria->addCondition("date_=" . $date);
+            $criteria->addCondition("id=" . $id);
+            $criteria->addCondition("date_=" . $date_);
             $comment = PahComments::model()->find($criteria);
             $comment->memo_ = $memo_;
-            $comment->save();
+            if (!$comment->save())
+                throw new Exception("Gagal menyimpan keterangan.");
         }
     }
 
@@ -215,7 +219,7 @@ class Pah
             ->select("a.tran_date,a.memo_,IF(a.amount > 0,a.amount,'') as debit,IF(a.amount < 0,-a.amount,'') as kredit")
             ->from("pah_gl_trans a")
             ->rightJoin("pah_chart_master b", "a.account=b.account_code
-            AND a.tran_date between :start and :end",array(':start' => $start_date, ':end' => $end_date))
+            AND a.tran_date >=:start and a.tran_date <= :end",array(':start' => $start_date, ':end' => $end_date))
             ->leftJoin('pah_voided c',"a.type_no=c.id AND c.type=a.type")
             ->where("b.account_code=:code and a.type != :type and ISNULL(c.date_)",array('code'=>$code,'type'=>VOID))
             //->where("b.account_code=:code",array('code'=>$code))

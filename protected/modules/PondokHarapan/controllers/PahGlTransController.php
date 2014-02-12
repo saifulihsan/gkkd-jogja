@@ -19,12 +19,15 @@ class PahGlTransController extends GxController
             $model->attributes = $_POST['PahGlTrans'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->counter));
                 Yii::app()->end();
             } else {
@@ -44,12 +47,15 @@ class PahGlTransController extends GxController
             $model->attributes = $_POST['PahGlTrans'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->counter));
                 Yii::app()->end();
             } else {

@@ -20,6 +20,7 @@ class PahLampiranController extends GxController {
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id_lampiran;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             echo CJSON::encode(array(
@@ -40,6 +41,7 @@ class PahLampiranController extends GxController {
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id_lampiran;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -63,7 +65,7 @@ class PahLampiranController extends GxController {
                 $this->loadModel($id, 'PahLampiran')->delete();
             } catch (Exception $e) {
                 $status = false;
-                $msg = $ex;
+                $msg = $e;
             }
             echo CJSON::encode(array(
                 'success' => $status,

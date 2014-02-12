@@ -60,7 +60,8 @@ class PahAktivitasGrupTransController extends GxController {
                 $_POST['PahAktivitasGrupTrans']['users_id'] = $user;
                 $_POST['PahAktivitasGrupTrans']['doc_ref'] = $docref;
                 $aktivitas->attributes = $_POST['PahAktivitasGrupTrans'];
-                $aktivitas->save();
+                if (!$aktivitas->save())
+                    throw new Exception("Gagal menyimpan aktivitas.");
                 $id = $docref;
                 $ref->save(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $docref);
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
@@ -98,6 +99,7 @@ class PahAktivitasGrupTransController extends GxController {
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->aktivitas_id;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -123,7 +125,8 @@ class PahAktivitasGrupTransController extends GxController {
             $msg = 'Transaksi berhasil divoid.';
             $user = Yii::app()->user->getId();
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $aktivitas = PahAktivitasGrupTrans::model()->findByPk($id);
                 $date = $aktivitas->trans_date;
@@ -134,7 +137,8 @@ class PahAktivitasGrupTransController extends GxController {
                 $void->id = $id;
                 $void->date_ = $date;
                 $void->memo_ = $memo_;
-                $void->save();
+                if (!$void->save())
+                    throw new Exception("Gagal menyimpan void.");
                 $bank = PahBankAccounts::model()->findByPk($aktivitas->pah_bank_accounts_id);
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //void gl

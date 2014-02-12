@@ -19,12 +19,15 @@ class PahDonaturController extends GxController
             $model->attributes = $_POST['PahDonatur'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id
                 ));
                 Yii::app()->end();
@@ -45,12 +48,15 @@ class PahDonaturController extends GxController
             $model->attributes = $_POST['PahDonatur'];
             if ($model->save()) {
                 $status = true;
+                $msg = "Data berhasil di simpan ";
             } else {
+                $msg = CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id
                 ));
                 Yii::app()->end();
