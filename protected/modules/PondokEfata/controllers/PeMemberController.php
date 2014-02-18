@@ -24,6 +24,7 @@ class PeMemberController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             echo CJSON::encode(array(
@@ -46,6 +47,7 @@ class PeMemberController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -72,7 +74,7 @@ class PeMemberController extends GxController
                 $this->loadModel($id, 'PeMember')->delete();
             } catch (Exception $e) {
                 $status = false;
-                $msg = $ex;
+                $msg = $e;
             }
             echo CJSON::encode(array(
                 'success' => $status,
@@ -147,7 +149,7 @@ class PeMemberController extends GxController
         } else {
             $start = 0;
         }
-        //$model = new PeMember('search');
+        $model = new PeMember('search');
         //$model->unsetAttributes();
 //        $criteria = new CDbCriteria();
 //        $criteria->limit = $limit;
@@ -164,16 +166,16 @@ class PeMemberController extends GxController
         //$this->renderJson($rows,1);
         echo CJSON::encode($result);
         Yii::app()->end();
-        if (isset($_GET['PeMember']))
-            $model->attributes = $_GET['PeMember'];
-        if (isset($_GET['output']) && $_GET['output'] == 'json') {
-            $this->renderJson($model, $total);
-        } else {
-            $model = new PeMember('search');
-            $model->unsetAttributes();
-            $this->render('admin', array(
-                'model' => $model,
-            ));
-        }
+//        if (isset($_GET['PeMember']))
+//            $model->attributes = $_GET['PeMember'];
+//        if (isset($_GET['output']) && $_GET['output'] == 'json') {
+//            $this->renderJson($model, $total);
+//        } else {
+//            $model = new PeMember('search');
+//            $model->unsetAttributes();
+//            $this->render('admin', array(
+//                'model' => $model,
+//            ));
+//        }
     }
 }

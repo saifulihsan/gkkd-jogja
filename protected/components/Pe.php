@@ -87,7 +87,8 @@ class Pe
         $bank_trans->trans_date = $date_;
         $bank_trans->amount = $amount;
         $bank_trans->users_id = $person_id;
-        $bank_trans->save();
+        if (!$bank_trans->save())
+            throw new Exception("Gagal menyimpan transaksi bank.");
     }
 
 //--------------------------------------------- Gl Trans ---------------------------------------------------------------
@@ -123,7 +124,8 @@ class Pe
         $gl_trans->memo_ = $memo_;
         $gl_trans->users_id = $person_id;
         $gl_trans->amount = $amount;
-        $gl_trans->save();
+        if (!$gl_trans->save())
+            throw new Exception("Gagal menyimpan gl trans.");
         return $amount;
     }
 
@@ -144,7 +146,8 @@ class Pe
             $comment->type_no = $type_no;
             $comment->date_ = $date_;
             $comment->memo_ = $memo_;
-            $comment->save();
+            if (!$comment->save())
+                throw new Exception("Gagal menyimpan comment.");
         }
     }
 
@@ -156,11 +159,12 @@ class Pe
         } else {
             $criteria = new CDbCriteria();
             $criteria->addCondition("type=" . $type);
-            $criteria->addCondition("id=" . $type_no);
-            $criteria->addCondition("date_=" . $date);
+            $criteria->addCondition("id=" . $id);
+            $criteria->addCondition("date_=" . $date_);
             $comment = PeComments::model()->find($criteria);
             $comment->memo_ = $memo_;
-            $comment->save();
+            if (!$comment->save())
+                throw new Exception("Gagal update comment.");
         }
     }
 
