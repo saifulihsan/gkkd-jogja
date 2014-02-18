@@ -24,6 +24,7 @@ class PeChartMasterController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->account_code;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             echo CJSON::encode(array(
@@ -46,6 +47,7 @@ class PeChartMasterController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->account_code;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -119,7 +121,8 @@ class PeChartMasterController extends GxController
             $date = $_POST['trans_date'];
             $user = Yii::app()->user->getId();
             $id = Pe::get_next_trans_saldo_awal();
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 Pe::add_gl(SALDO_AWAL, $id, $date, "-", $_POST['account_code'],
                     '-', get_number($_POST['amount']), $user);

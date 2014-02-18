@@ -67,7 +67,8 @@ class PeAnggaranController extends GxController {
             $tahun = $_POST['periode_tahun'];
             $detils = CJSON::decode($_POST['detil']);
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $anggaran = new PeAnggaran;
                 $ref = new PeReferenceCom();
@@ -80,8 +81,8 @@ class PeAnggaranController extends GxController {
                         time());
                 $_POST['PeAnggaran']['users_id'] = Yii::app()->user->getId();
                 $anggaran->attributes = $_POST['PeAnggaran'];
-                $result = $anggaran->save();
-                $err = $anggaran->getErrors();
+                if (!$anggaran->save())
+                    throw new Exception("Gagal menyimpan anggaran.");
                 foreach ($detils as $detil) {
                     $anggaran_detil = new PeAnggaranDetil;
                     $_POST['PeAnggaranDetil']['account_code'] = $detil['account_code'];
@@ -89,8 +90,8 @@ class PeAnggaranController extends GxController {
                     $_POST['PeAnggaranDetil']['anggaran_id'] = $anggaran->id;
                     $anggaran_detil->attributes = $_POST['PeAnggaranDetil'];
                     //  $ag_detil[] = $anggaran_detil;
-                    $anggaran_detil->save();
-                    $err_ang = $anggaran_detil->getErrors();
+                    if (!$anggaran_detil->save())
+                        throw new Exception("Gagal menyimpan anggaran_detil.");
                 }
                 //$anggaran->peAnggaranDetils = $ag_detil;
                 $ref->save(ANGGARAN, $anggaran->id, $docref);
@@ -122,7 +123,8 @@ class PeAnggaranController extends GxController {
             $detils = CJSON::decode($_POST['detil']);
             $id = $_POST['id'];
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $anggaran = PeAnggaran::model()->findByPk($id);
                 PeAnggaranDetil::model()->deleteAll('anggaran_id = ?',
@@ -131,16 +133,16 @@ class PeAnggaranController extends GxController {
                 $anggaran->trans_date = Yii::app()->dateFormatter->format('yyyy-MM-dd',
                         time());
                 $anggaran->users_id = Yii::app()->user->getId();
-                $result = $anggaran->save();
-                $err = $anggaran->getErrors();
+                if (!$anggaran->save())
+                    throw new Exception("Gagal menyimpan anggaran.");
                 foreach ($detils as $detil) {
                     $anggaran_detil = new PeAnggaranDetil;
                     $_POST['PeAnggaranDetil']['account_code'] = $detil['account_code'];
                     $_POST['PeAnggaranDetil']['amount'] = $detil['amount'];
                     $_POST['PeAnggaranDetil']['anggaran_id'] = $anggaran->id;
                     $anggaran_detil->attributes = $_POST['PeAnggaranDetil'];
-                    $anggaran_detil->save();
-                    $err_ang = $anggaran_detil->getErrors();
+                    if (!$anggaran_detil->save())
+                        throw new Exception("Gagal menyimpan detil anggaran.");
                 }
                 $transaction->commit();
                 $status = true;
@@ -169,6 +171,7 @@ class PeAnggaranController extends GxController {
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {

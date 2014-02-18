@@ -24,6 +24,7 @@ class PeSysPrefsController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->name;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             echo CJSON::encode(array(
@@ -46,6 +47,7 @@ class PeSysPrefsController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->name;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -72,7 +74,7 @@ class PeSysPrefsController extends GxController
                 $this->loadModel($id, 'PeSysPrefs')->delete();
             } catch (Exception $e) {
                 $status = false;
-                $msg = $ex;
+                $msg = $e;
             }
             echo CJSON::encode(array(
                 'success' => $status,

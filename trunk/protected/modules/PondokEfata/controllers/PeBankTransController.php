@@ -80,7 +80,8 @@ class PeBankTransController extends GxController
                 ));
                 Yii::app()->end();
             }
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $ref = new PeReferenceCom();
                 $docref = $ref->get_next_reference(BANKTRANSFER);
@@ -128,11 +129,13 @@ class PeBankTransController extends GxController
             if ($model->save()) {
                 $status = true;
             } else {
+                $msg = " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->id
                 ));
                 Yii::app()->end();

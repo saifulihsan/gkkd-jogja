@@ -44,7 +44,8 @@ class PeKasMasukController extends GxController {
             $user = Yii::app()->user->getId();
             $id = -1;
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $ref = new PeReferenceCom();
                 $docref = $ref->get_next_reference(KAS_MASUK);
@@ -58,7 +59,8 @@ class PeKasMasukController extends GxController {
                 $_POST['PeKasMasuk']['users_id'] = $user;
                 $_POST['PeKasMasuk']['doc_ref'] = $docref;
                 $kas_masuk->attributes = $_POST['PeKasMasuk'];
-                $kas_masuk->save();
+                if (!$kas_masuk->save())
+                    throw new Exception("Gagal menyimpan kas_masuk.");
                 $id = $docref;
                 $ref->save(KAS_MASUK, $kas_masuk->kas_masuk_id, $docref);
                 $bank_account = Pe::get_act_code_from_bank_act($kas_masuk->pe_bank_accounts_id);
@@ -98,11 +100,13 @@ class PeKasMasukController extends GxController {
             if ($model->save()) {
                 $status = true;
             } else {
+                $msg = " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(array(
                     'success' => $status,
+                    'msg' => $msg,
                     'id' => $model->kas_masuk_id));
                 Yii::app()->end();
             } else {
@@ -122,7 +126,8 @@ class PeKasMasukController extends GxController {
             $msg = 'Kas masuk berhasil divoid.';
             $user = Yii::app()->user->getId();
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
-            $transaction = Yii::app()->db->beginTransaction();
+             app()->db->autoCommit = false;
+            $transaction = app()->db->beginTransaction();
             try {
                 $kas_masuk = PeKasMasuk::model()->findByPk($id);
                 $date = $kas_masuk->trans_date;
@@ -133,7 +138,8 @@ class PeKasMasukController extends GxController {
                 $void->id = $id;
                 $void->date_ = $date;
                 $void->memo_ = $memo_;
-                $void->save();
+                if (!$void->save())
+                    throw new Exception("Gagal menyimpan void.");
                 $bank = PeBankAccounts::model()->findByPk($kas_masuk->pe_bank_accounts_id);
                 $act_donatur = $kas_masuk->peDonatur->account_code;
                 //void gl

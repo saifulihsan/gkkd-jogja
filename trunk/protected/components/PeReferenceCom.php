@@ -20,7 +20,8 @@ class PeReferenceCom
         $criteria->addCondition("type_id =" . $type);
         $model = PeSysTypes::model()->find($criteria);
         $model->next_reference = trim($reference);
-        $model->save();
+        if (!$model->save())
+            throw new Exception("Gagal menyimpan reference.");
     }
 
     function update_reference($type, $id, $reference)
@@ -35,7 +36,8 @@ class PeReferenceCom
             $model->type_no = $id;
         }
         $model->reference = $reference;
-        $model->save();
+        if (!$model->save())
+            throw new Exception("Gagal mengupdate reference.");
     }
 
     function save($type, $id, $reference)

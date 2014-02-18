@@ -20,12 +20,14 @@ class PeAnggaranDetilController extends GxController
             if ($model->save()) {
                 $status = true;
             } else {
+                $msg = " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
             echo CJSON::encode(array(
                 'success' => $status,
-                    'id' => $model->id));
+                'msg' => $msg,
+                'id' => $model->id));
             Yii::app()->end();
             } else {
                 $this->redirect(array('view', 'id' => $model->id));
@@ -47,6 +49,7 @@ class PeAnggaranDetilController extends GxController
                 $status = true;
                 $msg = "Data berhasil di simpan dengan id " . $model->id;
             } else {
+                $msg .= " ".CHtml::errorSummary($model);
                 $status = false;
             }
             if (Yii::app()->request->isAjaxRequest) {
@@ -73,7 +76,7 @@ class PeAnggaranDetilController extends GxController
                 $this->loadModel($id, 'PeAnggaranDetil')->delete();
             } catch (Exception $e) {
                 $status = false;
-                $msg = $ex;
+                $msg = $e;
             }
             echo CJSON::encode(array(
                 'success' => $status,
