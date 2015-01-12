@@ -1,5 +1,5 @@
 <?php
-
+Yii::import('application.components.GlPah');
 class PahBankTransController extends GxController
 {
     public function actionView()
@@ -55,6 +55,7 @@ class PahBankTransController extends GxController
         if (!Yii::app()->request->isAjaxRequest)
             return;
         if (isset($_POST) && !empty($_POST)) {
+            $gl = new GlPah();
             //require_once(Yii::app()->basePath . '/vendors/frontaccounting/ui.inc');
             $status = false;
             $msg = 'Transfer antar kas berhasil diproses.';
@@ -90,12 +91,13 @@ class PahBankTransController extends GxController
                 $trans_no = Pah::get_next_trans_no_bank_trans();
                 $user = Yii::app()->user->getId();
                 //debet kode bank tujuan - kredit kode bank asal
-                Pah::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_tujuan,
+                $gl->add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_tujuan,
                     $memo, $amount, $user);
-                Pah::add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_asal, $memo, -$amount,
+                $gl->add_gl(BANKTRANSFER, $trans_no, $trans_date, $docref, $bank_account_asal, $memo, -$amount,
                     $user);
                 $ref->save(BANKTRANSFER, $trans_no, $docref);
                 $id = $docref;
+                $gl->validate();
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

@@ -1,4 +1,5 @@
 <?php
+Yii::import('application.components.GlPah');
 class PahAktivitasGrupTransController extends GxController {
     public function actionView() {
         if (!Yii::app()->request->isAjaxRequest) return;
@@ -41,6 +42,7 @@ class PahAktivitasGrupTransController extends GxController {
     public function actionCreate() {
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
+            $gl = new GlPah();
             $status = false;
             $msg = 'Transaksi berhasil disimpan.';
             $user = Yii::app()->user->getId();
@@ -67,11 +69,12 @@ class PahAktivitasGrupTransController extends GxController {
                 $bank_account = Pah::get_act_code_from_bank_act($aktivitas->pah_bank_accounts_id);
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //debet kode beban - kredit kas bank
-                Pah::add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date,
+                $gl->add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date,
                         $docref, $act_sub, $aktivitas->note, $aktivitas->amount,
                         $user);
-                Pah::add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date,
+                $gl->add_gl(T_AKTIVITASGRUP, $aktivitas->aktivitas_id, $date,
                         $docref, $bank_account, '-', -$aktivitas->amount, $user);
+                $gl->validate();
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -119,6 +122,7 @@ class PahAktivitasGrupTransController extends GxController {
     public function actionDelete() {
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
+            $gl = new GlPah();
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
             $status = false;
@@ -143,12 +147,13 @@ class PahAktivitasGrupTransController extends GxController {
                 $act_sub = $aktivitas->pahSubAktivitas->account_code;
                 //void gl
                 //beban kredit , kas debet karena pengeluaran
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
+                $gl->add_gl(VOID, $void->id_voided, $date, $docref,
                         $bank->account_code, "VOID Aktivitas Grup $docref",
                         $aktivitas->amount, $user);
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref, $act_sub,
+                $gl->add_gl(VOID, $void->id_voided, $date, $docref, $act_sub,
                         "VOID Aktivitas Grup $docref", -$aktivitas->amount,
                         $user);
+                $gl->validate();
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {

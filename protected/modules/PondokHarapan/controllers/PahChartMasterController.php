@@ -129,7 +129,9 @@ class PahChartMasterController extends GxController
              app()->db->autoCommit = false;
             $transaction = app()->db->beginTransaction();
             try {
-                Pah::add_gl(SALDO_AWAL, $id, $date, "-", $_POST['pah_chart_master_account_code'],
+                Yii::import('application.components.GlPah');
+                $gl = new GlPah();
+                $gl->add_gl(SALDO_AWAL, $id, $date, "-", $_POST['pah_chart_master_account_code'],
                     '-', get_number($_POST['amount']), $user);
                 $transaction->commit();
                 $status = true;

@@ -1,4 +1,5 @@
 <?php
+Yii::import('application.components.GlPah');
 class PahKasMasukController extends GxController {
     public function actionView() {
         if (!Yii::app()->request->isAjaxRequest) return;
@@ -38,6 +39,7 @@ class PahKasMasukController extends GxController {
     public function actionCreate() {
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
+            $gl = new GlPah();
             $status = false;
             $msg = 'Kas masuk berhasil disimpan.';
 
@@ -66,11 +68,12 @@ class PahKasMasukController extends GxController {
                 $bank_account = Pah::get_act_code_from_bank_act($kas_masuk->pah_bank_accounts_id);
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //debet kode kas/bank - kredit pendapatan
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
+                $gl->add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
                         $bank_account, '-', $kas_masuk->amount, $user);
-                Pah::add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
+                $gl->add_gl(KAS_MASUK, $kas_masuk->kas_masuk_id, $date, $docref,
                         $act_donatur, $kas_masuk->note, -$kas_masuk->amount,
                         $user);
+                $gl->validate();
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
@@ -121,6 +124,7 @@ class PahKasMasukController extends GxController {
     public function actionDelete() {
         if (!Yii::app()->request->isAjaxRequest) return;
         if (isset($_POST) && !empty($_POST)) {
+            $gl = new GlPah();
             $id = $_POST['id'];
             $memo_ = $_POST['memo_'];
             $status = false;
@@ -144,12 +148,13 @@ class PahKasMasukController extends GxController {
                 $bank = PahBankAccounts::model()->findByPk($kas_masuk->pah_bank_accounts_id);
                 $act_donatur = $kas_masuk->pahDonatur->pah_chart_master_account_code;
                 //void gl
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
+                $gl->add_gl(VOID, $void->id_voided, $date, $docref,
                         $act_donatur, "VOID Kas Masuk $docref",
                         $kas_masuk->amount, $user);
-                Pah::add_gl(VOID, $void->id_voided, $date, $docref,
+                $gl->add_gl(VOID, $void->id_voided, $date, $docref,
                         $bank->account_code, "VOID Kas Masuk $docref",
                         -$kas_masuk->amount, $user);
+                $gl->validate();
                 $transaction->commit();
                 $status = true;
             } catch (Exception $ex) {
